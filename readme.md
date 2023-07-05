@@ -18,7 +18,7 @@ Instalar os pacotes:
 npm install
 ```
 
-Iniciar o Front-End:
+Iniciar o Projeto:
 
 ```
 npm run dev
