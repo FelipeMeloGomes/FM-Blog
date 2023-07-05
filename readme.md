@@ -55,7 +55,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 Melhorias implementadas:
 
 -   Adição de nova fonte
--   Melhorias na responsividade.
+-   Implementação da Responsividade.
+-   Melhorias no Layout.
 
----
 ```
