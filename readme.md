@@ -1,4 +1,4 @@
-<h1 align="center"> FM Blog</h1>
+<h1 align="center">FM Blog</h1>
 
 <p align="center">
 Um Mini Blog. Com funções de postar, editar e deletar <br/>
@@ -7,7 +7,7 @@ Um Mini Blog. Com funções de postar, editar e deletar <br/>
 <br>
 
 <p align="center">
-  <img src="https://github.com/FelipeMelogomes/Fmburger/blob/main/preview.png" width="100%">
+  <img src="https://user-images.githubusercontent.com/85581543/251256205-6dcb9b08-a964-4fa3-82e3-345fd57ec35f.png" width="100%">
 </p>
 
 ## ⚙️ Instalação dos pacotes essenciais.
@@ -47,8 +47,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   Hooks.
 -   useState.
 -   useEffect.
-
-
 
 ## ✔ Atualizações
 
