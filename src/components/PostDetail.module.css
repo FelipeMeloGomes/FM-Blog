@@ -14,6 +14,8 @@
 .post_detail .tags {
   margin-bottom: 1.2em;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tags p {
@@ -40,7 +42,14 @@
     flex-direction: column;
     width: 500px;
     max-width: 500px;
+    flex-wrap: wrap;
   }
+
+  .post_detail .tags {
+    flex-wrap: wrap;
+    width: 70%;
+  }
+
 
   .post_detail img {
     max-width: 300px;

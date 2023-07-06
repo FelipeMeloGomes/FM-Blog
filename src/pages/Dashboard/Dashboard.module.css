@@ -44,6 +44,7 @@
 .post_row {
   align-items: center;
   border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
 }
 
 .post_row p {

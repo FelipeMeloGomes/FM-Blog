@@ -12,6 +12,7 @@
 .post_container .tags {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .tags p {
