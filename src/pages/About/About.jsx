@@ -1,6 +1,8 @@
 // CSS
-import { Link } from "react-router-dom";
 import styles from "./About.module.css";
+
+// React router
+import { Link } from "react-router-dom";
 
 const About = () => {
     return (

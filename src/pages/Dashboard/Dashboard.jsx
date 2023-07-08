@@ -1,5 +1,7 @@
+// CSS
 import styles from "./Dashboard.module.css";
 
+// react router
 import { Link } from "react-router-dom";
 
 // hooks

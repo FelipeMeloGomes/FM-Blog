@@ -1,5 +1,9 @@
 import "./App.css";
+
+// React Router
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+// Firebase auth
 import { onAuthStateChanged } from "firebase/auth";
 
 // hooks
@@ -13,7 +17,6 @@ import { AuthProvider } from "./context/AuthContext";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import CreatePost from "./pages/CreatePost/CreatePost";
@@ -89,7 +92,6 @@ function App() {
                             />
                         </Routes>
                     </div>
-                    <Footer />
                 </BrowserRouter>
             </AuthProvider>
         </div>

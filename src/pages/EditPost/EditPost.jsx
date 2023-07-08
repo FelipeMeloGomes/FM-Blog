@@ -1,7 +1,11 @@
+// CSS
 import styles from "./EditPost.module.css";
 
+// React Router
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+// Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";

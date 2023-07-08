@@ -1,7 +1,11 @@
+// CSS
 import styles from "./CreatePost.module.css";
 
+// react
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 

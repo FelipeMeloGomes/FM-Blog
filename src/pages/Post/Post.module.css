@@ -13,6 +13,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: left;
 }
 
 .tags p {
@@ -27,26 +28,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
   border: 2px solid #aaa;
-}
-
-@media (max-width: 768px) {
-  .post_container {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .post_container img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    max-width: 70%;
-    border: 2px solid #aaa;
-  }
-
+  max-width: 400px;
 }

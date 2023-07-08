@@ -1,5 +1,5 @@
 // CSS
-import styles from "./Search.module.css"
+import styles from "./Search.module.css";
 
 // hooks
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
@@ -16,7 +16,7 @@ const Search = () => {
     const { documents: posts } = useFetchDocuments("posts", search);
     return (
         <div className={styles.search_container}>
-            <h2>Search</h2>
+            <h2>Procurar</h2>
             <div>
                 {posts && posts.length == 0 && (
                     <div className={styles.noposts}>
