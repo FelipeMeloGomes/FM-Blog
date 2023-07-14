@@ -70,7 +70,6 @@
   .links_list {
     display: flex;
     list-style: none;
-    width: 100%;
     padding: 1em;
   }
 

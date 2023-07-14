@@ -4,7 +4,7 @@
 
 .post_detail img {
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
   border: 2px solid #aaa;
 }
 
@@ -36,13 +36,12 @@
 }
 
 @media (max-width: 600px) {
-
   .post_detail {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 500px;
+    width: 31.25rem;
     flex-wrap: wrap;
   }
 
@@ -50,6 +49,4 @@
     flex-wrap: wrap;
     width: 70%;
   }
-
-
 }
