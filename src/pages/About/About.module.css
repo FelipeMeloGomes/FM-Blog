@@ -1,18 +1,19 @@
 .about {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .about p {
-  color: #aaa;
-  margin-bottom: 2em;
-  font-size: 1em;
+    color: #aaa;
+    margin-bottom: 2em;
+    font-size: 1em;
+    width: 90%;
 }
 
 .about a {
-  display: block;
-  margin-top: 15px;
-  padding: 10px 15px;
+    display: block;
+    margin-top: 15px;
+    padding: 10px 15px;
 }
