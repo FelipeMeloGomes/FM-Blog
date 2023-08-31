@@ -67,24 +67,24 @@
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 570px) {
     .post_detail {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        width: 31.25rem;
+        width: 100%;
         flex-wrap: wrap;
     }
 
     .post_detail .tags {
         flex-wrap: wrap;
-        width: 70%;
+        width: 90%;
     }
 
     .post_detail img {
         width: 100%;
-        max-width: 25rem;
+        max-width: 20rem;
         border: 2px solid #aaa;
     }
 }

@@ -8,11 +8,11 @@ const About = () => {
     return (
         <div className={styles.about}>
             <h2>
-                Sobre o FM<span>Blog</span>
+                Sobre o FM <span>Blog</span>
             </h2>
             <p>
-                Este projeto consiste em um blog feito em react no front-end e
-                Firebase
+                Este projeto consiste em um blog feito em React no front-end e
+                back-end com Firebase.
             </p>
             <Link to="/posts/create" className="btn">
                 Criar Post
