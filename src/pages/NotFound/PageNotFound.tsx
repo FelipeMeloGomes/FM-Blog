@@ -2,12 +2,12 @@
 import { memo } from "react";
 
 // estilos
-import styles from "./NotFound.module.css";
+import styles from "./PageNotFound.module.css";
 
 // imagem
 import notfound from "./notfound.jpg";
 
-const NotFound = () => {
+const PageNotFound = () => {
     return (
         <div>
             <h1 className={styles.h1}>Ooops... Essa página não existe.</h1>;
@@ -16,4 +16,4 @@ const NotFound = () => {
     );
 };
 
-export default memo(NotFound);
+export default memo(PageNotFound);

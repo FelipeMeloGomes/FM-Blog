@@ -10,6 +10,7 @@ import { useState } from "react";
 
 // components
 import PostDetail from "../../components/PostDetail";
+import Spinner from "../../components/Spinner";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
@@ -38,7 +39,7 @@ const Home = () => {
                 <button className="btn btn-dark">Pesquisar</button>
             </form>
             <div className="post-list">
-                {loading && <p>Carregando...</p>}
+                {loading && <Spinner/>}
                 {posts && posts.length === 0 && (
                     <div className={styles.noposts}>
                         <p>Não foram encontrados posts</p>

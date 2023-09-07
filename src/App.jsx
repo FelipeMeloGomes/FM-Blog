@@ -14,6 +14,9 @@ import { useAuthentication } from "./hooks/useAuthentication";
 // context
 import { AuthProvider } from "./context/AuthContext";
 
+// components
+import Spinner from "./components/Spinner";
+
 // pages
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
@@ -25,7 +28,8 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
-import NotFound from "./pages/NotFound/NotFound";
+import PageNotFound from "./pages/NotFound/PageNotFound";
+
 
 function App() {
     const [user, setUser] = useState(undefined);
@@ -40,7 +44,7 @@ function App() {
     }, [auth]);
 
     if (loadingUser) {
-        return <p>Carregando.....</p>;
+        return <Spinner />;
     }
 
     return (
@@ -51,7 +55,7 @@ function App() {
                     <div className="container">
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/404" element={<NotFound />} />
+                            <Route path="*" element={<PageNotFound />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/search" element={<Search />} />
                             <Route path="/posts/:id" element={<Post />} />
