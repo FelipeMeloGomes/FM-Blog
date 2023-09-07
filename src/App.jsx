@@ -25,6 +25,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
     const [user, setUser] = useState(undefined);
@@ -50,6 +51,7 @@ function App() {
                     <div className="container">
                         <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route path="/404" element={<NotFound />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/search" element={<Search />} />
                             <Route path="/posts/:id" element={<Post />} />
