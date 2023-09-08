@@ -30,7 +30,6 @@ import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
 import PageNotFound from "./pages/NotFound/PageNotFound";
 
-
 function App() {
     const [user, setUser] = useState(undefined);
     const { auth } = useAuthentication();

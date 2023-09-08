@@ -1,4 +1,5 @@
 .loader {
+    position: fixed;
     border: 10px solid #f3f3f3;
     border-top: 10px solid #000;
     border-radius: 50%;
@@ -6,7 +7,9 @@
     height: 80px;
     animation: spin 1s linear infinite;
     text-align: center;
-    margin-top: 20rem;
+    align-items: center;
+    top: 50%;
+    left: 50%;
 }
 
 @keyframes spin {
