@@ -24,8 +24,6 @@ Iniciar o Projeto:
 npm run dev
 ```
 
-```
-
 ## 🚀 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
@@ -58,4 +56,4 @@ Melhorias implementadas:
 -   Responsivo melhorado no Mobile.
 -   Implementação de um Spinner no carregamento.
 
-```
+
