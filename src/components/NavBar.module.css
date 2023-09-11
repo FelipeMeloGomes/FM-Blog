@@ -1,18 +1,10 @@
 .navbar {
     display: flex;
     box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0.5em 1em;
-}
-
-.brand {
-    font-size: 1.2em;
-}
-
-.brand span {
-    font-weight: 900;
-    text-transform: uppercase;
+    overflow: hidden;
 }
 
 .links_list {
@@ -34,40 +26,20 @@
 }
 
 /* responsivo */
-
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .navbar {
         display: flex;
         box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .links_list {
-        padding: 1em;
-    }
-
-    .brand {
-        font-size: 15px;
-    }
-
-    .links_list li a {
-        padding: 0.2em 0.4em;
-    }
-}
-
-@media (max-width: 550px) {
-    .navbar {
-        display: flex;
-        box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding: 0.5em 1em;
     }
 
-    .links_list {
-        display: flex;
-        list-style: none;
-        padding: 1em;
+    .links_list li {
+        margin-right: 0.5em;
+    }
+    
+    .links_list li a {
+        padding: 0.4em 0.6em;
     }
 }
