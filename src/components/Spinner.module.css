@@ -6,10 +6,26 @@
     width: 80px;
     height: 80px;
     animation: spin 1s linear infinite;
-    text-align: center;
     align-items: center;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 600px) {
+    .loader {
+        position: fixed;
+        border: 10px solid #f3f3f3;
+        border-top: 10px solid #000;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+        align-items: center;
+        top: 45%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 @keyframes spin {
