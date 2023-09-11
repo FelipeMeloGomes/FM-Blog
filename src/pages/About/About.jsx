@@ -11,8 +11,8 @@ const About = () => {
                 Sobre o FM <span>Blog</span>
             </h2>
             <p>
-                Este projeto consiste em um blog feito em React no front-end e
-                back-end com Firebase.
+                Este projeto consiste em um blog feito com React no front-end e
+                Firebase no back-end.
             </p>
             <Link to="/posts/create" className="btn">
                 Criar Post
