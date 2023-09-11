@@ -1,9 +1,9 @@
 .dashboard {
-    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .dashboard h2 {
@@ -44,11 +44,12 @@
 .post_row {
     align-items: center;
     border-bottom: 1px solid #eee;
-    flex-wrap: wrap;
+    gap: 1em;
 }
 
 .post_row p {
     color: #000;
+    font-size: 1em;
 }
 
 .post_row button,
@@ -56,4 +57,12 @@
     height: 30px;
     width: 90px;
     font-size: 0.7em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post_row button {
+    width: 100%;
+    height: 40px;
 }
