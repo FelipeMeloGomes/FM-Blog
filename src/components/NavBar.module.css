@@ -29,7 +29,7 @@
 @media (max-width: 600px) {
     .navbar {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         padding: 0.5em 1em;
         flex-wrap: wrap;
