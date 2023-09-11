@@ -2,7 +2,7 @@
 import styles from "./CreatePost.module.css";
 
 // react
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // hooks
