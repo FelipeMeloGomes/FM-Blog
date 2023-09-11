@@ -55,5 +55,7 @@ Melhorias implementadas:
 -   Adição de nova fonte
 -   Implementação da Responsividade.
 -   Melhorias no Layout.
+-   Responsivo melhorado no Mobile.
+-   Implementação de um Spinner no carregamento.
 
 ```
