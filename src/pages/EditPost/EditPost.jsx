@@ -94,7 +94,7 @@ const EditPost = () => {
                             />
                         </label>
                         <label>
-                            <span>URl da imagem:</span>
+                            <span>URL da imagem:</span>
                             <input
                                 type="text"
                                 name="image"
@@ -115,6 +115,8 @@ const EditPost = () => {
                         <label>
                             <span>Conteúdo:</span>
                             <textarea
+                                cols={20}
+                                rows={5}
                                 name="body"
                                 required
                                 placeholder="Insira o conteúdo do post"

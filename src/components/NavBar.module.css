@@ -26,7 +26,7 @@
 }
 
 /* responsivo */
-@media (max-width: 600px) {
+@media (max-width: 550px) {
     .navbar {
         display: flex;
         justify-content: flex-end;
@@ -39,10 +39,8 @@
         margin-right: 0;
         text-align: center;
     }
-    
+
     .links_list li a {
         padding: 0.4em 0.6em;
     }
-
- 
 }
