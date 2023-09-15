@@ -33,6 +33,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   React.
 -   Firebase.
 -   Vite.
+-   NPM.
 
 ## 📚 Conceitos aprendidos no projeto
 

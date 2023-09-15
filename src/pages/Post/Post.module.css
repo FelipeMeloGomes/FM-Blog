@@ -36,17 +36,11 @@
     justify-content: center;
     max-width: 30rem;
     width: 100%;
+    object-fit: cover;
 }
 
 /* responsivo */
 @media (max-width: 900px) {
-    .post_container {
-        display: flex;
-        text-align: center;
-        align-items: center;
-        flex-direction: column;
-        margin: 1em;
-    }
     .post_container img {
         display: flex;
         align-items: center;

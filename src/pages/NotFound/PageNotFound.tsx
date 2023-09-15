@@ -6,12 +6,19 @@ import styles from "./PageNotFound.module.css";
 
 // imagem
 import notfound from "./notfound.jpg";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const PageNotFound = () => {
     return (
         <div>
-            <h1 className={styles.h1}>Ooops... Essa página não existe.</h1>;
-            <img src={notfound} alt="erro 404 imagem" />
+            <h1>Ooops... Essa página não existe.</h1>
+            <div className={styles.container_404}>
+                <img src={notfound} alt="erro 404 imagem" />
+            </div>
+            <Link to="/" className="btn btn-dark">
+                Voltar
+            </Link>
         </div>
     );
 };

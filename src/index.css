@@ -1,3 +1,4 @@
+/* formatacoes padroes */
 body,
 html {
     background-color: #f6fcff;
@@ -15,7 +16,6 @@ input:focus,
 textarea:focus {
     outline: none;
 }
-
 a,
 nav button {
     text-decoration: none;
@@ -66,6 +66,7 @@ textarea::placeholder {
     color: #aaa;
 }
 
+/* botoes */
 .btn {
     background-color: #1a8918;
     color: #fff;
@@ -109,6 +110,7 @@ button[disabled] {
     background-color: #aaa;
 }
 
+/* errors */
 .container .error {
     color: #721c24;
     background-color: #f8d7da;
