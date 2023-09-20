@@ -12,17 +12,36 @@
     animation: spin 1s linear infinite;
 }
 
-@media (max-width: 768px) {
-    /* Adicione estilos específicos para dispositivos móveis aqui */
+@media screen and (max-width: 900px) {
     .loader {
         position: fixed;
-        top: 40%;
-        left: 50%;
-        width: 50px;
-        height: 50px;
-        border-width: 5px;
+        top: 45%;
+        left: 45%;
         transform: translate(-50%, -50%);
+        border: 10px solid #f3f3f3;
+        border-top: 10px solid #000;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        border-width: 5px;
+        animation: spin 1s linear infinite;
     }
+
+    .loader_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+.loader_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
 }
 
 @keyframes spin {
