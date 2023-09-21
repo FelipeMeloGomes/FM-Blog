@@ -9,6 +9,15 @@
     flex-direction: column;
 }
 
+.container_btn {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .post_detail img {
     width: 100%;
     max-width: 50rem;
