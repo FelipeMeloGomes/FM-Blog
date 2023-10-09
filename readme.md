@@ -37,9 +37,9 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 📚 Conceitos aprendidos no projeto
 
--   Front-end
+-   Front-end.
 -   Gerenciador de Pacotes (NPM).
--   CSS Modules
+-   CSS Modules.
 -   Responsividade.
 -   Criação de componentes e reutilização.
 -   Framework React.
@@ -51,10 +51,9 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 Melhorias implementadas:
 
--   Adição de nova fonte
+-   Adição de nova fonte.
 -   Implementação da Responsividade.
 -   Melhorias no Layout.
 -   Responsivo melhorado no Mobile.
 -   Implementação de um Spinner no carregamento.
-
-
+-   Imagens adicionadas as telas de login e registro.
