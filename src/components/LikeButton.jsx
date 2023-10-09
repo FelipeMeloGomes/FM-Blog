@@ -11,7 +11,7 @@ function LikeButton() {
     return (
         <div>
             <button className={styles.btn_clique} onClick={handleLikeClick}>
-                Curtir {likes}
+                {likes > 0 ? `Curtidas ${likes}` : "Curtidas"}
             </button>
         </div>
     );
