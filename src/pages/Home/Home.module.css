@@ -16,6 +16,7 @@
 .search_form input {
     margin-right: 0.625rem;
     width: 50%;
+    font-size: 0.9em;
 }
 
 .noposts {
