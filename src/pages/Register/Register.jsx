@@ -7,6 +7,10 @@ import styles from "./Register.module.css";
 // React
 import { useState, useEffect } from "react";
 
+
+// img
+import registerImg from "../Login/login.png";
+
 const Register = () => {
     const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
@@ -44,6 +48,7 @@ const Register = () => {
 
     return (
         <div className={styles.register}>
+            <img src={registerImg} className={styles.registerImg} />
             <h1>Cadastre-se para postar</h1>
             <p>Crie o seu usuário e compartilhe suas histórias</p>
             <form onSubmit={handleSubmit}>

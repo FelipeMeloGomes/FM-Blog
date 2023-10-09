@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
 
+// img
+import loginImg from "./login.png";
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -35,6 +38,7 @@ const Login = () => {
     }, [authError]);
     return (
         <div className={styles.login}>
+            <img src={loginImg} className={styles.imagelogin} />
             <h1>Entrar</h1>
             <p>Faça o login para utilizar o sistema</p>
             <form onSubmit={handleSubmit}>

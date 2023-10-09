@@ -5,3 +5,8 @@
 .register p {
   color: #aaa;
 }
+
+.registerImg {
+  margin-top: 1em;
+  width: 200px;
+}
