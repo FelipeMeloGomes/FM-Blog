@@ -17,11 +17,9 @@
     align-items: center;
 }
 
-
 .post_detail img {
     width: 100%;
     max-width: 50rem;
-    height: 100%;
 }
 
 .post_detail h2 {
@@ -37,10 +35,10 @@
 .post_detail .tags {
     margin-bottom: 1.2em;
     display: flex;
-    align-items: left;
     justify-content: left;
     flex-wrap: wrap;
     width: 70%;
+    text-align: left;
 }
 
 .tags p {
@@ -72,6 +70,7 @@
     .post_detail .tags {
         flex-wrap: wrap;
         width: 70%;
+        text-align: left;
     }
 }
 
@@ -88,6 +87,7 @@
     .post_detail .tags {
         flex-wrap: wrap;
         width: 90%;
+        text-align: left;
     }
 
     .post_detail img {

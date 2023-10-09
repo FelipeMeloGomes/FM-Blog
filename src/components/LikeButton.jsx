@@ -10,10 +10,7 @@ function LikeButton() {
 
     return (
         <div>
-            <button
-                className={styles.btn_clique}
-                onClick={handleLikeClick}
-            >
+            <button className={styles.btn_clique} onClick={handleLikeClick}>
                 Curtir {likes}
             </button>
         </div>
