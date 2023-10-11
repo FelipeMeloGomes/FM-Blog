@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 
+// img
+import postImg from "./newpost.png";
+
 const CreatePost = () => {
     const [title, setTitle] = useState("");
     const [image, setImage] = useState("");
@@ -60,6 +63,7 @@ const CreatePost = () => {
 
     return (
         <div className={styles.create_post}>
+            <img src={postImg} className={styles.postImg} />
             <h2>Criar Post</h2>
             <p>Escreva sobre o que quiser e compartilhe o seu conhecimento!</p>
             <form onSubmit={handleSubmit}>
