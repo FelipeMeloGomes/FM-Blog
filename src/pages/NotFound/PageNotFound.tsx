@@ -16,7 +16,8 @@ const PageNotFound = () => {
             <div className={styles.container_404}>
                 <img src={notfound} alt="erro 404 imagem" />
             </div>
-            <Link to="/" className="btn btn-dark">
+            <br />
+            <Link to="/" className="btn btn-outline">
                 Voltar
             </Link>
         </div>
