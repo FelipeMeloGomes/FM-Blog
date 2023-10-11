@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     padding: 0.5em 1em;
-    overflow: hidden;
+    flex-wrap: wrap;
 }
 
 .links_list {
@@ -14,7 +14,7 @@
 }
 
 .links_list li {
-    margin-right: 1em;
+    margin-right: 10px;
 }
 
 .links_list li a {
@@ -24,24 +24,4 @@
 .active {
     background-color: #000;
     color: #fff;
-}
-
-/* responsivo */
-@media (max-width: 550px) {
-    .navbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0.5em 1em;
-        flex-wrap: wrap;
-    }
-
-    .links_list li {
-        margin-right: 0;
-        text-align: center;
-    }
-
-    .links_list li a {
-        padding: 0.4em 0.6em;
-    }
 }
