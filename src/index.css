@@ -8,6 +8,7 @@ html {
     text-align: left;
     font-size: 1rem;
     line-height: 1.5;
+    scroll-behavior: smooth;
 }
 
 input::placeholder,
