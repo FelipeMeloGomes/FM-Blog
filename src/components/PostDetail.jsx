@@ -1,6 +1,8 @@
+// react router dom
 import { Link } from "react-router-dom";
-
+// css
 import styles from "./PostDetail.module.css";
+// components
 import LikeButton from "./LikeButton";
 
 const PostDetail = ({ post }) => {
@@ -21,7 +23,7 @@ const PostDetail = ({ post }) => {
                 <Link to={`/posts/${post.id}`} className="btn btn-outline">
                     Ler
                 </Link>
-                <LikeButton/>
+                <LikeButton />
             </div>
         </div>
     );
