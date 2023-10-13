@@ -42,6 +42,7 @@ form {
     max-width: 50%;
     margin: 0 auto;
     width: 100%;
+    padding-bottom: 1em;
 }
 
 label {
