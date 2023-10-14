@@ -14,6 +14,8 @@ html {
 input::placeholder,
 textarea::placeholder {
     font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: #fff;
 }
 
 input:focus,
