@@ -11,9 +11,9 @@
     max-width: 90%;
     font-size: 1.5em;
     margin: 1.5em;
+    text-align: left;
     line-height: 1.5;
     font-weight: 400;
-    text-align: left;
 }
 
 .post_container h3 {
@@ -22,10 +22,12 @@
 }
 
 .post_container .tags {
+    width: 90%;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: wrap;
-    text-align: center;
+    text-align: left;
+    margin: 0;
 }
 
 .tags p {
@@ -37,8 +39,6 @@
 }
 
 .post_container img {
-    align-items: center;
-    justify-content: center;
     max-width: 30rem;
     width: 100%;
     object-fit: cover;
@@ -48,9 +48,6 @@
 /* responsivo */
 @media (max-width: 900px) {
     .post_container img {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         max-width: 20rem;
         width: 100%;
         object-fit: cover;
