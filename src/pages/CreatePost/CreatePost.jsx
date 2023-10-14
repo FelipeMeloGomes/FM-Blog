@@ -29,7 +29,7 @@ const CreatePost = () => {
         e.preventDefault();
         setFormError("");
 
-        // validar image url
+        // valida image url
         try {
             new URL(image);
         } catch (error) {
