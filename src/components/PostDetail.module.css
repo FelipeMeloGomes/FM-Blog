@@ -66,9 +66,10 @@
     }
 
     .post_detail .tags {
-        flex-wrap: wrap;
-        width: 70%;
+        max-width: 100%;
+        width: 90%;
         text-align: left;
+        gap: 2px;
     }
 }
 
@@ -83,9 +84,10 @@
     }
 
     .post_detail .tags {
-        flex-wrap: wrap;
-        max-width: 80%;
+        max-width: 100%;
         text-align: left;
+        width: 70%;
+        gap: 2px;
     }
 
     .post_detail img {
