@@ -1,6 +1,4 @@
 .post_detail {
-    width: 100%;
-    height: 100%;
     margin-bottom: 2em;
     flex-wrap: wrap;
     display: flex;
@@ -26,7 +24,7 @@
     margin-bottom: 0.4em;
     font-size: 1.3em;
     display: flex;
-    width: 90%;
+    max-width: 80%;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -86,7 +84,7 @@
 
     .post_detail .tags {
         flex-wrap: wrap;
-        width: 90%;
+        max-width: 80%;
         text-align: left;
     }
 
