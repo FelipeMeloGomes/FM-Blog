@@ -1,13 +1,14 @@
 .login {
     text-align: center;
-}
-
-.login p {
+  }
+  
+  .login p {
     color: #aaa;
     margin-bottom: 1em;
-}
-
-.imagelogin {
+  }
+  
+  .imagelogin {
     margin-top: 1em;
     width: 200px;
-}
+  }
+  
