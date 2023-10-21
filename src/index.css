@@ -13,7 +13,7 @@ html {
 
 input::placeholder,
 textarea::placeholder {
-    font-family: "Montserrat", sans-serif;
+    font-family: "ui-sans-serif", sans-serif;
     font-size: 14px;
     color: #fff;
 }
@@ -31,7 +31,7 @@ nav button {
     transition: 0.4s;
     font-size: 1em;
     cursor: pointer;
-    font-family: "Montserrat", sans-serif;
+    font-family: "ui-sans-serif", sans-serif;
 }
 
 a:hover,
