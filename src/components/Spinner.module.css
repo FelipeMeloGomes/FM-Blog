@@ -1,57 +1,27 @@
 .loader {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 10px solid #f3f3f3;
-    border-top: 10px solid #000;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    border-width: 5px;
-    animation: spin 1s linear infinite;
-}
-
-@media screen and (max-width: 900px) {
-    .loader {
-        position: fixed;
-        top: 45%;
-        left: 45%;
-        transform: translate(-50%, -50%);
-        border: 10px solid #f3f3f3;
-        border-top: 10px solid #000;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        border-width: 5px;
-        animation: spin 1s linear infinite;
-    }
-
-    .loader_container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
-    }
-}
-
-.loader_container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100vw;
+    place-items: center;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    50% {
-        transform: rotate(180deg);
-    }
-    100% {
+.spinner {
+    width: 250px;
+    height: 150px;
+    position: relative;
+    animation: rotation 0.75s linear infinite;
+    border-radius: 100em;
+}
+
+.path {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 20;
+    stroke-linecap: round;
+}
+
+@keyframes rotation {
+    to {
         transform: rotate(360deg);
     }
 }
