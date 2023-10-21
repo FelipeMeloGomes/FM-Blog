@@ -5,7 +5,7 @@ import { memo } from "react";
 import styles from "./PageNotFound.module.css";
 
 // imagem
-import notfound from "./notfound.jpg";
+import notfound from "./notfound.png";
 import React from "react";
 import { Link } from "react-router-dom";
 
