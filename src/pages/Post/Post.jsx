@@ -1,8 +1,10 @@
 // CSS
 import styles from "./Post.module.css";
 
-// hooks
+// react router dom
 import { useParams } from "react-router-dom";
+
+// hooks
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 
 //components
