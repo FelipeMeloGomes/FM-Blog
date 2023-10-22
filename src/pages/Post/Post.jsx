@@ -14,13 +14,21 @@ const Post = () => {
     const { id } = useParams();
     const { document: post, loading } = useFetchDocument("posts", id);
     return (
-        <div className={styles.post_container}>
+        <div className={`${styles.post_container} ${styles.card}`}>
             {loading && <Spinner />}
             {post && (
                 <>
-                    <h1>{post.title}</h1>
-                    <img src={post.image} alt={post.title} />
-                    <p>{post.body}</p>
+                    <div className={styles.card__img}>
+                        <img
+                            src={post.image}
+                            alt={post.title}
+                            className={styles.card__img}
+                        />
+                    </div>
+                    <div className={styles.card_int}>
+                        <p className={styles.card_int__title}>{post.title}</p>
+                        <p className={styles.excerpt}>{post.body}</p>
+                    </div>
                     <h3>Este post trata sobre:</h3>
                     <div className={styles.tags}>
                         {post.tagsArray.map((tag) => (
