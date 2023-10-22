@@ -31,19 +31,9 @@
     padding: 0.625rem 1.5625rem;
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-@media (max-width: 600px) {
-    h1 {
-        font-size: 1.5em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+.title {
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
