@@ -18,11 +18,20 @@
     background-color: #ffffff;
     padding: 30px;
     width: 450px;
-    max-width: 60%;
+    max-width: 100%;
     line-height: normal;
     border-radius: 20px;
     font-family: -apple-system, "Montserrat", sans-serif;
 }
+
+.formEdit {
+    margin: 0 auto;
+    width: 70%;
+    padding-bottom: 1em;
+    box-sizing: border-box;
+}
+
+
 
 .login p {
     color: #aaa;

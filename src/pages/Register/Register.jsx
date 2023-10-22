@@ -44,7 +44,7 @@ const Register = () => {
         <div className={styles.register}>
             <h1>Cadastre-se para postar</h1>
             <p>Crie o seu usuário e compartilhe suas histórias</p>
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={`${styles.form} ${styles.formEdit}`}>
                 <div className={styles.flex_column}>
                     <label>Nome</label>
                 </div>
