@@ -5,9 +5,11 @@ import styles from "./Search.module.css";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useQuery } from "../../hooks/useQuery";
 
+// react
+import { Link } from "react-router-dom";
+
 // components
 import PostDetail from "../../components/PostDetail";
-import { Link } from "react-router-dom";
 
 const Search = () => {
     const query = useQuery();
@@ -23,6 +25,7 @@ const Search = () => {
                         <p>
                             Não foram encontrados posts a partir da sua busca...
                         </p>
+
                         <Link to="/" className="btn btn-dark">
                             Voltar
                         </Link>
