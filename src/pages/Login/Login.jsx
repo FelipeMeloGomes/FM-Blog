@@ -38,7 +38,7 @@ const Login = () => {
         <div className={styles.login}>
             <h1>Entrar </h1>
             <p>Faça o login para utilizar o sistema</p>
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={`${styles.form} ${styles.formEdit}`}>
                 <div className={styles.flex_column}>
                     <label>Email</label>
                 </div>
