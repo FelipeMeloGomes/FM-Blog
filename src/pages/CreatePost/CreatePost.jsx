@@ -3,14 +3,13 @@ import styles from "./CreatePost.module.css";
 
 // react
 import { useState } from "react";
+
+// react router dom
 import { useNavigate } from "react-router-dom";
 
 // hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-
-// img
-import postImg from "./newpost.png";
 
 const CreatePost = () => {
     const [title, setTitle] = useState("");
@@ -62,65 +61,80 @@ const CreatePost = () => {
     };
 
     return (
-        <div className={styles.create_post}>
-            <img src={postImg} className={styles.postImg} />
-            <h2>Criar Post</h2>
-            <p>Escreva sobre o que quiser e compartilhe o seu conhecimento!</p>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <span>Título:</span>
-                    <input
-                        type="text"
-                        name="title"
-                        required
-                        placeholder="Pense num bom título..."
-                        onChange={(e) => setTitle(e.target.value)}
-                        value={title}
-                    />
-                </label>
-                <label>
-                    <span>URL da imagem:</span>
-                    <input
-                        type="text"
-                        name="image"
-                        required
-                        placeholder="Insira uma imagem que representa o seu post..."
-                        onChange={(e) => setImage(e.target.value)}
-                        value={image}
-                    />
-                </label>
-                <label>
-                    <span>Conteúdo:</span>
-                    <textarea
-                        name="body"
-                        required
-                        placeholder="Insira o conteúdo do post"
-                        onChange={(e) => setBody(e.target.value)}
-                        value={body}
-                    ></textarea>
-                </label>
-                <label>
-                    <span>Tags:</span>
-                    <input
-                        type="text"
-                        name="tags"
-                        required
-                        placeholder="Insira as tags separadas por vírgula"
-                        onChange={(e) => setTags(e.target.value)}
-                        value={tags}
-                    />
-                </label>
-                {!response.loading && (
-                    <button className="btn">Cadastrar</button>
-                )}
-                {response.loading && (
-                    <button className="btn" disabled>
-                        Aguarde...
-                    </button>
-                )}
-                {response.error && <p className="error">{response.error}</p>}
-                {formError && <p className="error">{formError}</p>}
-            </form>
+        <div className={styles.container}>
+            <div className={styles.modal}>
+                <div className={styles.modal__header}>
+                    <span className={styles.modal__title}>Novo Post</span>
+                </div>
+                <form className={styles.modal__body} onSubmit={handleSubmit}>
+                    <div className={styles.input}>
+                        <label className={styles.input__label}>Título:</label>
+                        <input
+                            type="text"
+                            name="title"
+                            required
+                            className={styles.input__field}
+                            placeholder="Pense num bom título"
+                            onChange={(e) => setTitle(e.target.value)}
+                            value={title}
+                        />
+                    </div>
+                    <div className={styles.input}>
+                        <label className={styles.input__label}>
+                            URL da imagem:
+                        </label>
+                        <input
+                            className={styles.input__field}
+                            type="text"
+                            name="image"
+                            required
+                            onChange={(e) => setImage(e.target.value)}
+                            value={image}
+                            placeholder="Insira uma imagem"
+                        />
+                    </div>
+                    <div className={styles.input}>
+                        <label className={styles.input__label}>Conteúdo:</label>
+                        <textarea
+                            className={`${styles.input__field} ${styles.input__field__textarea}`}
+                            placeholder="Insira o conteúdo do post"
+                            name="body"
+                            required
+                            onChange={(e) => setBody(e.target.value)}
+                            value={body}
+                        ></textarea>
+                    </div>
+                    <div className={styles.input}>
+                        <label className={styles.input__label}>Tags:</label>
+                        <input
+                            className={styles.input__field}
+                            type="text"
+                            name="tags"
+                            placeholder="Insira as tags separadas por vírgula"
+                            required
+                            onChange={(e) => setTags(e.target.value)}
+                            value={tags}
+                        />
+                    </div>
+                    <br />
+                    {!response.loading && (
+                        <button
+                            className={`${styles.button} ${styles.button__primary}`}
+                        >
+                            Cadastrar
+                        </button>
+                    )}
+                    {response.loading && (
+                        <button className="btn" disabled>
+                            Aguarde...
+                        </button>
+                    )}
+                    {response.error && (
+                        <p className="error">{response.error}</p>
+                    )}
+                    {formError && <p className="error">{formError}</p>}
+                </form>
+            </div>
         </div>
     );
 };
