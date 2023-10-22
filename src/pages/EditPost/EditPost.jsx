@@ -81,7 +81,7 @@ const EditPost = () => {
                 <>
                     <h2>Editando Post: {post.title}</h2>
                     <p>Altere os dados do post como desejar</p>
-                    <form onSubmit={handleSubmit}>
+                    <form className={styles.formEdit} onSubmit={handleSubmit}>
                         <label>
                             <span>Título:</span>
                             <input
