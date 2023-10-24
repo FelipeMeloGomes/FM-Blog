@@ -18,7 +18,7 @@
     background-color: #ffffff;
     padding: 30px;
     width: 450px;
-    max-width: 100%;
+    max-width: 60%;
     line-height: normal;
     border-radius: 20px;
     font-family: -apple-system, "Montserrat", sans-serif;
@@ -26,9 +26,21 @@
 
 .formEdit {
     margin: 0 auto;
-    width: 70%;
     padding-bottom: 1em;
     box-sizing: border-box;
+}
+
+/* responsivo form */
+@media (max-width: 540px) {
+    .form {
+        max-width: 90%;
+    }
+    .formEdit {
+        margin: 0 auto;
+        width: 100%;
+        padding-bottom: 1em;
+        box-sizing: border-box;
+    }
 }
 
 .login p {
