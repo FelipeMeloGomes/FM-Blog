@@ -11,9 +11,7 @@ const About = () => {
                 Este projeto consiste em um blog feito com React, salvando os
                 dados no Firebase.
             </p>
-            <p>
-                Desenvolvidor Por Felipe Melo.
-            </p>
+            <p>Desenvolvido Por Felipe Melo.</p>
 
             <button className={styles.button}>
                 <a
