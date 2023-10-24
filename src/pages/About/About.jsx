@@ -8,8 +8,11 @@ const About = () => {
                 Sobre o FM <span>Blog</span>
             </h2>
             <p>
-                Este projeto consiste em um blog feito com React no front-end e
-                Firebase no back-end.
+                Este projeto consiste em um blog feito com React, salvando os
+                dados no Firebase.
+            </p>
+            <p>
+                Desenvolvidor Por Felipe Melo.
             </p>
 
             <button className={styles.button}>
