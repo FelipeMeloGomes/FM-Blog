@@ -1,12 +1,14 @@
 // CSS
 import styles from "./Login.module.css";
 
+// react router dom
+import { Link } from "react-router-dom";
+
 // react
 import { useState, useEffect } from "react";
 
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
-import { Link } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -38,7 +40,10 @@ const Login = () => {
         <div className={styles.login}>
             <h1>Entrar </h1>
             <p>Faça o login para utilizar o sistema</p>
-            <form onSubmit={handleSubmit} className={`${styles.form} ${styles.formEdit}`}>
+            <form
+                onSubmit={handleSubmit}
+                className={`${styles.form} ${styles.formEdit}`}
+            >
                 <div className={styles.flex_column}>
                     <label>Email</label>
                 </div>

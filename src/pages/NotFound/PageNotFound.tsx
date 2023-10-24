@@ -1,14 +1,16 @@
-// hooks
+// Hooks
 import { memo } from "react";
 
-// estilos
+// CSS
 import styles from "./PageNotFound.module.css";
 
-// imagem
+// img
 import notfound from "./notfound.png";
 
-// react
+// React
 import React from "react";
+
+// React Router Dom
 import { Link } from "react-router-dom";
 
 const PageNotFound = () => {

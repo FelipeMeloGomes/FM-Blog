@@ -1,7 +1,7 @@
 // CSS
 import styles from "./EditPost.module.css";
 
-// React Router
+// React Router dom
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 

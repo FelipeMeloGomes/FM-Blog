@@ -1,3 +1,4 @@
+// CSS
 import styles from "./LikeButton.module.css";
 
 function LikeButton() {

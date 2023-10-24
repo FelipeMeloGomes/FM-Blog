@@ -1,8 +1,10 @@
-// react router dom
+// React Router Dom
 import { Link } from "react-router-dom";
-// css
+
+// CSS
 import styles from "./PostDetail.module.css";
-// components
+
+// Components
 import LikeButton from "./LikeButton";
 
 const PostDetail = ({ post }) => {
