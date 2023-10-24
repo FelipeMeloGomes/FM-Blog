@@ -17,3 +17,33 @@
     margin-top: 15px;
     padding: 10px 15px;
 }
+
+.button {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    animation: sway 2s infinite alternate;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 500px;
+    transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.button:hover {
+    transform: scale(1.5) rotate(-360deg) translateY(-1em);
+    box-shadow: 0 0 20px 0 rgba(29, 161, 242, 0.5);
+}
+
+.icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+    transition: transform 0.5s;
+}
+
+.icon:hover {
+    transform: scale(8);
+    filter: drop-shadow(1px 2px 4px rgba(0, 0, 0, 0.9));
+}
