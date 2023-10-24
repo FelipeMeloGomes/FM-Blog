@@ -76,67 +76,86 @@ const EditPost = () => {
     };
 
     return (
-        <div className={styles.edit_post}>
+        <div className={styles.container}>
             {post && (
                 <>
-                    <h2>Editando Post: {post.title}</h2>
-                    <p>Altere os dados do post como desejar</p>
-                    <form className={styles.formEdit} onSubmit={handleSubmit}>
-                        <label>
-                            <span>Título:</span>
+                    <form
+                        className={styles.modal__body}
+                        onSubmit={handleSubmit}
+                    >
+                        <div className={styles.input}>
+                            <label className={styles.input__label}>
+                                <h2>Editando Post: {post.title}</h2>
+                            </label>
+                        </div>
+                        <div className={styles.input}>
+                            <label className={styles.input__label}>
+                                Título:
+                            </label>
                             <input
                                 type="text"
                                 name="title"
                                 required
-                                placeholder="Pense num bom título..."
+                                className={styles.input__field}
+                                placeholder="Pense num bom título"
                                 onChange={(e) => setTitle(e.target.value)}
                                 value={title}
                             />
-                        </label>
-                        <label>
-                            <span>URL da imagem:</span>
+                        </div>
+                        <div className={styles.input}>
+                            <label className={styles.input__label}>
+                                URL da imagem:
+                            </label>
                             <input
+                                className={styles.input__field}
                                 type="text"
                                 name="image"
                                 required
-                                placeholder="Insira uma imagem que representa o seu post..."
                                 onChange={(e) => setImage(e.target.value)}
                                 value={image}
+                                placeholder="Insira uma imagem"
                             />
-                        </label>
-                        <p className={styles.preview_title}>
-                            Preview da imagem atual:{" "}
-                        </p>
-                        <img
-                            className={styles.image_preview}
-                            src={post.image}
-                            alt={post.title}
-                        />
-                        <label>
-                            <span>Conteúdo:</span>
+                            <p className={styles.input__label}>
+                                Preview da imagem atual:{" "}
+                            </p>
+                            <img
+                                className={styles.image_preview}
+                                src={post.image}
+                                alt={post.title}
+                            />
+                        </div>
+                        <div className={styles.input}>
+                            <label className={styles.input__label}>
+                                Conteúdo:
+                            </label>
                             <textarea
-                                cols={20}
-                                rows={5}
+                                className={`${styles.input__field} ${styles.input__field__textarea}`}
+                                placeholder="Insira o conteúdo do post"
                                 name="body"
                                 required
-                                placeholder="Insira o conteúdo do post"
                                 onChange={(e) => setBody(e.target.value)}
                                 value={body}
                             ></textarea>
-                        </label>
-                        <label>
-                            <span>Tags:</span>
+                        </div>
+                        <div className={styles.input}>
+                            <label className={styles.input__label}>Tags:</label>
                             <input
+                                className={styles.input__field}
                                 type="text"
                                 name="tags"
-                                required
                                 placeholder="Insira as tags separadas por vírgula"
+                                required
                                 onChange={(e) => setTags(e.target.value)}
                                 value={tags}
                             />
-                        </label>
+                        </div>
+                        <br />
                         {!response.loading && (
-                            <button className="btn">Editar</button>
+                            <button
+                                className={`${styles.button} ${styles.button__primary}`}
+                            >
+                                Salvar
+                            </button>
                         )}
                         {response.loading && (
                             <button className="btn" disabled>

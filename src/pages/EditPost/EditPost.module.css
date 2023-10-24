@@ -1,46 +1,132 @@
-.edit_post {
-    text-align: center;
-    padding-bottom: 2em;
+.button {
+    appearance: none;
+    font: inherit;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
-.edit_post h2 {
+.post__title {
+    font-weight: 700;
     font-size: 1.5em;
-    margin: 1em 1em 0 1em;
+    margin: 1em 1em 0;
 }
 
-.edit_post p {
-    color: #aaa;
-    margin-bottom: 2em;
+.text__title {
+    display: flex;
+    align-items: center;
 }
 
-.edit_post .preview_title {
-    margin-bottom: 0.2em;
-    color: #000;
-    font-weight: bold;
-}
-
-.image_preview {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1em;
-    object-fit: cover;
-}
-
-/* form styles */
 .formEdit {
-    max-width: 50%;
     margin: 0 auto;
     width: 100%;
     padding-bottom: 1em;
     box-sizing: border-box;
 }
 
-/* responsive form */
-@media screen and (max-width: 700px) {
-    .formEdit {
-        max-width: 90%;
-        margin: 0 auto;
-        width: 100%;
-        padding-bottom: 1em;
-    }
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    padding: 1.5rem;
+    line-height: normal;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    background-color: #fff;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
+    border-radius: 10px;
+}
+
+.modal__header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__body {
+    padding: 1rem 1rem;
+}
+
+.modal__footer {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.modal__title {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s ease;
+}
+
+.button__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: transparent;
+    border-radius: 0.25rem;
+}
+
+.button__icon:focus,
+.button__icon:hover {
+    background-color: #ededed;
+}
+
+.button__primary {
+    background-color: transparent;
+    color: #000;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #000;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.button__primary:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+.input + .input {
+    margin-top: 1.75rem;
+}
+
+.input__label {
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-align: left;
+}
+
+.input__field {
+    display: block;
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    padding: 0.75rem 0.75rem;
+    transition: 0.15s ease;
+}
+
+.input__field:focus {
+    outline: none;
+    border-color: #000;
+}
+
+.input__field__textarea {
+    min-height: 100px;
+    max-width: 100%;
 }
