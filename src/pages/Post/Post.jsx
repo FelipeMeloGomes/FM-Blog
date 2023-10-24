@@ -22,6 +22,7 @@ const Post = () => {
                         <img
                             src={post.image}
                             alt={post.title}
+                            lazy="loading"
                             className={styles.card__img}
                         />
                     </div>
