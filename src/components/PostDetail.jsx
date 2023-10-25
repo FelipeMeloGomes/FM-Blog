@@ -17,7 +17,7 @@ const PostDetail = ({ post }) => {
             <p className={styles.createdby}>{post.createdBy}</p>
             <div className={styles.tags}>
                 {post.tagsArray.map((tag) => (
-                    <div>
+                    <div key={tag}>
                         <p key={tag}>
                             <span>#</span>
                             {tag}
