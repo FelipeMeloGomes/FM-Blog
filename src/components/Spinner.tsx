@@ -19,20 +19,20 @@ const Spinner = () => {
                     r="20"
                     cy="33"
                     cx="33"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill="transparent"
                     className={styles.path}
                 ></circle>
                 <linearGradient id="gradient">
-                    <stop stop-opacity="1" stop-color="#000" offset="0%"></stop>
+                    <stop stopOpacity="1" stopColor="#000" offset="0%"></stop>
                     <stop
-                        stop-opacity="1"
-                        stop-color="#f6fcff"
+                        stopOpacity="1"
+                        stopColor="#f6fcff"
                         offset="50%"
                     ></stop>
                     <stop
-                        stop-opacity="0"
-                        stop-color="#f6fcff"
+                        stopOpacity="0"
+                        stopColor="#f6fcff"
                         offset="100%"
                     ></stop>
                 </linearGradient>
