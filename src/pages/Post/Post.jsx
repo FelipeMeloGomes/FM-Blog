@@ -26,10 +26,14 @@ const Post = () => {
                             className={styles.card__img}
                         />
                     </div>
+                    <div>
+                        <p className={styles.createdby}>{post.createdBy}</p>
+                    </div>
                     <div className={styles.card_int}>
                         <p className={styles.card_int__title}>{post.title}</p>
                         <p className={styles.excerpt}>{post.body}</p>
                     </div>
+
                     <h3>Este post trata sobre:</h3>
                     <div className={styles.tags}>
                         {post.tagsArray.map((tag) => (
