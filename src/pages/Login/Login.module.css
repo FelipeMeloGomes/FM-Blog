@@ -1,3 +1,13 @@
+.login h1 {
+    text-align: center;
+}
+
+.login p {
+    color: #aaa;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -28,11 +38,6 @@
         padding-bottom: 1em;
         box-sizing: border-box;
     }
-}
-
-.login p {
-    color: #aaa;
-    margin-bottom: 1em;
 }
 
 ::-webkit-input-placeholder {
