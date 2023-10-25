@@ -53,6 +53,13 @@ label span {
     text-align: left;
 }
 
+img {
+    width: 500px;
+    object-fit: cover;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
 input,
 textarea {
     box-sizing: border-box;
