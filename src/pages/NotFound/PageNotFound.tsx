@@ -4,26 +4,33 @@ import { memo } from "react";
 // CSS
 import styles from "./PageNotFound.module.css";
 
-// img
-import notfound from "./notfound.png";
-
 // React
 import React from "react";
+
+// img
+import notFound from "../NotFound/Erro.png";
 
 // React Router Dom
 import { Link } from "react-router-dom";
 
 const PageNotFound = () => {
     return (
-        <div>
-            <h1>Ooops... Essa página não existe.</h1>
-            <div className={styles.container_404}>
-                <img src={notfound} alt="erro 404 imagem" />
+        <div className={styles.erro_page}>
+            <div className={styles.typograph}>
+                <h1>404</h1>
+                <p>Página Não Encontrada Desculpe.</p>
             </div>
-            <br />
+            <div className={styles.center}>
+                <img
+                    className={styles.container}
+                    src={notFound}
+                    alt="not found"
+                />
+            </div>
             <Link to="/" className="btn btn-outline">
-                Voltar
+                Retornar a Home
             </Link>
+            <br />
         </div>
     );
 };
