@@ -29,9 +29,9 @@ const Post = () => {
                     <div>
                         <p className={styles.createdby}>{post.createdBy}</p>
                     </div>
-                    <div className={styles.card_int}>
-                        <p className={styles.card_int__title}>{post.title}</p>
-                        <p className={styles.excerpt}>{post.body}</p>
+                    <div>
+                        <h1>{post.title}</h1>
+                        <p>{post.body}</p>
                     </div>
 
                     <h3>Este post trata sobre:</h3>
