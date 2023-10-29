@@ -15,24 +15,6 @@ import { ImCross } from "react-icons/im";
 
 const NavBar = () => {
     const [Mobile, setMobile] = useState(false);
-    const handleWindowResize = () => {
-        const isWindowGreaterThan768 = window.innerWidth > 600;
-        setMobile(!isWindowGreaterThan768);
-    };
-
-    useEffect(() => {
-        const handleWindowResize = () => {
-            setMobile(window.innerWidth <= 600);
-        };
-
-        handleWindowResize();
-
-        window.addEventListener("resize", handleWindowResize);
-
-        return () => {
-            window.removeEventListener("resize", handleWindowResize);
-        };
-    }, []);
     const { user } = useAuthValue();
     const { logout } = useAuthentication();
 
