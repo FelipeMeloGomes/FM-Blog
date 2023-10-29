@@ -4,17 +4,44 @@ import { NavLink } from "react-router-dom";
 // Hooks
 import { useAuthentication } from "../hooks/useAuthentication";
 import { useAuthValue } from "../context/AuthContext";
+import { useState, useEffect } from "react";
 
 // CSS
 import styles from "./NavBar.module.css";
 
+// icons
+import { FaBars } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+
 const NavBar = () => {
+    const [Mobile, setMobile] = useState(false);
+    const handleWindowResize = () => {
+        const isWindowGreaterThan768 = window.innerWidth > 600;
+        setMobile(!isWindowGreaterThan768);
+    };
+
+    useEffect(() => {
+        const handleWindowResize = () => {
+            setMobile(window.innerWidth <= 600);
+        };
+
+        handleWindowResize();
+
+        window.addEventListener("resize", handleWindowResize);
+
+        return () => {
+            window.removeEventListener("resize", handleWindowResize);
+        };
+    }, []);
     const { user } = useAuthValue();
     const { logout } = useAuthentication();
 
     return (
         <nav className={styles.navbar}>
-            <ul className={styles.links_list}>
+            <ul
+                className={Mobile ? styles.nav_links_mobile : styles.nav_links}
+                onClick={() => setMobile(false)}
+            >
                 <li>
                     <NavLink
                         to="/"
@@ -95,6 +122,12 @@ const NavBar = () => {
                     </li>
                 )}
             </ul>
+            <button
+                className={styles.mobile_menu_icon}
+                onClick={() => setMobile(!Mobile)}
+            >
+                {Mobile ? <ImCross /> : <FaBars />}
+            </button>
         </nav>
     );
 };
