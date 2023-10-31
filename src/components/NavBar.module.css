@@ -57,9 +57,9 @@
         display: block;
         right: 1.25rem;
         top: 0.9375rem;
+        font-size: 20px;
         z-index: 1;
     }
-
     .navbar {
         box-shadow: none;
         padding: 0;
