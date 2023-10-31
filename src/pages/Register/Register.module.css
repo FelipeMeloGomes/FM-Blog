@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+.register__icon {
+    cursor: pointer;
+}
+
 .register p {
     color: #aaa;
     padding: 1em;

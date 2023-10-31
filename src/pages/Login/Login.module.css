@@ -9,6 +9,10 @@
     text-align: center;
 }
 
+.login__icon {
+    cursor: pointer;
+}
+
 .form {
     display: flex;
     flex-direction: column;
