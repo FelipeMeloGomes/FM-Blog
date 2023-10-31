@@ -146,3 +146,9 @@ button[disabled] {
 .post-list {
     margin: 2em;
 }
+
+.icon {
+    cursor: pointer;
+    margin-right: 1em;
+}
+
