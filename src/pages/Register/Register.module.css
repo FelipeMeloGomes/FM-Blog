@@ -4,6 +4,10 @@
 
 .register p {
     color: #aaa;
+    padding: 1em;
+}
+.register h1 {
+    padding: 1em;
 }
 
 .registerImg {
