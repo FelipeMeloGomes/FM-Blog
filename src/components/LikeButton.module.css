@@ -8,6 +8,7 @@
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.089);
+    border-radius: 0;
     cursor: pointer;
     background-color: transparent;
 }
