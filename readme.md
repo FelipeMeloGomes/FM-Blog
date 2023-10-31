@@ -57,3 +57,5 @@ Melhorias implementadas:
 -   Responsivo melhorado no Mobile.
 -   Implementação de um Spinner no carregamento.
 -   Novas telas de login e cadastro.
+-   Implementação toggle button no icon de senha.
+-   Novo botão de Like adicionado.
