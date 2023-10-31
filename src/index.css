@@ -99,11 +99,13 @@ textarea::placeholder {
     border: none;
     padding: 10px 15px;
     font-size: 1em;
+    font-family: -apple-system, "Montserrat", sans-serif;
 }
 
 .btn.btn-dark {
     background-color: #000;
     border-radius: 0;
+    font-family: -apple-system, "Montserrat", sans-serif;
 }
 
 .btn.btn-outline {
@@ -112,6 +114,7 @@ textarea::placeholder {
     color: #000;
     border: 1px solid #000;
     padding: 7px 30px;
+    font-family: -apple-system, "Montserrat", sans-serif;
 }
 
 .btn:hover {
