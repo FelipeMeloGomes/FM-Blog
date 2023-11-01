@@ -1,6 +1,3 @@
-// Estilos
-import "./App.css";
-
 // React Router
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
