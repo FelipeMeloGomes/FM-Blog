@@ -10,29 +10,19 @@ import { useState, useEffect, useRef } from "react";
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
 
+// utils
+import { togglePasswordVisibility } from "../../utils/passwordUtils";
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const { login, error: authError, loading } = useAuthentication();
-
-    // senha ref
     const [passwordVisible, setPasswordVisible] = useState(false);
     const inputRef = useRef();
 
-    // mostra e esconde senha
-    const togglePasswordVisibility = () => {
-        const input = inputRef.current;
-
-        if (input) {
-            if (passwordVisible) {
-                input.type = "password";
-            } else {
-                input.type = "text";
-            }
-        }
-
-        setPasswordVisible(!passwordVisible);
+    const handlePasswordToggle = () => {
+        togglePasswordVisibility(inputRef, passwordVisible, setPasswordVisible);
     };
 
     const handleSubmit = async (e) => {
@@ -113,7 +103,7 @@ const Login = () => {
                     />
 
                     <svg
-                        onClick={togglePasswordVisibility}
+                        onClick={handlePasswordToggle}
                         viewBox="0 0 576 512"
                         height="1em"
                         xmlns="http://www.w3.org/2000/svg"

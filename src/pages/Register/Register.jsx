@@ -7,6 +7,9 @@ import styles from "./Register.module.css";
 // React
 import { useState, useEffect, useRef } from "react";
 
+// utils
+import { togglePasswordVisibility } from "../../utils/passwordUtils";
+
 const Register = () => {
     const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
@@ -14,25 +17,24 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const { createUser, error: authError, loading } = useAuthentication();
-
-    // senha ref
     const [passwordVisible, setPasswordVisible] = useState(false);
     const inputRef1 = useRef();
     const inputRef2 = useRef();
 
-    // mostra e esconde senha
-    const togglePasswordVisibility = (ref) => {
-        const input = ref.current;
+    const handlePasswordToggle1 = () => {
+        togglePasswordVisibility(
+            inputRef1,
+            passwordVisible,
+            setPasswordVisible
+        );
+    };
 
-        if (input) {
-            if (passwordVisible) {
-                input.type = "password";
-            } else {
-                input.type = "text";
-            }
-        }
-
-        setPasswordVisible(!passwordVisible);
+    const handlePasswordToggle2 = () => {
+        togglePasswordVisibility(
+            inputRef2,
+            passwordVisible,
+            setPasswordVisible
+        );
     };
 
     const handleSubmit = async (e) => {
@@ -143,7 +145,7 @@ const Register = () => {
 
                     <svg
                         viewBox="0 0 576 512"
-                        onClick={() => togglePasswordVisibility(inputRef1)}
+                        onClick={handlePasswordToggle1}
                         height="1em"
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon"
@@ -177,7 +179,7 @@ const Register = () => {
 
                     <svg
                         viewBox="0 0 576 512"
-                        onClick={() => togglePasswordVisibility(inputRef2)}
+                        onClick={handlePasswordToggle2}
                         height="1em"
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon"
