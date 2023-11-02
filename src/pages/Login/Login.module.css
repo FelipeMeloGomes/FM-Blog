@@ -19,7 +19,6 @@
     max-width: 60%;
     line-height: normal;
     border-radius: 20px;
-    font-family: -apple-system, "Montserrat", sans-serif;
     text-align: center;
 }
 
@@ -40,26 +39,6 @@
         padding-bottom: 1em;
         box-sizing: border-box;
     }
-}
-
-::-webkit-input-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-::-moz-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-:-ms-input-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-::-ms-input-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-::placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
 }
 
 .form button {
@@ -150,8 +129,6 @@
     width: 100%;
     height: 50px;
     border-radius: 10px;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     justify-content: center;
     align-items: center;

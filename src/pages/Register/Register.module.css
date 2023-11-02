@@ -25,7 +25,6 @@
     max-width: 60%;
     line-height: normal;
     border-radius: 20px;
-    font-family: -apple-system, "Montserrat", sans-serif;
 }
 
 .formEdit {
@@ -50,26 +49,6 @@
 .login p {
     color: #aaa;
     margin-bottom: 1em;
-}
-
-::-webkit-input-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-::-moz-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-:-ms-input-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-::-ms-input-placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
-}
-
-::placeholder {
-    font-family: -apple-system, "Montserrat", sans-serif;
 }
 
 .form button {
