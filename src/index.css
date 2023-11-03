@@ -73,7 +73,6 @@ img {
 
 input,
 textarea {
-    box-sizing: border-box;
     border: none;
     border-bottom: 1px solid #ccc;
     padding: 0.8em 0em;
