@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-/* formatacoes padroes */
+/* Formatacoes padroes */
 * {
     margin: 0;
     padding: 0;
@@ -85,7 +85,7 @@ textarea::placeholder {
     color: #aaa;
 }
 
-/* botoes */
+/* Botoes */
 .btn {
     background-color: #1a8918;
     color: #fff;
@@ -148,7 +148,7 @@ button[disabled] {
     margin-right: 1em;
 }
 
-/* container App */
+/* Container app */
 .container {
     height: 100vh;
     margin-bottom: 5em;
