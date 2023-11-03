@@ -1,13 +1,10 @@
 // Hooks
 import { memo } from "react";
 
-// CSS
+// Estilos css
 import styles from "./PageNotFound.module.css";
 
-// React
-import React from "react";
-
-// img
+// Img
 import notFound from "../NotFound/Erro.png";
 
 // React Router Dom

@@ -1,14 +1,14 @@
-// CSS
+// Estilos css
 import styles from "./Search.module.css";
 
-// hooks
+// Hooks
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useQuery } from "../../hooks/useQuery";
 
-// react router dom
+// React Router Dom
 import { Link } from "react-router-dom";
 
-// components
+// Components
 import PostDetail from "../../components/PostDetail";
 
 const Search = () => {

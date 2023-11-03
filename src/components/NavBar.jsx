@@ -1,4 +1,4 @@
-// react router dom
+// React Router Dom
 import { NavLink } from "react-router-dom";
 
 // Hooks
@@ -6,10 +6,10 @@ import { useAuthentication } from "../hooks/useAuthentication";
 import { useAuthValue } from "../context/AuthContext";
 import { useState } from "react";
 
-// CSS
+// Estilos css
 import styles from "./NavBar.module.css";
 
-// icons
+// Icons
 import { FaBars } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 

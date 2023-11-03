@@ -1,4 +1,3 @@
-// passwordUtils.js
 export const togglePasswordVisibility = (
     inputRef,
     passwordVisible,

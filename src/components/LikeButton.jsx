@@ -1,8 +1,7 @@
-// CSS
-
+// Estilos css
 import styles from "./LikeButton.module.css";
 
-// React
+// Hooks
 import { useState } from "react";
 
 function LikeButton() {

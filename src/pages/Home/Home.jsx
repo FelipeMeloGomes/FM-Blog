@@ -1,16 +1,14 @@
-// CSS
+// Estilos css
 import styles from "./Home.module.css";
 
-// hooks
+// Hooks
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
-
-// react router dom
-import { useNavigate, Link } from "react-router-dom";
-
-// react
 import { useState } from "react";
 
-// components
+// React Router Dom
+import { useNavigate, Link } from "react-router-dom";
+
+// Components
 import PostDetail from "../../components/PostDetail";
 import Spinner from "../../components/Spinner";
 

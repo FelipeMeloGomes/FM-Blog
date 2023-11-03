@@ -1,16 +1,14 @@
-// CSS
+// Estilos css
 import styles from "./Login.module.css";
 
-// react router dom
+// React Router Dom
 import { Link } from "react-router-dom";
-
-// react
-import { useState, useEffect, useRef } from "react";
 
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
+import { useState, useEffect, useRef } from "react";
 
-// utils
+// Utils
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
 const Login = () => {

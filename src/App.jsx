@@ -4,20 +4,20 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Firebase auth
 import { onAuthStateChanged } from "firebase/auth";
 
-// hooks
+// Hooks
 import { useEffect, useState } from "react";
 import { useAuthentication } from "./hooks/useAuthentication";
 
-// context
+// Context
 import { AuthProvider } from "./context/AuthContext";
 
-// components
+// Components
+import NavBar from "./components/NavBar";
 import Spinner from "./components/Spinner";
 
-// pages
+// Pages
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
-import NavBar from "./components/NavBar";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import CreatePost from "./pages/CreatePost/CreatePost";

@@ -1,13 +1,11 @@
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
-
-// CSS
-import styles from "./Register.module.css";
-
-// React
 import { useState, useEffect, useRef } from "react";
 
-// utils
+// Estilos css
+import styles from "./Register.module.css";
+
+// Utils
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
 const Register = () => {

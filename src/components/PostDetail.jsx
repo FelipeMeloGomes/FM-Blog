@@ -1,7 +1,7 @@
 // React Router Dom
 import { Link } from "react-router-dom";
 
-// CSS
+// Estilos css
 import styles from "./PostDetail.module.css";
 
 // Components

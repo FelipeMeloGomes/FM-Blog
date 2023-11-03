@@ -1,13 +1,13 @@
-// CSS
+// Estilos css
 import styles from "./Post.module.css";
 
-// react router dom
+// React Router Dom
 import { useParams } from "react-router-dom";
 
-// hooks
+// Hooks
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 
-//components
+// Components
 import Spinner from "../../components/Spinner";
 
 const Post = () => {

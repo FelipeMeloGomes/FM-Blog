@@ -1,10 +1,10 @@
-// CSS
+// Estilos css
 import styles from "./Dashboard.module.css";
 
-// react router dom
+// React Router Dom
 import { Link } from "react-router-dom";
 
-// hooks
+// Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
