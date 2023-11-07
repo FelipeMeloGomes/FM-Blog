@@ -105,6 +105,7 @@ const NavBar = () => {
                 )}
             </ul>
             <button
+                alt="menu mobile"
                 className={styles.mobile_menu_icon}
                 onClick={() => setMobile(!Mobile)}
             >

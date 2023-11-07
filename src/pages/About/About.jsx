@@ -13,7 +13,7 @@ const About = () => {
             </p>
             <p>Desenvolvido Por Felipe Melo.</p>
 
-            <button className={styles.button}>
+            <button alt="Linkedim" className={styles.button}>
                 <a
                     href="https://www.linkedin.com/in/felipemelog/"
                     target="_blank"

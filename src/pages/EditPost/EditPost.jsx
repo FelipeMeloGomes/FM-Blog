@@ -95,6 +95,7 @@ const EditPost = () => {
                             <input
                                 type="text"
                                 name="title"
+                                alt="Pense num bom titulo"
                                 required
                                 className={styles.input__field}
                                 placeholder="Pense num bom título"
@@ -110,6 +111,7 @@ const EditPost = () => {
                                 className={styles.input__field}
                                 type="text"
                                 name="image"
+                                alt="Insira uma imagem"
                                 required
                                 onChange={(e) => setImage(e.target.value)}
                                 value={image}
@@ -123,6 +125,8 @@ const EditPost = () => {
                                     className={styles.image_preview}
                                     src={post.image}
                                     alt={post.title}
+                                    width="500px"
+                                    height="500px"
                                 />
                             </figure>
                         </div>
@@ -135,6 +139,7 @@ const EditPost = () => {
                                 placeholder="Insira o conteúdo do post"
                                 name="body"
                                 required
+                                alt="Insira o conteúdo do post"
                                 onChange={(e) => setBody(e.target.value)}
                                 value={body}
                             ></textarea>
@@ -146,6 +151,7 @@ const EditPost = () => {
                                 type="text"
                                 name="tags"
                                 placeholder="Insira as tags separadas por vírgula"
+                                alt="Insira as tags separadas por vírgula"
                                 required
                                 onChange={(e) => setTags(e.target.value)}
                                 value={tags}
@@ -154,13 +160,14 @@ const EditPost = () => {
                         <br />
                         {!response.loading && (
                             <button
+                                alt="Salvar"
                                 className={`${styles.button} ${styles.button__primary}`}
                             >
                                 Salvar
                             </button>
                         )}
                         {response.loading && (
-                            <button className="btn" disabled>
+                            <button alt="Aguarde" className="btn" disabled>
                                 Aguarde...
                             </button>
                         )}

@@ -34,6 +34,7 @@ const Home = () => {
                 <input
                     type="text"
                     placeholder="Busque por tags"
+                    alt="Busque por tags"
                     onChange={(e) => setQuery(e.target.value)}
                 />
                 <button className="btn btn-dark">Pesquisar</button>

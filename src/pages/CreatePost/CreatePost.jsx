@@ -70,6 +70,7 @@ const CreatePost = () => {
                         <input
                             type="text"
                             name="title"
+                            alt="Pense num bom título"
                             required
                             className={styles.input__field}
                             placeholder="Pense num bom título"
@@ -85,6 +86,7 @@ const CreatePost = () => {
                             className={styles.input__field}
                             type="text"
                             name="image"
+                            alt="Insira uma imagem"
                             required
                             onChange={(e) => setImage(e.target.value)}
                             value={image}
@@ -98,6 +100,7 @@ const CreatePost = () => {
                             placeholder="Insira o conteúdo do post"
                             name="body"
                             required
+                            alt="Insira o conteúdo do post"
                             onChange={(e) => setBody(e.target.value)}
                             value={body}
                         ></textarea>
@@ -108,6 +111,7 @@ const CreatePost = () => {
                             className={styles.input__field}
                             type="text"
                             name="tags"
+                            alt="Insira as tags separadas por vírgula"
                             placeholder="Insira as tags separadas por vírgula"
                             required
                             onChange={(e) => setTags(e.target.value)}
@@ -117,13 +121,14 @@ const CreatePost = () => {
                     <br />
                     {!response.loading && (
                         <button
+                            alt="Cadastrar"
                             className={`${styles.button} ${styles.button__primary}`}
                         >
                             Cadastrar
                         </button>
                     )}
                     {response.loading && (
-                        <button className="btn" disabled>
+                        <button alt="Aguarde" className="btn" disabled>
                             Aguarde...
                         </button>
                     )}

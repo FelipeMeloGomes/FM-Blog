@@ -69,6 +69,7 @@ const Login = () => {
                         type="email"
                         name="email"
                         value={email}
+                        alt="Insira seu email"
                         required
                         onChange={(e) => setEmail(e.target.value)}
                         className={styles.input}
@@ -95,6 +96,7 @@ const Login = () => {
                         required
                         className={styles.input}
                         placeholder="Insira sua senha"
+                        alt="Insira sua senha"
                         value={password}
                         ref={inputRef}
                         onChange={(e) => setPassword(e.target.value)}
@@ -111,9 +113,13 @@ const Login = () => {
                     </svg>
                 </div>
 
-                {!loading && <button className={styles.btn}>Entrar</button>}
+                {!loading && (
+                    <button alt="Entrar" className={styles.btn}>
+                        Entrar
+                    </button>
+                )}
                 {loading && (
-                    <button className={styles.btn} disabled>
+                    <button alt="Aguarde" className={styles.btn} disabled>
                         Aguarde...
                     </button>
                 )}

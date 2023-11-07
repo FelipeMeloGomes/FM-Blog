@@ -85,6 +85,7 @@ const Register = () => {
                     <input
                         type="text"
                         name="displayName"
+                        alt="Nome do usuário"
                         required
                         className={styles.input}
                         placeholder="Nome do usuário"
@@ -110,6 +111,7 @@ const Register = () => {
                         type="email"
                         name="email"
                         value={email}
+                        alt="Email do usuário"
                         required
                         onChange={(e) => setEmail(e.target.value)}
                         className={styles.input}
@@ -134,6 +136,7 @@ const Register = () => {
                         type="password"
                         name="password"
                         ref={inputRef1}
+                        alt="Insira sua senha"
                         required
                         className={styles.input}
                         placeholder="Insira sua senha"
@@ -171,6 +174,7 @@ const Register = () => {
                         ref={inputRef2}
                         className={styles.input}
                         placeholder="Confirme a  sua senha"
+                        alt="Confirme a sua senha"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
@@ -186,9 +190,13 @@ const Register = () => {
                     </svg>
                 </div>
 
-                {!loading && <button className={styles.btn}>Cadastrar</button>}
+                {!loading && (
+                    <button alt="Cadastrar" className={styles.btn}>
+                        Cadastrar
+                    </button>
+                )}
                 {loading && (
-                    <button className={styles.btn} disabled>
+                    <button alt="Aguarde" className={styles.btn} disabled>
                         Aguarde...
                     </button>
                 )}
