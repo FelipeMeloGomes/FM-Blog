@@ -31,7 +31,6 @@ const LazyImage = ({ src, alt }) => {
             ref={imageRef}
             src={imageSrc}
             alt={alt}
-            loading="lazy"
         />
     );
 };
