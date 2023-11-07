@@ -118,11 +118,13 @@ const EditPost = () => {
                             <p className={styles.input__label}>
                                 Preview da imagem atual:{" "}
                             </p>
-                            <img
-                                className={styles.image_preview}
-                                src={post.image}
-                                alt={post.title}
-                            />
+                            <figure>
+                                <img
+                                    className={styles.image_preview}
+                                    src={post.image}
+                                    alt={post.title}
+                                />
+                            </figure>
                         </div>
                         <div className={styles.input}>
                             <label className={styles.input__label}>

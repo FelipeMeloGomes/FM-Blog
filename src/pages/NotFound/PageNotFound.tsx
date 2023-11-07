@@ -18,11 +18,13 @@ const PageNotFound = () => {
                 <p>Página Não Encontrada Desculpe.</p>
             </div>
             <div className={styles.center}>
-                <img
-                    className={styles.container}
-                    src={notFound}
-                    alt="not found"
-                />
+                <figure>
+                    <img
+                        className={styles.container}
+                        src={notFound}
+                        alt="not found"
+                    />
+                </figure>
             </div>
             <Link to="/" className="btn btn-outline">
                 Retornar a Home

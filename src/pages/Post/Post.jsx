@@ -18,14 +18,14 @@ const Post = () => {
             {loading && <Spinner />}
             {post && (
                 <>
-                    <div className={styles.card__img}>
+                    <figure className={styles.card__img}>
                         <img
                             src={post.image}
                             alt={post.title}
                             loading="lazy"
                             className={styles.card__img}
                         />
-                    </div>
+                    </figure>
                     <div>
                         <p className={styles.createdby}>{post.createdBy}</p>
                     </div>
