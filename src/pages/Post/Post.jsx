@@ -24,6 +24,8 @@ const Post = () => {
                             alt={post.title}
                             loading="lazy"
                             className={styles.card__img}
+                            width="500px"
+                            height="500px"
                         />
                     </figure>
                     <div>

@@ -10,9 +10,14 @@ import LikeButton from "./LikeButton";
 const PostDetail = ({ post }) => {
     return (
         <div className={styles.post_detail}>
-            <div>
-                <img src={post.image} alt={post.title} />
-            </div>
+            <figure>
+                <img
+                    src={post.image}
+                    alt={post.title}
+                    width="500px"
+                    height="500px"
+                />
+            </figure>
             <h2>{post.title}</h2>
             <p className={styles.createdby}>{post.createdBy}</p>
             <div className={styles.tags}>
