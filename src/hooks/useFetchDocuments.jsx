@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../firebase/config";
 import {
     collection,
@@ -14,8 +14,8 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
     const [loading, setLoading] = useState(null);
     const [cancelled, setCancelled] = useState(false);
 
-    const loadData = useMemo(
-        () => async () => {
+    useEffect(() => {
+        const loadData = async () => {
             if (cancelled) {
                 return;
             }
@@ -43,40 +43,39 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                     q = query(collectionRef, orderBy("createdAt", "desc"));
                 }
 
-                const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                    setDocuments(
-                        querySnapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            ...doc.data(),
-                        }))
-                    );
+                const snapshot = await onSnapshot(q, (querySnapshot) => {
+                    const newDocuments = querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    setDocuments(newDocuments);
                     setLoading(false);
                 });
 
-                return unsubscribe;
-            } catch (error) {
-                console.log(error);
-                setError(error.message);
+                // Certifique-se de que a função snapshot é uma função antes de chamá-la.
+                if (typeof snapshot === "function") {
+                    return () => {
+                        setCancelled(true);
+                        snapshot();
+                    };
+                }
+            } catch (err) {
+                console.error(err);
+                setError(err.message);
                 setLoading(false);
             }
-        },
-        [docCollection, search, uid, cancelled]
-    );
+        };
 
-    useEffect(() => {
-        let unsubscribe = null;
-
-        if (!cancelled) {
-            unsubscribe = loadData();
-        }
+        const unsubscribe = loadData();
 
         return () => {
             setCancelled(true);
-            if (unsubscribe && typeof unsubscribe === "function") {
+            // Certifique-se de que a função unsubscribe é uma função antes de chamá-la.
+            if (typeof unsubscribe === "function") {
                 unsubscribe();
             }
         };
-    }, [loadData, cancelled]);
+    }, [docCollection, search, uid, cancelled]);
 
     return { documents, loading, error };
 };
