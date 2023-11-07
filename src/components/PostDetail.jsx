@@ -16,6 +16,7 @@ const PostDetail = ({ post }) => {
                     alt={post.title}
                     width="500px"
                     height="500px"
+                    loading="lazy"
                 />
             </figure>
             <h2>{post.title}</h2>
