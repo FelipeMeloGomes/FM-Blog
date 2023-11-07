@@ -24,7 +24,16 @@ const LazyImage = ({ src, alt }) => {
         };
     }, [src]);
 
-    return <img ref={imageRef} src={imageSrc} alt={alt} />;
+    return (
+        <img
+            width="500px"
+            height="500px"
+            ref={imageRef}
+            src={imageSrc}
+            alt={alt}
+            loading="lazy"
+        />
+    );
 };
 
 const PostDetail = ({ post }) => {
