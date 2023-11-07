@@ -29,7 +29,6 @@ const PageNotFound = () => {
             <Link to="/" className="btn btn-outline">
                 Retornar a Home
             </Link>
-            <br />
         </div>
     );
 };
