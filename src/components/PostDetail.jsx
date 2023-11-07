@@ -1,23 +1,37 @@
-// React Router Dom
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-// Estilos css
 import styles from "./PostDetail.module.css";
-
-// Components
 import LikeButton from "./LikeButton";
+
+const LazyImage = ({ src, alt }) => {
+    const imageRef = useRef(null);
+    const [imageSrc, setImageSrc] = useState(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setImageSrc(src);
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(imageRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [src]);
+
+    return <img ref={imageRef} src={imageSrc} alt={alt} />;
+};
 
 const PostDetail = ({ post }) => {
     return (
         <div className={styles.post_detail}>
             <figure>
-                <img
-                    src={post.image}
-                    alt={post.title}
-                    width="500px"
-                    height="500px"
-                    loading="lazy"
-                />
+                <LazyImage src={post.image} alt={post.title} />
             </figure>
             <h2>{post.title}</h2>
             <p className={styles.createdby}>{post.createdBy}</p>
