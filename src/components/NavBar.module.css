@@ -1,11 +1,20 @@
 .navbar {
     display: flex;
     box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
-    justify-content: center;
+    justify-content: space-between;
+    transition: all 0.5s ease-in-out;
     align-items: center;
-    padding: 1.5em;
+    padding: 1.5em 2em;
 }
 
+.brand {
+    font-size: 1.2em;
+}
+
+.brand span {
+    font-weight: 900;
+    text-transform: uppercase;
+}
 .nav_links {
     display: flex;
     list-style: none;
@@ -34,22 +43,22 @@
     .nav_links_mobile {
         position: absolute;
         display: flex;
-        align-items: center;
         justify-content: center;
+        text-align: center;
         flex-direction: column;
-        list-style: none;
         box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
         top: 10%;
         transition: all 0.5s ease-in-out;
         width: 100%;
+        height: 90%;
+        right: 0;
         background-color: #fff;
-        text-align: center;
         z-index: 1;
     }
+
     ul li {
-        padding: 3em;
+        padding: 2.5em;
         transition: all 0.5s ease-in-out;
-        text-align: center;
     }
     .mobile_menu_icon {
         position: absolute;
@@ -57,13 +66,17 @@
         right: 1.25rem;
         top: 0.9375rem;
         font-size: 20px;
+        transition: all 0.5s ease-in-out;
         z-index: 1;
     }
+
     .navbar {
-        box-shadow: none;
-        padding: 0;
+        padding: 1.5em 2em;
+        transition: all 0.5s ease-in-out;
     }
+
     .nav_links {
         display: none;
+        transition: all 0.5s ease-in-out;
     }
 }

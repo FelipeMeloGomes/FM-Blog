@@ -20,6 +20,9 @@ const NavBar = () => {
 
     return (
         <nav className={styles.navbar}>
+            <NavLink className={styles.brand} to="/">
+                FM <span>Blog</span>
+            </NavLink>
             <ul
                 className={Mobile ? styles.nav_links_mobile : styles.nav_links}
                 onClick={() => setMobile(false)}
