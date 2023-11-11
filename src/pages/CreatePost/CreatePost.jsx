@@ -7,48 +7,53 @@ import { useNavigate } from "react-router-dom";
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import { useState } from "react";
+import { useRef } from "react";
 
 const CreatePost = () => {
-    const [title, setTitle] = useState("");
-    const [image, setImage] = useState("");
-    const [body, setBody] = useState("");
-    const [tags, setTags] = useState([]);
-    const [formError, setFormError] = useState("");
+    const titleRef = useRef(null);
+    const imageRef = useRef(null);
+    const bodyRef = useRef(null);
+    const tagsRef = useRef(null);
 
     const { user } = useAuthValue();
-
     const { insertDocument, response } = useInsertDocument("posts");
-
     const navigate = useNavigate();
+
+    let formError = "";
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setFormError("");
+        formError = "";
 
         // valida image url
         try {
-            new URL(image);
+            new URL(imageRef.current.value);
         } catch (error) {
-            setFormError("A imagem precisa ser uma URL.");
+            formError = "A imagem precisa ser uma URL.";
+            return;
         }
 
         // criar o array de tags
-        const tagsArray = tags
+        const tagsArray = tagsRef.current.value
             .split(",")
             .map((tag) => tag.trim().toLowerCase());
 
         // checar todos os valores
-        if (!title || !image || !tags || !body) {
-            setFormError("Por Favor, preencha todos os campos!");
+        if (
+            !titleRef.current.value ||
+            !imageRef.current.value ||
+            !tagsRef.current.value ||
+            !bodyRef.current.value
+        ) {
+            formError = "Por Favor, preencha todos os campos!";
+            return;
         }
 
-        if (formError) return;
-
+        // Inserir o documento correto no form
         insertDocument({
-            title,
-            image,
-            body,
+            title: titleRef.current.value,
+            image: imageRef.current.value,
+            body: bodyRef.current.value,
             tagsArray,
             uid: user.uid,
             createdBy: user.displayName,
@@ -58,11 +63,21 @@ const CreatePost = () => {
         navigate("/");
     };
 
+    const loadingButton = (
+        <button alt="Aguarde" className="btn" disabled>
+            Aguarde...
+        </button>
+    );
+
+    const errorParagraph = (errorMessage) => (
+        <p className="error">{errorMessage}</p>
+    );
+
     return (
         <div className={styles.container}>
             <div className={styles.modal}>
                 <div className={styles.modal__header}>
-                    <span className={styles.modal__title}>Novo Post</span>
+                    <h2 className={styles.modal__title}>Novo Post</h2>
                 </div>
                 <form className={styles.modal__body} onSubmit={handleSubmit}>
                     <div className={styles.input}>
@@ -74,8 +89,7 @@ const CreatePost = () => {
                             required
                             className={styles.input__field}
                             placeholder="Pense num bom título"
-                            onChange={(e) => setTitle(e.target.value)}
-                            value={title}
+                            ref={titleRef}
                         />
                     </div>
                     <div className={styles.input}>
@@ -88,8 +102,7 @@ const CreatePost = () => {
                             name="image"
                             alt="Insira uma imagem"
                             required
-                            onChange={(e) => setImage(e.target.value)}
-                            value={image}
+                            ref={imageRef}
                             placeholder="Insira uma imagem"
                         />
                     </div>
@@ -101,8 +114,7 @@ const CreatePost = () => {
                             name="body"
                             required
                             alt="Insira o conteúdo do post"
-                            onChange={(e) => setBody(e.target.value)}
-                            value={body}
+                            ref={bodyRef}
                         ></textarea>
                     </div>
                     <div className={styles.input}>
@@ -114,8 +126,7 @@ const CreatePost = () => {
                             alt="Insira as tags separadas por vírgula"
                             placeholder="Insira as tags separadas por vírgula"
                             required
-                            onChange={(e) => setTags(e.target.value)}
-                            value={tags}
+                            ref={tagsRef}
                         />
                     </div>
                     <br />
@@ -127,15 +138,9 @@ const CreatePost = () => {
                             Cadastrar
                         </button>
                     )}
-                    {response.loading && (
-                        <button alt="Aguarde" className="btn" disabled>
-                            Aguarde...
-                        </button>
-                    )}
-                    {response.error && (
-                        <p className="error">{response.error}</p>
-                    )}
-                    {formError && <p className="error">{formError}</p>}
+                    {response.loading && loadingButton}
+                    {response.error && errorParagraph(response.error)}
+                    {formError && errorParagraph(formError)}
                 </form>
             </div>
         </div>
