@@ -109,7 +109,8 @@ const NavBar = () => {
             </ul>
             <button
                 alt="menu mobile"
-                role="button"
+                role="menu mobile"
+                aria-label="menu mobile"
                 className={styles.mobile_menu_icon}
                 onClick={() => setMobile(!Mobile)}
             >
