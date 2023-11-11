@@ -11,7 +11,11 @@ function LikeButton() {
         setLikeCount(likeCount + 1);
     };
     return (
-        <button alt="LikeButton" className={styles.Btn} onClick={handleLikeClick}>
+        <button
+            alt="LikeButton"
+            className={styles.Btn}
+            onClick={handleLikeClick}
+        >
             <span className={styles.leftContainer}>
                 <svg
                     fill="white"
