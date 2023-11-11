@@ -5,7 +5,7 @@ import { memo } from "react";
 import styles from "./PageNotFound.module.css";
 
 // Img
-import notFound from "../NotFound/Erro.png";
+import NotFoundImg from "../NotFound/NotFoundImg.webp";
 
 // React Router Dom
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ const PageNotFound = () => {
                 <figure>
                     <img
                         className={styles.container}
-                        src={notFound}
+                        src={NotFoundImg}
                         alt="not found"
                     />
                 </figure>
