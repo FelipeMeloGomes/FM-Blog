@@ -117,12 +117,12 @@ const EditPost = () => {
                                 value={image}
                                 placeholder="Insira uma imagem"
                             />
-                            <p className={styles.input__label}>
+                            <label className={styles.input__label}>
+                                <br />
                                 Preview da imagem atual:{" "}
-                            </p>
+                            </label>
                             <figure>
                                 <img
-                                    className={styles.image_preview}
                                     src={post.image}
                                     alt={post.title}
                                     width="500px"
