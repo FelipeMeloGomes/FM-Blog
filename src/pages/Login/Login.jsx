@@ -114,7 +114,11 @@ const Login = () => {
                 </div>
 
                 {!loading && (
-                    <button alt="Entrar" className={styles.btn}>
+                    <button
+                        alt="Entrar"
+                        disabled={email === "" || password.length < 6}
+                        className={styles.btn}
+                    >
                         Entrar
                     </button>
                 )}
