@@ -53,8 +53,7 @@
     text-align: left;
 }
 
-.post_row button,
-.post_row a {
+.post_row :is(button, a) {
     width: 150px;
     height: 40px;
     font-size: 0.7em;

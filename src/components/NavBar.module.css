@@ -41,7 +41,7 @@
 /*  Mobile */
 @media (max-width: 600px) {
     .nav_links_mobile {
-        position: absolute;
+        position: fixed;
         display: flex;
         justify-content: center;
         text-align: center;
