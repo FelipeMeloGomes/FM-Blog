@@ -11,7 +11,10 @@ import { useState, useEffect, useRef } from "react";
 // Utils
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
-const Login = () => {
+// components
+import TitleParagraph from "../../components/TitleParagraph";
+
+const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -45,8 +48,10 @@ const Login = () => {
     }, [authError]);
     return (
         <div className={styles.login}>
-            <h1>Entrar </h1>
-            <p>Faça o login para utilizar o sistema</p>
+            <TitleParagraph
+                title="Entrar"
+                paragraph="Faça login para utilizar o sistema!"
+            />
             <form
                 onSubmit={handleSubmit}
                 className={`${styles.form} ${styles.formEdit}`}

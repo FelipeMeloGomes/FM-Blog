@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 // Components
 import PostDetail from "../../components/PostDetail";
+import TitleParagraph from "./../../components/TitleParagraph";
 
 const Search = () => {
     const query = useQuery();
@@ -18,8 +19,8 @@ const Search = () => {
     const { documents: posts } = useFetchDocuments("posts", search);
     return (
         <div className={styles.search_container}>
-            <h2>Procurar</h2>
-            <div>
+            <TitleParagraph title="Procurar" />
+            <div className={styles.container_found}>
                 {posts && posts.length == 0 && (
                     <div className={styles.noposts}>
                         <p>

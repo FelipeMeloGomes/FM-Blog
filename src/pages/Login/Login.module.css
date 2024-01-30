@@ -2,17 +2,6 @@
     height: 100vh;
 }
 
-.login h1 {
-    text-align: center;
-    padding: 1em;
-}
-
-.login p {
-    color: #aaa;
-    margin-bottom: 1em;
-    text-align: center;
-}
-
 .form {
     display: flex;
     flex-direction: column;

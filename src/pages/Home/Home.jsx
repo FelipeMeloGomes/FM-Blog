@@ -11,6 +11,7 @@ import { useNavigate, Link } from "react-router-dom";
 // Components
 import PostDetail from "../../components/PostDetail";
 import Spinner from "../../components/Spinner";
+import TitleParagraph from "./../../components/TitleParagraph";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
@@ -29,7 +30,7 @@ const Home = () => {
 
     return (
         <div className={styles.home}>
-            <h1 className={styles.title}>Veja os nossos posts mais recentes</h1>
+            <TitleParagraph title="Veja os nossos posts mais recentes" />
             <form className={styles.search_form} onSubmit={handleSubmit}>
                 <input
                     type="text"

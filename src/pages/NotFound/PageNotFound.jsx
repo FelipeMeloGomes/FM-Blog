@@ -9,14 +9,15 @@ import NotFoundImg from "../NotFound/NotFoundImg.webp";
 
 // React Router Dom
 import { Link } from "react-router-dom";
+import TitleParagraph from "./../../components/TitleParagraph";
 
 const PageNotFound = () => {
     return (
         <div className={styles.erro_page}>
-            <div className={styles.typograph}>
-                <h1>404</h1>
-                <p>Página Não Encontrada Desculpe.</p>
-            </div>
+            <TitleParagraph
+                title="404"
+                paragraph="Página Não Encontrada Desculpe."
+            />
             <div className={styles.center}>
                 <figure>
                     <img

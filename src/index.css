@@ -130,6 +130,7 @@ textarea::placeholder {
 
 button[disabled] {
     background-color: #aaa;
+    cursor: not-allowed;
 }
 
 /* Estilos erros */
@@ -154,5 +155,4 @@ button[disabled] {
 /* Container app */
 .container {
     height: 100vh;
-    max-height: 100%;
 }

@@ -4,16 +4,6 @@
     padding: 1.5em;
 }
 
-.typograph h1 {
-    font-size: 2.5em;
-    font-weight: 600;
-}
-
-.typograph p {
-    font-size: 1.5em;
-    font-weight: 300;
-}
-
 .center {
     display: flex;
     justify-content: center;

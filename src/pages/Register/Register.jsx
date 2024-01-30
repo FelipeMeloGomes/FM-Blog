@@ -8,6 +8,9 @@ import styles from "./Register.module.css";
 // Utils
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
+// components
+import TitleParagraph from "../../components/TitleParagraph";
+
 const Register = () => {
     const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
@@ -62,8 +65,10 @@ const Register = () => {
 
     return (
         <div className={styles.register}>
-            <h1>Cadastre-se para postar</h1>
-            <p>Crie o seu usuário e compartilhe suas histórias</p>
+            <TitleParagraph
+                title="Cadastre-se para postar"
+                paragraph="Crie o seu usuário e compartilhe suas histórias"
+            />
             <form
                 onSubmit={handleSubmit}
                 className={`${styles.form} ${styles.formEdit}`}

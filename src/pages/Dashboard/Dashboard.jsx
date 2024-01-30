@@ -9,6 +9,9 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 
+// components
+import TitleParagraph from "./../../components/TitleParagraph";
+
 const Dashboard = () => {
     const { user } = useAuthValue();
     const uid = user.uid;
@@ -23,8 +26,10 @@ const Dashboard = () => {
     }
     return (
         <div className={styles.dashboard}>
-            <h2>Dashboard</h2>
-            <p>Gerencie os seus posts</p>
+            <TitleParagraph
+                title="Dashboard"
+                paragraph="Gerencie os seus posts"
+            />
             {posts && posts.length === 0 ? (
                 <div className={styles.noposts}>
                     <p>Não foram encontrados posts</p>

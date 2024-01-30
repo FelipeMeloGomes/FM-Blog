@@ -14,6 +14,7 @@ import { AuthProvider } from "./context/AuthContext";
 // Components
 import NavBar from "./components/NavBar";
 import Spinner from "./components/Spinner";
+import Footer from "./components/Footer";
 
 // Pages
 import Home from "./pages/Home/Home";
@@ -26,7 +27,7 @@ import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
 import PageNotFound from "./pages/NotFound/PageNotFound";
-import Footer from "./components/Footer";
+
 
 function App() {
     const [user, setUser] = useState(undefined);

@@ -6,21 +6,16 @@
     height: 100%;
 }
 
-.about p {
-    color: #aaa;
-    margin-bottom: 1em;
-    font-size: 1em;
-    width: 50%;
-}
-
-.about h2 {
-    padding: 1.5em;
-}
-
 .about a {
     display: block;
     margin-top: 15px;
     padding: 10px 15px;
+}
+
+.containerBtn {
+    margin-top: 1em;
+    display: flex;
+    gap: 2em;
 }
 
 .button {
@@ -49,6 +44,6 @@
 }
 
 .icon:hover {
-    transform: scale(8);
+    transform: scale(6);
     filter: drop-shadow(1px 2px 4px rgba(0, 0, 0, 0.9));
 }
