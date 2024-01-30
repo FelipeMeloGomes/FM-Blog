@@ -8,6 +8,10 @@
     font-family: "Montserrat", sans-serif;
 }
 
+ul li {
+    list-style: none;
+}
+
 body,
 html {
     background-color: #fafafa;
@@ -150,5 +154,5 @@ button[disabled] {
 /* Container app */
 .container {
     height: 100vh;
-    margin-bottom: 5em;
+    max-height: 100%;
 }

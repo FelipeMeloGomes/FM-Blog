@@ -2,7 +2,6 @@
     display: flex;
     box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
     justify-content: space-between;
-    transition: all 0.5s ease-in-out;
     align-items: center;
     padding: 1.5em 2em;
 }
@@ -47,18 +46,22 @@
         text-align: center;
         flex-direction: column;
         box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
-        top: 10%;
-        transition: all 0.5s ease-in-out;
-        width: 100%;
+        top: 8%;
+        width: 100vw;
         height: 90%;
         right: 0;
-        background-color: #fff;
+        background-color: #fafafafa;
+        border-radius: 4px;
         z-index: 1;
     }
 
     ul li {
+        margin: 0;
         padding: 2.5em;
-        transition: all 0.5s ease-in-out;
+    }
+
+    ul li a {
+        padding: 0.4em 0.6em;
     }
     .mobile_menu_icon {
         position: absolute;
@@ -66,17 +69,14 @@
         right: 1.25rem;
         top: 0.9375rem;
         font-size: 20px;
-        transition: all 0.5s ease-in-out;
         z-index: 1;
     }
 
     .navbar {
         padding: 1.5em 2em;
-        transition: all 0.5s ease-in-out;
     }
 
     .nav_links {
         display: none;
-        transition: all 0.5s ease-in-out;
     }
 }

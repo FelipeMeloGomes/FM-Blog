@@ -191,7 +191,11 @@ const Register = () => {
                 </div>
 
                 {!loading && (
-                    <button alt="Cadastrar" disabled={email === "" || password.length < 6} className={styles.btn}>
+                    <button
+                        alt="Cadastrar"
+                        disabled={email === "" || password.length < 6}
+                        className={styles.btn}
+                    >
                         Cadastrar
                     </button>
                 )}

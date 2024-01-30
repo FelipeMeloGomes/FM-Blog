@@ -1,5 +1,10 @@
 .register {
     text-align: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .register p {
@@ -35,8 +40,13 @@
 
 /* responsivo form */
 @media (max-width: 540px) {
+    .register h1 {
+        padding: 0.1em;
+    }
     .form {
         max-width: 90%;
+        padding: 20px;
+        gap: 4px;
     }
     .formEdit {
         margin: 0 auto;

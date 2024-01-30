@@ -1,3 +1,12 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    line-height: normal;
+}
+
 .button {
     appearance: none;
     font: inherit;
@@ -10,15 +19,6 @@
     margin: 0 auto;
     width: 100%;
     padding-bottom: 1em;
-}
-
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 1.5rem;
-    line-height: normal;
 }
 
 .modal {
