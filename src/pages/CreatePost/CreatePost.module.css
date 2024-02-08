@@ -24,7 +24,7 @@
 .modal {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 500px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
     border-radius: 20px;
