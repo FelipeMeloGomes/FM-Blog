@@ -2,7 +2,7 @@
 import styles from "./About.module.css";
 
 // components
-import TitleParagraph from "./../../components/TitleParagraph";
+import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
 const About = () => {
     return (

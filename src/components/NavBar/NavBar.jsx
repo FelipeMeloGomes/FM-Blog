@@ -2,8 +2,8 @@
 import { NavLink } from "react-router-dom";
 
 // Hooks
-import { useAuthentication } from "../hooks/useAuthentication";
-import { useAuthValue } from "../context/AuthContext";
+import { useAuthentication } from "../../hooks/useAuthentication";
+import { useAuthValue } from "../../context/AuthContext";
 import { useState } from "react";
 
 // Estilos css

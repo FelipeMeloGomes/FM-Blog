@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styles from "./PostDetail.module.css";
 
 // Components
-import LikeButton from "./LikeButton";
+import LikeButton from "../LikeButton/LikeButton";
 
 const PostDetail = ({ post }) => {
     return (

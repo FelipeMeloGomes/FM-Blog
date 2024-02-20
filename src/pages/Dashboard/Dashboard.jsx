@@ -10,7 +10,7 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 
 // components
-import TitleParagraph from "./../../components/TitleParagraph";
+import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
 const Dashboard = () => {
     const { user } = useAuthValue();

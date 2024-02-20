@@ -9,7 +9,7 @@ import NotFoundImg from "../NotFound/NotFoundImg.webp";
 
 // React Router Dom
 import { Link } from "react-router-dom";
-import TitleParagraph from "./../../components/TitleParagraph";
+import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
 const PageNotFound = () => {
     return (

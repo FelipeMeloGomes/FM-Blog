@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 
 // Components
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner/Spinner";
 
 const Post = () => {
     const { id } = useParams();

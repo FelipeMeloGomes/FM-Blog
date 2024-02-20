@@ -9,8 +9,8 @@ import { useQuery } from "../../hooks/useQuery";
 import { Link } from "react-router-dom";
 
 // Components
-import PostDetail from "../../components/PostDetail";
-import TitleParagraph from "./../../components/TitleParagraph";
+import PostDetail from "../../components/PostDetail/PostDetail";
+import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
 const Search = () => {
     const query = useQuery();
