@@ -151,8 +151,3 @@ button[disabled] {
     cursor: pointer;
     margin-right: 1em;
 }
-
-/* Container app */
-.container {
-    height: 100vh;
-}

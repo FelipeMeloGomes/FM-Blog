@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // components
 import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
 const Register = () => {
     const { createUser, error: authError } = useAuthentication();
@@ -36,13 +37,13 @@ const Register = () => {
     }, [authError]);
 
     return (
-        <div style={{ height: "100vh" }}>
+        <LayoutPage>
             <TitleParagraph
                 title="Cadastre-se para postar"
                 paragraph="Crie o seu usuário e compartilhe suas histórias"
             />
             <LoginForm onSubmit={handleSubmit} isLogin={false} />
-        </div>
+        </LayoutPage>
     );
 };
 

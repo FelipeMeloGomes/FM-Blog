@@ -15,6 +15,7 @@ import { AuthProvider } from "./context/AuthContext";
 import NavBar from "./components/NavBar/NavBar";
 import Spinner from "./components/Spinner/Spinner";
 import Footer from "./components/Footer/Footer";
+import LayoutPage from "./components/LayoutPage/LayoutPage";
 
 // Pages
 import Home from "./pages/Home/Home";
@@ -27,7 +28,6 @@ import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
 import PageNotFound from "./pages/NotFound/PageNotFound";
-
 
 function App() {
     const [user, setUser] = useState(undefined);
@@ -50,7 +50,7 @@ function App() {
             <AuthProvider value={{ user }}>
                 <BrowserRouter>
                     <NavBar />
-                    <div className="container">
+                    <LayoutPage>
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="*" element={<PageNotFound />} />
@@ -96,8 +96,8 @@ function App() {
                                 }
                             />
                         </Routes>
-                        <Footer/>
-                    </div>
+                        <Footer />
+                    </LayoutPage>
                 </BrowserRouter>
             </AuthProvider>
         </div>

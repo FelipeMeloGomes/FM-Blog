@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // components
 import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import LayoutPage from "../../components/LayoutPage/LayoutPage";
 
 const Login = (props) => {
     const { login, error: authError } = useAuthentication();
@@ -28,13 +29,13 @@ const Login = (props) => {
         }
     }, [authError]);
     return (
-        <div style={{ height: "100vh" }}>
+        <LayoutPage>
             <TitleParagraph
                 title="Entrar"
                 paragraph="Faça login para utilizar o sistema!"
             />
             <LoginForm onSubmit={handleSubmit} isLogin={true} />
-        </div>
+        </LayoutPage>
     );
 };
 

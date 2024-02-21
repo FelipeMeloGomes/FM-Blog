@@ -3,10 +3,11 @@ import styles from "./About.module.css";
 
 // components
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
 const About = () => {
     return (
-        <div className={styles.about}>
+        <LayoutPage>
             <TitleParagraph
                 title="Sobre o FM Blog"
                 paragraph="Este projeto consiste em um blog feito com React, salvando os dados no Firebase."
@@ -51,7 +52,7 @@ const About = () => {
                     </a>
                 </button>
             </div>
-        </div>
+        </LayoutPage>
     );
 };
 

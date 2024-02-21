@@ -10,10 +10,11 @@ import NotFoundImg from "../NotFound/NotFoundImg.webp";
 // React Router Dom
 import { Link } from "react-router-dom";
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+import LayoutPage from './../../components/LayoutPage/LayoutPage';
 
 const PageNotFound = () => {
     return (
-        <div className={styles.erro_page}>
+        <LayoutPage>
             <TitleParagraph
                 title="404"
                 paragraph="Página Não Encontrada Desculpe."
@@ -30,7 +31,7 @@ const PageNotFound = () => {
             <Link to="/" className="btn btn-outline">
                 Retornar a Home
             </Link>
-        </div>
+        </LayoutPage>
     );
 };
 
