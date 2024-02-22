@@ -7,27 +7,17 @@ import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
-const Register = () => {
+const Register = (props) => {
     const { createUser, error: authError } = useAuthentication();
     const [error, setError] = useState("");
 
     const handleSubmit = async (formData) => {
-        e.preventDefault();
-
-        setError("");
-
-        const user = {
-            displayName: formData.displayName,
-            email: formData.email,
-            password: formData.password,
-        };
-
-        if (formData.password !== formData.confirmPassword) {
-            setError("As senhas precisam ser iguais");
-            return;
+        try {
+            setError("");
+            await createUser(formData);
+        } catch (error) {
+            console.error("Erro:", error);
         }
-
-        const res = await createUser(user);
     };
 
     useEffect(() => {
