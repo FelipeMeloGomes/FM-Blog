@@ -46,6 +46,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   Hooks.
 -   useState.
 -   useEffect.
+-   SEO.
+-   Semântica do HTML5.
 
 ## ✔ Atualizações
 
@@ -59,3 +61,4 @@ Melhorias implementadas:
 -   Novas telas de login e cadastro.
 -   Implementação toggle button no icon de senha.
 -   Novo botão de Like adicionado.
+-   Novo componente para as telas de login e cadastro.
