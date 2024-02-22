@@ -1,11 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+/* vars */
+:root {
+    --font-family: "Montserrat", sans-serif;
+    --primary-color: #1a8918;
+    --secondary-color: #000;
+    --text-color: #000;
+    --placeholder-color: #aaa;
+    --link-hover-color: #bbb;
+    --button-hover-color: #0f730c;
+    --button-disabled-color: #aaa;
+    --error-text-color: #721c24;
+    --error-background-color: #f8d7da;
+    --border-color: #ccc;
+}
 
-/* Formatacoes padroes */
+/* reset css */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Montserrat", sans-serif;
+    font-family: var(--font-family);
 }
 
 ul li {
@@ -23,7 +36,7 @@ html {
 input::placeholder,
 textarea::placeholder {
     font-size: 14px;
-    color: #fff;
+    color: var(--placeholder-color);
 }
 
 p,
@@ -38,12 +51,13 @@ input:focus,
 textarea:focus {
     outline: none;
 }
+
 a,
 nav button {
     text-decoration: none;
     background-color: transparent;
     border: none;
-    color: #000;
+    color: var(--text-color);
     transition: 0.4s;
     font-size: 1em;
     cursor: pointer;
@@ -51,7 +65,7 @@ nav button {
 
 a:hover,
 nav button:hover {
-    color: #bbb;
+    color: var(--link-hover-color);
 }
 
 label {
@@ -78,19 +92,19 @@ img {
 input,
 textarea {
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     padding: 0.8em 0em;
     background-color: transparent;
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: #aaa;
+    color: var(--placeholder-color);
 }
 
-/* Botoes */
+/* Botões */
 .btn {
-    background-color: #1a8918;
+    background-color: var(--primary-color);
     color: #fff;
     text-align: center;
     cursor: pointer;
@@ -103,25 +117,25 @@ textarea::placeholder {
 }
 
 .btn.btn-dark {
-    background-color: #000;
+    background-color: var(--secondary-color);
     border-radius: 0;
 }
 
 .btn.btn-outline {
     background-color: transparent;
     border-radius: 0;
-    color: #000;
-    border: 1px solid #000;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
     padding: 7px 30px;
 }
 
 .btn:hover {
-    background-color: #0f730c;
+    background-color: var(--button-hover-color);
     color: #fff;
 }
 
 .btn.btn-outline:hover {
-    background-color: #000;
+    background-color: var(--secondary-color);
 }
 
 .btn.btn-danger:hover {
@@ -129,20 +143,20 @@ textarea::placeholder {
 }
 
 button[disabled] {
-    background-color: #aaa;
+    background-color: var(--button-disabled-color);
     cursor: not-allowed;
 }
 
-/* Estilos erros */
-.container .error {
-    color: #721c24;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
+/* errors */
+.error {
+    color: var(--error-text-color);
+    background-color: var(--error-background-color);
+    border: 1px solid var(--error-text-color);
     padding: 5px;
     border-radius: 5px;
 }
 
-/* Outras regras e classes */
+/* other classes */
 .post-list {
     margin: 2em;
 }
