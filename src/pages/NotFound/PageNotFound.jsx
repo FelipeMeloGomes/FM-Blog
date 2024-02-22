@@ -4,13 +4,15 @@ import { memo } from "react";
 // Estilos css
 import styles from "./PageNotFound.module.css";
 
+// Components
+import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+import LayoutPage from "./../../components/LayoutPage/LayoutPage";
+
 // Img
 import NotFoundImg from "../NotFound/NotFoundImg.webp";
 
 // React Router Dom
 import { Link } from "react-router-dom";
-import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
-import LayoutPage from './../../components/LayoutPage/LayoutPage';
 
 const PageNotFound = () => {
     return (
