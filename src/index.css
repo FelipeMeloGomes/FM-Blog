@@ -11,6 +11,8 @@
     --error-text-color: #721c24;
     --error-background-color: #f8d7da;
     --border-color: #ccc;
+    --layout-page-height: 100vh;
+    --layout-page-min-height: 100vh;
 }
 
 /* reset css */
