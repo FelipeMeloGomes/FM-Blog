@@ -13,7 +13,7 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 // Utils
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
-const LoginForm = ({ isLogin, onSubmit }) => {
+const LoginForm = ({ isLogin = false, onSubmit }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -37,20 +37,32 @@ const LoginForm = ({ isLogin, onSubmit }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // clear state
         setError("");
 
+        // Validate password
         if (!isLogin && password !== confirmPassword) {
             setError("As senhas precisam ser iguais");
             return;
         }
 
-        const formData = {
-            email,
-            password,
-            ...(isLogin ? {} : { confirmPassword }),
-        };
-        const res = await (isLogin ? login(formData) : createUser(formData));
-        onSubmit(formData);
+        try {
+            // object formData
+            const formData = { email, password };
+            if (!isLogin) formData.confirmPassword = confirmPassword;
+
+            // send date validate
+            const res = await (isLogin
+                ? login(formData)
+                : createUser(formData));
+
+            // send submit function
+            onSubmit(formData);
+        } catch (error) {
+            // error state tratament
+            setError(error.message);
+        }
     };
 
     useEffect(() => {
