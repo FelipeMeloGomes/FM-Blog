@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 // Components
 import PostDetail from "../../components/PostDetail/PostDetail";
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
-import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
 const Search = () => {
     const query = useQuery();
@@ -19,29 +18,26 @@ const Search = () => {
 
     const { documents: posts } = useFetchDocuments("posts", search);
     return (
-        <LayoutPage>
-            <div className={styles.search_container}>
-                <TitleParagraph title="Procurar" />
-                <div className={styles.container_found}>
-                    {posts && posts.length == 0 && (
-                        <div className={styles.noposts}>
-                            <p>
-                                Não foram encontrados posts a partir da sua
-                                busca...
-                            </p>
+        <div className={styles.search_container}>
+            <TitleParagraph title="Procurar" />
+            <div className={styles.container_found}>
+                {posts && posts.length == 0 && (
+                    <div className={styles.noposts}>
+                        <p>
+                            Não foram encontrados posts a partir da sua busca...
+                        </p>
 
-                            <Link to="/" className="btn btn-dark">
-                                Voltar
-                            </Link>
-                        </div>
-                    )}
-                    {posts &&
-                        posts.map((post) => (
-                            <PostDetail key={post.id} post={post} />
-                        ))}
-                </div>
+                        <Link to="/" className="btn btn-dark">
+                            Voltar
+                        </Link>
+                    </div>
+                )}
+                {posts &&
+                    posts.map((post) => (
+                        <PostDetail key={post.id} post={post} />
+                    ))}
             </div>
-        </LayoutPage>
+        </div>
     );
 };
 
