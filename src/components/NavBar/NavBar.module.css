@@ -38,7 +38,7 @@
 }
 
 /*  Mobile */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .nav_links_mobile {
         position: fixed;
         display: flex;
