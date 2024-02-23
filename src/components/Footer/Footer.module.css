@@ -1,7 +1,5 @@
 .container__footer {
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .footer {
@@ -14,6 +12,5 @@
     padding: 1.5em 2em;
     margin: 0;
     font-size: 1em;
-    margin-top: 2em;
     font-weight: 500;
 }
