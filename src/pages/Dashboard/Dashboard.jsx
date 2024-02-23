@@ -11,7 +11,6 @@ import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 
 // components
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
-import Spinner from "../../components/Spinner/Spinner";
 
 const Dashboard = () => {
     const { user } = useAuthValue();
@@ -23,7 +22,7 @@ const Dashboard = () => {
     const { deleteDocument } = useDeleteDocument("posts");
 
     if (loading) {
-        return <Spinner />;
+        return;
     }
     return (
         <div className={styles.dashboard}>
