@@ -28,6 +28,7 @@ import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
 import PageNotFound from "./pages/NotFound/PageNotFound";
+import Weather from "./pages/Weather/Weather";
 
 function App() {
     const [user, setUser] = useState(undefined);
@@ -90,6 +91,16 @@ function App() {
                                 element={
                                     user ? (
                                         <Dashboard />
+                                    ) : (
+                                        <Navigate to="/login" />
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/weather"
+                                element={
+                                    user ? (
+                                        <Weather />
                                     ) : (
                                         <Navigate to="/login" />
                                     )

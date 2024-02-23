@@ -88,8 +88,20 @@ const NavBar = () => {
                                 Dashboard
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink
+                                to="/weather"
+                                end
+                                className={({ isActive }) =>
+                                    isActive ? styles.active : ""
+                                }
+                            >
+                                Clima
+                            </NavLink>
+                        </li>
                     </>
                 )}
+
                 <li>
                     <NavLink
                         to="/about"
@@ -101,6 +113,7 @@ const NavBar = () => {
                         Sobre
                     </NavLink>
                 </li>
+
                 {user && (
                     <li>
                         <button onClick={logout}>Sair</button>
