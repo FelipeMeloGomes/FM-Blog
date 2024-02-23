@@ -23,8 +23,18 @@ const NavBar = () => {
             <NavLink className={styles.brand} to="/">
                 FM <span>Blog</span>
             </NavLink>
+
+            <button
+                alt="menu mobile"
+                role="menu mobile"
+                aria-label="menu mobile"
+                className={styles.mobile_icon}
+                onClick={() => setMobile(!Mobile)}
+            >
+                {Mobile ? <ImCross /> : <FaBars />}
+            </button>
             <ul
-                className={Mobile ? styles.nav_links_mobile : styles.nav_links}
+                className={Mobile ? styles.nav_mobile : styles.nav_list}
                 onClick={() => setMobile(false)}
             >
                 <li>
@@ -120,15 +130,6 @@ const NavBar = () => {
                     </li>
                 )}
             </ul>
-            <button
-                alt="menu mobile"
-                role="menu mobile"
-                aria-label="menu mobile"
-                className={styles.mobile_menu_icon}
-                onClick={() => setMobile(!Mobile)}
-            >
-                {Mobile ? <ImCross /> : <FaBars />}
-            </button>
         </nav>
     );
 };
