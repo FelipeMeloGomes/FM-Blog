@@ -52,7 +52,6 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                     setLoading(false);
                 });
 
-                // Certifique-se de que a função snapshot é uma função antes de chamá-la.
                 if (typeof snapshot === "function") {
                     return () => {
                         setCancelled(true);
@@ -70,7 +69,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
 
         return () => {
             setCancelled(true);
-            // Certifique-se de que a função unsubscribe é uma função antes de chamá-la.
+
             if (typeof unsubscribe === "function") {
                 unsubscribe();
             }
