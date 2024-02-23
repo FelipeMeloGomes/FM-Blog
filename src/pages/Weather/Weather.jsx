@@ -6,6 +6,8 @@ import Axios from "axios";
 
 // Components
 import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
+import Spinner from "../../components/Spinner/Spinner";
+import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
 // Estilos Css
 import styles from "./Weather.module.css";
@@ -22,7 +24,9 @@ import humidity_icon from "./assets/humidity.webp";
 
 const Weather = () => {
     const [city, setCity] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const [wicon, setWicon] = useState(cloud_icon);
+    const [showDetails, setShowDetails] = useState(false);
     const [climaData, setClimaData] = useState({
         humidity: "",
         wind: "",
@@ -30,12 +34,20 @@ const Weather = () => {
         location: "",
     });
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            search();
+        }
+    };
+
     const api_key = "edef938077466df0a6ddd2450d699bc2";
 
     const search = async () => {
         if (city === "") {
             return;
         }
+
+        setIsLoading(true);
 
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${api_key}`;
 
@@ -52,11 +64,14 @@ const Weather = () => {
             });
 
             setWeatherIcon(data.weather[0].icon);
+            setShowDetails(true);
         } catch (error) {
             console.error(
                 "Erro durante a busca ou atualização do clima:",
                 error
             );
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -97,9 +112,10 @@ const Weather = () => {
     }, []);
 
     return (
-        <>
-            {" "}
-            <TitleParagraph title="Confira o clima de sua cidade!" />
+        <LayoutPage height="auto">
+            <>
+                <TitleParagraph title="Confira o clima de sua cidade!" />
+            </>
             <div className={styles.container}>
                 <div className={styles.top_bar}>
                     <input
@@ -108,55 +124,76 @@ const Weather = () => {
                         placeholder="Digite uma cidade"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
                     <div className={styles.search_icon} onClick={search}>
                         <img src={search_icon} alt="search icon" />
                     </div>
                 </div>
-                <div className={styles.weather_image}>
-                    <img src={wicon} alt="weather icon" />
-                </div>
-                <div className={styles.weather_temp}>
-                    {climaData.temperature !== ""
-                        ? climaData.temperature.toString().substring(0, 2)
-                        : ""}
-                    °C
-                </div>
-                <div className={styles.weather_location}>
-                    {climaData.location}
-                </div>
-                <div className={styles.data_container}>
-                    <div className={styles.element}>
-                        <img
-                            src={humidity_icon}
-                            alt="humidity icon"
-                            className={styles.icon}
+
+                {isLoading && (
+                    <div className={styles.loading}>
+                        <Spinner
+                            height="100px"
+                            startColor="white"
+                            middleColor="white"
+                            endColor="white"
                         />
-                        <div className={styles.data}>
-                            <div className={styles.humidity_percent}>
-                                {climaData.humidity}%
-                            </div>
-                            <div className={styles.text}>Humidade</div>
-                        </div>
                     </div>
-                    <div className={styles.element}>
-                        <img
-                            src={wind_icon}
-                            alt="wind icon"
-                            className={styles.icon}
-                        />
-                        <div className={styles.data}>
-                            <div className={styles.wind_rate}>
-                                {climaData.wind} km/h
+                )}
+
+                {showDetails && !isLoading && (
+                    <>
+                        <div className={styles.weather_image}>
+                            <img src={wicon} alt="weather icon" />
+                        </div>
+
+                        <div className={styles.weather_temp}>
+                            {climaData.temperature !== ""
+                                ? climaData.temperature
+                                      .toString()
+                                      .substring(0, 2)
+                                : ""}
+                            °C
+                        </div>
+                        <div className={styles.weather_location}>
+                            {climaData.location}
+                        </div>
+                        <div className={styles.data_container}>
+                            <div className={styles.element}>
+                                <img
+                                    src={humidity_icon}
+                                    alt="humidity icon"
+                                    className={styles.icon}
+                                />
+                                <div className={styles.data}>
+                                    <div className={styles.humidity_percent}>
+                                        {climaData.humidity}%
+                                    </div>
+                                    <div className={styles.text}>Humidade</div>
+                                </div>
                             </div>
-                            <div className={styles.text}>
-                                Velocidade do vento
+
+                            <div className={styles.element}>
+                                <img
+                                    src={wind_icon}
+                                    alt="wind icon"
+                                    className={styles.icon}
+                                />
+                                <div className={styles.data}>
+                                    <div className={styles.wind_rate}>
+                                        {climaData.wind} km/h
+                                    </div>
+                                    <div className={styles.text}>
+                                        Velocidade do vento
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
-        </>
+        </LayoutPage>
     );
 };
 
