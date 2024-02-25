@@ -7,7 +7,7 @@ import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import LayoutPage from "../../components/LayoutPage/LayoutPage";
 
-const Login = (props) => {
+const Login = () => {
     const { login, error: authError } = useAuthentication();
     const [error, setError] = useState("");
 

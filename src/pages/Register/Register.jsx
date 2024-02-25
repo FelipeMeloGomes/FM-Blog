@@ -7,16 +7,28 @@ import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
-const Register = (props) => {
+const Register = () => {
     const { createUser, error: authError } = useAuthentication();
     const [error, setError] = useState("");
 
     const handleSubmit = async (formData) => {
         try {
             setError("");
-            await createUser(formData);
+
+            const user = await createUser({
+                displayName: formData.displayName,
+                email: formData.email,
+                password: formData.password,
+            });
+
+            if (user) {
+                console.log("Usuário criado:", user);
+            } else {
+                throw new Error("Erro ao criar usuário");
+            }
         } catch (error) {
             console.error("Erro:", error);
+            setError(error.message);
         }
     };
 

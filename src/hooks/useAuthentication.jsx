@@ -57,6 +57,8 @@ export const useAuthentication = () => {
             }
 
             setError(systemErrorMessage);
+            setLoading(false);
+            throw new Error(systemErrorMessage);
         }
 
         setLoading(false);

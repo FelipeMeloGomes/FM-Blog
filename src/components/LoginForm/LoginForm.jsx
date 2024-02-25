@@ -19,6 +19,7 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
 const LoginForm = ({ isLogin = false, onSubmit }) => {
+    const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -54,15 +55,19 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
 
         try {
             // object formData
-            const formData = { email, password };
-            if (!isLogin) formData.confirmPassword = confirmPassword;
+            const formData = { email, password, displayName };
+            console.log(formData);
 
             // send date validate
-            const res = await (isLogin
-                ? login(formData)
-                : createUser(formData));
+            let res;
+            if (isLogin) {
+                res = await login(formData);
+            } else {
+                res = await createUser(formData);
+            }
 
             // send submit function
+            console.log(res);
             onSubmit(formData);
         } catch (error) {
             // error state tratament
@@ -78,6 +83,23 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
+            {!isLogin && (
+                <div className={styles.flex_column}>
+                    <label>Nome de usuário</label>
+                    <div className={styles.inputForm}>
+                        <input
+                            type="text"
+                            name="displayName"
+                            value={displayName}
+                            alt="Insira seu email"
+                            required
+                            onChange={(e) => setDisplayName(e.target.value)}
+                            className={styles.input}
+                            placeholder="Nome do usuário"
+                        />
+                    </div>
+                </div>
+            )}
             <div className={styles.flex_column}>
                 <label>Email</label>
             </div>
@@ -134,6 +156,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     />
                 )}
             </div>
+
             {!isLogin && (
                 <div className={styles.flex_column}>
                     <label>Confirmar Senha</label>

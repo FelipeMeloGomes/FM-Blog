@@ -12,69 +12,63 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
     const [documents, setDocuments] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
+
+    // deal with memory leak
     const [cancelled, setCancelled] = useState(false);
 
     useEffect(() => {
-        const loadData = async () => {
+        async function loadData() {
             if (cancelled) {
                 return;
             }
 
             setLoading(true);
 
-            const collectionRef = collection(db, docCollection);
+            const collectionRef = await collection(db, docCollection);
 
             try {
                 let q;
 
                 if (search) {
-                    q = query(
+                    q = await query(
                         collectionRef,
-                        where("tagsArray", "array-contains", search),
+                        where("tags", "array-contains", search),
                         orderBy("createdAt", "desc")
                     );
                 } else if (uid) {
-                    q = query(
+                    q = await query(
                         collectionRef,
                         where("uid", "==", uid),
                         orderBy("createdAt", "desc")
                     );
                 } else {
-                    q = query(collectionRef, orderBy("createdAt", "desc"));
+                    q = await query(
+                        collectionRef,
+                        orderBy("createdAt", "desc")
+                    );
                 }
 
-                const snapshot = await onSnapshot(q, (querySnapshot) => {
-                    const newDocuments = querySnapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        ...doc.data(),
-                    }));
-                    setDocuments(newDocuments);
-                    setLoading(false);
+                await onSnapshot(q, (querySnapshot) => {
+                    setDocuments(
+                        querySnapshot.docs.map((doc) => ({
+                            id: doc.id,
+                            ...doc.data(),
+                        }))
+                    );
                 });
-
-                if (typeof snapshot === "function") {
-                    return () => {
-                        setCancelled(true);
-                        snapshot();
-                    };
-                }
-            } catch (err) {
-                console.error(err);
-                setError(err.message);
-                setLoading(false);
+            } catch (error) {
+                setError(error.message);
             }
-        };
 
-        const unsubscribe = loadData();
+            setLoading(false);
+        }
 
-        return () => {
-            setCancelled(true);
-
-            if (typeof unsubscribe === "function") {
-                unsubscribe();
-            }
-        };
+        loadData();
     }, [docCollection, search, uid, cancelled]);
+
+    useEffect(() => {
+        return () => setCancelled(true);
+    }, []);
 
     return { documents, loading, error };
 };
