@@ -10,12 +10,12 @@ const LayoutPage = ({
     textAlign = "",
 }) => {
     return (
-        <div
+        <section
             className={styles.container}
             style={{ height, minHeight, textAlign }}
         >
             {children}
-        </div>
+        </section>
     );
 };
 
@@ -29,6 +29,7 @@ LayoutPage.defaultProps = {
     height: "100vh",
     minHeight: "100vh",
     textAlign: "center",
+    marginBottom: "0",
 };
 
 export default LayoutPage;
