@@ -37,12 +37,13 @@ const Post = () => {
 
                     <h3>Este post trata sobre:</h3>
                     <div className={styles.tags}>
-                        {post.tagsArray.map((tag) => (
-                            <p key={tag}>
-                                <span>#</span>
-                                {tag}
-                            </p>
-                        ))}
+                        {post.tagsArray &&
+                            post.tagsArray.map((tag, index) => (
+                                <p key={`${tag}_${index}`}>
+                                    <span>#</span>
+                                    {tag}
+                                </p>
+                            ))}
                     </div>
                 </>
             )}

@@ -21,15 +21,17 @@ const PostDetail = ({ post }) => {
             <h2>{post.title}</h2>
             <p className={styles.createdby}>{post.createdBy}</p>
             <div className={styles.tags}>
-                {post.tagsArray.map((tag) => (
-                    <div key={tag}>
-                        <p key={tag}>
-                            <span>#</span>
-                            {tag}
-                        </p>
-                    </div>
-                ))}
+                {post.tagsArray &&
+                    post.tagsArray.map((tag, index) => (
+                        <div key={`${tag}_${index}`}>
+                            <p>
+                                <span>#</span>
+                                {tag}
+                            </p>
+                        </div>
+                    ))}
             </div>
+
             <div className={styles.container_btn}>
                 <Link to={`/posts/${post.id}`} className="btn btn-outline">
                     Ler
