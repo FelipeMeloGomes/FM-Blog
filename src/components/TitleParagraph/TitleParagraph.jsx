@@ -34,7 +34,7 @@ TitleParagraph.propTypes = {
 };
 
 TitleParagraph.defaultProps = {
-    padding: "",
+    padding: "0",
     marginBottom: "",
     textAlign: "",
     color: "",
