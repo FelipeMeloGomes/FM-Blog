@@ -14,7 +14,6 @@ import { AuthProvider } from "./context/AuthContext";
 // Components
 import NavBar from "./components/NavBar/NavBar";
 import Spinner from "./components/Spinner/Spinner";
-import Footer from "./components/Footer/Footer";
 import LayoutPage from "./components/LayoutPage/LayoutPage";
 
 // Pages
@@ -107,7 +106,6 @@ function App() {
                                 }
                             />
                         </Routes>
-                        <Footer />
                     </LayoutPage>
                 </BrowserRouter>
             </AuthProvider>
