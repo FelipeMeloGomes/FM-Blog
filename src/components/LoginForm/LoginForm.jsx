@@ -5,8 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // Icons
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { TbLockExclamation } from "react-icons/tb";
+import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import { FiAtSign } from "react-icons/fi";
 
 // Estilos css
@@ -87,6 +86,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 <div className={styles.flex_column}>
                     <label>Nome de usuário</label>
                     <div className={styles.inputForm}>
+                        <FaUser className="icon_font" />
                         <input
                             type="text"
                             name="displayName"
@@ -120,7 +120,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 <label>Senha</label>
             </div>
             <div className={styles.inputForm}>
-                <TbLockExclamation className="icon_font" />
+                <FaLock className="icon_font" />
                 <input
                     type="password"
                     name="password"
@@ -134,7 +134,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 />
                 {passwordVisible ? (
                     <FaEye
-                        className="icon"
+                        className="icon icon_font"
                         onClick={() =>
                             handlePasswordToggle(
                                 inputRefs[0],
@@ -145,7 +145,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     />
                 ) : (
                     <FaEyeSlash
-                        className="icon"
+                        className="icon icon_font"
                         onClick={() =>
                             handlePasswordToggle(
                                 inputRefs[0],
@@ -164,7 +164,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
             )}
             {!isLogin && (
                 <div className={styles.inputForm}>
-                    <TbLockExclamation className="icon_font" />
+                    <FaLock className="icon_font" />
                     <input
                         type="password"
                         name="confirmPassword"
@@ -178,7 +178,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     />
                     {passwordVisible ? (
                         <FaEye
-                            className="icon"
+                            className="icon icon_font"
                             onClick={() =>
                                 handlePasswordToggle(
                                     inputRefs[2],
@@ -189,7 +189,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                         />
                     ) : (
                         <FaEyeSlash
-                            className="icon"
+                            className="icon icon_font"
                             onClick={() =>
                                 handlePasswordToggle(
                                     inputRefs[2],
