@@ -6,16 +6,19 @@
 }
 
 .search_form {
-    width: 60%;
+    max-width: 100%;
+    width: 50%;
     display: flex;
     justify-content: center;
     margin-bottom: 2em;
+    gap: 10px;
 }
 
 .search_form input {
-    margin-right: 0.625rem;
-    width: 70%;
+    max-width: 100%;
+    width: 100%;
     font-size: 0.9em;
+    padding-left: 20px;
 }
 
 .noposts {
@@ -28,11 +31,4 @@
 
 .noposts a {
     padding: 0.625rem 1.5625rem;
-}
-
-.title {
-    font-size: 1.5em;
-    display: flex;
-    text-align: center;
-    padding: 1.5em;
 }

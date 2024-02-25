@@ -8,6 +8,9 @@ import { useState } from "react";
 // React Router Dom
 import { useNavigate, Link } from "react-router-dom";
 
+// Icons
+import { CiSearch } from "react-icons/ci";
+
 // Components
 import PostDetail from "../../components/PostDetail/PostDetail";
 import Spinner from "../../components/Spinner/Spinner";
@@ -38,7 +41,9 @@ const Home = () => {
                     alt="Busque por tags"
                     onChange={(e) => setQuery(e.target.value)}
                 />
-                <button className="btn btn-dark">Pesquisar</button>
+                <button className="btn btn-dark">
+                    <CiSearch className="icon_font" />
+                </button>
             </form>
             <div className="post-list">
                 {loading && <Spinner />}
