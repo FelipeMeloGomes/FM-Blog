@@ -50,8 +50,8 @@ function App() {
         <div className="App">
             <AuthProvider value={{ user }}>
                 <BrowserRouter>
-                    <NavBar />
                     <LayoutPage>
+                        <NavBar />
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="*" element={<PageNotFound />} />
