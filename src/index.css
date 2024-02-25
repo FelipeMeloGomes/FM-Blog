@@ -163,6 +163,10 @@ button[disabled] {
     margin: 2em;
 }
 
+/* icon classes */
+.icon_font {
+    font-size: 1.5em;
+}
 .icon {
     cursor: pointer;
     margin-right: 1em;
