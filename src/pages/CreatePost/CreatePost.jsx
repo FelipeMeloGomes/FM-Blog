@@ -4,6 +4,10 @@ import styles from "./CreatePost.module.css";
 // React Router Dom
 import { useNavigate } from "react-router-dom";
 
+// Components
+import LayoutPage from "./../../components/LayoutPage/LayoutPage";
+import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
@@ -74,11 +78,12 @@ const CreatePost = () => {
     );
 
     return (
-        <div className={styles.container}>
+        <LayoutPage textAlign="center">
+            <TitleParagraph
+                title="Novo Post"
+                paragraph="Compartilhe suas ideias!"
+            />
             <div className={styles.modal}>
-                <div className={styles.modal__header}>
-                    <h2 className={styles.modal__title}>Novo Post</h2>
-                </div>
                 <form className={styles.modal__body} onSubmit={handleSubmit}>
                     <div className={styles.input}>
                         <label className={styles.input__label}>Título:</label>
@@ -143,7 +148,7 @@ const CreatePost = () => {
                     {formError && errorParagraph(formError)}
                 </form>
             </div>
-        </div>
+        </LayoutPage>
     );
 };
 
