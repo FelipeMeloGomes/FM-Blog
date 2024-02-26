@@ -27,6 +27,7 @@ const PageNotFound = () => {
                         className={styles.container}
                         src={NotFoundImg}
                         alt="not found"
+                        loading="lazy"
                     />
                 </figure>
             </div>
