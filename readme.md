@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://fm-blog-react.netlify.app/">Veja o meu projeto aqui</a>
+  <a target="_blank" href="https://fm-blog-react.netlify.app/">Veja o meu projeto aqui</a>
 
 </p>
 
