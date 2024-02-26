@@ -36,10 +36,6 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         togglePasswordVisibility(ref, passwordVisible, setPasswordVisible);
     };
 
-    const handlePasswordToggleAll = () => {
-        inputRefs.forEach((ref) => handlePasswordToggle(ref));
-    };
-
     // submit form data
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -112,6 +108,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     type="email"
                     name="email"
                     value={email}
+                    minLength={6}
                     alt="Insira seu email"
                     required
                     onChange={(e) => setEmail(e.target.value)}
@@ -244,6 +241,16 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                         Não tem uma conta?{" "}
                         <span className={styles.span}>
                             <Link to="/register">Inscrever-se</Link>
+                        </span>
+                    </p>
+                </div>
+            )}
+            {!isLogin && (
+                <div>
+                    <p className={styles.p}>
+                        Já tem uma conta?{" "}
+                        <span className={styles.span}>
+                            <Link to="/login">Entrar</Link>
                         </span>
                     </p>
                 </div>
