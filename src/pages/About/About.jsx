@@ -55,11 +55,14 @@ const About = () => {
                     </a>
                 </button>
             </div>
-            <img
-                src={aboutImg}
-                alt="Garoto mechendo no computador"
-                className={styles.aboutImg}
-            />
+            <figure>
+                <img
+                    src={aboutImg}
+                    loading="lazy"
+                    alt="Garoto mechendo no computador"
+                    className={styles.aboutImg}
+                />
+            </figure>
         </LayoutPage>
     );
 };
