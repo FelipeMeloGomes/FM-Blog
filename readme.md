@@ -7,7 +7,7 @@
 <br>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/85581543/277747926-5a4d8dc7-2339-4b02-aebb-fdddff7e5064.png" width="100%">
+  <img src="https://github.com/FelipeMeloGomes/FM-Blog/assets/85581543/fd1c13c0-d4e7-4ce2-90f7-94c959fc4691" width="100%">
 </p>
 
 ## ⚙️ Instalação dos pacotes essenciais.
