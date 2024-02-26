@@ -18,12 +18,13 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
 const LoginForm = ({ isLogin = false, onSubmit }) => {
-    const displayNameRef = useRef("");
-    const emailRef = useRef("");
+    const [displayName, setDisplayName] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [error, setError] = useState("");
+    const inputRefs = [useRef(), useRef(), useRef()];
     const {
         login,
         createUser,
@@ -33,6 +34,10 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
 
     const handlePasswordToggle = (ref) => {
         togglePasswordVisibility(ref, passwordVisible, setPasswordVisible);
+    };
+
+    const handlePasswordToggleAll = () => {
+        inputRefs.forEach((ref) => handlePasswordToggle(ref));
     };
 
     // submit form data
@@ -86,7 +91,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                         <input
                             type="text"
                             name="displayName"
-                            ref={displayNameRef}
+                            value={displayName}
                             alt="Insira seu nome"
                             minLength={6}
                             maxLength={16}
@@ -106,7 +111,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 <input
                     type="email"
                     name="email"
-                    ref={emailRef}
+                    value={email}
                     alt="Insira seu email"
                     required
                     onChange={(e) => setEmail(e.target.value)}
@@ -123,6 +128,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     type="password"
                     name="password"
                     required
+                    value={password}
                     className={styles.input}
                     placeholder="Insira sua senha"
                     alt="Insira sua senha"
