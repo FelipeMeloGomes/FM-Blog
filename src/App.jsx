@@ -26,7 +26,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
-import PageNotFound from "./pages/NotFound/PageNotFound";
+import NotFound from "./pages/NotFound/NotFound";
 import Weather from "./pages/Weather/Weather";
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
                         <NavBar />
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="*" element={<PageNotFound />} />
+                            <Route path="*" element={<NotFound />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/search" element={<Search />} />
                             <Route path="/posts/:id" element={<Post />} />

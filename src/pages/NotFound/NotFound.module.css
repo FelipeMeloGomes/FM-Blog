@@ -1,6 +1,5 @@
 .erro_page {
     text-align: center;
-    height: 100vh;
     padding: 1.5em;
 }
 
@@ -12,6 +11,7 @@
 
 .container {
     width: 400px;
+    max-width: 90%;
     margin-bottom: 2em;
     background-color: #fff;
     border-radius: 20px;
