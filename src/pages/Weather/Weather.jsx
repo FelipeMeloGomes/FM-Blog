@@ -13,7 +13,7 @@ import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 import styles from "./Weather.module.css";
 
 // Icons
-import search_icon from "./assets/search.webp";
+import { CiSearch } from "react-icons/ci";
 import cloud_icon from "./assets/cloud.webp";
 import wind_icon from "./assets/wind.webp";
 import snow_icon from "./assets/snow.webp";
@@ -127,7 +127,7 @@ const Weather = () => {
                         onKeyDown={handleKeyDown}
                     />
                     <div className={styles.search_icon} onClick={search}>
-                        <img src={search_icon} alt="search icon" />
+                        <CiSearch className="icon_font" />
                     </div>
                 </div>
 
