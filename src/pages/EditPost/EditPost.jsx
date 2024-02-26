@@ -14,15 +14,15 @@ import { useEffect, useRef } from "react";
 import useFormSubmit from "../../utils/useFormSubmit";
 
 const EditPost = () => {
+    const { user } = useAuthValue();
     const { id } = useParams();
-    const { document: post } = useFetchDocument("posts", id);
-    const { updateDocument, response } = useUpdateDocument("posts");
+    const navigate = useNavigate();
     const titleRef = useRef("");
     const imageRef = useRef("");
     const bodyRef = useRef("");
     const tagsRef = useRef("");
-    const { user } = useAuthValue();
-    const navigate = useNavigate();
+    const { document: post } = useFetchDocument("posts", id);
+    const { updateDocument, response } = useUpdateDocument("posts");
 
     useEffect(() => {
         if (post) {
