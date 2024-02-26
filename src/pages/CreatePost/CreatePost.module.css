@@ -1,17 +1,3 @@
-.button {
-    appearance: none;
-    font: inherit;
-    border: none;
-    background: none;
-    cursor: pointer;
-}
-
-.formEdit {
-    margin: 0 auto;
-    width: 100%;
-    padding-bottom: 1em;
-}
-
 .modal {
     display: flex;
     flex-direction: column;
@@ -27,27 +13,11 @@
     padding: 1rem 1rem;
 }
 
-.modal__footer {
-    padding: 0 1.5rem 1.5rem;
-}
-
 .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: 0.15s ease;
-}
-
-.button__icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: transparent;
-    border-radius: 0.25rem;
-}
-
-.button__icon:focus,
-.button__icon:hover {
-    background-color: #ededed;
 }
 
 .button__primary {
@@ -97,9 +67,4 @@
 .input__field__textarea {
     min-height: 100px;
     max-width: 100%;
-}
-
-@media screen and (max-width: 768px) {
-    .modal {
-    }
 }
