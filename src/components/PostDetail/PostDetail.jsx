@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 // Estilos css
 import styles from "./PostDetail.module.css";
 
+// Icons
+import { FiHash } from "react-icons/fi";
+
 // Components
 import LikeButton from "../LikeButton/LikeButton";
 
@@ -25,7 +28,9 @@ const PostDetail = ({ post }) => {
                     post.tagsArray.map((tag, index) => (
                         <div key={`${tag}_${index}`}>
                             <p>
-                                <span>#</span>
+                                <span>
+                                    <FiHash />
+                                </span>
                                 {tag}
                             </p>
                         </div>
