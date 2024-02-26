@@ -2,7 +2,7 @@
 import styles from "./About.module.css";
 
 // imgs
-import aboutImg from "./assets/about.jpg";
+import aboutImg from "./assets/about.webp";
 
 // components
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
@@ -55,7 +55,11 @@ const About = () => {
                     </a>
                 </button>
             </div>
-            <img src={aboutImg} alt="Garoto mechendo no computador" className={styles.aboutImg} />
+            <img
+                src={aboutImg}
+                alt="Garoto mechendo no computador"
+                className={styles.aboutImg}
+            />
         </LayoutPage>
     );
 };

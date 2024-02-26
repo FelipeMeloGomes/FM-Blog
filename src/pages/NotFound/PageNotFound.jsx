@@ -9,7 +9,7 @@ import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 
 // Img
-import NotFoundImg from "../NotFound/NotFoundImg.webp";
+import NotFoundImg from "./assets/NotFoundImg.webp";
 
 // React Router Dom
 import { Link } from "react-router-dom";
