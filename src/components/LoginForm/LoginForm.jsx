@@ -18,8 +18,8 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 import { togglePasswordVisibility } from "../../utils/passwordUtils";
 
 const LoginForm = ({ isLogin = false, onSubmit }) => {
-    const [displayName, setDisplayName] = useState("");
-    const [email, setEmail] = useState("");
+    const displayNameRef = useRef("");
+    const emailRef = useRef("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -30,16 +30,12 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         error: authError,
         loading,
     } = useAuthentication();
-    const inputRefs = [useRef(), useRef(), useRef()];
 
     const handlePasswordToggle = (ref) => {
         togglePasswordVisibility(ref, passwordVisible, setPasswordVisible);
     };
 
-    const handlePasswordToggleAll = () => {
-        inputRefs.forEach((ref) => handlePasswordToggle(ref));
-    };
-
+    // submit form data
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -54,7 +50,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
 
         try {
             // object formData
-            const formData = { email, password, displayName };
+            const formData = { emailRef, password, displayNameRef };
             console.log(formData);
 
             // send date validate
@@ -90,7 +86,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                         <input
                             type="text"
                             name="displayName"
-                            value={displayName}
+                            ref={displayNameRef}
                             alt="Insira seu nome"
                             minLength={6}
                             maxLength={16}
@@ -110,7 +106,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 <input
                     type="email"
                     name="email"
-                    value={email}
+                    ref={emailRef}
                     alt="Insira seu email"
                     required
                     onChange={(e) => setEmail(e.target.value)}
@@ -132,7 +128,6 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     alt="Insira sua senha"
                     minLength={6}
                     maxLength={64}
-                    value={password}
                     ref={inputRefs[0]}
                     onChange={(e) => setPassword(e.target.value)}
                 />
