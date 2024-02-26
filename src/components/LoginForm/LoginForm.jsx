@@ -55,7 +55,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
 
         try {
             // object formData
-            const formData = { emailRef, password, displayNameRef };
+            const formData = { email, password, displayName };
             console.log(formData);
 
             // send date validate
