@@ -91,7 +91,9 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                             type="text"
                             name="displayName"
                             value={displayName}
-                            alt="Insira seu email"
+                            alt="Insira seu nome"
+                            minLength={6}
+                            maxLength={16}
                             required
                             onChange={(e) => setDisplayName(e.target.value)}
                             className={styles.input}
@@ -128,6 +130,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     className={styles.input}
                     placeholder="Insira sua senha"
                     alt="Insira sua senha"
+                    minLength={6}
+                    maxLength={64}
                     value={password}
                     ref={inputRefs[0]}
                     onChange={(e) => setPassword(e.target.value)}
@@ -173,6 +177,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                         placeholder="Confirme sua senha"
                         alt="Confirme sua senha"
                         value={confirmPassword}
+                        minLength={6}
+                        maxLength={64}
                         ref={inputRefs[2]}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
