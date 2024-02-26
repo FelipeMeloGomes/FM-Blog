@@ -15,3 +15,13 @@ export const togglePasswordVisibility = (
 
     setPasswordVisible(!passwordVisible);
 };
+
+export const handlePasswordToggleAll = (
+    inputRefs,
+    passwordVisible,
+    setPasswordVisible
+) => {
+    inputRefs.forEach((inputRef) => {
+        togglePasswordVisibility(inputRef, passwordVisible, setPasswordVisible);
+    });
+};
