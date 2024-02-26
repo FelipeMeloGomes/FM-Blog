@@ -40,3 +40,18 @@
     transform: scale(6);
     filter: drop-shadow(1px 2px 4px rgba(0, 0, 0, 0.9));
 }
+
+.aboutImg {
+    margin-top: 1em;
+    width: 400px;
+    animation: float 1.8s infinite alternate;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(15px);
+    }
+}

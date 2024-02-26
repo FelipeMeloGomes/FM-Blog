@@ -1,6 +1,9 @@
 // Estilos css
 import styles from "./About.module.css";
 
+// imgs
+import aboutImg from "./assets/about.jpg";
+
 // components
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
@@ -52,6 +55,7 @@ const About = () => {
                     </a>
                 </button>
             </div>
+            <img src={aboutImg} alt="Garoto mechendo no computador" className={styles.aboutImg} />
         </LayoutPage>
     );
 };
