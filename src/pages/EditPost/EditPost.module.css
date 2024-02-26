@@ -118,6 +118,13 @@ img {
     text-align: center;
 }
 
+.input__label h2 > span {
+    background-color: #ddd;
+    border-radius: 5px;
+    font-weight: 800;
+    margin-right: 10px;
+}
+
 .input__field {
     display: block;
     margin-top: 0.5rem;

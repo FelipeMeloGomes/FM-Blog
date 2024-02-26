@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Utils
 import useFormSubmit from "../../utils/useFormSubmit";
@@ -24,6 +24,8 @@ const EditPost = () => {
     const { document: post } = useFetchDocument("posts", id);
     const { updateDocument, response } = useUpdateDocument("posts");
 
+    const [title, setTitle] = useState("");
+
     useEffect(() => {
         if (post) {
             titleRef.current.value = post.title;
@@ -33,6 +35,13 @@ const EditPost = () => {
             tagsRef.current.value = textTags;
         }
     }, [post, titleRef, bodyRef, imageRef, tagsRef]);
+
+    const handleInputChange = (e) => {
+        const newTitle = e.target.value;
+        setTimeout(() => {
+            setTitle(newTitle);
+        }, 250);
+    };
 
     const { handleSubmit, formError } = useFormSubmit({
         updateDocument,
@@ -56,7 +65,10 @@ const EditPost = () => {
                     >
                         <div className={styles.input}>
                             <label className={styles.input__label}>
-                                <h2>Editando Post: {post.title}</h2>
+                                <h2>
+                                    <span>Editando Post: </span>
+                                    {title || post.title}
+                                </h2>
                             </label>
                         </div>
                         <div className={styles.input}>
@@ -72,6 +84,7 @@ const EditPost = () => {
                                 className={styles.input__field}
                                 placeholder="Pense num bom título"
                                 ref={titleRef}
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className={styles.input}>
