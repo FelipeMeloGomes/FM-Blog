@@ -133,7 +133,7 @@ img {
 }
 
 .input__field__textarea {
-    min-height: 100px;
+    height: 350px;
     max-width: 100%;
 }
 
