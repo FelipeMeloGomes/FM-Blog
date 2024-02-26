@@ -8,16 +8,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+
+// Utils
+import useFormSubmit from "../../utils/useFormSubmit";
 
 const EditPost = () => {
     const { id } = useParams();
     const { document: post } = useFetchDocument("posts", id);
+    const { updateDocument, response } = useUpdateDocument("posts");
     const titleRef = useRef("");
     const imageRef = useRef("");
     const bodyRef = useRef("");
     const tagsRef = useRef("");
-    const [formError, setFormError] = useState("");
+    const { user } = useAuthValue();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (post) {
@@ -27,63 +32,19 @@ const EditPost = () => {
             const textTags = post.tagsArray.join(", ");
             tagsRef.current.value = textTags;
         }
-    }, [post]);
+    }, [post, titleRef, bodyRef, imageRef, tagsRef]);
 
-    const { user } = useAuthValue();
-
-    const { updateDocument, response } = useUpdateDocument("posts");
-
-    const navigate = useNavigate();
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setFormError("");
-
-        // validar image url
-        try {
-            new URL(imageRef.current.value);
-        } catch (error) {
-            setFormError("A imagem precisa ser uma URL.");
-            return;
-        }
-
-        // criar o array de tags
-        const tagsArray = tagsRef.current.value
-            .split(",")
-            .map((tag) => tag.trim().toLowerCase())
-            .filter((tag) => tag);
-
-        // checar todos os valores
-        if (
-            !titleRef.current.value ||
-            !imageRef.current.value ||
-            !tagsRef.current.value ||
-            !bodyRef.current.value
-        ) {
-            setFormError("Por Favor, preencha todos os campos!");
-            return;
-        }
-
-        const data = {
-            title: titleRef.current.value,
-            image: imageRef.current.value,
-            body: bodyRef.current.value,
-            tagsArray,
-            uid: user.uid,
-            createdBy: user.displayName,
-        };
-
-        updateDocument(id, data);
-
-        // Limpa os campos após o envio
-        titleRef.current.value = "";
-        imageRef.current.value = "";
-        bodyRef.current.value = "";
-        tagsRef.current.value = "";
-
-        // redirect to dashboard
-        navigate("/dashboard");
-    };
+    const { handleSubmit, formError } = useFormSubmit({
+        updateDocument,
+        navigate,
+        titleRef,
+        imageRef,
+        bodyRef,
+        tagsRef,
+        user,
+        actionType: "edit",
+        postId: id,
+    });
 
     return (
         <div className={styles.container}>
