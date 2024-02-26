@@ -44,6 +44,7 @@
 .aboutImg {
     margin-top: 1em;
     width: 400px;
+    max-width: 90%;
     animation: float 1.8s infinite alternate;
 }
 
