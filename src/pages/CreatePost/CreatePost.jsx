@@ -91,6 +91,7 @@ const CreatePost = () => {
                             type="text"
                             name="title"
                             alt="Pense num bom título"
+                            minLength={6}
                             required
                             className={styles.input__field}
                             placeholder="Pense num bom título"
