@@ -8,70 +8,33 @@ import { useNavigate } from "react-router-dom";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
+// Utils
+import useFormSubmit from "../../utils/useFormSubmit";
+
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const CreatePost = () => {
-    const [formError, setFormError] = useState("");
     const titleRef = useRef(null);
     const imageRef = useRef(null);
     const bodyRef = useRef(null);
     const tagsRef = useRef(null);
-
+    const navigate = useNavigate();
     const { user } = useAuthValue();
     const { insertDocument, response } = useInsertDocument("posts");
-    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setFormError("");
-
-        // valida image url
-        try {
-            new URL(imageRef.current.value);
-        } catch (error) {
-            setFormError("A imagem precisa ser uma URL.");
-            return;
-        }
-
-        // criar o array de tags
-        const tagsArray = tagsRef.current.value
-            .split(",")
-            .map((tag) => tag.trim().toLowerCase())
-            .filter((tag) => tag);
-
-        // checar todos os valores
-        if (
-            !titleRef.current.value ||
-            !imageRef.current.value ||
-            !tagsRef.current.value ||
-            !bodyRef.current.value
-        ) {
-            setFormError("Por Favor, preencha todos os campos!");
-            return;
-        }
-
-        // Inserir o documento correto no form
-        insertDocument({
-            title: titleRef.current.value,
-            image: imageRef.current.value,
-            body: bodyRef.current.value,
-            tagsArray,
-            uid: user.uid,
-            createdBy: user.displayName,
-        });
-
-        // Limpa os campos após o envio
-        titleRef.current.value = "";
-        imageRef.current.value = "";
-        bodyRef.current.value = "";
-        tagsRef.current.value = "";
-
-        // redirect to home page
-        navigate("/");
-    };
+    const { handleSubmit, formError } = useFormSubmit({
+        insertDocument,
+        navigate,
+        titleRef,
+        imageRef,
+        bodyRef,
+        tagsRef,
+        user,
+        actionType: "create",
+    });
 
     const errorParagraph = (errorMessage) => (
         <p className="error">{errorMessage}</p>
