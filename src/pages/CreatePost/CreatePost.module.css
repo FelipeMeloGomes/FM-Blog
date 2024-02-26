@@ -28,6 +28,7 @@
     border: 1px solid #000;
     font-weight: 500;
     font-size: 0.875rem;
+    cursor: pointer;
 }
 
 .button__primary:hover {
@@ -38,9 +39,6 @@
 .input {
     display: flex;
     flex-direction: column;
-}
-
-.input + .input {
     margin-top: 1.75rem;
 }
 

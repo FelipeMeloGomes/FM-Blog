@@ -11,9 +11,10 @@ import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const CreatePost = () => {
+    const [formError, setFormError] = useState("");
     const titleRef = useRef(null);
     const imageRef = useRef(null);
     const bodyRef = useRef(null);
@@ -23,24 +24,23 @@ const CreatePost = () => {
     const { insertDocument, response } = useInsertDocument("posts");
     const navigate = useNavigate();
 
-    let formError = "";
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        formError = "";
+        setFormError("");
 
         // valida image url
         try {
             new URL(imageRef.current.value);
         } catch (error) {
-            formError = "A imagem precisa ser uma URL.";
+            setFormError("A imagem precisa ser uma URL.");
             return;
         }
 
         // criar o array de tags
         const tagsArray = tagsRef.current.value
             .split(",")
-            .map((tag) => tag.trim().toLowerCase());
+            .map((tag) => tag.trim().toLowerCase())
+            .filter((tag) => tag);
 
         // checar todos os valores
         if (
@@ -49,7 +49,7 @@ const CreatePost = () => {
             !tagsRef.current.value ||
             !bodyRef.current.value
         ) {
-            formError = "Por Favor, preencha todos os campos!";
+            setFormError("Por Favor, preencha todos os campos!");
             return;
         }
 
@@ -63,15 +63,15 @@ const CreatePost = () => {
             createdBy: user.displayName,
         });
 
+        // Limpa os campos após o envio
+        titleRef.current.value = "";
+        imageRef.current.value = "";
+        bodyRef.current.value = "";
+        tagsRef.current.value = "";
+
         // redirect to home page
         navigate("/");
     };
-
-    const loadingButton = (
-        <button alt="Aguarde" className="btn" disabled>
-            Aguarde...
-        </button>
-    );
 
     const errorParagraph = (errorMessage) => (
         <p className="error">{errorMessage}</p>
@@ -143,8 +143,8 @@ const CreatePost = () => {
                             Cadastrar
                         </button>
                     )}
-                    {response.loading && loadingButton}
                     {response.error && errorParagraph(response.error)}
+                    <br />
                     {formError && errorParagraph(formError)}
                 </form>
             </div>
