@@ -8,26 +8,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const EditPost = () => {
     const { id } = useParams();
     const { document: post } = useFetchDocument("posts", id);
-    const [title, setTitle] = useState("");
-    const [image, setImage] = useState("");
-    const [body, setBody] = useState("");
-    const [tags, setTags] = useState([]);
+    const titleRef = useRef("");
+    const imageRef = useRef("");
+    const bodyRef = useRef("");
+    const tagsRef = useRef("");
     const [formError, setFormError] = useState("");
 
     useEffect(() => {
         if (post) {
-            setTitle(post.title);
-            setBody(post.body);
-            setImage(post.image);
-
+            titleRef.current.value = post.title;
+            bodyRef.current.value = post.body;
+            imageRef.current.value = post.image;
             const textTags = post.tagsArray.join(", ");
-
-            setTags(textTags);
+            tagsRef.current.value = textTags;
         }
     }, [post]);
 
@@ -43,33 +41,45 @@ const EditPost = () => {
 
         // validar image url
         try {
-            new URL(image);
+            new URL(imageRef.current.value);
         } catch (error) {
             setFormError("A imagem precisa ser uma URL.");
+            return;
         }
 
         // criar o array de tags
-        const tagsArray = tags
+        const tagsArray = tagsRef.current.value
             .split(",")
-            .map((tag) => tag.trim().toLowerCase());
+            .map((tag) => tag.trim().toLowerCase())
+            .filter((tag) => tag);
 
         // checar todos os valores
-        if (!title || !image || !tags || !body) {
+        if (
+            !titleRef.current.value ||
+            !imageRef.current.value ||
+            !tagsRef.current.value ||
+            !bodyRef.current.value
+        ) {
             setFormError("Por Favor, preencha todos os campos!");
+            return;
         }
 
-        if (formError) return;
-
         const data = {
-            title,
-            image,
-            body,
+            title: titleRef.current.value,
+            image: imageRef.current.value,
+            body: bodyRef.current.value,
             tagsArray,
             uid: user.uid,
             createdBy: user.displayName,
         };
 
         updateDocument(id, data);
+
+        // Limpa os campos após o envio
+        titleRef.current.value = "";
+        imageRef.current.value = "";
+        bodyRef.current.value = "";
+        tagsRef.current.value = "";
 
         // redirect to dashboard
         navigate("/dashboard");
@@ -97,10 +107,10 @@ const EditPost = () => {
                                 name="title"
                                 alt="Pense num bom titulo"
                                 required
+                                minLength={6}
                                 className={styles.input__field}
                                 placeholder="Pense num bom título"
-                                onChange={(e) => setTitle(e.target.value)}
-                                value={title}
+                                ref={titleRef}
                             />
                         </div>
                         <div className={styles.input}>
@@ -113,8 +123,7 @@ const EditPost = () => {
                                 name="image"
                                 alt="Insira uma imagem"
                                 required
-                                onChange={(e) => setImage(e.target.value)}
-                                value={image}
+                                ref={imageRef}
                                 placeholder="Insira uma imagem"
                             />
                             <label className={styles.input__label}>
@@ -127,6 +136,7 @@ const EditPost = () => {
                                     alt={post.title}
                                     width="500px"
                                     height="500px"
+                                    loading="lazy"
                                 />
                             </figure>
                         </div>
@@ -140,8 +150,7 @@ const EditPost = () => {
                                 name="body"
                                 required
                                 alt="Insira o conteúdo do post"
-                                onChange={(e) => setBody(e.target.value)}
-                                value={body}
+                                ref={bodyRef}
                             ></textarea>
                         </div>
                         <div className={styles.input}>
@@ -153,8 +162,7 @@ const EditPost = () => {
                                 placeholder="Insira as tags separadas por vírgula"
                                 alt="Insira as tags separadas por vírgula"
                                 required
-                                onChange={(e) => setTags(e.target.value)}
-                                value={tags}
+                                ref={tagsRef}
                             />
                         </div>
                         <br />
