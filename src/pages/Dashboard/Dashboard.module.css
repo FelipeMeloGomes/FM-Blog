@@ -37,6 +37,10 @@
     gap: 1em;
 }
 
+.post_row:last-child {
+    margin-bottom: 2em;
+}
+
 .post_row p {
     color: #000;
     font-size: 1em;
