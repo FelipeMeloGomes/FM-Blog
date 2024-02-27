@@ -21,7 +21,7 @@ const Search = () => {
         <div className={styles.search_container}>
             <TitleParagraph title="Procurar" />
             <div className={styles.container_found}>
-                {posts && posts.length == 0 && (
+                {posts && posts.length === 0 && (
                     <div className={styles.noposts}>
                         <p>
                             Não foram encontrados posts a partir da sua busca...
