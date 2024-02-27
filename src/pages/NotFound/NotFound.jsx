@@ -1,12 +1,8 @@
-// Hooks
-import { memo } from "react";
-
 // Estilos css
 import styles from "./NotFound.module.css";
 
 // Components
 import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
-import LayoutPage from "../../components/LayoutPage/LayoutPage";
 
 // Img
 import NotFoundImg from "./assets/NotFoundImg.webp";
@@ -14,28 +10,31 @@ import NotFoundImg from "./assets/NotFoundImg.webp";
 // React Router Dom
 import { Link } from "react-router-dom";
 
-const PageNotFound = () => {
+const NotFound = () => {
     return (
-        <LayoutPage>
+        <div className={styles.container}>
             <TitleParagraph
+                color="black"
                 title="404"
                 paragraph="Página Não Encontrada Desculpe."
             />
+            <div className={styles.containerBtn}>
+                <Link to="/" className="btn btn-outline">
+                    Home
+                </Link>
+            </div>
             <div className={styles.center}>
                 <figure>
                     <img
-                        className={styles.container}
+                        className={styles.containerImg}
                         src={NotFoundImg}
                         alt="not found"
                         loading="lazy"
                     />
                 </figure>
             </div>
-            <Link to="/" className="btn btn-outline">
-                Retornar a Home
-            </Link>
-        </LayoutPage>
+        </div>
     );
 };
 
-export default memo(PageNotFound);
+export default NotFound;
