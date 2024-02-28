@@ -18,6 +18,7 @@ import "react-quill/dist/quill.snow.css";
 import useFormSubmit from "../../utils/useFormSubmit";
 
 const EditPost = () => {
+    const [content, setContent] = useState("");
     const { user } = useAuthValue();
     const { id } = useParams();
     const navigate = useNavigate();
@@ -31,9 +32,9 @@ const EditPost = () => {
     const [title, setTitle] = useState("");
 
     useEffect(() => {
-        if (post) {
+        if (post && bodyRef.current) {
             titleRef.current.value = post.title;
-            bodyRef.current.value = post.body;
+            setContent(post.body);
             imageRef.current.value = post.image;
             const textTags = post.tagsArray.join(", ");
             tagsRef.current.value = textTags;
@@ -58,6 +59,10 @@ const EditPost = () => {
         actionType: "edit",
         postId: id,
     });
+
+    const handleEditorChange = (content) => {
+        setContent(content);
+    };
 
     return (
         <div className={styles.container}>
@@ -125,6 +130,8 @@ const EditPost = () => {
                             <ReactQuill
                                 className="editor"
                                 ref={bodyRef}
+                                value={content}
+                                onChange={handleEditorChange}
                                 theme="snow"
                                 placeholder="Digite o conteúdo aqui"
                             />
