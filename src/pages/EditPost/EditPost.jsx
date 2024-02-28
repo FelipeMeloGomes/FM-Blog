@@ -19,6 +19,7 @@ import useFormSubmit from "../../utils/useFormSubmit";
 
 const EditPost = () => {
     const [content, setContent] = useState("");
+    const [title, setTitle] = useState("");
     const { user } = useAuthValue();
     const { id } = useParams();
     const navigate = useNavigate();
@@ -28,8 +29,6 @@ const EditPost = () => {
     const tagsRef = useRef("");
     const { document: post } = useFetchDocument("posts", id);
     const { updateDocument, response } = useUpdateDocument("posts");
-
-    const [title, setTitle] = useState("");
 
     useEffect(() => {
         if (post && bodyRef.current) {
