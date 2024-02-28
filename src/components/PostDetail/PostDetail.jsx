@@ -19,6 +19,7 @@ const PostDetail = ({ post }) => {
                     height="500px"
                     src={post.image}
                     alt={post.title}
+                    loading="auto"
                 />
             </figure>
             <h2>{post.title}</h2>
