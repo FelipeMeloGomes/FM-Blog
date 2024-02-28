@@ -52,7 +52,6 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         try {
             // object formData
             const formData = { email, password, displayName };
-            console.log(formData);
 
             // send date validate
             let res;
@@ -63,7 +62,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
             }
 
             // send submit function
-            console.log(res);
+
             onSubmit(formData);
         } catch (error) {
             // error state tratament
