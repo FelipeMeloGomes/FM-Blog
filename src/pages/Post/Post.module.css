@@ -34,8 +34,12 @@
     font-weight: bold;
 }
 
+.containerText {
+    margin-top: 2em;
+}
+
 .post_container h3 {
-    margin-top: 0.2em;
+    margin-top: 1em;
     margin-bottom: 0.2em;
     font-size: 1.5em;
 }

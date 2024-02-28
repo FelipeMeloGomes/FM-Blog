@@ -45,7 +45,9 @@ const Post = () => {
                             />
                         </div>
 
-                        <h3>Este post trata sobre:</h3>
+                        <div className={styles.containerText}>
+                            <h3>Este post trata sobre:</h3>
+                        </div>
                         <div className={styles.tags}>
                             {post.tagsArray &&
                                 post.tagsArray.map((tag, index) => (
