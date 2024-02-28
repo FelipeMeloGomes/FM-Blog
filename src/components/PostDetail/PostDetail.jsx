@@ -17,6 +17,7 @@ const PostDetail = ({ post }) => {
                 <img
                     width="500px"
                     height="500px"
+                    loading="lazy"
                     src={post.image}
                     alt={post.title}
                 />
