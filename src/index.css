@@ -171,3 +171,11 @@ button[disabled] {
     cursor: pointer;
     margin-right: 1em;
 }
+
+/* editor */
+.editor {
+    max-width: 100%;
+    height: 250px;
+    width: 100%;
+    margin-bottom: 2em;
+}
