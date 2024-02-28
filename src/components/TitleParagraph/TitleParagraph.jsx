@@ -10,7 +10,6 @@ const TitleParagraph = ({
     marginBottom = "",
     textAlign = "",
     color = "",
-    margin = "",
 }) => {
     return (
         <>
@@ -35,12 +34,9 @@ TitleParagraph.propTypes = {
 };
 
 TitleParagraph.defaultProps = {
-    padding: "0",
     marginBottom: "",
     textAlign: "",
     color: "",
-    marginBottom: "0",
-    margin: "0",
 };
 
 export default TitleParagraph;
