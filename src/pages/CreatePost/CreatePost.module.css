@@ -66,3 +66,7 @@
     min-height: 100px;
     max-width: 100%;
 }
+
+.containerImg {
+    margin-top: 1em;
+}

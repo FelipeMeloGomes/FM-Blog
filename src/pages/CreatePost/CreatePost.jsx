@@ -14,7 +14,7 @@ import useFormSubmit from "../../utils/useFormSubmit";
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // Editor text
 import ReactQuill from "react-quill";
@@ -28,6 +28,8 @@ const CreatePost = () => {
     const navigate = useNavigate();
     const { user } = useAuthValue();
     const { insertDocument, response } = useInsertDocument("posts");
+    const [imageUrl, setImageUrl] = useState("");
+    const [error, setError] = useState("");
 
     const { handleSubmit, formError } = useFormSubmit({
         insertDocument,
@@ -39,6 +41,19 @@ const CreatePost = () => {
         user,
         actionType: "create",
     });
+
+    const handleInputChange = (e) => {
+        const url = e.target.value;
+        setImageUrl(url);
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+            setError("");
+        };
+        img.onerror = () => {
+            setError("A URL inserida não corresponde a uma imagem válida.");
+        };
+    };
 
     const errorParagraph = (errorMessage) => (
         <p className="error">{errorMessage}</p>
@@ -76,8 +91,18 @@ const CreatePost = () => {
                             alt="Insira uma imagem"
                             required
                             ref={imageRef}
+                            onChange={handleInputChange}
                             placeholder="Insira uma imagem"
                         />
+                        <figure className={styles.containerImg}>
+                            {imageUrl && !error && (
+                                <img
+                                    src={imageUrl}
+                                    loading="lazy"
+                                    alt="Imagem"
+                                />
+                            )}
+                        </figure>
                     </div>
                     <div className={styles.input}>
                         <label className={styles.input__label}>Conteúdo:</label>
