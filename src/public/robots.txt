@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /cgi-bin/
-Disallow: /tmp/
-Disallow: /private/
-google-site-verification=3TvohozaNn6JVYudZbIL4AfCgabkv-CH1yCqdjgYWFs
