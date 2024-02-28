@@ -31,6 +31,10 @@ const Home = () => {
         }
     };
 
+    // order post by title
+    const sortedPosts =
+        posts && [...posts].sort((a, b) => a.title.localeCompare(b.title));
+
     return (
         <div className={styles.home}>
             <TitleParagraph title="Veja os nossos posts mais recentes" />
@@ -47,7 +51,7 @@ const Home = () => {
             </form>
             <div className="post-list">
                 {loading && <Spinner />}
-                {posts && posts.length === 0 && (
+                {sortedPosts && sortedPosts.length === 0 && (
                     <div className={styles.noposts}>
                         <p>Não foram encontrados posts</p>
                         <Link to="/posts/create" className="btn">
@@ -55,8 +59,8 @@ const Home = () => {
                         </Link>
                     </div>
                 )}
-                {posts &&
-                    posts.map((post) => (
+                {sortedPosts &&
+                    sortedPosts.map((post) => (
                         <PostDetail key={post.id} post={post} />
                     ))}
             </div>
