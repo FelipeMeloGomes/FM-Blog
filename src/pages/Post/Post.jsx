@@ -39,7 +39,9 @@ const Post = () => {
                         </div>
                         <div>
                             <h1>{post.title}</h1>
-                            <p>{post.body}</p>
+                            <p
+                                dangerouslySetInnerHTML={{ __html: post.body }}
+                            />
                         </div>
 
                         <h3>Este post trata sobre:</h3>

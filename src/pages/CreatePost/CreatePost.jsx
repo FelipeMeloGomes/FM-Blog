@@ -16,6 +16,10 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { useRef } from "react";
 
+// Editor text
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 const CreatePost = () => {
     const titleRef = useRef(null);
     const imageRef = useRef(null);
@@ -77,14 +81,12 @@ const CreatePost = () => {
                     </div>
                     <div className={styles.input}>
                         <label className={styles.input__label}>Conteúdo:</label>
-                        <textarea
-                            className={`${styles.input__field} ${styles.input__field__textarea}`}
-                            placeholder="Insira o conteúdo do post"
-                            name="body"
-                            required
-                            alt="Insira o conteúdo do post"
+                        <ReactQuill
+                            className="editor"
+                            theme="snow"
                             ref={bodyRef}
-                        ></textarea>
+                            placeholder="Digite o conteúdo aqui"
+                        />
                     </div>
                     <div className={styles.input}>
                         <label className={styles.input__label}>Tags:</label>

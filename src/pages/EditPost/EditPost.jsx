@@ -10,6 +10,10 @@ import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { useEffect, useRef, useState } from "react";
 
+// editor text
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 // Utils
 import useFormSubmit from "../../utils/useFormSubmit";
 
@@ -118,14 +122,12 @@ const EditPost = () => {
                             <label className={styles.input__label}>
                                 Conteúdo:
                             </label>
-                            <textarea
-                                className={`${styles.input__field} ${styles.input__field__textarea}`}
-                                placeholder="Insira o conteúdo do post"
-                                name="body"
-                                required
-                                alt="Insira o conteúdo do post"
+                            <ReactQuill
+                                className="editor"
                                 ref={bodyRef}
-                            ></textarea>
+                                theme="snow"
+                                placeholder="Digite o conteúdo aqui"
+                            />
                         </div>
                         <div className={styles.input}>
                             <label className={styles.input__label}>Tags:</label>
