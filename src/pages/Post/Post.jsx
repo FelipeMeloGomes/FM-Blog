@@ -33,8 +33,6 @@ const Post = () => {
                                     width="500px"
                                 />
                             </figure>
-                        </div>
-                        <div>
                             <p className={styles.createdby}>
                                 Por: {post.createdBy}
                             </p>
@@ -46,7 +44,6 @@ const Post = () => {
                                 dangerouslySetInnerHTML={{ __html: post.body }}
                             />
                         </div>
-
                         <div className={styles.containerText}>
                             <h3>Este post trata sobre:</h3>
                         </div>
