@@ -23,13 +23,13 @@ const Post = () => {
             ) : (
                 post && (
                     <>
-                        <figure className={styles.card__img}>
+                        <figure>
                             <img
                                 src={post.image}
                                 alt={post.title}
-                                className={styles.card__img}
+                                className={styles.card__image}
+                                loading="lazy"
                                 width="500px"
-                                height="500px"
                             />
                         </figure>
                         <div>
@@ -39,7 +39,8 @@ const Post = () => {
                         </div>
                         <div>
                             <h1>{post.title}</h1>
-                            <p
+                            <div
+                                className={styles.bodyText}
                                 dangerouslySetInnerHTML={{ __html: post.body }}
                             />
                         </div>
