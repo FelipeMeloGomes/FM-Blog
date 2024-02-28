@@ -13,19 +13,15 @@ import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 import styles from "./Weather.module.css";
 
 // Icons
-import { CiSearch } from "react-icons/ci";
-import cloud_icon from "./assets/cloud.webp";
-import wind_icon from "./assets/wind.webp";
-import snow_icon from "./assets/snow.webp";
-import rain_icon from "./assets/rain.webp";
-import drizzle_icon from "./assets/drizzle.webp";
-import clear_icon from "./assets/clear.webp";
-import humidity_icon from "./assets/humidity.webp";
+import { CiSearch, CiCloudDrizzle } from "react-icons/ci";
+import { WiHumidity, WiWindy } from "react-icons/wi";
+import { FaCloudSun, FaCloudRain, FaRegSnowflake } from "react-icons/fa";
+import { LuSun, LuCloudRain } from "react-icons/lu";
 
 const Weather = () => {
     const [city, setCity] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [wicon, setWicon] = useState(cloud_icon);
+    const [wicon, setWicon] = useState(<FaCloudSun />);
     const [showDetails, setShowDetails] = useState(false);
     const [climaData, setClimaData] = useState({
         humidity: "",
@@ -79,30 +75,30 @@ const Weather = () => {
         switch (iconCode) {
             case "01d":
             case "01n":
-                setWicon(clear_icon);
+                setWicon(<LuSun className={styles.icon_font} />);
                 break;
             case "02d":
             case "02n":
-                setWicon(cloud_icon);
+                setWicon(<FaCloudRain className={styles.icon_font} />);
                 break;
             case "03d":
             case "03n":
             case "04d":
             case "04n":
-                setWicon(drizzle_icon);
+                setWicon(<CiCloudDrizzle className={styles.icon_font} />);
                 break;
             case "09d":
             case "09n":
             case "10d":
             case "10n":
-                setWicon(rain_icon);
+                setWicon(<LuCloudRain className={styles.icon_font} />);
                 break;
             case "13d":
             case "13n":
-                setWicon(snow_icon);
+                setWicon(<FaRegSnowflake className={styles.icon_font} />);
                 break;
             default:
-                setWicon(cloud_icon);
+                setWicon(<FaCloudSun className={styles.icon_font} />);
                 break;
         }
     };
@@ -144,9 +140,7 @@ const Weather = () => {
 
                 {showDetails && !isLoading && (
                     <>
-                        <div className={styles.weather_image}>
-                            <img src={wicon} alt="weather icon" />
-                        </div>
+                        <div className={styles.weather_image}>{wicon}</div>
 
                         <div className={styles.weather_temp}>
                             {climaData.temperature !== ""
@@ -161,11 +155,7 @@ const Weather = () => {
                         </div>
                         <div className={styles.data_container}>
                             <div className={styles.element}>
-                                <img
-                                    src={humidity_icon}
-                                    alt="humidity icon"
-                                    className={styles.icon}
-                                />
+                                <WiHumidity className={styles.icon_font} />
                                 <div className={styles.data}>
                                     <div className={styles.humidity_percent}>
                                         {climaData.humidity}%
@@ -175,11 +165,7 @@ const Weather = () => {
                             </div>
 
                             <div className={styles.element}>
-                                <img
-                                    src={wind_icon}
-                                    alt="wind icon"
-                                    className={styles.icon}
-                                />
+                                <WiWindy className={styles.icon_font} />
                                 <div className={styles.data}>
                                     <div className={styles.wind_rate}>
                                         {climaData.wind} km/h

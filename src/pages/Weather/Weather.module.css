@@ -44,6 +44,11 @@
     cursor: pointer;
 }
 
+.icon_font {
+    font-size: 3em;
+    color: white;
+}
+
 .weather_image {
     margin-top: 29px;
     display: flex;
