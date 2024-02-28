@@ -8,7 +8,7 @@ const LayoutPage = ({
     height = "",
     minHeight = "",
     textAlign = "",
-    margin="",
+    margin = "",
 }) => {
     return (
         <section
@@ -24,14 +24,14 @@ LayoutPage.propTypes = {
     height: PropTypes.string,
     minHeight: PropTypes.string,
     textAlign: PropTypes.string,
+    margin: PropTypes.string,
 };
 
 LayoutPage.defaultProps = {
     height: "100vh",
     minHeight: "100vh",
     textAlign: "center",
-    marginBottom: "0",
-    margin: "0"
+    margin: "0",
 };
 
 export default LayoutPage;
