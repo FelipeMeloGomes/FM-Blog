@@ -11,6 +11,17 @@
     justify-content: center;
 }
 
+.icon_github {
+    width: 65px;
+    height: 60px;
+}
+
+.icon_linkedin {
+    color: #0b65c2;
+    width: 65px;
+    height: 65px;
+}
+
 .button {
     background-color: #ffffff;
     border: none;
