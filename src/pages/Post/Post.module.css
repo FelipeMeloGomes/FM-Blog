@@ -3,16 +3,11 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    height: 100vh;
     max-width: 100%;
-    justify-content: center;
 }
-
-.card {
-    position: relative;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
-    border-radius: 20px;
-    padding: 2em;
-    align-items: center;
+.containerImg {
+    max-width: 100%;
 }
 
 .card__image {

@@ -17,21 +17,23 @@ const Post = () => {
     const { id } = useParams();
     const { document: post, loading } = useFetchDocument("posts", id);
     return (
-        <div className={`${styles.post_container} ${styles.card}`}>
+        <div className={styles.post_container}>
             {loading ? (
                 <Spinner />
             ) : (
                 post && (
                     <>
-                        <figure>
-                            <img
-                                src={post.image}
-                                alt={post.title}
-                                className={styles.card__image}
-                                loading="lazy"
-                                width="500px"
-                            />
-                        </figure>
+                        <div className={styles.containerImg}>
+                            <figure>
+                                <img
+                                    src={post.image}
+                                    alt={post.title}
+                                    className={styles.card__image}
+                                    loading="lazy"
+                                    width="500px"
+                                />
+                            </figure>
+                        </div>
                         <div>
                             <p className={styles.createdby}>
                                 Por: {post.createdBy}
