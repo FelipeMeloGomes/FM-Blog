@@ -21,13 +21,12 @@ const Register = () => {
                 password: formData.password,
             });
 
-            if (user) {
+            if (user && user.uid) {
                 console.log("Usuário criado:", user);
             } else {
                 throw new Error("Erro ao criar usuário");
             }
         } catch (error) {
-            console.error("Erro:", error);
             setError(error.message);
         }
     };
