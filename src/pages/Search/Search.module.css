@@ -14,3 +14,7 @@
 .noposts {
     text-align: center;
 }
+
+.container_found {
+    max-width: 90%;
+}

@@ -19,7 +19,11 @@ const Search = () => {
     const { documents: posts } = useFetchDocuments("posts", search);
     return (
         <div className={styles.search_container}>
-            <TitleParagraph title="Procurar" />
+            <TitleParagraph
+                title="Procurar"
+                paragraph={`Resultados encontrados para: ${search}`}
+            />
+
             <div className={styles.container_found}>
                 {posts && posts.length === 0 && (
                     <div className={styles.noposts}>
