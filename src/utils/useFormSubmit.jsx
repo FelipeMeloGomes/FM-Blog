@@ -1,3 +1,4 @@
+// Hooks React
 import { useState } from "react";
 
 const useFormSubmit = ({
@@ -14,13 +15,27 @@ const useFormSubmit = ({
 }) => {
     const [formError, setFormError] = useState("");
 
+    const isValidImageUrl = (url) => {
+        try {
+            const { protocol } = new URL(url);
+            return protocol === "http:" || protocol === "https:";
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const clearFormFields = () => {
+        titleRef.current.value = "";
+        imageRef.current.value = "";
+        bodyRef.current.value = "";
+        tagsRef.current.value = "";
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setFormError("");
 
-        try {
-            new URL(imageRef.current.value);
-        } catch (error) {
+        if (!isValidImageUrl(imageRef.current.value)) {
             setFormError("A imagem precisa ser uma URL válida.");
             return;
         }
@@ -40,36 +55,27 @@ const useFormSubmit = ({
             return;
         }
 
+        const formData = {
+            title: titleRef.current.value,
+            image: imageRef.current.value,
+            body: bodyRef.current.value,
+            tagsArray,
+            uid: user.uid,
+            createdBy: user.displayName,
+        };
+
         switch (actionType) {
             case "create":
-                insertDocument({
-                    title: titleRef.current.value,
-                    image: imageRef.current.value,
-                    body: bodyRef.current.value,
-                    tagsArray,
-                    uid: user.uid,
-                    createdBy: user.displayName,
-                });
+                insertDocument(formData);
                 break;
             case "edit":
-                updateDocument(id, {
-                    title: titleRef.current.value,
-                    image: imageRef.current.value,
-                    body: bodyRef.current.value,
-                    tagsArray,
-                    uid: user.uid,
-                    createdBy: user.displayName,
-                });
+                updateDocument(id, formData);
                 break;
             default:
                 break;
         }
 
-        titleRef.current.value = "";
-        imageRef.current.value = "";
-        bodyRef.current.value = "";
-        tagsRef.current.value = "";
-
+        clearFormFields();
         navigate("/");
     };
 
