@@ -1,4 +1,7 @@
+// Hooks React
 import { useState, useEffect } from "react";
+
+// Firebase
 import { db } from "../firebase/config";
 import {
     collection,
