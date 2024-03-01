@@ -16,16 +16,16 @@
     object-fit: contain;
     width: 100%;
     max-width: 100%;
-    
     max-height: 350px;
 }
 
 .bodyText {
     text-align: left;
+    margin-top: 1em;
 }
 
-.post_container h1 {
-    font-size: 1.5em;
+.containerTitle {
+    font-size: 2em;
     text-align: left;
     line-height: 1.5;
     font-weight: bold;

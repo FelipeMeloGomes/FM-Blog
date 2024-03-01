@@ -38,7 +38,9 @@ const Post = () => {
                             </p>
                         </div>
                         <div>
-                            <h1>{post.title}</h1>
+                            <h1 className={styles.containerTitle}>
+                                {post.title}
+                            </h1>
                             <div
                                 className={styles.bodyText}
                                 dangerouslySetInnerHTML={{ __html: post.body }}
