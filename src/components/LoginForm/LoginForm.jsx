@@ -36,24 +36,19 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         togglePasswordVisibility(ref, passwordVisible, setPasswordVisible);
     };
 
-    // submit form data
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // clear state
         setError("");
 
-        // Validate password
         if (!isLogin && password !== confirmPassword) {
             setError("As senhas precisam ser iguais");
             return;
         }
 
         try {
-            // object formData
             const formData = { email, password, displayName };
 
-            // send date validate
             let res;
             if (isLogin) {
                 res = await login(formData);
@@ -61,11 +56,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 res = await createUser(formData);
             }
 
-            // send submit function
-
             onSubmit(formData);
         } catch (error) {
-            // error state tratament
             setError(error.message);
         }
     };
