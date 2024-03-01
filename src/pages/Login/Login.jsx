@@ -14,10 +14,7 @@ const Login = () => {
     const handleSubmit = async (formData) => {
         try {
             setError("");
-            const res = await login({
-                email: formData.email,
-                password: formData.password,
-            });
+            const res = await login(formData.email, formData.password);
         } catch (error) {
             console.error("Erro:", error);
         }
