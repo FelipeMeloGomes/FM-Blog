@@ -44,6 +44,10 @@
     color: #fff;
 }
 
+.icon {
+    display: none;
+}
+
 .mobile_icon {
     display: none;
     border: none;
@@ -81,6 +85,14 @@
         opacity: 0;
     }
 
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        font-size: 1.5em;
+    }
+
     .nav_mobile {
         display: flex;
         position: fixed;
@@ -113,6 +125,18 @@
     .nav_mobile li {
         font-size: 20px;
         opacity: 1;
+    }
+
+    .nav_mobile li a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .bntLogout {
+        display: flex;
+        gap: 10px;
     }
 
     .nav_mobile li:nth-child(1) a {
