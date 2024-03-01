@@ -46,7 +46,7 @@ const Home = () => {
                     type="text"
                     placeholder="Ou busque por tags..."
                     alt="Busque por tags"
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => setQuery(e.target.value.toLowerCase())}
                 />
                 <button className="btn btn-dark">
                     <CiSearch className="icon_font" />
