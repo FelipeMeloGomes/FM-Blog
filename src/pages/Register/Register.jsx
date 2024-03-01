@@ -15,11 +15,11 @@ const Register = () => {
         try {
             setError("");
 
-            const user = await createUser({
-                displayName: formData.displayName,
-                email: formData.email,
-                password: formData.password,
-            });
+            const user = await createUser(
+                formData.displayName,
+                formData.email,
+                formData.password
+            );
 
             if (user && user.uid) {
                 console.log("Usuário criado:", user);
