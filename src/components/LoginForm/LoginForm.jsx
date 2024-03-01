@@ -231,7 +231,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     <p className={styles.p}>
                         Não tem uma conta?{" "}
                         <span className={styles.span}>
-                            <Link to="/register">Inscrever-se</Link>
+                            <Link to="/register">Cadastre-se</Link>
                         </span>
                     </p>
                 </div>
