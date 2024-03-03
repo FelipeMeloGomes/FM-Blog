@@ -30,7 +30,6 @@ const Post = () => {
                                     alt={post.title}
                                     className={styles.card__image}
                                     loading="lazy"
-                                    width="500px"
                                 />
                             </figure>
                             <p className={styles.createdby}>

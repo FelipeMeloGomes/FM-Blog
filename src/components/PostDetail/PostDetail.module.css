@@ -12,6 +12,7 @@
 }
 
 .containerImg {
+    object-fit: cover;
     max-width: 100%;
     width: 100%;
 }

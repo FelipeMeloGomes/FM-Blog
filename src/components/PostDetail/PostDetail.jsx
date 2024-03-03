@@ -15,19 +15,9 @@ const PostDetail = ({ post }) => {
         <div className={styles.post_detail}>
             <figure className={styles.containerImg}>
                 <div style={{ display: "none" }}>
-                    <img
-                        src={post.image}
-                        width={100}
-                        height={100}
-                        alt={post.title}
-                    />
+                    <img src={post.image} alt={post.title} />
                 </div>
-                <img
-                    src={post.image}
-                    alt={post.title}
-                    width={100}
-                    height={100}
-                />
+                <img src={post.image} alt={post.title} />
             </figure>
             <h2>{post.title}</h2>
             <p className={styles.createdby}>{post.createdBy}</p>
