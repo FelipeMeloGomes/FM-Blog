@@ -14,6 +14,9 @@ const PostDetail = ({ post }) => {
     return (
         <div className={styles.post_detail}>
             <figure className={styles.containerImg}>
+                <div style={{ display: "none" }}>
+                    <img src={post.image} alt={post.title} />
+                </div>
                 <img src={post.image} alt={post.title} loading="eager" />
             </figure>
             <h2>{post.title}</h2>
