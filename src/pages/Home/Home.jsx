@@ -48,7 +48,7 @@ const Home = () => {
                     alt="Busque por tags"
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
                 />
-                <button className="btn btn-dark">
+                <button className="btn btn-dark" aria-label="Pesquisar">
                     <CiSearch className="icon_font" />
                 </button>
             </form>
