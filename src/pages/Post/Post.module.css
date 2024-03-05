@@ -54,8 +54,10 @@
 }
 
 .post_container .tags {
+    max-width: 90%;
     width: 100%;
     display: flex;
+    justify-content: left;
     text-align: left;
     gap: 10px;
     flex-wrap: wrap;
