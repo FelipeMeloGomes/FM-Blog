@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styles from "./PostDetail.module.css";
 
 // Icons
-import { FiHash } from "react-icons/fi";
+import { FaUser } from "react-icons/fa";
 
 // Components
 import LikeButton from "../LikeButton/LikeButton";
@@ -20,17 +20,15 @@ const PostDetail = ({ post }) => {
                 <img src={post.image} alt={post.title} />
             </figure>
             <h2>{post.title}</h2>
-            <p className={styles.createdby}>{post.createdBy}</p>
+            <p className={styles.createdby}>
+                <FaUser /> {post.createdBy}
+            </p>
+            <p className={styles.block}></p>
             <div className={styles.tags}>
                 {post.tagsArray &&
                     post.tagsArray.map((tag, index) => (
                         <div key={`${tag}_${index}`}>
-                            <p>
-                                <span>
-                                    <FiHash />
-                                </span>
-                                {tag}
-                            </p>
+                            <p>{tag}</p>
                         </div>
                     ))}
             </div>
