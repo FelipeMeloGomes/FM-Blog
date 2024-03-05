@@ -24,6 +24,7 @@ const PostDetail = ({ post }) => {
                 <FaUser /> {post.createdBy}
             </p>
             <p className={styles.block}></p>
+
             <div className={styles.tags}>
                 {post.tagsArray &&
                     post.tagsArray.map((tag, index) => (

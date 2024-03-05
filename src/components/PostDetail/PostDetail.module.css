@@ -51,6 +51,7 @@
     flex-wrap: nowrap;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    text-transform: capitalize;
 }
 
 .tags p:hover {
