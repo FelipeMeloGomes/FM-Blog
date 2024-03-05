@@ -18,7 +18,8 @@
 
 .post_detail h2 {
     margin-bottom: 1.5em;
-    font-size: 1.3em;
+    font-weight: 700;
+    font-size: 1.5em;
     display: flex;
     max-width: 90%;
     justify-content: center;
@@ -37,6 +38,7 @@
 
 .tags p {
     display: flex;
+    font-size: 1em;
     align-items: center;
     justify-content: center;
     padding: 10px 10px 10px 3px;
@@ -47,6 +49,12 @@
     max-width: 100%;
     width: 150px;
     flex-wrap: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.tags p:hover {
+    transform: scale(1.1);
 }
 
 .createdby {
@@ -59,7 +67,7 @@
 .container_btn {
     display: flex;
     gap: 1em;
-    justify-content: left;
+    justify-content: space-around;
     margin-bottom: 2em;
     width: 100%;
     max-width: 90%;
