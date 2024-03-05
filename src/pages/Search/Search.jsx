@@ -36,7 +36,7 @@ const Search = () => {
 
             {posts && posts.length > 0 && (
                 <div className={styles.btnArrow}>
-                    <Link to="/" className="btn btn-dark">
+                    <Link to="/" className="btn btn-outline">
                         <MdArrowBack className="icon_font" />
                     </Link>
                 </div>
