@@ -1,11 +1,11 @@
 .post_container {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    height: 100vh;
-    max-width: 100%;
+    max-width: 90%;
+    width: 600px;
     padding: 1.5em;
     border-radius: 4px;
+    margin: 0 auto;
 }
 
 .containerImg {
@@ -22,6 +22,8 @@
 .bodyText {
     text-align: left;
     margin-top: 1em;
+    margin: 0 auto;
+    max-width: 700px;
 }
 
 .containerTitle {
@@ -29,15 +31,17 @@
     text-align: left;
     line-height: 1.5;
     font-weight: bold;
+    margin-bottom: 1.5em;
+    vertical-align: baseline;
 }
 
 .containerText {
     margin-top: 2em;
 }
 
-.post_container h3 {
-    margin-top: 1em;
-    margin-bottom: 0.2em;
+.titleh3 {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
     font-size: 1.5em;
 }
 
@@ -45,26 +49,46 @@
     font-style: italic;
     color: #444;
     font-size: 0.8em;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
 }
 
 .post_container .tags {
     width: 100%;
-    max-width: 90%;
     display: flex;
-    justify-content: center;
+    text-align: left;
+    gap: 10px;
     flex-wrap: wrap;
-    text-align: center;
-    margin: 0;
+    flex: 0 1 auto;
 }
 
 .tags p {
     display: flex;
-    margin-right: 1em;
-}
-
-.tags span {
-    display: flex;
+    font-size: 1em;
     align-items: center;
     justify-content: center;
+    padding: 10px 10px 10px 3px;
+    text-align: center;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    max-width: 100%;
+    width: 150px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-transform: capitalize;
+}
+
+.tags p:hover {
+    transform: scale(1.1);
+}
+
+.btnArrow {
+    display: flex;
+    gap: 10px;
+    margin-top: 2em;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 90%;
 }
