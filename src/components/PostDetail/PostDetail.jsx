@@ -31,7 +31,11 @@ const PostDetail = ({ post }) => {
             {loading && (
                 <>
                     <figure className={styles.containerImg}>
-                        <img src={post.image} alt={post.title} />
+                        <img
+                            src={post.image}
+                            loading="eager"
+                            alt={post.title}
+                        />
                     </figure>
                     <h2>{post.title}</h2>
                     <p className={styles.createdby}>
