@@ -22,7 +22,8 @@
 .post_row {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 100%;
+    max-width: 90%;
     padding: 10px;
 }
 
