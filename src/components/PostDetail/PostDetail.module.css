@@ -28,12 +28,13 @@
 
 .post_detail .tags {
     margin-bottom: 1.5em;
-    margin-left: 10px;
     gap: 10px;
     display: flex;
     flex-wrap: wrap;
     text-align: left;
     flex: 0 1 auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .tags p {

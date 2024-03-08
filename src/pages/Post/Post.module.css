@@ -57,7 +57,8 @@
     max-width: 90%;
     width: 100%;
     display: flex;
-    justify-content: left;
+    justify-content: center;
+    align-items: center;
     text-align: left;
     gap: 10px;
     flex-wrap: wrap;
