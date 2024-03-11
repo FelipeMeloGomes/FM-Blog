@@ -54,15 +54,12 @@
 }
 
 .post_container .tags {
-    max-width: 90%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: left;
     gap: 10px;
     flex-wrap: wrap;
-    flex: 0 1 auto;
 }
 
 .tags p {
@@ -88,10 +85,9 @@
 
 .btnArrow {
     display: flex;
-    gap: 10px;
+    gap: 1em;
     margin-top: 2em;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 90%;
 }
