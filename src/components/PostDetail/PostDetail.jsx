@@ -27,7 +27,7 @@ const PostDetail = ({ post }) => {
 
     return (
         <div className={styles.post_detail}>
-            {!loading && <Spinner height="400px" />}
+            {!loading && <Spinner width="350px" />}
             {loading && (
                 <>
                     <figure className={styles.containerImg}>
