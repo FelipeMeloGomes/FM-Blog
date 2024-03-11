@@ -8,9 +8,10 @@ const Spinner = ({
     middleColor = "#f6fcff",
     endColor = "#f6fcff",
     height = "",
+    width = "",
 }) => {
     return (
-        <div className={styles.loader} style={{ height }}>
+        <div className={styles.loader} style={{ height, width }}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 66 66"
@@ -53,10 +54,12 @@ const Spinner = ({
 
 Spinner.propTypes = {
     height: PropTypes.string,
+    width: PropTypes.string,
 };
 
 Spinner.defaultProps = {
     height: "100vh",
+    width: "",
 };
 
 export default Spinner;
