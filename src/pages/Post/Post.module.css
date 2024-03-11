@@ -4,8 +4,9 @@
     max-width: 90%;
     width: 600px;
     padding: 1.5em;
-    border-radius: 4px;
-    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px -2px 10px 0px;
+    margin: 1em auto 0 auto;
 }
 
 .containerImg {
@@ -16,7 +17,6 @@
     object-fit: contain;
     width: 100%;
     max-width: 100%;
-    max-height: 350px;
 }
 
 .bodyText {
