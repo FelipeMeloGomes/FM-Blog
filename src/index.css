@@ -94,12 +94,12 @@ img {
 }
 
 img:hover {
-    border: 1px solid black;
+    border: 1px solid transparent;
     transform: scale(1.05);
 }
 
 img:active {
-    transform: scale(0.95) rotateZ(1.7deg);
+    transform: scale(0.95);
 }
 
 input,
