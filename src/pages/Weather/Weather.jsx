@@ -1,8 +1,6 @@
 // Hooks
 import { useState, useEffect } from "react";
-
-// Axios
-import Axios from "axios";
+import useWeatherData from "../../hooks/useWeatherData";
 
 // Components
 import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
@@ -13,22 +11,15 @@ import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 import styles from "./Weather.module.css";
 
 // Icons
-import { CiSearch, CiCloudDrizzle } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { WiHumidity, WiWindy } from "react-icons/wi";
-import { FaCloudSun, FaCloudRain, FaRegSnowflake } from "react-icons/fa";
-import { LuSun, LuCloudRain } from "react-icons/lu";
+import { FaCloudSun } from "react-icons/fa";
 
 const Weather = () => {
     const [city, setCity] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
     const [wicon, setWicon] = useState(<FaCloudSun />);
+    const { isLoading, climaData, fetchData } = useWeatherData();
     const [showDetails, setShowDetails] = useState(false);
-    const [climaData, setClimaData] = useState({
-        humidity: "",
-        wind: "",
-        temperature: "",
-        location: "",
-    });
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -36,71 +27,12 @@ const Weather = () => {
         }
     };
 
-    const api_key = "edef938077466df0a6ddd2450d699bc2";
-
     const search = async () => {
         if (city === "") {
             return;
         }
-
-        setIsLoading(true);
-
-        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${api_key}`;
-
-        try {
-            let response = await Axios.get(url);
-
-            let data = response.data;
-
-            setClimaData({
-                humidity: data.main.humidity,
-                wind: data.wind.speed,
-                temperature: data.main.temp,
-                location: data.name,
-            });
-
-            setWeatherIcon(data.weather[0].icon);
-            setShowDetails(true);
-        } catch (error) {
-            console.error(
-                "Erro durante a busca ou atualização do clima:",
-                error
-            );
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const setWeatherIcon = (iconCode) => {
-        switch (iconCode) {
-            case "01d":
-            case "01n":
-                setWicon(<LuSun className={styles.icon_font} />);
-                break;
-            case "02d":
-            case "02n":
-                setWicon(<FaCloudRain className={styles.icon_font} />);
-                break;
-            case "03d":
-            case "03n":
-            case "04d":
-            case "04n":
-                setWicon(<CiCloudDrizzle className={styles.icon_font} />);
-                break;
-            case "09d":
-            case "09n":
-            case "10d":
-            case "10n":
-                setWicon(<LuCloudRain className={styles.icon_font} />);
-                break;
-            case "13d":
-            case "13n":
-                setWicon(<FaRegSnowflake className={styles.icon_font} />);
-                break;
-            default:
-                setWicon(<FaCloudSun className={styles.icon_font} />);
-                break;
-        }
+        fetchData(city);
+        setShowDetails(true);
     };
 
     useEffect(() => {
