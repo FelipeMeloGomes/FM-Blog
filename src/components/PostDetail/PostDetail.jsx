@@ -18,11 +18,7 @@ const PostDetail = ({ post }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(true);
-        }, 500);
-
-        return () => clearTimeout(timer);
+        setLoading(true);
     }, []);
 
     return (
