@@ -31,7 +31,12 @@ const Weather = () => {
         if (city === "") {
             return;
         }
-        fetchData(city);
+
+        const normalizedCity = city
+            .replace(/[^\w\s]|(\s)+(?=\s)/gi, "")
+            .toLowerCase();
+
+        fetchData(normalizedCity);
         setShowDetails(true);
     };
 
