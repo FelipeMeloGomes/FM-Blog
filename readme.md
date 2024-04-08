@@ -58,12 +58,10 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 Melhorias implementadas:
 
--   Adição de nova fonte.
--   Implementação da Responsividade.
 -   Melhorias no Layout.
--   Responsivo melhorado no Mobile.
 -   Implementação de um Spinner no carregamento.
 -   Novas telas de login e cadastro.
 -   Implementação toggle button no icon de senha.
 -   Novo botão de Like adicionado.
--   Novo componente para as telas de login e cadastro.
+-   Novos componentes para otimizar a perfomance
+-   Adição de novos hooks personalizados para melhoria de perfomance.
