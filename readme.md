@@ -53,6 +53,10 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   useEffect.
 -   SEO.
 -   Semântica do HTML5.
+-   Tratamento de erros no React.
+-   Api.
+-   Refatoração de componentes.
+-   Layout e usabilidade.
 
 ## ✔ Atualizações
 
