@@ -1,11 +1,11 @@
 // Hooks React
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // React Router Dom
 import { Link } from "react-router-dom";
 
 // Icons
-import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
 import { FiAtSign } from "react-icons/fi";
 
 // Estilos css
@@ -14,17 +14,21 @@ import styles from "./LoginForm.module.css";
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
 
-// Utils
-import { togglePasswordVisibility } from "../../utils/passwordUtils";
+// Components
+import TextInputWithIcon from "../TextInputWithIcon/TextInputWithIcon";
+import PasswordInputWithToggle from "../PasswordInputWithToggle/PasswordInputWithToggle";
+import SubmitButton from "../SubmitButton/SubmitButton";
 
 const LoginForm = ({ isLogin = false, onSubmit }) => {
-    const [displayName, setDisplayName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [formData, setFormData] = useState({
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [passwordVisible2, setPasswordVisible2] = useState(false);
     const [error, setError] = useState("");
-    const inputRefs = [useRef(), useRef(), useRef()];
     const {
         login,
         createUser,
@@ -32,8 +36,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         loading,
     } = useAuthentication();
 
-    const handlePasswordToggle = (ref) => {
-        togglePasswordVisibility(ref, passwordVisible, setPasswordVisible);
+    const handlePasswordToggle = (setPasswordVisible) => {
+        setPasswordVisible((prev) => !prev);
     };
 
     const handleSubmit = async (e) => {
@@ -41,14 +45,12 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
 
         setError("");
 
-        if (!isLogin && password !== confirmPassword) {
+        if (!isLogin && formData.password !== formData.confirmPassword) {
             setError("As senhas precisam ser iguais");
             return;
         }
 
         try {
-            const formData = { email, password, displayName };
-
             let res;
             if (isLogin) {
                 res = await login(formData);
@@ -71,159 +73,109 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             {!isLogin && (
-                <div className={styles.flex_column}>
-                    <label>Nome de usuário</label>
-                    <div className={styles.inputForm}>
-                        <FaUser className="icon_font" />
-                        <input
-                            type="text"
-                            name="displayName"
-                            value={displayName}
-                            alt="Insira seu nome"
-                            minLength={6}
-                            maxLength={16}
-                            required
-                            onChange={(e) => setDisplayName(e.target.value)}
-                            className={styles.input}
-                            placeholder="Nome do usuário"
-                        />
-                    </div>
-                </div>
-            )}
-            <div className={styles.flex_column}>
-                <label>Email</label>
-            </div>
-            <div className={styles.inputForm}>
-                <FiAtSign className="icon_font" />
-                <input
-                    type="email"
-                    name="email"
-                    value={email}
+                <TextInputWithIcon
+                    label="Nome de usuário"
+                    name="displayName"
+                    value={formData.displayName}
+                    Icon={FaUser}
                     minLength={6}
-                    alt="Insira seu email"
+                    maxLength={16}
                     required
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={styles.input}
-                    placeholder="Insira seu email"
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            displayName: e.target.value,
+                        })
+                    }
+                    placeholder="Nome do usuário"
+                    alt="Insira seu nome"
                 />
-            </div>
-            <div className={styles.flex_column}>
-                <label>Senha</label>
-            </div>
-            <div className={styles.inputForm}>
-                <FaLock className="icon_font" />
-                <input
-                    type="password"
-                    name="password"
-                    required
-                    value={password}
-                    className={styles.input}
-                    placeholder="Insira sua senha"
-                    alt="Insira sua senha"
+            )}
+
+            <TextInputWithIcon
+                label="Email"
+                name="email"
+                value={formData.email}
+                Icon={FiAtSign}
+                minLength={6}
+                required
+                onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                }
+                placeholder="Insira seu email"
+                alt="Insira seu email"
+            />
+
+            <PasswordInputWithToggle
+                label="Senha"
+                name="password"
+                value={formData.password}
+                minLength={6}
+                maxLength={64}
+                Icon={FaLock}
+                required
+                onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                }
+                placeholder="Insira sua senha"
+                alt="Insira sua senha"
+                passwordVisible={passwordVisible2}
+                togglePasswordVisibility={() =>
+                    handlePasswordToggle(setPasswordVisible2)
+                }
+            />
+            {!isLogin && (
+                <PasswordInputWithToggle
+                    label="Confirmar Senha"
+                    placeholder="Confirme a sua senha"
+                    alt="Confirme a  sua senha"
+                    Icon={FaLock}
                     minLength={6}
                     maxLength={64}
-                    ref={inputRefs[0]}
-                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    value={formData.confirmPassword}
+                    passwordVisible={passwordVisible}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            confirmPassword: e.target.value,
+                        })
+                    }
+                    togglePasswordVisibility={() =>
+                        handlePasswordToggle(setPasswordVisible)
+                    }
                 />
-                {passwordVisible ? (
-                    <FaEye
-                        className="icon icon_font"
-                        onClick={() =>
-                            handlePasswordToggle(
-                                inputRefs[0],
-                                passwordVisible,
-                                setPasswordVisible
-                            )
-                        }
-                    />
-                ) : (
-                    <FaEyeSlash
-                        className="icon icon_font"
-                        onClick={() =>
-                            handlePasswordToggle(
-                                inputRefs[0],
-                                passwordVisible,
-                                setPasswordVisible
-                            )
-                        }
-                    />
-                )}
-            </div>
+            )}
 
-            {!isLogin && (
-                <div className={styles.flex_column}>
-                    <label>Confirmar Senha</label>
-                </div>
-            )}
-            {!isLogin && (
-                <div className={styles.inputForm}>
-                    <FaLock className="icon_font" />
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        required={!isLogin}
-                        className={styles.input}
-                        placeholder="Confirme sua senha"
-                        alt="Confirme sua senha"
-                        value={confirmPassword}
-                        minLength={6}
-                        maxLength={64}
-                        ref={inputRefs[2]}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    {passwordVisible ? (
-                        <FaEye
-                            className="icon icon_font"
-                            onClick={() =>
-                                handlePasswordToggle(
-                                    inputRefs[2],
-                                    passwordVisible,
-                                    setPasswordVisible
-                                )
-                            }
-                        />
-                    ) : (
-                        <FaEyeSlash
-                            className="icon icon_font"
-                            onClick={() =>
-                                handlePasswordToggle(
-                                    inputRefs[2],
-                                    passwordVisible,
-                                    setPasswordVisible
-                                )
-                            }
-                        />
-                    )}
-                </div>
-            )}
             {isLogin && (
                 <>
                     {!loading && (
-                        <button
+                        <SubmitButton
                             alt="Entrar"
-                            disabled={email === "" || password.length < 6}
-                            className={styles.btn}
+                            disabled={
+                                formData.email === "" ||
+                                formData.password.length < 6
+                            }
                         >
                             Entrar
-                        </button>
+                        </SubmitButton>
                     )}
 
                     {loading && (
-                        <button alt="Aguarde" className={styles.btn} disabled>
-                            Aguarde...
-                        </button>
+                        <SubmitButton disabled>Aguarde...</SubmitButton>
                     )}
                 </>
             )}
             {!isLogin && (
-                <button
+                <SubmitButton
                     alt="Cadastrar"
-                    disabled={email === "" || password.length < 6}
-                    className={styles.btn}
+                    disabled={
+                        formData.email === "" || formData.password.length < 6
+                    }
                     type="submit"
                 >
                     Cadastrar
-                </button>
+                </SubmitButton>
             )}
 
             {isLogin && (
