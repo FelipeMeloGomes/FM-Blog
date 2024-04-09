@@ -7,6 +7,8 @@ import {
     FaUser,
     FaLock,
     FaCloudSun,
+    FaEye,
+    FaEyeSlash,
 } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { FiLogOut, FiAtSign } from "react-icons/fi";
@@ -19,6 +21,10 @@ const Icon = ({ name, ...props }) => {
     switch (name) {
         case "user":
             return <FaUser {...props} />;
+        case "eye":
+            return <FaEye {...props} />;
+        case "slash":
+            return <FaEyeSlash {...props} />;
         case "cloud-sun":
             return <FaCloudSun {...props} />;
         case "humidity":
