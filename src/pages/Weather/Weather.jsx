@@ -6,15 +6,13 @@ import useWeatherData from "../../hooks/useWeatherData";
 import { TitleParagraph } from "../../components/TitleParagraph";
 import { Spinner } from "../../components/Spinner";
 import { LayoutPage } from "./../../components/LayoutPage";
-import { Icon } from "../../components/IconComponent";
 
 // Estilos Css
 import styles from "./Weather.module.css";
 
 const Weather = () => {
     const [city, setCity] = useState("");
-    const [wicon, setWicon] = useState(<Icon name="cloud-sun" />);
-    const { isLoading, climaData, fetchData } = useWeatherData();
+    const { isLoading, climaData, fetchData, wicon, Icon } = useWeatherData();
     const [showDetails, setShowDetails] = useState(false);
 
     const handleKeyDown = (e) => {
