@@ -44,17 +44,21 @@
     cursor: pointer;
 }
 
+.search_icon:hover {
+    background-color: black;
+    color: #ebfffc;
+}
+
 .icon_font {
     font-size: 3em;
     color: white;
 }
 
 .weather_image {
-    margin-top: 29px;
     display: flex;
     justify-content: center;
     color: white;
-    font-size: 3em;
+    font-size: 4em;
 }
 
 .weather_image img {
@@ -66,7 +70,7 @@
     display: flex;
     justify-content: center;
     color: white;
-    font-size: 3.5em;
+    font-size: 4em;
     font-weight: 400;
 }
 
@@ -76,6 +80,14 @@
     color: white;
     font-size: 2.5em;
     font-weight: 400;
+}
+.weather_container {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 2em;
 }
 
 .data_container {
