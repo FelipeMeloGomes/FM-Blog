@@ -6,11 +6,11 @@ import { useParams, Link } from "react-router-dom";
 
 // Hooks
 import { useFetchDocument } from "../../hooks/useFetchDocument";
-import { Icon } from "../../components/IconComponent";
 
 // Components
 import { Spinner } from "../../components/Spinner";
 import { LikeButton } from "../../components/LikeButton";
+import { Icon } from "../../components/IconComponent";
 
 const Post = () => {
     const { id } = useParams();
