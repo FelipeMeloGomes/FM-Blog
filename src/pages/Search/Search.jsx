@@ -12,8 +12,8 @@ import { MdArrowBack } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 // Components
-import PostDetail from "../../components/PostDetail/PostDetail";
-import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+import { PostDetail } from "../../components/PostDetail";
+import { TitleParagraph } from "./../../components/TitleParagraph";
 
 const Search = () => {
     const query = useQuery();

@@ -2,7 +2,7 @@
 import styles from "./NotFound.module.css";
 
 // Components
-import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
+import { TitleParagraph } from "../../components/TitleParagraph";
 
 // Img
 import NotFoundImg from "./assets/NotFoundImg.webp";

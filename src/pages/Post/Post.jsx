@@ -11,8 +11,8 @@ import { MdArrowBack } from "react-icons/md";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 
 // Components
-import Spinner from "../../components/Spinner/Spinner";
-import LikeButton from "../../components/LikeButton/LikeButton";
+import { Spinner } from "../../components/Spinner";
+import { LikeButton } from "../../components/LikeButton";
 
 const Post = () => {
     const { id } = useParams();

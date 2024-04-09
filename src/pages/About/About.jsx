@@ -8,8 +8,8 @@ import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import aboutImg from "./assets/about.webp";
 
 // components
-import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
-import LayoutPage from "./../../components/LayoutPage/LayoutPage";
+import { TitleParagraph } from "./../../components/TitleParagraph";
+import { LayoutPage } from "./../../components/LayoutPage";
 
 const About = () => {
     return (

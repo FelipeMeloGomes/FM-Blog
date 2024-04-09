@@ -12,22 +12,22 @@ import { useAuthentication } from "./hooks/useAuthentication";
 import { AuthProvider } from "./context/AuthContext";
 
 // Components
-import NavBar from "./components/NavBar/NavBar";
-import Spinner from "./components/Spinner/Spinner";
-import LayoutPage from "./components/LayoutPage/LayoutPage";
+import { NavBar } from "./components/NavBar";
+import { Spinner } from "./components/Spinner";
+import { LayoutPage } from "./components/LayoutPage";
 
 // Pages
-import Home from "./pages/Home/Home";
-import About from "./pages/About/About";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import CreatePost from "./pages/CreatePost/CreatePost";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Search from "./pages/Search/Search";
-import Post from "./pages/Post/Post";
-import EditPost from "./pages/EditPost/EditPost";
-import NotFound from "./pages/NotFound/NotFound";
-import Weather from "./pages/Weather/Weather";
+import { Home } from "./pages/Home";
+import { About } from "./pages/About";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
+import { CreatePost } from "./pages/CreatePost";
+import { Dashboard } from "./pages/Dashboard";
+import { Search } from "./pages/Search";
+import { Post } from "./pages/Post";
+import { EditPost } from "./pages/EditPost";
+import { NotFound } from "./pages/NotFound";
+import { Weather } from "./pages/Weather";
 
 function App() {
     const [user, setUser] = useState(undefined);

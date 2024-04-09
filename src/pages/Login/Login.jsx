@@ -3,9 +3,9 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 import { useState, useEffect } from "react";
 
 // components
-import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
-import LoginForm from "../../components/LoginForm/LoginForm";
-import LayoutPage from "../../components/LayoutPage/LayoutPage";
+import { TitleParagraph } from "../../components/TitleParagraph";
+import { LoginForm } from "../../components/LoginForm";
+import { LayoutPage } from "../../components/LayoutPage";
 
 const Login = () => {
     const { login, error: authError } = useAuthentication();

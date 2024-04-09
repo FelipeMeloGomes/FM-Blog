@@ -10,8 +10,8 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 
 // components
-import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
-import Spinner from "../../components/Spinner/Spinner";
+import { TitleParagraph } from "../../components/TitleParagraph";
+import { Spinner } from "../../components/Spinner";
 
 const Dashboard = ({ createdBy }) => {
     const { user } = useAuthValue();

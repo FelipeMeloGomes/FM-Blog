@@ -12,9 +12,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 
 // Components
-import PostDetail from "../../components/PostDetail/PostDetail";
-import Spinner from "../../components/Spinner/Spinner";
-import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+import { PostDetail } from "../../components/PostDetail";
+import { Spinner } from "../../components/Spinner";
+import { TitleParagraph } from "./../../components/TitleParagraph";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");

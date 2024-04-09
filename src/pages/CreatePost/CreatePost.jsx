@@ -2,8 +2,8 @@
 import styles from "./CreatePost.module.css";
 
 // Components
-import LayoutPage from "./../../components/LayoutPage/LayoutPage";
-import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
+import { LayoutPage } from "./../../components/LayoutPage";
+import { TitleParagraph } from "./../../components/TitleParagraph";
 
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";

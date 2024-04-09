@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import useWeatherData from "../../hooks/useWeatherData";
 
 // Components
-import TitleParagraph from "../../components/TitleParagraph/TitleParagraph";
-import Spinner from "../../components/Spinner/Spinner";
-import LayoutPage from "./../../components/LayoutPage/LayoutPage";
+import { TitleParagraph } from "../../components/TitleParagraph";
+import { Spinner } from "../../components/Spinner";
+import { LayoutPage } from "./../../components/LayoutPage";
 
 // Estilos Css
 import styles from "./Weather.module.css";
