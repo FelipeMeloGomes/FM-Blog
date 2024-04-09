@@ -10,13 +10,11 @@ import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { useEffect, useState } from "react";
 import usePostForm from "../../hooks/usePostForm";
+import useFormSubmit from "../../hooks/useFormSubmit";
 
 // editor text
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
-// Utils
-import useFormSubmit from "../../utils/useFormSubmit";
 
 const EditPost = () => {
     const [content, setContent] = useState("");

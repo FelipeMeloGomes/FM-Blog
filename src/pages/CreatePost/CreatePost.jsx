@@ -5,13 +5,11 @@ import styles from "./CreatePost.module.css";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
-// utils
-import useFormSubmit from "../../utils/useFormSubmit";
-
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import usePostForm from "../../hooks/usePostForm";
+import useFormSubmit from "../../hooks/useFormSubmit";
 
 // Editor text
 import ReactQuill from "react-quill";
