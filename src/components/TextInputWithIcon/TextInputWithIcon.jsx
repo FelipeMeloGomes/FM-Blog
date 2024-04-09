@@ -3,7 +3,8 @@ import styles from "./TextInputWithIcon.module.css";
 
 const TextInputWithIcon = ({
     label,
-    Icon,
+    icon: Icon,
+    iconName,
     name,
     value,
     minLength,
@@ -17,7 +18,7 @@ const TextInputWithIcon = ({
         <div className={styles.flex_column}>
             <label>{label}</label>
             <div className={styles.inputForm}>
-                {Icon && <Icon className="icon_font" />}
+                {Icon && <Icon name={iconName} className="icon_font" />}
                 <input
                     type="text"
                     name={name}

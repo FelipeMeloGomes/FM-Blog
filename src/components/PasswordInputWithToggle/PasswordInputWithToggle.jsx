@@ -1,9 +1,6 @@
 // React
 import { forwardRef } from "react";
 
-// Icons
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-
 // Estilos Css
 import styles from "./PasswordInputWithToggle.module.css";
 
@@ -21,7 +18,8 @@ const PasswordInputWithToggle = forwardRef(
             alt,
             passwordVisible,
             togglePasswordVisibility,
-            Icon,
+            icon: Icon,
+            iconName,
         },
         ref
     ) => {
@@ -29,7 +27,7 @@ const PasswordInputWithToggle = forwardRef(
             <div className={styles.flex_column}>
                 <label>{label}</label>
                 <div className={styles.inputForm}>
-                    {Icon && <Icon className="icon_font" />}
+                    {Icon && <Icon name={iconName} className="icon_font" />}
                     <input
                         type={passwordVisible ? "text" : "password"}
                         name={name}
@@ -44,14 +42,16 @@ const PasswordInputWithToggle = forwardRef(
                         ref={ref}
                     />
                     {passwordVisible ? (
-                        <FaEye
+                        <Icon
+                            name="eye"
                             className="icon icon_font"
                             onClick={() => {
                                 togglePasswordVisibility();
                             }}
                         />
                     ) : (
-                        <FaEyeSlash
+                        <Icon
+                            name="slash"
                             className="icon icon_font"
                             onClick={() => {
                                 togglePasswordVisibility();

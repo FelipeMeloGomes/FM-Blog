@@ -1,23 +1,18 @@
 // Hooks React
 import { useState, useEffect } from "react";
+import { useAuthentication } from "../../hooks/useAuthentication";
 
 // React Router Dom
 import { Link } from "react-router-dom";
 
-// Icons
-import { FaUser, FaLock } from "react-icons/fa";
-import { FiAtSign } from "react-icons/fi";
-
 // Estilos css
 import styles from "./LoginForm.module.css";
 
-// Hooks
-import { useAuthentication } from "../../hooks/useAuthentication";
-
 // Components
-import TextInputWithIcon from "../TextInputWithIcon/TextInputWithIcon";
-import PasswordInputWithToggle from "../PasswordInputWithToggle/PasswordInputWithToggle";
-import SubmitButton from "../SubmitButton/SubmitButton";
+import { TextInputWithIcon } from "../TextInputWithIcon";
+import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
+import { SubmitButton } from "../SubmitButton";
+import { Icon } from "../IconComponent";
 
 const LoginForm = ({ isLogin = false, onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -77,7 +72,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     label="Nome de usuário"
                     name="displayName"
                     value={formData.displayName}
-                    Icon={FaUser}
+                    icon={Icon}
+                    iconName={"user"}
                     minLength={6}
                     maxLength={16}
                     required
@@ -95,8 +91,9 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
             <TextInputWithIcon
                 label="Email"
                 name="email"
+                icon={Icon}
+                iconName={"sign"}
                 value={formData.email}
-                Icon={FiAtSign}
                 minLength={6}
                 required
                 onChange={(e) =>
@@ -112,7 +109,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 value={formData.password}
                 minLength={6}
                 maxLength={64}
-                Icon={FaLock}
+                icon={Icon}
+                iconName={"lock"}
                 required
                 onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
@@ -129,7 +127,8 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                     label="Confirmar Senha"
                     placeholder="Confirme a sua senha"
                     alt="Confirme a  sua senha"
-                    Icon={FaLock}
+                    icon={Icon}
+                    iconName={"lock"}
                     minLength={6}
                     maxLength={64}
                     required
