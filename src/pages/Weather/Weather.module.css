@@ -53,6 +53,8 @@
     margin-top: 29px;
     display: flex;
     justify-content: center;
+    color: white;
+    font-size: 3em;
 }
 
 .weather_image img {
