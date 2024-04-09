@@ -2,13 +2,14 @@
 import styles from "./EditPost.module.css";
 
 // React Router Dom
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import useEditPost from "./../../hooks/useEditPost";
 
 // editor text
 import ReactQuill from "react-quill";
@@ -19,33 +20,24 @@ import useFormSubmit from "../../utils/useFormSubmit";
 
 const EditPost = () => {
     const [content, setContent] = useState("");
-    const [title, setTitle] = useState("");
     const { user } = useAuthValue();
     const { id } = useParams();
-    const navigate = useNavigate();
-    const titleRef = useRef("");
-    const imageRef = useRef("");
-    const bodyRef = useRef("");
-    const tagsRef = useRef("");
     const { document: post } = useFetchDocument("posts", id);
     const { updateDocument, response } = useUpdateDocument("posts");
 
-    useEffect(() => {
-        if (post && bodyRef.current) {
-            titleRef.current.value = post.title;
-            setContent(post.body);
-            imageRef.current.value = post.image;
-            const textTags = post.tagsArray.join(", ");
-            tagsRef.current.value = textTags;
-        }
-    }, [post, titleRef, bodyRef, imageRef, tagsRef]);
-
-    const handleInputChange = (e) => {
-        const newTitle = e.target.value;
-        setTimeout(() => {
-            setTitle(newTitle);
-        }, 250);
+    const handleEditorChange = (content) => {
+        setContent(content);
     };
+
+    const {
+        bodyRef,
+        handleInputChange,
+        imageRef,
+        navigate,
+        tagsRef,
+        title,
+        titleRef,
+    } = useEditPost();
 
     const { handleSubmit, formError } = useFormSubmit({
         updateDocument,
@@ -59,9 +51,15 @@ const EditPost = () => {
         postId: id,
     });
 
-    const handleEditorChange = (content) => {
-        setContent(content);
-    };
+    useEffect(() => {
+        if (post && bodyRef.current) {
+            titleRef.current.value = post.title;
+            setContent(post.body);
+            imageRef.current.value = post.image;
+            const textTags = post.tagsArray.join(", ");
+            tagsRef.current.value = textTags;
+        }
+    }, [post, titleRef, bodyRef, imageRef, tagsRef]);
 
     return (
         <div className={styles.container}>

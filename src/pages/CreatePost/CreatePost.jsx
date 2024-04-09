@@ -5,6 +5,9 @@ import styles from "./CreatePost.module.css";
 import LayoutPage from "./../../components/LayoutPage/LayoutPage";
 import TitleParagraph from "./../../components/TitleParagraph/TitleParagraph";
 
+// utils
+import useFormSubmit from "../../utils/useFormSubmit";
+
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
@@ -21,14 +24,24 @@ const CreatePost = () => {
         imageUrl,
         bodyRef,
         tagsRef,
-        handleSubmit,
-        formError,
         handleInputChange,
         errorParagraph,
         error,
+        navigate,
     } = useCreatePost();
     const { user } = useAuthValue();
     const { insertDocument, response } = useInsertDocument("posts");
+
+    const { handleSubmit, formError } = useFormSubmit({
+        insertDocument,
+        navigate,
+        titleRef,
+        imageRef,
+        bodyRef,
+        tagsRef,
+        user,
+        actionType: "create",
+    });
 
     return (
         <LayoutPage textAlign="center">

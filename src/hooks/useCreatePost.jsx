@@ -3,9 +3,6 @@ import { useRef, useState } from "react";
 // React Router Dom
 import { useNavigate } from "react-router-dom";
 
-// Hooks
-import useFormSubmit from "../utils/useFormSubmit";
-
 const useCreatePost = () => {
     const titleRef = useRef(null);
     const imageRef = useRef(null);
@@ -14,17 +11,6 @@ const useCreatePost = () => {
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState("");
     const [error, setError] = useState("");
-
-    const { handleSubmit, formError } = useFormSubmit({
-        insertDocument: null,
-        navigate,
-        titleRef,
-        imageRef,
-        bodyRef,
-        tagsRef,
-        user: null,
-        actionType: "create",
-    });
 
     const handleInputChange = (e) => {
         const url = e.target.value;
@@ -50,8 +36,6 @@ const useCreatePost = () => {
         bodyRef,
         tagsRef,
         navigate,
-        handleSubmit,
-        formError,
         handleInputChange,
         errorParagraph,
         error,
