@@ -8,13 +8,11 @@ import { useState } from "react";
 // React Router Dom
 import { useNavigate, Link } from "react-router-dom";
 
-// Icons
-import { CiSearch } from "react-icons/ci";
-
 // Components
 import { PostDetail } from "../../components/PostDetail";
 import { Spinner } from "../../components/Spinner";
 import { TitleParagraph } from "./../../components/TitleParagraph";
+import { Icon } from "../../components/IconComponent";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
@@ -49,7 +47,7 @@ const Home = () => {
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
                 />
                 <button className="btn btn-dark" aria-label="Pesquisar">
-                    <CiSearch className="icon_font" />
+                    <Icon name="search" className="icon_font" />
                 </button>
             </form>
             <div className="post-list">

@@ -7,12 +7,10 @@ import styles from "./PostDetail.module.css";
 // Hooks React
 import { useEffect, useState } from "react";
 
-// Icons
-import { FaUser } from "react-icons/fa";
-
 // Components
 import { LikeButton } from "../LikeButton";
 import { Spinner } from "../Spinner";
+import { Icon } from "../IconComponent";
 
 const PostDetail = ({ post }) => {
     const [loading, setLoading] = useState(false);
@@ -35,7 +33,7 @@ const PostDetail = ({ post }) => {
                     </figure>
                     <h2>{post.title}</h2>
                     <p className={styles.createdby}>
-                        <FaUser /> {post.createdBy}
+                        <Icon name="user" /> {post.createdBy}
                     </p>
                     <p className={styles.block}></p>
 

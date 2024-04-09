@@ -6,18 +6,14 @@ import useWeatherData from "../../hooks/useWeatherData";
 import { TitleParagraph } from "../../components/TitleParagraph";
 import { Spinner } from "../../components/Spinner";
 import { LayoutPage } from "./../../components/LayoutPage";
+import { Icon } from "../../components/IconComponent";
 
 // Estilos Css
 import styles from "./Weather.module.css";
 
-// Icons
-import { CiSearch } from "react-icons/ci";
-import { WiHumidity, WiWindy } from "react-icons/wi";
-import { FaCloudSun } from "react-icons/fa";
-
 const Weather = () => {
     const [city, setCity] = useState("");
-    const [wicon, setWicon] = useState(<FaCloudSun />);
+    const [wicon, setWicon] = useState(<Icon name="cloud-sun" />);
     const { isLoading, climaData, fetchData } = useWeatherData();
     const [showDetails, setShowDetails] = useState(false);
 
@@ -60,7 +56,7 @@ const Weather = () => {
                         onKeyDown={handleKeyDown}
                     />
                     <div className={styles.search_icon} onClick={search}>
-                        <CiSearch className="icon_font" />
+                        <Icon name="search" className="icon_font" />
                     </div>
                 </div>
 
@@ -92,7 +88,10 @@ const Weather = () => {
                         </div>
                         <div className={styles.data_container}>
                             <div className={styles.element}>
-                                <WiHumidity className={styles.icon_font} />
+                                <Icon
+                                    name="humidity"
+                                    className={styles.icon_font}
+                                />
                                 <div className={styles.data}>
                                     <div className={styles.humidity_percent}>
                                         {climaData.humidity}%
@@ -102,7 +101,10 @@ const Weather = () => {
                             </div>
 
                             <div className={styles.element}>
-                                <WiWindy className={styles.icon_font} />
+                                <Icon
+                                    name="windy"
+                                    className={styles.icon_font}
+                                />
                                 <div className={styles.data}>
                                     <div className={styles.wind_rate}>
                                         {climaData.wind} km/h

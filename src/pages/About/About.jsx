@@ -1,15 +1,13 @@
 // Estilos css
 import styles from "./About.module.css";
 
-// Icons
-import { FaGithub, FaLinkedin } from "react-icons/fa6";
-
 // Image
 import aboutImg from "./assets/about.webp";
 
 // components
 import { TitleParagraph } from "./../../components/TitleParagraph";
 import { LayoutPage } from "./../../components/LayoutPage";
+import { Icon } from "../../components/IconComponent";
 
 const About = () => {
     return (
@@ -25,7 +23,10 @@ const About = () => {
                         href="https://www.linkedin.com/in/felipemelog/"
                         target="_blank"
                     >
-                        <FaLinkedin className={styles.icon_linkedin} />
+                        <Icon
+                            name="linkedin"
+                            className={styles.icon_linkedin}
+                        />
                     </a>
                 </button>
                 <button alt="Github" className={styles.button}>
@@ -33,7 +34,7 @@ const About = () => {
                         href="https://github.com/FelipeMeloGomes/FM-Blog"
                         target="_blank"
                     >
-                        <FaGithub className={styles.icon_github} />
+                        <Icon name="github" className={styles.icon_github} />
                     </a>
                 </button>
             </div>

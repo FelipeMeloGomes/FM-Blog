@@ -4,11 +4,9 @@ import styles from "./Post.module.css";
 // React Router Dom
 import { useParams, Link } from "react-router-dom";
 
-// Icons
-import { MdArrowBack } from "react-icons/md";
-
 // Hooks
 import { useFetchDocument } from "../../hooks/useFetchDocument";
+import { Icon } from "../../components/IconComponent";
 
 // Components
 import { Spinner } from "../../components/Spinner";
@@ -63,7 +61,7 @@ const Post = () => {
 
                         <div className={styles.btnArrow}>
                             <Link to="/" className="btn btn-outline">
-                                <MdArrowBack className="icon_font" />
+                                <Icon name="arrow-back" className="icon_font" />
                             </Link>
                             <LikeButton />
                         </div>

@@ -6,21 +6,11 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 import { useAuthValue } from "../../context/AuthContext";
 import { useState } from "react";
 
+// Components
+import { Icon } from "../IconComponent";
+
 // Estilos css
 import styles from "./NavBar.module.css";
-
-// Icons
-import {
-    FaBars,
-    FaHome,
-    FaInfo,
-    FaCloud,
-    FaPlus,
-    FaUser,
-} from "react-icons/fa";
-import { ImCross } from "react-icons/im";
-import { FiLogOut } from "react-icons/fi";
-import { MdOutlinePostAdd, MdDashboard } from "react-icons/md";
 
 const NavBar = () => {
     const [Mobile, setMobile] = useState(false);
@@ -40,7 +30,7 @@ const NavBar = () => {
                 className={styles.mobile_icon}
                 onClick={() => setMobile(!Mobile)}
             >
-                {Mobile ? <ImCross /> : <FaBars />}
+                {Mobile ? <Icon name="cross" /> : <Icon name="bars" />}
             </button>
             <ul
                 className={Mobile ? styles.nav_mobile : styles.nav_list}
@@ -54,7 +44,7 @@ const NavBar = () => {
                             isActive ? styles.active : ""
                         }
                     >
-                        <FaHome className={styles.icon} />
+                        <Icon name="home" className={styles.icon} />
                         Home
                     </NavLink>
                 </li>
@@ -68,7 +58,7 @@ const NavBar = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <FaUser className={styles.icon} />
+                                <Icon name="user" className={styles.icon} />
                                 Entrar
                             </NavLink>
                         </li>
@@ -81,7 +71,7 @@ const NavBar = () => {
                                 }
                             >
                                 {" "}
-                                <FaPlus className={styles.icon} />
+                                <Icon name="plus" className={styles.icon} />
                                 Cadastrar
                             </NavLink>
                         </li>
@@ -97,7 +87,7 @@ const NavBar = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <MdOutlinePostAdd className={styles.icon} />
+                                <Icon name="add" className={styles.icon} />
                                 Novo Post
                             </NavLink>
                         </li>
@@ -109,7 +99,10 @@ const NavBar = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <MdDashboard className={styles.icon} />
+                                <Icon
+                                    name="dashboard"
+                                    className={styles.icon}
+                                />
                                 Dashboard
                             </NavLink>
                         </li>
@@ -121,7 +114,7 @@ const NavBar = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <FaCloud className={styles.icon} />
+                                <Icon name="cloud" className={styles.icon} />
                                 Clima
                             </NavLink>
                         </li>
@@ -136,7 +129,7 @@ const NavBar = () => {
                             isActive ? styles.active : ""
                         }
                     >
-                        <FaInfo className={styles.icon} />
+                        <Icon name="info" className={styles.icon} />
                         Sobre
                     </NavLink>
                 </li>
@@ -144,7 +137,7 @@ const NavBar = () => {
                 {user && (
                     <li>
                         <button className={styles.bntLogout} onClick={logout}>
-                            <FiLogOut className={styles.icon} />
+                            <Icon name="logout" className={styles.icon} />
                             Sair
                         </button>
                     </li>

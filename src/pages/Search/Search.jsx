@@ -5,15 +5,13 @@ import styles from "./Search.module.css";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useQuery } from "../../hooks/useQuery";
 
-// Icons
-import { MdArrowBack } from "react-icons/md";
-
 // React Router Dom
 import { Link } from "react-router-dom";
 
 // Components
 import { PostDetail } from "../../components/PostDetail";
 import { TitleParagraph } from "./../../components/TitleParagraph";
+import { Icon } from "../../components/IconComponent";
 
 const Search = () => {
     const query = useQuery();
@@ -37,7 +35,7 @@ const Search = () => {
             {posts && posts.length > 0 && (
                 <div className={styles.btnArrow}>
                     <Link to="/" className="btn btn-outline">
-                        <MdArrowBack className="icon_font" />
+                        <Icon name="arrow-back" className="icon_font" />
                     </Link>
                 </div>
             )}
