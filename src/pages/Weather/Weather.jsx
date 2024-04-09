@@ -32,6 +32,7 @@ const Weather = () => {
 
         fetchData(normalizedCity);
         setShowDetails(true);
+        setCity("");
     };
 
     useEffect(() => {
@@ -71,18 +72,20 @@ const Weather = () => {
 
                 {showDetails && !isLoading && (
                     <>
-                        <div className={styles.weather_image}>{wicon}</div>
-
-                        <div className={styles.weather_temp}>
-                            {climaData.temperature !== ""
-                                ? climaData.temperature
-                                      .toString()
-                                      .substring(0, 2)
-                                : ""}
-                            °C
-                        </div>
                         <div className={styles.weather_location}>
                             {climaData.location}
+                        </div>
+                        <div className={styles.weather_container}>
+                            <div className={styles.weather_image}>{wicon}</div>
+
+                            <div className={styles.weather_temp}>
+                                {climaData.temperature !== ""
+                                    ? climaData.temperature
+                                          .toString()
+                                          .substring(0, 2)
+                                    : ""}
+                                °C
+                            </div>
                         </div>
                         <div className={styles.data_container}>
                             <div className={styles.element}>
