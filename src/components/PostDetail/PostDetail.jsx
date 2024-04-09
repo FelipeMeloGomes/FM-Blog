@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 
 // Components
-import LikeButton from "../LikeButton/LikeButton";
-import Spinner from "../Spinner/Spinner";
+import { LikeButton } from "../LikeButton";
+import { Spinner } from "../Spinner";
 
 const PostDetail = ({ post }) => {
     const [loading, setLoading] = useState(false);
