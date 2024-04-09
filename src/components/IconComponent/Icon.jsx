@@ -9,9 +9,13 @@ import {
     FaCloudSun,
     FaEye,
     FaEyeSlash,
+    FaSun,
+    FaSnowflake,
+    FaCloudRain,
 } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { FiLogOut, FiAtSign } from "react-icons/fi";
+import { BsCloudDrizzle } from "react-icons/bs";
 import { MdOutlinePostAdd, MdDashboard, MdArrowBack } from "react-icons/md";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
@@ -21,6 +25,14 @@ const Icon = ({ name, ...props }) => {
     switch (name) {
         case "user":
             return <FaUser {...props} />;
+        case "drizzle":
+            return <BsCloudDrizzle {...props} />;
+        case "rain":
+            return <FaCloudRain {...props} />;
+        case "snow":
+            return <FaSnowflake {...props} />;
+        case "sun":
+            return <FaSun {...props} />;
         case "eye":
             return <FaEye {...props} />;
         case "slash":
