@@ -9,7 +9,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { useEffect, useState } from "react";
-import useEditPost from "./../../hooks/useEditPost";
+import usePostForm from "../../hooks/usePostForm";
 
 // editor text
 import ReactQuill from "react-quill";
@@ -31,13 +31,13 @@ const EditPost = () => {
 
     const {
         bodyRef,
-        handleInputChange,
+        handleTitleChange,
         imageRef,
         navigate,
         tagsRef,
         title,
         titleRef,
-    } = useEditPost();
+    } = usePostForm();
 
     const { handleSubmit, formError } = useFormSubmit({
         updateDocument,
@@ -90,7 +90,7 @@ const EditPost = () => {
                                 className={styles.input__field}
                                 placeholder="Pense num bom título"
                                 ref={titleRef}
-                                onChange={handleInputChange}
+                                onChange={handleTitleChange}
                             />
                         </div>
                         <div className={styles.input}>

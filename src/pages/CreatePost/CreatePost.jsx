@@ -11,7 +11,7 @@ import useFormSubmit from "../../utils/useFormSubmit";
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import useCreatePost from "../../hooks/useCreatePost";
+import usePostForm from "../../hooks/usePostForm";
 
 // Editor text
 import ReactQuill from "react-quill";
@@ -24,11 +24,11 @@ const CreatePost = () => {
         imageUrl,
         bodyRef,
         tagsRef,
-        handleInputChange,
+        handleImageUrlChange,
         errorParagraph,
         error,
         navigate,
-    } = useCreatePost();
+    } = usePostForm();
     const { user } = useAuthValue();
     const { insertDocument, response } = useInsertDocument("posts");
 
@@ -75,7 +75,7 @@ const CreatePost = () => {
                             alt="Insira uma imagem"
                             required
                             ref={imageRef}
-                            onChange={handleInputChange}
+                            onChange={handleImageUrlChange}
                             placeholder="Insira uma imagem"
                         />
                         <figure className={styles.containerImg}>
