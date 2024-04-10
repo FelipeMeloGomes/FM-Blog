@@ -38,12 +38,11 @@ const PostDetail = ({ post }) => {
                     <p className={styles.block}></p>
 
                     <div className={styles.tags}>
-                        {post.tagsArray &&
-                            post.tagsArray.map((tag, index) => (
-                                <div key={`${tag}_${index}`}>
-                                    <p>{tag}</p>
-                                </div>
-                            ))}
+                        {post?.tagsArray.map((tag, index) => (
+                            <div key={`${tag}_${index}`}>
+                                <p>{tag}</p>
+                            </div>
+                        ))}
                     </div>
 
                     <div className={styles.container_btn}>
