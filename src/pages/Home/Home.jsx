@@ -15,7 +15,7 @@ import { TitleParagraph } from "./../../components/TitleParagraph";
 import { Icon } from "../../components/IconComponent";
 
 // utils
-import { sortPostsByTitle } from "./../../utils/sortPostsByTitle";
+import { SortPost } from "../../utils/SortPost";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
@@ -33,7 +33,7 @@ const Home = () => {
 
     useEffect(() => {
         if (posts) {
-            const sorted = sortPostsByTitle(posts);
+            const sorted = SortPost(posts);
             setSortedPosts(sorted);
         }
     }, [posts]);

@@ -14,6 +14,9 @@ import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SubmitButton } from "../SubmitButton";
 import { Icon } from "../IconComponent";
 
+// utils
+import { PasswordToggle } from "../../utils/PasswordToggle";
+
 const LoginForm = ({ isLogin = false, onSubmit }) => {
     const [formData, setFormData] = useState({
         displayName: "",
@@ -22,7 +25,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         confirmPassword: "",
     });
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [passwordVisible2, setPasswordVisible2] = useState(false);
+    const [passwordVisibleTwo, setPasswordVisibleTwo] = useState(false);
     const [error, setError] = useState("");
     const {
         login,
@@ -30,10 +33,6 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         error: authError,
         loading,
     } = useAuthentication();
-
-    const handlePasswordToggle = (setPasswordVisible) => {
-        setPasswordVisible((prev) => !prev);
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -117,9 +116,9 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                 }
                 placeholder="Insira sua senha"
                 alt="Insira sua senha"
-                passwordVisible={passwordVisible2}
+                passwordVisible={passwordVisibleTwo}
                 togglePasswordVisibility={() =>
-                    handlePasswordToggle(setPasswordVisible2)
+                    PasswordToggle(setPasswordVisibleTwo)
                 }
             />
             {!isLogin && (
@@ -141,7 +140,7 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
                         })
                     }
                     togglePasswordVisibility={() =>
-                        handlePasswordToggle(setPasswordVisible)
+                        PasswordToggle(setPasswordVisible)
                     }
                 />
             )}

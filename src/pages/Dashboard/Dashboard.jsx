@@ -15,7 +15,7 @@ import { TitleParagraph } from "../../components/TitleParagraph";
 import { Spinner } from "../../components/Spinner";
 
 // utils
-import { sortPostsByTitle } from "../../utils/sortPostsByTitle";
+import { SortPost } from "../../utils/SortPost";
 
 const Dashboard = ({ createdBy }) => {
     const { user } = useAuthValue();
@@ -26,7 +26,7 @@ const Dashboard = ({ createdBy }) => {
 
     useEffect(() => {
         if (posts) {
-            const sorted = sortPostsByTitle(posts);
+            const sorted = SortPost(posts);
             setSortedPosts(sorted);
         }
     }, [posts]);
