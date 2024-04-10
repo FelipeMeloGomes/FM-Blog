@@ -69,3 +69,4 @@ Melhorias implementadas:
 -   Novo botão de Like adicionado.
 -   Novos componentes para otimizar a perfomance
 -   Adição de novos hooks personalizados para melhoria de perfomance.
+-   Adição do react-quill para construção de melhores textos.
