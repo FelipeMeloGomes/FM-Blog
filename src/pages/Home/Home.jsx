@@ -60,10 +60,9 @@ const Home = () => {
                         </Link>
                     </div>
                 )}
-                {sortedPosts &&
-                    sortedPosts.map((post) => (
-                        <PostDetail key={post.id} post={post} />
-                    ))}
+                {sortedPosts?.map((post) => (
+                    <PostDetail key={post.id} post={post} />
+                ))}
             </div>
         </div>
     );
