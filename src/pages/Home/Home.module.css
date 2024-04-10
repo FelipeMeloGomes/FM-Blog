@@ -20,6 +20,10 @@
     padding-left: 20px;
 }
 
+.search_form input::placeholder {
+    font-size: 1em;
+}
+
 .noposts {
     text-align: center;
 }
