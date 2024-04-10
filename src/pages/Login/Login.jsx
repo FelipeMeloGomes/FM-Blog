@@ -1,6 +1,7 @@
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import useLoginForm from "../../hooks/useLoginForm";
 
 // components
 import { TitleParagraph } from "../../components/TitleParagraph";
@@ -8,17 +9,8 @@ import { LoginForm } from "../../components/LoginForm";
 import { LayoutPage } from "../../components/LayoutPage";
 
 const Login = () => {
-    const { login, error: authError } = useAuthentication();
-    const [error, setError] = useState("");
-
-    const handleSubmit = async (formData) => {
-        try {
-            setError("");
-            const res = await login(formData.email, formData.password);
-        } catch (error) {
-            console.error("Erro:", error);
-        }
-    };
+    const { error: authError } = useAuthentication();
+    const { handleLoginSubmit } = useLoginForm();
 
     useEffect(() => {
         if (authError) {
@@ -31,7 +23,7 @@ const Login = () => {
                 title="Entrar"
                 paragraph="Faça login para utilizar o sistema!"
             />
-            <LoginForm onSubmit={handleSubmit} isLogin={true} />
+            <LoginForm onSubmit={handleLoginSubmit} isLogin={true} />
         </LayoutPage>
     );
 };

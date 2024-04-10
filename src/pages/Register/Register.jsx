@@ -1,6 +1,7 @@
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import useLoginForm from "../../hooks/useLoginForm";
 
 // components
 import { TitleParagraph } from "../../components/TitleParagraph";
@@ -8,28 +9,8 @@ import { LoginForm } from "../../components/LoginForm";
 import { LayoutPage } from "./../../components/LayoutPage";
 
 const Register = () => {
-    const { createUser, error: authError } = useAuthentication();
-    const [error, setError] = useState("");
-
-    const handleSubmit = async (formData) => {
-        try {
-            setError("");
-
-            const user = await createUser(
-                formData.displayName,
-                formData.email,
-                formData.password
-            );
-
-            if (user && user.uid) {
-                console.log("Usuário criado:", user);
-            } else {
-                throw new Error("Erro ao criar usuário");
-            }
-        } catch (error) {
-            setError(error.message);
-        }
-    };
+    const { error: authError } = useAuthentication();
+    const { handleSignupSubmit } = useLoginForm();
 
     useEffect(() => {
         if (authError) {
@@ -43,7 +24,7 @@ const Register = () => {
                 title="Cadastre-se para postar"
                 paragraph="Crie o seu usuário e compartilhe suas histórias"
             />
-            <LoginForm onSubmit={handleSubmit} isLogin={false} />
+            <LoginForm onSubmit={handleSignupSubmit} isLogin={false} />
         </LayoutPage>
     );
 };
