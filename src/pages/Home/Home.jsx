@@ -3,7 +3,7 @@ import styles from "./Home.module.css";
 
 // Hooks
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // React Router Dom
 import { useNavigate, Link } from "react-router-dom";
@@ -14,12 +14,14 @@ import { Spinner } from "../../components/Spinner";
 import { TitleParagraph } from "./../../components/TitleParagraph";
 import { Icon } from "../../components/IconComponent";
 
+// utils
+import { sortPostsByTitle } from "./../../utils/sortPostsByTitle";
+
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
-
     const navigate = useNavigate();
-
     const [query, setQuery] = useState("");
+    const [sortedPosts, setSortedPosts] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,9 +31,16 @@ const Home = () => {
         }
     };
 
-    // order post by title
-    const sortedPosts =
-        posts && [...posts].sort((a, b) => a.title.localeCompare(b.title));
+    useEffect(() => {
+        if (posts) {
+            const sorted = sortPostsByTitle(posts);
+            setSortedPosts(sorted);
+        }
+    }, [posts]);
+
+    if (loading || sortedPosts.length === 0) {
+        return <Spinner />;
+    }
 
     return (
         <div className={styles.home}>
@@ -51,8 +60,7 @@ const Home = () => {
                 </button>
             </form>
             <div className="post-list">
-                {loading && <Spinner />}
-                {sortedPosts && sortedPosts.length === 0 && (
+                {sortedPosts?.length === 0 && (
                     <div className={styles.noposts}>
                         <p>Não foram encontrados posts</p>
                         <Link to="/posts/create" className="btn">

@@ -8,19 +8,28 @@ import { Link } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
+import { useState, useEffect } from "react";
 
 // components
 import { TitleParagraph } from "../../components/TitleParagraph";
 import { Spinner } from "../../components/Spinner";
 
+// utils
+import { sortPostsByTitle } from "../../utils/sortPostsByTitle";
+
 const Dashboard = ({ createdBy }) => {
     const { user } = useAuthValue();
     const uid = user.uid;
-
-    // posts users
     const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
-    // delete posts
     const { deleteDocument } = useDeleteDocument("posts");
+    const [sortedPosts, setSortedPosts] = useState([]);
+
+    useEffect(() => {
+        if (posts) {
+            const sorted = sortPostsByTitle(posts);
+            setSortedPosts(sorted);
+        }
+    }, [posts]);
 
     if (loading) {
         return;
@@ -36,7 +45,7 @@ const Dashboard = ({ createdBy }) => {
                 <Spinner />
             ) : (
                 <>
-                    {posts && posts.length === 0 ? (
+                    {sortedPosts?.length === 0 ? (
                         <div className={styles.noposts}>
                             <p>Não foram encontrados posts</p>
                             <Link to="/posts/create" className="btn">
@@ -50,42 +59,34 @@ const Dashboard = ({ createdBy }) => {
                                 <span>Ações</span>
                             </div>
 
-                            {posts &&
-                                posts
-                                    .sort((a, b) =>
-                                        a.title.localeCompare(b.title)
-                                    )
-                                    .map((post) => (
-                                        <div
-                                            key={post.id}
-                                            className={styles.post_row}
+                            {sortedPosts?.map((post) => (
+                                <div key={post.id} className={styles.post_row}>
+                                    <p>{post.title}</p>
+                                    <div>
+                                        <Link
+                                            to={`/posts/${post.id}`}
+                                            className="btn btn-outline"
                                         >
-                                            <p>{post.title}</p>
-                                            <div>
-                                                <Link
-                                                    to={`/posts/${post.id}`}
-                                                    className="btn btn-outline"
-                                                >
-                                                    Ver
-                                                </Link>
-                                                <Link
-                                                    to={`/posts/edit/${post.id}`}
-                                                    className="btn btn-outline"
-                                                >
-                                                    Editar
-                                                </Link>
-                                                <button
-                                                    onClick={() =>
-                                                        deleteDocument(post.id)
-                                                    }
-                                                    className="btn btn-outline btn-danger"
-                                                    alt="Excluir"
-                                                >
-                                                    Excluir
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
+                                            Ver
+                                        </Link>
+                                        <Link
+                                            to={`/posts/edit/${post.id}`}
+                                            className="btn btn-outline"
+                                        >
+                                            Editar
+                                        </Link>
+                                        <button
+                                            onClick={() =>
+                                                deleteDocument(post.id)
+                                            }
+                                            className="btn btn-outline btn-danger"
+                                            alt="Excluir"
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
                         </>
                     )}
                 </>
