@@ -1,6 +1,7 @@
 // Hooks
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useWeatherData from "../../hooks/useWeatherData";
+import useCitySearch from "../../hooks/useCitySearch";
 
 // Components
 import { TitleParagraph } from "../../components/TitleParagraph";
@@ -11,29 +12,9 @@ import { LayoutPage } from "./../../components/LayoutPage";
 import styles from "./Weather.module.css";
 
 const Weather = () => {
-    const [city, setCity] = useState("");
     const { isLoading, climaData, fetchData, wicon, Icon } = useWeatherData();
-    const [showDetails, setShowDetails] = useState(false);
-
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            search();
-        }
-    };
-
-    const search = async () => {
-        if (city === "") {
-            return;
-        }
-
-        const normalizedCity = city
-            .replace(/[^\w\s]|(\s)+(?=\s)/gi, "")
-            .toLowerCase();
-
-        fetchData(normalizedCity);
-        setShowDetails(true);
-        setCity("");
-    };
+    const { city, setCity, showDetails, handleKeyDown, search } =
+        useCitySearch(fetchData);
 
     useEffect(() => {
         search();
