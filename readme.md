@@ -1,12 +1,15 @@
 <h1 align="center">FM Blog</h1>
 
-<p align="center">
-  Um Blog. Com funções de postar, editar e deletar <br/>
-</p>
+### 💻 Descrição
+
+Blog de Tecnologia para manter você atualizado com as últimas novidades do mundo da tecnologia.
+
+## 📖 Visão Geral
+
+Este projeto foi desenvolvido para estudar e praticar a biblioteca React.js.<br/>
 
 <p align="center">
   <a target="_blank" href="https://fm-blog-react.netlify.app/">Veja o meu projeto aqui</a>
-
 </p>
 
 <br>
@@ -40,7 +43,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   Vite.
 -   NPM.
 
-## 📖 Conceitos Aprendidos
+## 📚 Conceitos Aprendidos
 
 -   Front-end.
 -   Gerenciamento de pacotes com NPM.
@@ -48,6 +51,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   Design responsivo.
 -   Criação e reutilização de componentes.
 -   Framework React, incluindo Hooks como `useState` e `useEffect`.
+-   Uso e integração de bibliotecas (libs) para funcionalidades adicionais.
 -   SEO e semântica no HTML5.
 -   Tratamento de erros no React.
 -   Integração de APIs.
