@@ -9,7 +9,7 @@ const useLoginForm = () => {
     const handleLoginSubmit = async (formData) => {
         try {
             setError("");
-            const res = await login(formData.email, formData.password);
+            const res = await login(formData);
         } catch (error) {
             console.error("Erro:", error);
         }
@@ -19,11 +19,7 @@ const useLoginForm = () => {
         try {
             setError("");
 
-            const user = await createUser(
-                formData.displayName,
-                formData.email,
-                formData.password
-            );
+            const user = await createUser(formData);
 
             if (user && user.uid) {
                 console.log("Usuário criado:", user);
@@ -31,7 +27,7 @@ const useLoginForm = () => {
                 throw new Error("Erro ao criar usuário");
             }
         } catch (error) {
-            setError(error.message);
+            console.error("Erro:", error);
         }
     };
 
