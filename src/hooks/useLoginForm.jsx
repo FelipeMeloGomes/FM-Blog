@@ -4,6 +4,14 @@ import { useAuthentication } from "./useAuthentication";
 
 const useLoginForm = () => {
     const { login, createUser } = useAuthentication();
+    const [formData, setFormData] = useState({
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [passwordVisibleTwo, setPasswordVisibleTwo] = useState(false);
     const [error, setError] = useState("");
 
     const handleLoginSubmit = async (formData) => {
@@ -31,7 +39,18 @@ const useLoginForm = () => {
         }
     };
 
-    return { error, handleLoginSubmit, handleSignupSubmit };
+    return {
+        error,
+        setError,
+        handleLoginSubmit,
+        handleSignupSubmit,
+        formData,
+        setFormData,
+        passwordVisible,
+        setPasswordVisible,
+        passwordVisibleTwo,
+        setPasswordVisibleTwo,
+    };
 };
 
 export default useLoginForm;
