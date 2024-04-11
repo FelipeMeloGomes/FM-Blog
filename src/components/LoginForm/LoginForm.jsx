@@ -1,6 +1,7 @@
 // Hooks React
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useAuthentication } from "../../hooks/useAuthentication";
+import useLoginForm from "../../hooks/useLoginForm";
 
 // React Router Dom
 import { Link } from "react-router-dom";
@@ -17,16 +18,18 @@ import { Icon } from "../IconComponent";
 // utils
 import { PasswordToggle } from "../../utils/PasswordToggle";
 
-const LoginForm = ({ isLogin = false, onSubmit }) => {
-    const [formData, setFormData] = useState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-    });
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const [passwordVisibleTwo, setPasswordVisibleTwo] = useState(false);
-    const [error, setError] = useState("");
+const LoginForm = ({ isLogin, onSubmit }) => {
+    const {
+        error,
+        setError,
+        formData,
+        setFormData,
+        passwordVisible,
+        setPasswordVisible,
+        passwordVisibleTwo,
+        setPasswordVisibleTwo,
+    } = useLoginForm();
+
     const {
         login,
         createUser,
@@ -45,14 +48,16 @@ const LoginForm = ({ isLogin = false, onSubmit }) => {
         }
 
         try {
-            let res;
+            let res = "";
             if (isLogin) {
                 res = await login(formData);
             } else {
                 res = await createUser(formData);
             }
 
-            onSubmit(formData);
+            if (onSubmit) {
+                onSubmit(formData);
+            }
         } catch (error) {
             setError(error.message);
         }
