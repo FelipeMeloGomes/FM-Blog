@@ -1,6 +1,22 @@
 // Hooks React
 import { useState } from "react";
 
+const isValidImageUrl = (url) => {
+    try {
+        const { protocol } = new URL(url);
+        return protocol === "http:" || protocol === "https:";
+    } catch (error) {
+        return false;
+    }
+};
+
+const clearFormFields = (titleRef, imageRef, bodyRef, tagsRef) => {
+    titleRef.current.value = "";
+    imageRef.current.value = "";
+    bodyRef.current.value = "";
+    tagsRef.current.value = "";
+};
+
 const useFormSubmit = ({
     insertDocument,
     updateDocument,
@@ -14,22 +30,6 @@ const useFormSubmit = ({
     postId: id,
 }) => {
     const [formError, setFormError] = useState("");
-
-    const isValidImageUrl = (url) => {
-        try {
-            const { protocol } = new URL(url);
-            return protocol === "http:" || protocol === "https:";
-        } catch (error) {
-            return false;
-        }
-    };
-
-    const clearFormFields = () => {
-        titleRef.current.value = "";
-        imageRef.current.value = "";
-        bodyRef.current.value = "";
-        tagsRef.current.value = "";
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -75,7 +75,7 @@ const useFormSubmit = ({
                 break;
         }
 
-        clearFormFields();
+        clearFormFields(titleRef, imageRef, bodyRef, tagsRef);
         navigate("/");
     };
 
