@@ -1,7 +1,7 @@
 <h1 align="center">FM Blog</h1>
 
 <p align="center">
-  Um Mini Blog. Com funções de postar, editar e deletar <br/>
+  Um Blog. Com funções de postar, editar e deletar <br/>
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@ Iniciar o Projeto:
 npm run dev
 ```
 
-## 🚀 Tecnologias
+## 🚀 Tecnologias Utilizadas
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
@@ -40,33 +40,30 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   Vite.
 -   NPM.
 
-## 📚 Conceitos aprendidos no projeto
+## 📖 Conceitos Aprendidos
 
 -   Front-end.
--   Gerenciador de Pacotes (NPM).
--   CSS Modules.
--   Responsividade.
--   Criação de componentes e reutilização.
--   Framework React.
--   Hooks.
--   useState.
--   useEffect.
--   SEO.
--   Semântica do HTML5.
+-   Gerenciamento de pacotes com NPM.
+-   CSS Modules para organização e modularização de estilos.
+-   Design responsivo.
+-   Criação e reutilização de componentes.
+-   Framework React, incluindo Hooks como `useState` e `useEffect`.
+-   SEO e semântica no HTML5.
 -   Tratamento de erros no React.
--   Api.
+-   Integração de APIs.
 -   Refatoração de componentes.
 -   Layout e usabilidade.
+-   Criação de hooks personalizados.
 
-## ✔ Atualizações
+## 🔄 Melhorias Recentes
 
-Melhorias implementadas:
+As seguintes melhorias foram implementadas no projeto:
 
--   Melhorias no Layout.
--   Implementação de um Spinner no carregamento.
--   Novas telas de login e cadastro.
--   Implementação toggle button no icon de senha.
--   Novo botão de Like adicionado.
--   Novos componentes para otimizar a perfomance
--   Adição de novos hooks personalizados para melhoria de perfomance.
--   Adição do react-quill para construção de melhores textos.
+-   Otimização do layout para uma melhor experiência do usuário.
+-   Adição de um spinner durante o carregamento de conteúdo.
+-   Novas telas de login e cadastro aprimoradas.
+-   Adição de botão de alternância para visibilidade de senha.
+-   Novo botão de "Like" para interações com o conteúdo.
+-   Novos componentes para otimizar o desempenho.
+-   Adição de hooks personalizados para melhorar a performance.
+-   Implementação do react-quill para a criação de textos mais ricos.
