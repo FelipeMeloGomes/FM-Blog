@@ -60,7 +60,7 @@ const Post = () => {
 
                         <div className={styles.btnArrow}>
                             <Link to="/" className="btn btn-outline">
-                                <Icon name="arrow-back" className="icon_font" />
+                                <Icon name="arrowBack" className="icon_font" />
                             </Link>
                             <LikeButton />
                         </div>
