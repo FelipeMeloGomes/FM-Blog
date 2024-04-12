@@ -1,14 +1,12 @@
 // Estilos Css
 import styles from "./LayoutPage.module.css";
 
-import PropTypes from "prop-types";
-
 const LayoutPage = ({
+    height = "100vh",
+    minHeight = "100vh",
+    textAlign = "center",
+    margin = "0",
     children,
-    height = "",
-    minHeight = "",
-    textAlign = "",
-    margin = "",
 }) => {
     return (
         <section
@@ -18,20 +16,6 @@ const LayoutPage = ({
             {children}
         </section>
     );
-};
-
-LayoutPage.propTypes = {
-    height: PropTypes.string,
-    minHeight: PropTypes.string,
-    textAlign: PropTypes.string,
-    margin: PropTypes.string,
-};
-
-LayoutPage.defaultProps = {
-    height: "100vh",
-    minHeight: "100vh",
-    textAlign: "center",
-    margin: "0",
 };
 
 export default LayoutPage;

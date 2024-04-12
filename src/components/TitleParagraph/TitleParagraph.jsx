@@ -1,8 +1,6 @@
 // Estilos Css
 import styles from "./TitleParagraph.module.css";
 
-import PropTypes from "prop-types";
-
 const TitleParagraph = ({
     title = "",
     paragraph = "",
@@ -24,19 +22,6 @@ const TitleParagraph = ({
             </p>
         </>
     );
-};
-
-TitleParagraph.propTypes = {
-    padding: PropTypes.string,
-    marginBottom: PropTypes.string,
-    textAlign: PropTypes.string,
-    color: PropTypes.string,
-};
-
-TitleParagraph.defaultProps = {
-    marginBottom: "",
-    textAlign: "",
-    color: "",
 };
 
 export default TitleParagraph;
