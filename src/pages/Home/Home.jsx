@@ -44,10 +44,7 @@ const Home = () => {
 
     return (
         <div className={styles.home}>
-            <TitleParagraph
-                title="Veja os nossos posts mais recentes"
-                padding="1em"
-            />
+            <TitleParagraph title="Veja os nossos posts mais recentes" />
             <form className={styles.search_form} onSubmit={handleSubmit}>
                 <input
                     type="text"
