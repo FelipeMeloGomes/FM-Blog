@@ -6,17 +6,21 @@ const TitleParagraph = ({
     paragraph = "",
     padding = "",
     marginBottom = "",
-    textAlign = "",
+    textAlignTitle = "",
+    textAlignParagraph = "",
     color = "",
 }) => {
     return (
         <>
-            <h1 className={styles.title} style={{ padding, textAlign, color }}>
+            <h1
+                className={styles.title}
+                style={{ padding, textAlign: textAlignTitle, color }}
+            >
                 {title}
             </h1>
             <p
                 className={styles.paragraph}
-                style={{ marginBottom, textAlign, color }}
+                style={{ marginBottom, textAlign: textAlignParagraph, color }}
             >
                 {paragraph}
             </p>
