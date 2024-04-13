@@ -22,14 +22,7 @@ const Search = () => {
         <div className={styles.search_container}>
             <TextField
                 title="Procurar"
-                paragraph={`Resultados encontrados para: ${search
-                    .split(" ")
-                    .map(
-                        (word) =>
-                            word.charAt(0).toUpperCase() +
-                            word.slice(1).toLowerCase()
-                    )
-                    .join(" ")}`}
+                paragraph={`Resultados encontrados para: ${search}`}
             />
 
             {posts?.length > 0 && (
