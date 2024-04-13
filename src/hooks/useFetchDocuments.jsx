@@ -33,9 +33,16 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                 let q;
 
                 if (search) {
+                    const searchWithoutSpaces = search
+                        .replace(/\s+/g, "")
+                        .toLowerCase();
                     q = await query(
                         collectionRef,
-                        where("tagsArray", "array-contains", search),
+                        where(
+                            "tagsArray",
+                            "array-contains",
+                            searchWithoutSpaces
+                        ),
                         orderBy("createdAt", "desc")
                     );
                 } else if (uid) {
