@@ -9,8 +9,8 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { useEffect } from "react";
-import usePostForm from "../../hooks/usePostForm";
-import useFormSubmit from "../../hooks/useFormSubmit";
+import { usePostForm } from "../../hooks/usePostForm";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 
 // editor text
 import ReactQuill from "react-quill";

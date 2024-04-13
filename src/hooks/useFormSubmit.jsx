@@ -1,7 +1,7 @@
 // Hooks React
 import { useState } from "react";
 
-const useFormSubmit = ({
+export const useFormSubmit = ({
     insertDocument,
     updateDocument,
     navigate,
@@ -87,4 +87,4 @@ const useFormSubmit = ({
     return { handleSubmit, formError };
 };
 
-export default useFormSubmit;
+

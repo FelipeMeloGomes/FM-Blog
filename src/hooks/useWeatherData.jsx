@@ -4,7 +4,7 @@ import { useState } from "react";
 // Components
 import { Icon } from "../components/IconComponent";
 
-const useWeatherData = () => {
+export const useWeatherData = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [wicon, setWicon] = useState(<Icon name="cloud-sun" />);
     const weatherIconMap = {
@@ -63,5 +63,3 @@ const useWeatherData = () => {
 
     return { isLoading, climaData, fetchData, wicon, Icon };
 };
-
-export default useWeatherData;

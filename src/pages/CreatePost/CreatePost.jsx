@@ -8,8 +8,8 @@ import { TextField } from "./../../components/TextField";
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import usePostForm from "../../hooks/usePostForm";
-import useFormSubmit from "../../hooks/useFormSubmit";
+import { usePostForm } from "../../hooks/usePostForm";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 
 // Editor text
 import ReactQuill from "react-quill";
@@ -43,10 +43,7 @@ const CreatePost = () => {
 
     return (
         <LayoutPage textAlign="center">
-            <TextField
-                title="Novo Post"
-                paragraph="Compartilhe suas ideias!"
-            />
+            <TextField title="Novo Post" paragraph="Compartilhe suas ideias!" />
             <div className={styles.modal}>
                 <form className={styles.modal__body} onSubmit={handleSubmit}>
                     <div className={styles.input}>

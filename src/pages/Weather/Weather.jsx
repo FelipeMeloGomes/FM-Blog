@@ -1,7 +1,7 @@
 // Hooks
 import { useEffect } from "react";
-import useWeatherData from "../../hooks/useWeatherData";
-import useCitySearch from "../../hooks/useCitySearch";
+import { useWeatherData } from "../../hooks/useWeatherData";
+import { useCitySearch } from "../../hooks/useCitySearch";
 
 // Components
 import { TextField } from "../../components/TextField";

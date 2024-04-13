@@ -15,7 +15,7 @@ const createSearchStrategy = (fetchData) => {
     };
 };
 
-const useCitySearch = (fetchData) => {
+export const useCitySearch = (fetchData) => {
     const [city, setCity] = useState("");
     const [showDetails, setShowDetails] = useState(false);
 
@@ -49,5 +49,3 @@ const useCitySearch = (fetchData) => {
         search,
     };
 };
-
-export default useCitySearch;

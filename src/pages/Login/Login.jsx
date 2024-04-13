@@ -1,7 +1,7 @@
 // Hooks
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useEffect } from "react";
-import useLoginForm from "../../hooks/useLoginForm";
+import { useLoginForm } from "../../hooks/useLoginForm";
 
 // components
 import { LoginForm } from "../../components/LoginForm";

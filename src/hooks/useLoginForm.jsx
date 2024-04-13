@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useAuthentication } from "./useAuthentication";
 
-const useLoginForm = () => {
+export const useLoginForm = () => {
     const { login, createUser } = useAuthentication();
     const [formData, setFormData] = useState({
         displayName: "",
@@ -53,4 +53,3 @@ const useLoginForm = () => {
     };
 };
 
-export default useLoginForm;

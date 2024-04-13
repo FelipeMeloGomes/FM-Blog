@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const usePostForm = () => {
+export const usePostForm = () => {
     const navigate = useNavigate();
     const titleRef = useRef(null);
     const imageRef = useRef(null);
@@ -48,5 +48,3 @@ const usePostForm = () => {
         errorParagraph,
     };
 };
-
-export default usePostForm;
