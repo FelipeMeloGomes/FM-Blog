@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 // Components
 import { PostDetail } from "../../components/PostDetail";
-import { TitleParagraph } from "./../../components/TitleParagraph";
+import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
 
 const Search = () => {
@@ -20,7 +20,7 @@ const Search = () => {
     const { documents: posts } = useFetchDocuments("posts", search);
     return (
         <div className={styles.search_container}>
-            <TitleParagraph
+            <TextField
                 title="Procurar"
                 paragraph={`Resultados encontrados para: ${search
                     .split(" ")

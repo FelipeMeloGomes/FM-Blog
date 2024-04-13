@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import useLoginForm from "../../hooks/useLoginForm";
 
 // components
-import { TitleParagraph } from "../../components/TitleParagraph";
 import { LoginForm } from "../../components/LoginForm";
 import { LayoutPage } from "../../components/LayoutPage";
+import { TextField } from "../../components/TextField";
 
 const Login = () => {
     const { error: authError } = useAuthentication();
@@ -19,7 +19,7 @@ const Login = () => {
     }, [authError]);
     return (
         <LayoutPage>
-            <TitleParagraph
+            <TextField
                 title="Entrar"
                 paragraph="Faça login para utilizar o sistema!"
             />

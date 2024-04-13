@@ -3,7 +3,7 @@ import styles from "./CreatePost.module.css";
 
 // Components
 import { LayoutPage } from "./../../components/LayoutPage";
-import { TitleParagraph } from "./../../components/TitleParagraph";
+import { TextField } from "./../../components/TextField";
 
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
@@ -43,7 +43,7 @@ const CreatePost = () => {
 
     return (
         <LayoutPage textAlign="center">
-            <TitleParagraph
+            <TextField
                 title="Novo Post"
                 paragraph="Compartilhe suas ideias!"
             />

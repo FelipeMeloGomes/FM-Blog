@@ -5,14 +5,14 @@ import styles from "./About.module.css";
 import aboutImg from "./assets/about.webp";
 
 // components
-import { TitleParagraph } from "./../../components/TitleParagraph";
+import { TextField } from "./../../components/TextField";
 import { LayoutPage } from "./../../components/LayoutPage";
 import { Icon } from "../../components/IconComponent";
 
 const About = () => {
     return (
         <LayoutPage>
-            <TitleParagraph
+            <TextField
                 title="Sobre o FM Blog"
                 paragraph="Este projeto consiste em um blog feito com React, salvando os dados no Firebase."
             />

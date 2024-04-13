@@ -1,7 +1,7 @@
 // Estilos Css
-import styles from "./TitleParagraph.module.css";
+import styles from "./TextField.module.css";
 
-const TitleParagraph = ({
+const TextField = ({
     title = "",
     paragraph = "",
     padding = "",
@@ -28,4 +28,4 @@ const TitleParagraph = ({
     );
 };
 
-export default TitleParagraph;
+export default TextField;

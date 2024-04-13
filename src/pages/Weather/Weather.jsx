@@ -4,7 +4,7 @@ import useWeatherData from "../../hooks/useWeatherData";
 import useCitySearch from "../../hooks/useCitySearch";
 
 // Components
-import { TitleParagraph } from "../../components/TitleParagraph";
+import { TextField } from "../../components/TextField";
 import { Spinner } from "../../components/Spinner";
 import { LayoutPage } from "./../../components/LayoutPage";
 
@@ -23,7 +23,7 @@ const Weather = () => {
     return (
         <LayoutPage height="auto">
             <>
-                <TitleParagraph title="Confira o clima de sua cidade!" />
+                <TextField title="Confira o clima de sua cidade!" />
             </>
             <div className={styles.container}>
                 <div className={styles.top_bar}>

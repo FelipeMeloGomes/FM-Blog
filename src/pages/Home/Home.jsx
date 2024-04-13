@@ -11,7 +11,7 @@ import { useNavigate, Link } from "react-router-dom";
 // Components
 import { PostDetail } from "../../components/PostDetail";
 import { Spinner } from "../../components/Spinner";
-import { TitleParagraph } from "./../../components/TitleParagraph";
+import { TextField } from "./../../components/TextField";
 import { Icon } from "../../components/IconComponent";
 
 // utils
@@ -44,7 +44,7 @@ const Home = () => {
 
     return (
         <div className={styles.home}>
-            <TitleParagraph title="Veja os nossos posts mais recentes" />
+            <TextField title="Veja os nossos posts mais recentes" />
             <form className={styles.search_form} onSubmit={handleSubmit}>
                 <input
                     type="text"

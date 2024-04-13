@@ -2,7 +2,7 @@
 import styles from "./NotFound.module.css";
 
 // Components
-import { TitleParagraph } from "../../components/TitleParagraph";
+import { TextField } from "../../components/TextField";
 
 // Img
 import NotFoundImg from "./assets/NotFoundImg.webp";
@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const NotFound = () => {
     return (
         <div className={styles.container}>
-            <TitleParagraph
+            <TextField
                 color="black"
                 title="404"
                 paragraph="Página Não Encontrada Desculpe."

@@ -11,7 +11,7 @@ import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { useState, useEffect } from "react";
 
 // components
-import { TitleParagraph } from "../../components/TitleParagraph";
+import { TextField } from "../../components/TextField";
 import { Spinner } from "../../components/Spinner";
 
 // utils
@@ -37,7 +37,7 @@ const Dashboard = ({ createdBy }) => {
 
     return (
         <div className={styles.dashboard}>
-            <TitleParagraph
+            <TextField
                 title="Dashboard"
                 paragraph="Gerencie os seus posts"
             />
