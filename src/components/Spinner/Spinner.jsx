@@ -1,13 +1,11 @@
 // Estilos css
 import styles from "./Spinner.module.css";
 
-import PropTypes from "prop-types";
-
 const Spinner = ({
     startColor = "#000",
     middleColor = "#f6fcff",
     endColor = "#f6fcff",
-    height = "",
+    height = "100vh",
     width = "",
 }) => {
     return (
@@ -50,16 +48,6 @@ const Spinner = ({
             </svg>
         </div>
     );
-};
-
-Spinner.propTypes = {
-    height: PropTypes.string,
-    width: PropTypes.string,
-};
-
-Spinner.defaultProps = {
-    height: "100vh",
-    width: "",
 };
 
 export default Spinner;
