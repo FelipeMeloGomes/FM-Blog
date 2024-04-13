@@ -1,22 +1,6 @@
 // Hooks React
 import { useState } from "react";
 
-const isValidImageUrl = (url) => {
-    try {
-        const { protocol } = new URL(url);
-        return protocol === "http:" || protocol === "https:";
-    } catch (error) {
-        return false;
-    }
-};
-
-const clearFormFields = (titleRef, imageRef, bodyRef, tagsRef) => {
-    titleRef.current.value = "";
-    imageRef.current.value = "";
-    bodyRef.current.value = "";
-    tagsRef.current.value = "";
-};
-
 const useFormSubmit = ({
     insertDocument,
     updateDocument,
@@ -31,6 +15,54 @@ const useFormSubmit = ({
 }) => {
     const [formError, setFormError] = useState("");
 
+    const isValidImageUrl = (url) => {
+        try {
+            const { protocol } = new URL(url);
+            return protocol === "http:" || protocol === "https:";
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const isFormValid = () => {
+        return (
+            titleRef.current.value &&
+            imageRef.current.value &&
+            tagsRef.current.value &&
+            bodyRef.current.value
+        );
+    };
+
+    const createFormData = () => {
+        const tagsArray = tagsRef.current.value
+            .split(",")
+            .map((tag) => tag.trim().toLowerCase())
+            .filter((tag) => tag);
+        return {
+            title: titleRef.current.value,
+            image: imageRef.current.value,
+            body: bodyRef.current.value,
+            tagsArray,
+            uid: user.uid,
+            createdBy: user.displayName,
+        };
+    };
+
+    const handleAction = (formData) => {
+        if (actionType === "create") {
+            insertDocument(formData);
+        } else if (actionType === "edit") {
+            updateDocument(id, formData);
+        }
+    };
+
+    const clearFormFields = () => {
+        titleRef.current.value = "";
+        imageRef.current.value = "";
+        bodyRef.current.value = "";
+        tagsRef.current.value = "";
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setFormError("");
@@ -40,42 +72,15 @@ const useFormSubmit = ({
             return;
         }
 
-        const tagsArray = tagsRef.current.value
-            .split(",")
-            .map((tag) => tag.trim().toLowerCase())
-            .filter((tag) => tag);
-
-        if (
-            !titleRef.current.value ||
-            !imageRef.current.value ||
-            !tagsRef.current.value ||
-            !bodyRef.current.value
-        ) {
+        if (!isFormValid()) {
             setFormError("Por favor, preencha todos os campos.");
             return;
         }
 
-        const formData = {
-            title: titleRef.current.value,
-            image: imageRef.current.value,
-            body: bodyRef.current.value,
-            tagsArray,
-            uid: user.uid,
-            createdBy: user.displayName,
-        };
+        const formData = createFormData();
+        handleAction(formData);
 
-        switch (actionType) {
-            case "create":
-                insertDocument(formData);
-                break;
-            case "edit":
-                updateDocument(id, formData);
-                break;
-            default:
-                break;
-        }
-
-        clearFormFields(titleRef, imageRef, bodyRef, tagsRef);
+        clearFormFields();
         navigate("/");
     };
 
