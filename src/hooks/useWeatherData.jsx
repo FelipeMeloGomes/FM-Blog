@@ -7,6 +7,23 @@ import { Icon } from "../components/IconComponent";
 const useWeatherData = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [wicon, setWicon] = useState(<Icon name="cloud-sun" />);
+    const weatherIconMap = {
+        "01d": <Icon name="sun" />,
+        "01n": <Icon name="sun" />,
+        "02d": <Icon name="cloud" />,
+        "02n": <Icon name="cloud" />,
+        "03d": <Icon name="drizzle" />,
+        "03n": <Icon name="drizzle" />,
+        "04d": <Icon name="drizzle" />,
+        "04n": <Icon name="drizzle" />,
+        "09d": <Icon name="rain" />,
+        "09n": <Icon name="rain" />,
+        "10d": <Icon name="rain" />,
+        "10n": <Icon name="rain" />,
+        "13d": <Icon name="snow" />,
+        "13n": <Icon name="snow" />,
+    };
+    const defaultIcon = <Icon name="sun" />;
     const [climaData, setClimaData] = useState({
         humidity: "",
         wind: "",
@@ -24,34 +41,9 @@ const useWeatherData = () => {
             const response = await fetch(url);
             const data = await response.json();
 
-            switch (data.weather[0].icon) {
-                case "01d":
-                case "01n":
-                    setWicon(<Icon name="sun" />);
-                    break;
-                case "02d":
-                case "02n":
-                    setWicon(<Icon name="cloud" />);
-                    break;
-                case "03d":
-                case "03n":
-                case "04d":
-                case "04n":
-                    setWicon(<Icon name="drizzle" />);
-                    break;
-                case "09d":
-                case "09n":
-                case "10d":
-                case "10n":
-                    setWicon(<Icon name="rain" />);
-                    break;
-                case "13d":
-                case "13n":
-                    setWicon(<Icon name="snow" />);
-                    break;
-                default:
-                    setWicon(<Icon name="sun" />);
-            }
+            const iconCode = data.weather[0].icon;
+            const iconComponent = weatherIconMap[iconCode] || defaultIcon;
+            setWicon(iconComponent);
 
             setClimaData({
                 humidity: data.main.humidity,
