@@ -32,16 +32,16 @@ const Search = () => {
                     .join(" ")}`}
             />
 
-            {posts && posts.length > 0 && (
+            {posts?.length > 0 && (
                 <div className={styles.btnArrow}>
                     <Link to="/" className="btn btn-outline">
-                        <Icon name="arrow-back" className="icon_font" />
+                        <Icon name="arrowBack" className="icon_font" />
                     </Link>
                 </div>
             )}
 
             <div className={styles.container_found}>
-                {posts && posts.length === 0 && (
+                {posts?.length === 0 && (
                     <div className={styles.noposts}>
                         <p className={styles.notfoundpost}>
                             Não foram encontrados posts a partir da sua busca...
