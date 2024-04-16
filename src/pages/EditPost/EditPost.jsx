@@ -12,10 +12,11 @@ import { useEffect } from "react";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
 
-// editor text
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// Utils
 import { EditorContext } from "../../utils/EditorContext";
+
+// Components
+import { Editor } from "../../components/Editor";
 
 const EditPost = () => {
     const { user } = useAuthValue();
@@ -117,13 +118,10 @@ const EditPost = () => {
                             <label className={styles.input__label}>
                                 Conteúdo:
                             </label>
-                            <ReactQuill
-                                className="editor"
-                                ref={bodyRef}
-                                value={content}
+                            <Editor
                                 onChange={handleEditorChange}
-                                theme="snow"
-                                placeholder="Digite o conteúdo aqui"
+                                value={content}
+                                ref={bodyRef}
                             />
                         </div>
                         <div className={styles.input}>

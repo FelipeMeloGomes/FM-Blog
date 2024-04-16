@@ -4,16 +4,13 @@ import styles from "./CreatePost.module.css";
 // Components
 import { LayoutPage } from "./../../components/LayoutPage";
 import { TextField } from "./../../components/TextField";
+import { Editor } from "../../components/Editor/Editor";
 
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
-
-// Editor text
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
 const CreatePost = () => {
     const {
@@ -29,7 +26,6 @@ const CreatePost = () => {
     } = usePostForm();
     const { user } = useAuthValue();
     const { insertDocument, response } = useInsertDocument("posts");
-
     const { handleSubmit, formError } = useFormSubmit({
         insertDocument,
         navigate,
@@ -85,12 +81,7 @@ const CreatePost = () => {
                     </div>
                     <div className={styles.input}>
                         <label className={styles.input__label}>Conteúdo:</label>
-                        <ReactQuill
-                            className="editor"
-                            theme="snow"
-                            ref={bodyRef}
-                            placeholder="Digite o conteúdo aqui"
-                        />
+                        <Editor ref={bodyRef} />
                     </div>
                     <div className={styles.input}>
                         <label className={styles.input__label}>Tags:</label>
