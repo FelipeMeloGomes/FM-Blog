@@ -3,10 +3,11 @@ import styles from "./Home.module.css";
 
 // Hooks
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
-import { useState, useEffect } from "react";
+import { useSearchPost } from "../../hooks/useSearchPost";
+import { useEffect } from "react";
 
 // React Router Dom
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Components
 import { PostDetail } from "../../components/PostDetail";
@@ -19,17 +20,8 @@ import { SortPost } from "../../utils/SortPost";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
-    const navigate = useNavigate();
-    const [query, setQuery] = useState("");
-    const [sortedPosts, setSortedPosts] = useState([]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (query) {
-            return navigate(`/search?q=${query}`);
-        }
-    };
+    const { handleSubmit, query, setQuery, sortedPosts, setSortedPosts } =
+        useSearchPost();
 
     useEffect(() => {
         if (posts) {
