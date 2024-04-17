@@ -1,7 +1,5 @@
-// Hooks React
-import { useEffect } from "react";
-import { useAuthentication } from "../../hooks/useAuthentication";
-import { useLoginForm } from "../../hooks/useLoginForm";
+// Hooks
+import { useAuthForm } from "../../hooks/useAuthForm";
 
 // React Router Dom
 import { Link } from "react-router-dom";
@@ -28,49 +26,15 @@ const LoginForm = ({ isLogin, onSubmit }) => {
         setPasswordVisible,
         passwordVisibleTwo,
         setPasswordVisibleTwo,
-    } = useLoginForm();
-
-    const {
-        login,
-        createUser,
-        error: authError,
+        handleSubmit,
         loading,
-    } = useAuthentication();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        setError("");
-
-        if (!isLogin && formData.password !== formData.confirmPassword) {
-            setError("As senhas precisam ser iguais");
-            return;
-        }
-
-        try {
-            let res = "";
-            if (isLogin) {
-                res = await login(formData);
-            } else {
-                res = await createUser(formData);
-            }
-
-            if (onSubmit) {
-                onSubmit(formData);
-            }
-        } catch (error) {
-            setError(error.message);
-        }
-    };
-
-    useEffect(() => {
-        if (authError) {
-            setError(authError);
-        }
-    }, [authError]);
+    } = useAuthForm(isLogin, onSubmit);
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form
+            onSubmit={(e) => handleSubmit(e, formData)}
+            className={styles.form}
+        >
             {!isLogin && (
                 <TextInputWithIcon
                     label="Nome de usuário"

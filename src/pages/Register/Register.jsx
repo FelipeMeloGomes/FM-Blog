@@ -1,7 +1,5 @@
 // Hooks
-import { useAuthentication } from "../../hooks/useAuthentication";
-import { useEffect } from "react";
-import { useLoginForm } from "../../hooks/useLoginForm";
+import { useAuthForm } from "../../hooks/useAuthForm";
 
 // components
 import { LoginForm } from "../../components/LoginForm";
@@ -9,14 +7,7 @@ import { LayoutPage } from "./../../components/LayoutPage";
 import { TextField } from "../../components/TextField";
 
 const Register = () => {
-    const { error: authError } = useAuthentication();
-    const { handleSignupSubmit } = useLoginForm();
-
-    useEffect(() => {
-        if (authError) {
-            setError(authError);
-        }
-    }, [authError]);
+    const { handleSubmit } = useAuthForm();
 
     return (
         <LayoutPage>
@@ -24,7 +15,7 @@ const Register = () => {
                 title="Cadastre-se para postar"
                 paragraph="Crie o seu usuário e compartilhe suas histórias"
             />
-            <LoginForm onSubmit={handleSignupSubmit} isLogin={false} />
+            <LoginForm onSubmit={handleSubmit} isLogin={false} />
         </LayoutPage>
     );
 };
