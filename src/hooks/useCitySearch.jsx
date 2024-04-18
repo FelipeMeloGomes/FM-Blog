@@ -2,7 +2,15 @@
 import { useState, useCallback } from "react";
 
 const normalizeCity = (city) => {
-    return city.replace(/[^\w\s]|(\s)+(?=\s)/gi, "").toLowerCase();
+    const cityWithoutAccents = city
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    const normalizedCity = cityWithoutAccents
+        .replace(/[\W_]+/g, " ")
+        .trim()
+        .replace(/\s+/g, "");
+    return normalizedCity;
 };
 
 const createSearchStrategy = (fetchData) => {
