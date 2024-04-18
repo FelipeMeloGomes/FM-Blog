@@ -9,12 +9,13 @@ const TextField = ({
     textAlignTitle = "",
     textAlignParagraph = "",
     color = "",
+    margin = "",
 }) => {
     return (
         <>
             <h1
                 className={styles.title}
-                style={{ padding, textAlign: textAlignTitle, color }}
+                style={{ padding, textAlign: textAlignTitle, color, margin }}
             >
                 {title}
             </h1>
