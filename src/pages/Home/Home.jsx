@@ -36,7 +36,10 @@ const Home = () => {
 
     return (
         <div className={styles.home}>
-            <TextField title="Veja os nossos posts mais recentes" />
+            <TextField
+                margin="0 0.7em"
+                title="Veja os nossos posts mais recentes"
+            />
             <form className={styles.search_form} onSubmit={handleSubmit}>
                 <input
                     type="text"
