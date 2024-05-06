@@ -1,5 +1,6 @@
 // Estilos Css
 import styles from "./LayoutPage.module.css";
+import { LayoutPageProps } from "./types";
 
 const LayoutPage = ({
     height = "100vh",
@@ -7,7 +8,7 @@ const LayoutPage = ({
     textAlign = "center",
     margin = "0",
     children,
-}) => {
+}: LayoutPageProps) => {
     return (
         <section
             className={styles.container}
@@ -18,4 +19,4 @@ const LayoutPage = ({
     );
 };
 
-export default LayoutPage;
+export { LayoutPage };
