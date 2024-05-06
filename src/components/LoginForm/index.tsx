@@ -15,11 +15,11 @@ import { Icon } from "../IconComponent";
 
 // utils
 import { PasswordToggle } from "../../utils/PasswordToggle";
+import { loginFormProps } from "./type";
 
-const LoginForm = ({ isLogin, onSubmit }) => {
+const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
     const {
         error,
-        setError,
         formData,
         setFormData,
         passwordVisible,
@@ -111,6 +111,7 @@ const LoginForm = ({ isLogin, onSubmit }) => {
                     togglePasswordVisibility={() =>
                         PasswordToggle(setPasswordVisible)
                     }
+                    name={""}
                 />
             )}
 
@@ -170,4 +171,4 @@ const LoginForm = ({ isLogin, onSubmit }) => {
     );
 };
 
-export default LoginForm;
+export { LoginForm };
