@@ -1,13 +1,14 @@
 // Estilos Css
 import styles from "./TextField.module.css";
+import { TextFieldProps } from "./types";
 
-const TextField = ({
+const TextField: React.FC<TextFieldProps> = ({
     title = "",
     paragraph = "",
     padding = "",
     marginBottom = "",
-    textAlignTitle = "",
-    textAlignParagraph = "",
+    textAlignTitle = "center",
+    textAlignParagraph = "center",
     color = "",
     margin = "",
 }) => {
@@ -29,4 +30,4 @@ const TextField = ({
     );
 };
 
-export default TextField;
+export { TextField };
