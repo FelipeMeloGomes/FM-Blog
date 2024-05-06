@@ -29,7 +29,7 @@ const PasswordInputWithToggle = forwardRef<
             iconName?: string
         ): ReactElement | null => {
             return Icon ? (
-                <Icon name={iconName ?? ""} className="icon_font" />
+                <Icon name={iconName || ""} className="icon_font" />
             ) : null;
         };
 
