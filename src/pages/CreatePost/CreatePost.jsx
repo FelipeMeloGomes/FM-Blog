@@ -4,7 +4,7 @@ import styles from "./CreatePost.module.css";
 // Components
 import { LayoutPage } from "./../../components/LayoutPage";
 import { TextField } from "./../../components/TextField";
-import { Editor } from "../../components/Editor/Editor";
+import { Editor } from "../../components/Editor";
 
 // Hooks
 import { useAuthValue } from "../../context/AuthContext";
