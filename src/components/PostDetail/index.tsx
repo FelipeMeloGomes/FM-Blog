@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 import { LikeButton } from "../LikeButton";
 import { Spinner } from "../Spinner";
 import { Icon } from "../IconComponent";
+import { Post } from "./types";
 
-const PostDetail = ({ post }) => {
+const PostDetail: React.FC<Post> = ({ post }) => {
+    console.log(post);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -60,4 +62,4 @@ const PostDetail = ({ post }) => {
     );
 };
 
-export default PostDetail;
+export { PostDetail };
