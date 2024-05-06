@@ -11,8 +11,9 @@ import { Icon } from "../IconComponent";
 
 // Estilos css
 import styles from "./NavBar.module.css";
+import { MobileMenuButtonProps } from "./types";
 
-const NavBar = () => {
+const NavBar: React.FC<MobileMenuButtonProps> = () => {
     const [Mobile, setMobile] = useState(false);
     const { user } = useAuthValue();
     const { logout } = useAuthentication();
@@ -24,7 +25,6 @@ const NavBar = () => {
             </NavLink>
 
             <button
-                alt="menu mobile"
                 role="menu mobile"
                 aria-label="menu mobile"
                 className={styles.mobile_icon}
@@ -147,4 +147,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export { NavBar };
