@@ -15,7 +15,7 @@ import { Icon } from "../IconComponent";
 
 // utils
 import { PasswordToggle } from "../../utils/PasswordToggle";
-import { loginFormProps } from "./type";
+import { loginFormProps } from "./types";
 
 const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
     const {

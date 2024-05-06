@@ -1,6 +1,6 @@
 // Estilos css
 import styles from "./SubmitButton.module.css";
-import { SubmitButtonProps } from "./type";
+import { SubmitButtonProps } from "./types";
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
     children,

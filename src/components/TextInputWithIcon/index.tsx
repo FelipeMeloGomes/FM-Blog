@@ -1,6 +1,6 @@
 // Estilos css
 import styles from "./TextInputWithIcon.module.css";
-import { TextInputWithIconProps } from "./type";
+import { TextInputWithIconProps } from "./types";
 
 const TextInputWithIcon: React.FC<TextInputWithIconProps> = ({
     label,
