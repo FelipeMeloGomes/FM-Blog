@@ -20,8 +20,9 @@ import { MdOutlinePostAdd, MdDashboard, MdArrowBack } from "react-icons/md";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { WiHumidity, WiWindy } from "react-icons/wi";
+import { IconMapping, IconProps } from "./types";
 
-const iconMapping = {
+const iconMapping: IconMapping = {
     user: FaUser,
     drizzle: BsCloudDrizzle,
     rain: FaCloudRain,
@@ -48,9 +49,9 @@ const iconMapping = {
     info: FaInfo,
     home: FaHome,
 };
-const Icon = ({ name, ...props }) => {
+const Icon = ({ name, ...props }: IconProps) => {
     const IconComponent = iconMapping[name];
     return IconComponent ? <IconComponent {...props} /> : null;
 };
 
-export default Icon;
+export { Icon };
