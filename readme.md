@@ -48,16 +48,17 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 -   Front-end.
 -   Gerenciamento de pacotes com NPM.
 -   CSS Modules para organização e modularização de estilos.
--   Design responsivo.
+-   Implementação de Design Responsivo.
 -   Criação e reutilização de componentes.
--   Framework React, incluindo Hooks como `useState` e `useEffect`.
--   Uso e integração de bibliotecas (libs) para funcionalidades adicionais.
+-   Proficiência na Biblioteca React, incluindo o uso de Hooks como useState e useEffect.
+-   Integração de Bibliotecas Externas para Funcionalidades Adicionais.
 -   SEO e semântica no HTML5.
--   Tratamento de erros no React.
--   Integração de APIs.
--   Refatoração de componentes.
+-   Tratamento de Erros no Ambiente React.
+-   Integração com APIs Externas.
+-   Habilidade em Refatoração de Componentes.
 -   Layout e usabilidade.
--   Criação de hooks personalizados.
+-   Criação de Hooks Personalizados.
+-   Utilização da Biblioteca React Router para Rotas Dinâmicas e Navegação Fluida entre Telas.
 
 ## 🔄 Melhorias Recentes
 
