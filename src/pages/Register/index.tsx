@@ -3,7 +3,7 @@ import { useAuthForm } from "../../hooks/useAuthForm";
 
 // components
 import { LoginForm } from "../../components/LoginForm";
-import { LayoutPage } from "./../../components/LayoutPage";
+import { LayoutPage } from "../../components/LayoutPage";
 import { TextField } from "../../components/TextField";
 
 const Register = () => {
@@ -20,4 +20,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export { Register };
