@@ -5,11 +5,18 @@ import styles from "./About.module.css";
 import aboutImg from "./assets/about.webp";
 
 // components
-import { TextField } from "./../../components/TextField";
-import { LayoutPage } from "./../../components/LayoutPage";
+import { TextField } from "../../components/TextField";
+import { LayoutPage } from "../../components/LayoutPage";
 import { Icon } from "../../components/IconComponent";
+import { ButtonProps } from "./types";
 
-const About = () => {
+const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
+    <button {...rest} className={styles.button} aria-label={alt}>
+        {children}
+    </button>
+);
+
+const About: React.FC<ButtonProps> = () => {
     return (
         <LayoutPage>
             <TextField
@@ -18,25 +25,27 @@ const About = () => {
             />
 
             <div className={styles.containerBtn}>
-                <button alt="Linkedim" className={styles.button}>
+                <Button alt="Linkedim" className={styles.button}>
                     <a
                         href="https://www.linkedin.com/in/felipemelog/"
                         target="_blank"
+                        rel="noopener noreferrer"
                     >
                         <Icon
                             name="linkedin"
                             className={styles.icon_linkedin}
                         />
                     </a>
-                </button>
-                <button alt="Github" className={styles.button}>
+                </Button>
+                <Button alt="Github" className={styles.button}>
                     <a
                         href="https://github.com/FelipeMeloGomes/FM-Blog"
                         target="_blank"
+                        rel="noopener noreferrer"
                     >
                         <Icon name="github" className={styles.icon_github} />
                     </a>
-                </button>
+                </Button>
             </div>
             <figure>
                 <img
@@ -50,4 +59,4 @@ const About = () => {
     );
 };
 
-export default About;
+export { About };
