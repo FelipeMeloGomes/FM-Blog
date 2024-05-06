@@ -14,7 +14,6 @@ import { Icon } from "../IconComponent";
 import { Post } from "./types";
 
 const PostDetail: React.FC<Post> = ({ post }) => {
-    console.log(post);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
