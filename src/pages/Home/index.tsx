@@ -12,15 +12,16 @@ import { Link } from "react-router-dom";
 // Components
 import { PostDetail } from "../../components/PostDetail";
 import { Spinner } from "../../components/Spinner";
-import { TextField } from "./../../components/TextField";
+import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
 
 // utils
 import { SortPost } from "../../utils/SortPost";
+import { Post } from "../../components/PostDetail/types";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
-    const { handleSubmit, query, setQuery, sortedPosts, setSortedPosts } =
+    const { handleSubmit, setQuery, sortedPosts, setSortedPosts } =
         useSearchPost();
 
     useEffect(() => {
@@ -60,7 +61,7 @@ const Home = () => {
                         </Link>
                     </div>
                 )}
-                {sortedPosts?.map((post) => (
+                {sortedPosts?.map((post: Post) => (
                     <PostDetail key={post.id} post={post} />
                 ))}
             </div>
@@ -68,4 +69,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export { Home };

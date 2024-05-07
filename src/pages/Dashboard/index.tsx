@@ -16,6 +16,7 @@ import { Spinner } from "../../components/Spinner";
 
 // utils
 import { SortPost } from "../../utils/SortPost";
+import { ButtonProps } from "./types";
 
 const Dashboard = ({ createdBy }) => {
     const { user } = useAuthValue();
@@ -23,6 +24,13 @@ const Dashboard = ({ createdBy }) => {
     const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
     const { deleteDocument } = useDeleteDocument("posts");
     const [sortedPosts, setSortedPosts] = useState([]);
+
+
+    const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
+        <button {...rest} className={styles.button} aria-label={alt}>
+            {children}
+        </button>
+    );
 
     useEffect(() => {
         if (posts) {
@@ -36,11 +44,8 @@ const Dashboard = ({ createdBy }) => {
     }
 
     return (
-        <div className={styles.dashboard}>
-            <TextField
-                title="Dashboard"
-                paragraph="Gerencie os seus posts"
-            />
+        <div className={styles.dashboard} >
+            <TextField title="Dashboard" paragraph="Gerencie os seus posts" />
             {loading ? (
                 <Spinner />
             ) : (
@@ -75,7 +80,7 @@ const Dashboard = ({ createdBy }) => {
                                         >
                                             Editar
                                         </Link>
-                                        <button
+                                        <Button
                                             onClick={() =>
                                                 deleteDocument(post.id)
                                             }
@@ -83,7 +88,7 @@ const Dashboard = ({ createdBy }) => {
                                             alt="Excluir"
                                         >
                                             Excluir
-                                        </button>
+                                        </Button>
                                     </div>
                                 </div>
                             ))}
@@ -95,4 +100,4 @@ const Dashboard = ({ createdBy }) => {
     );
 };
 
-export default Dashboard;
+export { Dashboard };

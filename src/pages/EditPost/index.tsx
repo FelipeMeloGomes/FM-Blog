@@ -17,6 +17,7 @@ import { EditorContext } from "../../utils/EditorContext";
 
 // Components
 import { Editor } from "../../components/Editor";
+import { ButtonProps } from "./types";
 
 const EditPost = () => {
     const { user } = useAuthValue();
@@ -44,6 +45,12 @@ const EditPost = () => {
         actionType: "edit",
         postId: id,
     });
+
+    const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
+        <button {...rest} className={styles.button} aria-label={alt}>
+            {children}
+        </button>
+    );
 
     useEffect(() => {
         if (post && bodyRef.current) {
@@ -138,17 +145,17 @@ const EditPost = () => {
                         </div>
                         <br />
                         {!response.loading && (
-                            <button
+                            <Button
                                 alt="Salvar"
                                 className={`${styles.button} ${styles.button__primary}`}
                             >
                                 Salvar
-                            </button>
+                            </Button>
                         )}
                         {response.loading && (
-                            <button alt="Aguarde" className="btn" disabled>
+                            <Button alt="Aguarde" className="btn" disabled>
                                 Aguarde...
-                            </button>
+                            </Button>
                         )}
                         {response.error && (
                             <p className="error">{response.error}</p>
@@ -161,4 +168,4 @@ const EditPost = () => {
     );
 };
 
-export default EditPost;
+export { EditPost };

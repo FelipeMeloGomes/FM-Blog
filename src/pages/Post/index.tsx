@@ -53,9 +53,11 @@ const Post = () => {
                             </h3>
                         </div>
                         <div className={styles.tags}>
-                            {post?.tagsArray.map((tag, index) => (
-                                <p key={`${tag}_${index}`}>{tag}</p>
-                            ))}
+                            {post?.tagsArray.map(
+                                (tag: string, index: number) => (
+                                    <p key={`${tag}_${index}`}>{tag}</p>
+                                )
+                            )}
                         </div>
 
                         <div className={styles.btnArrow}>
@@ -71,4 +73,4 @@ const Post = () => {
     );
 };
 
-export default Post;
+export { Post };

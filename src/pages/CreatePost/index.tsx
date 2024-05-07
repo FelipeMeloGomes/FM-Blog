@@ -2,8 +2,8 @@
 import styles from "./CreatePost.module.css";
 
 // Components
-import { LayoutPage } from "./../../components/LayoutPage";
-import { TextField } from "./../../components/TextField";
+import { LayoutPage } from "../../components/LayoutPage";
+import { TextField } from "../../components/TextField";
 import { Editor } from "../../components/Editor";
 
 // Hooks
@@ -11,6 +11,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
+import { ButtonProps } from "./types";
 
 const CreatePost = () => {
     const {
@@ -36,6 +37,12 @@ const CreatePost = () => {
         user,
         actionType: "create",
     });
+
+    const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
+        <button {...rest} className={styles.button} aria-label={alt}>
+            {children}
+        </button>
+    );
 
     return (
         <LayoutPage textAlign="center">
@@ -97,12 +104,12 @@ const CreatePost = () => {
                     </div>
                     <br />
                     {!response.loading && (
-                        <button
+                        <Button
                             alt="Cadastrar"
                             className={`${styles.button} ${styles.button__primary}`}
                         >
                             Cadastrar
-                        </button>
+                        </Button>
                     )}
                     {response.error && errorParagraph(response.error)}
                     <br />
@@ -113,4 +120,4 @@ const CreatePost = () => {
     );
 };
 
-export default CreatePost;
+export { CreatePost };

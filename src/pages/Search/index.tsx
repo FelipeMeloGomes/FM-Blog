@@ -12,12 +12,13 @@ import { Link } from "react-router-dom";
 import { PostDetail } from "../../components/PostDetail";
 import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
+import { Post } from "./types";
 
-const Search = () => {
+const Search: React.FC = () => {
     const query = useQuery();
     const search = query.get("q");
 
-    const { documents: posts } = useFetchDocuments("posts", search);
+    const { documents: posts } = useFetchDocuments<Post>("posts", search);
     return (
         <div className={styles.search_container}>
             <TextField
@@ -45,7 +46,7 @@ const Search = () => {
                         </Link>
                     </div>
                 )}
-                {posts?.map((post) => (
+                {posts?.map((post: Post) => (
                     <PostDetail key={post.id} post={post} />
                 ))}
             </div>
@@ -53,4 +54,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export { Search };

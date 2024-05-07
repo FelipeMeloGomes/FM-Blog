@@ -6,7 +6,7 @@ import { useCitySearch } from "../../hooks/useCitySearch";
 // Components
 import { TextField } from "../../components/TextField";
 import { Spinner } from "../../components/Spinner";
-import { LayoutPage } from "./../../components/LayoutPage";
+import { LayoutPage } from "../../components/LayoutPage";
 
 // Estilos Css
 import styles from "./Weather.module.css";
@@ -104,4 +104,4 @@ const Weather = () => {
     );
 };
 
-export default Weather;
+export { Weather };
