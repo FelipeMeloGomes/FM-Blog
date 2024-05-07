@@ -4,8 +4,3 @@ export interface ButtonProps
     alt: string;
 }
 
-export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: React.ReactNode;
-    alt: string;
-}

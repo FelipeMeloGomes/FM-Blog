@@ -27,7 +27,11 @@ const Dashboard = ({ createdBy }) => {
     const [sortedPosts, setSortedPosts] = useState([]);
 
     const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
-        <button {...rest} className={styles.button} aria-label={alt}>
+        <button
+            {...rest}
+            className="btn btn-outline btn-danger"
+            aria-label={alt}
+        >
             {children}
         </button>
     );

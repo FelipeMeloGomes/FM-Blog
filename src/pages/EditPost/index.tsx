@@ -47,7 +47,11 @@ const EditPost = () => {
     });
 
     const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
-        <button {...rest} className={styles.button} aria-label={alt}>
+        <button
+            {...rest}
+            className={`${styles.button} ${styles.button__primary}`}
+            aria-label={alt}
+        >
             {children}
         </button>
     );
