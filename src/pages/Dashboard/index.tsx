@@ -16,15 +16,15 @@ import { Spinner } from "../../components/Spinner";
 
 // utils
 import { SortPost } from "../../utils/SortPost";
+import { Post } from "../../components/PostDetail/types";
 import { ButtonProps } from "./types";
 
 const Dashboard = ({ createdBy }) => {
     const { user } = useAuthValue();
-    const uid = user.uid;
+    const uid = user?.uid;
     const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
     const { deleteDocument } = useDeleteDocument("posts");
     const [sortedPosts, setSortedPosts] = useState([]);
-
 
     const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
         <button {...rest} className={styles.button} aria-label={alt}>
@@ -44,7 +44,7 @@ const Dashboard = ({ createdBy }) => {
     }
 
     return (
-        <div className={styles.dashboard} >
+        <div className={styles.dashboard}>
             <TextField title="Dashboard" paragraph="Gerencie os seus posts" />
             {loading ? (
                 <Spinner />
