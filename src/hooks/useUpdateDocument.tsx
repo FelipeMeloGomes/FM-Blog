@@ -1,16 +1,26 @@
-// Hooks React
 import { useState, useEffect, useReducer } from "react";
-
-// Firebase
 import { db } from "../firebase/config";
 import { updateDoc, doc } from "firebase/firestore";
 
-const initialState = {
+interface UpdateState {
+    loading: boolean | null;
+    error: string | null;
+}
+
+type UpdateAction =
+    | { type: "LOADING" }
+    | { type: "UPDATED_DOC" }
+    | { type: "ERROR"; payload: string };
+
+const initialState: UpdateState = {
     loading: null,
     error: null,
 };
 
-const updateReducer = (state, action) => {
+const updateReducer = (
+    state: UpdateState,
+    action: UpdateAction
+): UpdateState => {
     switch (action.type) {
         case "LOADING":
             return { loading: true, error: null };
@@ -23,31 +33,26 @@ const updateReducer = (state, action) => {
     }
 };
 
-export const useUpdateDocument = (docCollection) => {
+export const useUpdateDocument = (docCollection: string) => {
     const [response, dispatch] = useReducer(updateReducer, initialState);
 
-    // deal with memory leak
-    const [cancelled, setCancelled] = useState(false);
+    const [cancelled, setCancelled] = useState<boolean>(false);
 
-    const checkCancelBeforeDispatch = (action) => {
+    const checkCancelBeforeDispatch = (action: UpdateAction) => {
         if (!cancelled) {
             dispatch(action);
         }
     };
 
-    const updateDocument = async (uid, data) => {
+    const updateDocument = async (uid: string, data: any) => {
         checkCancelBeforeDispatch({ type: "LOADING" });
 
         try {
-            const docRef = await doc(db, docCollection, uid);
+            const docRef = doc(db, docCollection, uid);
+            await updateDoc(docRef, data);
 
-            const updatedDocument = await updateDoc(docRef, data);
-
-            checkCancelBeforeDispatch({
-                type: "UPDATED_DOC",
-                payload: updatedDocument,
-            });
-        } catch (error) {
+            checkCancelBeforeDispatch({ type: "UPDATED_DOC" });
+        } catch (error:any) {
             checkCancelBeforeDispatch({
                 type: "ERROR",
                 payload: error.message,
@@ -56,7 +61,9 @@ export const useUpdateDocument = (docCollection) => {
     };
 
     useEffect(() => {
-        return () => setCancelled(true);
+        return () => {
+            setCancelled(true);
+        };
     }, []);
 
     return { updateDocument, response };
