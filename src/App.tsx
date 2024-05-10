@@ -89,7 +89,7 @@ function App() {
                                 path="/dashboard"
                                 element={
                                     user ? (
-                                        <Dashboard />
+                                        <Dashboard createdBy={undefined} />
                                     ) : (
                                         <Navigate to="/login" />
                                     )
