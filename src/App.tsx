@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Firebase auth
-import { onAuthStateChanged } from "firebase/auth";
+import { User, onAuthStateChanged } from "firebase/auth";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -29,16 +29,18 @@ import { EditPost } from "./pages/EditPost";
 import { NotFound } from "./pages/NotFound";
 import { Weather } from "./pages/Weather";
 
-function App() {
-    const [user, setUser] = useState(undefined);
+const App: React.FC = () => {
+    const [user, setUser] = useState<User | null>(null);
     const { auth } = useAuthentication();
 
     const loadingUser = user === undefined;
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
         });
+
+        return () => unsubscribe();
     }, [auth]);
 
     if (loadingUser) {
@@ -111,6 +113,6 @@ function App() {
             </AuthProvider>
         </div>
     );
-}
+};
 
 export default App;
