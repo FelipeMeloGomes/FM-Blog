@@ -73,4 +73,4 @@ As seguintes melhorias foram implementadas no projeto:
 -   Novos componentes para otimizar o desempenho.
 -   Adição de hooks personalizados para melhorar a performance.
 -   Implementação do react-quill para a criação de textos mais ricos.
--   Implementação do TypeScript para melhoria de tipagens e seguranaça do codigo.
+-   Implementação do TypeScript para melhoria de tipagem e segurança do código.
