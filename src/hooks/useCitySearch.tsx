@@ -1,7 +1,8 @@
-// Hooks
-import { useState, useCallback } from "react";
+import { useState, useCallback, Dispatch, SetStateAction } from "react";
 
-const normalizeCity = (city) => {
+type FetchDataFunction = (city: string) => Promise<void>;
+
+const normalizeCity = (city: string): string => {
     const cityWithoutAccents = city
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -13,8 +14,8 @@ const normalizeCity = (city) => {
     return normalizedCity;
 };
 
-const createSearchStrategy = (fetchData) => {
-    return async (city) => {
+const createSearchStrategy = (fetchData: FetchDataFunction) => {
+    return async (city: string) => {
         const normalizedCity = normalizeCity(city);
         if (normalizedCity === "") {
             return;
@@ -23,9 +24,18 @@ const createSearchStrategy = (fetchData) => {
     };
 };
 
-export const useCitySearch = (fetchData) => {
-    const [city, setCity] = useState("");
-    const [showDetails, setShowDetails] = useState(false);
+interface CitySearchHook {
+    city: string;
+    setCity: Dispatch<SetStateAction<string>>;
+    showDetails: boolean;
+    setShowDetails: Dispatch<SetStateAction<boolean>>;
+    handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    search: () => Promise<void>;
+}
+
+export const useCitySearch = (fetchData: FetchDataFunction): CitySearchHook => {
+    const [city, setCity] = useState<string>("");
+    const [showDetails, setShowDetails] = useState<boolean>(false);
 
     const searchStrategy = createSearchStrategy(fetchData);
 
@@ -40,7 +50,7 @@ export const useCitySearch = (fetchData) => {
     }, [city, searchStrategy]);
 
     const handleKeyDown = useCallback(
-        (e) => {
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
                 search();
             }
