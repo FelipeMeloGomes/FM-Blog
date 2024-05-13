@@ -3,6 +3,7 @@ import { db } from "../firebase/config";
 import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
 
 interface DocumentData {
+    image?: string;
     id?: string;
     title?: string;
     content?: string;
