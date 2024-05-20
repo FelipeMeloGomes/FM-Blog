@@ -1,9 +1,8 @@
-import { User } from "firebase/auth";
 import { ReactNode } from "react";
 
 export interface AuthValue {
     isAuthenticated?: boolean;
-    user?: User | null;
+    user?: string;
 }
 
 export interface AuthContextType {
