@@ -22,7 +22,7 @@ interface AuthFormHook {
 }
 
 export const useAuthForm = (
-    isLogin: boolean,
+    isLogin?: boolean,
     onSubmit?: (formData: FormData) => void
 ): AuthFormHook => {
     const {
