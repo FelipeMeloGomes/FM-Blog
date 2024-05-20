@@ -1,8 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useAuthentication } from "./hooks/useAuthentication";
-import { Spinner } from "./components/Spinner";
 
 // Pages
 import { Home } from "./pages/Home";
@@ -18,23 +17,12 @@ import { Weather } from "./pages/Weather";
 import { Search } from "./pages/Search";
 
 const Navigator = () => {
+    const { auth } = useAuthentication();
     const [user, setUser] = useState<User | null>(null);
 
-    const { auth } = useAuthentication();
-
-    const loadingUser = user === undefined;
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-        });
-
-        return () => unsubscribe();
-    }, [auth]);
-
-    if (loadingUser) {
-        return <Spinner />;
-    }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setUser(user);
+    });
 
     return (
         <>
