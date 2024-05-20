@@ -13,15 +13,12 @@ import { AuthProvider } from "./context/AuthContext";
 
 // Components
 import { NavBar } from "./components/NavBar";
-import { Spinner } from "./components/Spinner";
 import { LayoutPage } from "./components/LayoutPage";
 import { Navigator } from "./navigator";
 
 const App: React.FC = () => {
-    const [user, setUser] = useState<User | null>(null);
     const { auth } = useAuthentication();
-
-    const loadingUser = user === undefined;
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -30,10 +27,6 @@ const App: React.FC = () => {
 
         return () => unsubscribe();
     }, [auth]);
-
-    if (loadingUser) {
-        return <Spinner />;
-    }
 
     return (
         <div className="App">
