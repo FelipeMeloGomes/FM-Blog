@@ -17,7 +17,7 @@ import { Icon } from "../../components/IconComponent";
 
 // utils
 import { SortPost } from "../../utils/SortPost";
-import { Post } from "../../components/PostDetail/types";
+import { Post } from "./type";
 
 const Home = () => {
     const { documents: posts, loading } = useFetchDocuments("posts");
