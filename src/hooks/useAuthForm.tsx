@@ -17,7 +17,10 @@ interface AuthFormHook {
     setPasswordVisibleTwo: Dispatch<SetStateAction<boolean>>;
     error: string;
     setError: Dispatch<SetStateAction<string>>;
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    handleSubmit: (
+        e: React.FormEvent<HTMLFormElement>,
+        data?: FormData
+    ) => Promise<void>;
     loading: boolean;
 }
 

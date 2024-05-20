@@ -16,7 +16,7 @@ import { Spinner } from "../../components/Spinner";
 
 // utils
 import { SortPost } from "../../utils/SortPost";
-import { Post } from "../../components/PostDetail/types";
+import { Post } from "../../utils/SortPost/types";
 import { ButtonProps } from "./types";
 
 const Dashboard = ({ createdBy }) => {

@@ -1,1 +1,1 @@
-export type SetPasswordVisible = (prev: (prev: boolean) => void) => void;
+export type SetPasswordVisible = React.Dispatch<React.SetStateAction<boolean>>;

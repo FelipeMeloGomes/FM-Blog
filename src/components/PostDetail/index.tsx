@@ -11,9 +11,9 @@ import { useEffect, useState } from "react";
 import { LikeButton } from "../LikeButton";
 import { Spinner } from "../Spinner";
 import { Icon } from "../IconComponent";
-import { Post } from "./types";
+import { PostDetailProps } from "../../utils/SortPost/types";
 
-const PostDetail: React.FC<Post> = ({ post }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ post }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const PostDetail: React.FC<Post> = ({ post }) => {
                     <p className={styles.block}></p>
 
                     <div className={styles.tags}>
-                        {post?.tagsArray.map((tag, index) => (
+                        {post?.tagsArray.map((tag: string, index: number) => (
                             <div key={`${tag}_${index}`}>
                                 <p>{tag}</p>
                             </div>

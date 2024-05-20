@@ -6,5 +6,10 @@ export type Post = {
     createdAt: string;
     createdBy: string;
     image: string;
-    tagsArray: string;
+    tagsArray: string[];
 };
+
+
+export interface PostDetailProps {
+    post: Post;
+}
