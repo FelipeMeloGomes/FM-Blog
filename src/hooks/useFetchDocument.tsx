@@ -3,9 +3,9 @@ import { db } from "../firebase/config";
 import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
 
 interface DocumentData {
-    tagsArray: any;
-    body: string | TrustedHTML;
-    createdBy: ReactNode;
+    tagsArray?: string[];
+    body?: string | TrustedHTML;
+    createdBy?: string;
     image?: string;
     id?: string;
     title?: string;
