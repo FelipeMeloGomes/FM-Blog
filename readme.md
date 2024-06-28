@@ -23,13 +23,13 @@ Este projeto foi desenvolvido para estudar e praticar a biblioteca React.js.<br/
 Instalar os pacotes:
 
 ```
-npm install
+pnpm install
 ```
 
 Iniciar o Projeto:
 
 ```
-npm run dev
+pnpm run dev
 ```
 
 ## 🚀 Tecnologias Utilizadas
