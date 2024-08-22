@@ -3,10 +3,8 @@ export interface TextFieldProps {
     paragraph?: string;
     padding?: string;
     marginBottom?: string;
-    textAlignTitle?: TextAlign | undefined;
-    textAlignParagraph?: TextAlign | undefined;
+    textAlignTitle?: "left" | "center" | "right" | "justify";
+    textAlignParagraph?: "left" | "center" | "right" | "justify";
     color?: string;
     margin?: string;
 }
-
-export type TextAlign = "left" | "right" | "center" | "justify";

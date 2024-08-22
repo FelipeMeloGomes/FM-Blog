@@ -1,6 +1,6 @@
+import { ReactNode } from "react";
 export interface SubmitButtonProps {
-    children: React.ReactNode;
-    type?: "button" | "submit" | "reset"; 
+    children: ReactNode;
+    type?: "button" | "submit" | "reset";
     disabled?: boolean;
-    alt?: string;
 }

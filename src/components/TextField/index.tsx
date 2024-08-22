@@ -1,8 +1,7 @@
-// Estilos Css
 import styles from "./TextField.module.css";
 import { TextFieldProps } from "./types";
 
-const TextField: React.FC<TextFieldProps> = ({
+const TextField = ({
     title = "",
     paragraph = "",
     padding = "",
@@ -11,7 +10,7 @@ const TextField: React.FC<TextFieldProps> = ({
     textAlignParagraph = "center",
     color = "",
     margin = "",
-}) => {
+}: TextFieldProps) => {
     return (
         <>
             <h1

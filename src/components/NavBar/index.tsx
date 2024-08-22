@@ -15,7 +15,7 @@ import { MobileMenuButtonProps } from "./types";
 
 const NavBar: React.FC<MobileMenuButtonProps> = () => {
     const [Mobile, setMobile] = useState(false);
-    const { user } = useAuthValue();
+    const { user } = useAuthValue() || {};
     const { logout } = useAuthentication();
 
     return (

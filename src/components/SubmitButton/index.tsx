@@ -2,17 +2,11 @@
 import styles from "./SubmitButton.module.css";
 import { SubmitButtonProps } from "./types";
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({
-    children,
-    type,
-    disabled,
-}) => {
+const SubmitButton = ({ children, type, disabled }: SubmitButtonProps) => {
     return (
-        <>
-            <button disabled={disabled} className={styles.btn} type={type}>
-                {children}
-            </button>
-        </>
+        <button disabled={disabled} className={styles.btn} type={type}>
+            {children}
+        </button>
     );
 };
 
