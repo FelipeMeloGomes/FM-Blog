@@ -32,7 +32,7 @@ const About: React.FC<ButtonProps> = () => {
                         rel="noopener noreferrer"
                     >
                         <Icon
-                            name="linkedin"
+                            name="Linkedin"
                             className={styles.icon_linkedin}
                         />
                     </a>
@@ -43,7 +43,7 @@ const About: React.FC<ButtonProps> = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <Icon name="github" className={styles.icon_github} />
+                        <Icon name="Github" className={styles.icon_github} />
                     </a>
                 </Button>
             </div>

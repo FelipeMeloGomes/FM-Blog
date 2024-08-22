@@ -29,7 +29,7 @@ const Search: React.FC = () => {
             {posts?.length > 0 && (
                 <div className={styles.btnArrow}>
                     <Link to="/" className="btn btn-outline">
-                        <Icon name="arrowBack" className="icon_font" />
+                        <Icon name="ArrowBack" className="icon_font" />
                     </Link>
                 </div>
             )}

@@ -49,7 +49,7 @@ const Home = () => {
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
                 />
                 <button className="btn btn-dark" aria-label="Pesquisar">
-                    <Icon name="search" className="icon_font" />
+                    <Icon name="Search" className="icon_font" />
                 </button>
             </form>
             <div className="post-list">

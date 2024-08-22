@@ -1,10 +1,10 @@
 // Estilos css
 import styles from "./TextInputWithIcon.module.css";
 import { TextInputWithIconProps } from "./types";
+import { Icon } from "../IconComponent";
 
 const TextInputWithIcon: React.FC<TextInputWithIconProps> = ({
     label,
-    icon: Icon,
     iconName,
     name,
     value,
@@ -19,7 +19,7 @@ const TextInputWithIcon: React.FC<TextInputWithIconProps> = ({
         <div className={styles.flex_column}>
             <label>{label}</label>
             <div className={styles.inputForm}>
-                {Icon && <Icon name={iconName || ""} className="icon_font" />}
+                {iconName && <Icon name={iconName} className="icon_font" />}
                 <input
                     type="text"
                     name={name}

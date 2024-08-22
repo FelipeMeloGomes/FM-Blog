@@ -1,4 +1,5 @@
-import { ChangeEvent, MouseEvent, ComponentType } from "react";
+import { ChangeEvent } from "react";
+import { IconName } from "../IconComponent/icons";
 
 export interface PasswordInputProps {
     label: string;
@@ -12,14 +13,18 @@ export interface PasswordInputProps {
     alt?: string;
     passwordVisible: boolean;
     togglePasswordVisibility: () => void;
-    icon?: React.ComponentType<{ name: string }>;
-    iconName?: string;
+    icon?: IconComponent;
+    iconName?: IconName;
 }
 
 export interface IconProps {
-    name: string;
+    name: IconName;
     className?: string;
-    onClick?: (event: MouseEvent<HTMLElement>) => void;
+    onClick?: () => void;
 }
 
-export type IconComponent = ComponentType<IconProps>;
+export type IconMapping = {
+    [key in IconName]: IconComponent;
+};
+
+export type IconComponent = React.ComponentType<IconProps>;

@@ -40,8 +40,7 @@ const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
                     label="Nome de usuário"
                     name="displayName"
                     value={formData.displayName}
-                    icon={Icon}
-                    iconName={"user"}
+                    iconName="User"
                     minLength={6}
                     maxLength={16}
                     required
@@ -59,8 +58,7 @@ const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
             <TextInputWithIcon
                 label="Email"
                 name="email"
-                icon={Icon}
-                iconName={"sign"}
+                iconName="Sign"
                 value={formData.email}
                 minLength={6}
                 required
@@ -75,10 +73,10 @@ const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
                 label="Senha"
                 name="password"
                 value={formData.password}
+                iconName="Lock"
                 minLength={6}
                 maxLength={64}
                 icon={Icon}
-                iconName={"lock"}
                 required
                 onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
@@ -92,11 +90,11 @@ const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
             />
             {!isLogin && (
                 <PasswordInputWithToggle
+                    iconName="Lock"
                     label="Confirmar Senha"
                     placeholder="Confirme a sua senha"
                     alt="Confirme a  sua senha"
                     icon={Icon}
-                    iconName={"lock"}
                     minLength={6}
                     maxLength={64}
                     required

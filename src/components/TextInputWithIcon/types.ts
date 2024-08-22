@@ -1,9 +1,5 @@
 import { ChangeEvent } from "react";
-
-export interface IconProps {
-    name: string;
-    className?: string;
-}
+import { IconProps } from "../IconComponent";
 
 export interface TextInputWithIconProps {
     label: string;

@@ -1,6 +1,8 @@
 import { forwardRef, ReactElement } from "react";
 import styles from "./PasswordInputWithToggle.module.css";
-import { PasswordInputProps, IconComponent } from "./types";
+import { PasswordInputProps } from "./types";
+import { Icon } from "../IconComponent";
+
 
 const PasswordInputWithToggle = forwardRef<
     HTMLInputElement,
@@ -19,40 +21,35 @@ const PasswordInputWithToggle = forwardRef<
             alt,
             passwordVisible,
             togglePasswordVisibility,
-            icon: Icon,
             iconName,
         },
         ref
     ) => {
-        const renderIcon = (
-            Icon: IconComponent | undefined,
-            iconName?: string
-        ): ReactElement | null => {
-            return Icon ? (
-                <Icon name={iconName || ""} className="icon_font" />
+        const renderIcon = (iconName?: iconName): ReactElement | null => {
+            return iconName ? (
+                <Icon name={iconName} className="icon_font" />
             ) : null;
         };
 
         const renderVisibilityIcon = (
             passwordVisible: boolean,
-            Icon: IconComponent | undefined,
             togglePasswordVisibility: () => void
         ): ReactElement | null => {
-            const icon = passwordVisible ? "eye" : "slash";
-            return Icon ? (
+            const icon = passwordVisible ? "Eye" : "Slash";
+            return (
                 <Icon
                     name={icon}
                     className="icon icon_font"
                     onClick={togglePasswordVisibility}
                 />
-            ) : null;
+            );
         };
 
         return (
             <div className={styles.flex_column}>
                 <label>{label}</label>
                 <div className={styles.inputForm}>
-                    {renderIcon(Icon, iconName)}
+                    {renderIcon(iconName)}
                     <input
                         type={passwordVisible ? "text" : "password"}
                         name={name}
@@ -68,7 +65,6 @@ const PasswordInputWithToggle = forwardRef<
                     />
                     {renderVisibilityIcon(
                         passwordVisible,
-                        Icon,
                         togglePasswordVisibility
                     )}
                 </div>

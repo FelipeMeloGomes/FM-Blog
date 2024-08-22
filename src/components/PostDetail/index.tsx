@@ -34,7 +34,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post }) => {
                     </figure>
                     <h2>{post.title}</h2>
                     <p className={styles.createdby}>
-                        <Icon name="user" /> {post.createdBy}
+                        <Icon name="User" /> {post.createdBy}
                     </p>
                     <p className={styles.block}></p>
 

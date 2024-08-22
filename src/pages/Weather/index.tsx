@@ -36,7 +36,7 @@ const Weather = () => {
                         onKeyDown={handleKeyDown}
                     />
                     <div className={styles.search_icon} onClick={search}>
-                        <Icon name="search" className="icon_font" />
+                        <Icon name="Search" className="icon_font" />
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@ const Weather = () => {
                         <div className={styles.data_container}>
                             <div className={styles.element}>
                                 <Icon
-                                    name="humidity"
+                                    name="Humidity"
                                     className={styles.icon_font}
                                 />
                                 <div className={styles.data}>
@@ -84,7 +84,7 @@ const Weather = () => {
 
                             <div className={styles.element}>
                                 <Icon
-                                    name="windy"
+                                    name="Windy"
                                     className={styles.icon_font}
                                 />
                                 <div className={styles.data}>

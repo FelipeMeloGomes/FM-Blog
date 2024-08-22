@@ -30,7 +30,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                 className={styles.mobile_icon}
                 onClick={() => setMobile(!Mobile)}
             >
-                {Mobile ? <Icon name="cross" /> : <Icon name="bars" />}
+                {Mobile ? <Icon name="Cross" /> : <Icon name="Bars" />}
             </button>
             <ul
                 className={Mobile ? styles.nav_mobile : styles.nav_list}
@@ -44,7 +44,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                             isActive ? styles.active : ""
                         }
                     >
-                        <Icon name="home" className={styles.icon} />
+                        <Icon name="Home" className={styles.icon} />
                         Home
                     </NavLink>
                 </li>
@@ -58,7 +58,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <Icon name="user" className={styles.icon} />
+                                <Icon name="User" className={styles.icon} />
                                 Entrar
                             </NavLink>
                         </li>
@@ -71,7 +71,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                                 }
                             >
                                 {" "}
-                                <Icon name="plus" className={styles.icon} />
+                                <Icon name="Plus" className={styles.icon} />
                                 Cadastrar
                             </NavLink>
                         </li>
@@ -87,7 +87,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <Icon name="add" className={styles.icon} />
+                                <Icon name="Add" className={styles.icon} />
                                 Novo Post
                             </NavLink>
                         </li>
@@ -100,7 +100,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                                 }
                             >
                                 <Icon
-                                    name="dashboard"
+                                    name="Dashboard"
                                     className={styles.icon}
                                 />
                                 Dashboard
@@ -114,7 +114,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                                     isActive ? styles.active : ""
                                 }
                             >
-                                <Icon name="cloud" className={styles.icon} />
+                                <Icon name="Cloud" className={styles.icon} />
                                 Clima
                             </NavLink>
                         </li>
@@ -129,7 +129,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                             isActive ? styles.active : ""
                         }
                     >
-                        <Icon name="info" className={styles.icon} />
+                        <Icon name="Info" className={styles.icon} />
                         Sobre
                     </NavLink>
                 </li>
@@ -137,7 +137,7 @@ const NavBar: React.FC<MobileMenuButtonProps> = () => {
                 {user && (
                     <li>
                         <button className={styles.bntLogout} onClick={logout}>
-                            <Icon name="logout" className={styles.icon} />
+                            <Icon name="Logout" className={styles.icon} />
                             Sair
                         </button>
                     </li>
