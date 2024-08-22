@@ -12,10 +12,7 @@ export const AuthProvider = ({ children, value }: AuthProviderProps) => {
     );
 };
 
-export const useAuthValue = (): AuthValue => {
+export const useAuthValue = (): AuthValue | undefined => {
     const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error("useAuthValue must be used within an AuthProvider");
-    }
-    return context.authValue;
+    return context?.authValue;
 };
