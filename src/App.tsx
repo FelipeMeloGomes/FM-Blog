@@ -1,13 +1,6 @@
 // React Router
 import { BrowserRouter } from "react-router-dom";
 
-// Firebase auth
-import { User, onAuthStateChanged } from "firebase/auth";
-
-// Hooks
-import { useEffect, useState } from "react";
-import { useAuthentication } from "./hooks/useAuthentication";
-
 // Context
 import { AuthProvider } from "./context/AuthContext";
 
@@ -15,18 +8,10 @@ import { AuthProvider } from "./context/AuthContext";
 import { NavBar } from "./components/NavBar";
 import { LayoutPage } from "./components/LayoutPage";
 import { Navigator } from "./navigator";
+import { useAuthState } from "./hooks/useAuthState";
 
 const App: React.FC = () => {
-    const { auth } = useAuthentication();
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-        });
-
-        return () => unsubscribe();
-    }, [auth]);
+    const user = useAuthState();
 
     return (
         <div className="App">

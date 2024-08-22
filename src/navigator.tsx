@@ -1,7 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useState } from "react";
-import { User, onAuthStateChanged } from "firebase/auth";
-import { useAuthentication } from "./hooks/useAuthentication";
+import { useAuthState } from "./hooks/useAuthState";
 
 // Pages
 import { Home } from "./pages/Home";
@@ -17,12 +15,7 @@ import { Weather } from "./pages/Weather";
 import { Search } from "./pages/Search";
 
 const Navigator = () => {
-    const { auth } = useAuthentication();
-    const [user, setUser] = useState<User | null>(null);
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setUser(user);
-    });
+    const user = useAuthState();
 
     return (
         <>
@@ -52,7 +45,7 @@ const Navigator = () => {
                     path="/dashboard"
                     element={
                         user ? (
-                            <Dashboard createdBy={undefined} />
+                            <Dashboard createdBy={user.uid} />
                         ) : (
                             <Navigate to="/login" />
                         )
