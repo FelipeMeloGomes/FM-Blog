@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface UserData {
     displayName: string;
@@ -72,6 +73,7 @@ export const useAuthentication = (): AuthenticationResult => {
                 data.password
             );
             await updateProfile(user, { displayName: data.displayName });
+            toast.success("Registro bem-sucedido!");
         } catch (error) {
             const errorMessage = handleErrorMessage(error);
             setState({ error: errorMessage, loading: false, cancelled: false });
@@ -89,6 +91,7 @@ export const useAuthentication = (): AuthenticationResult => {
         setState({ ...state, loading: true, error: null });
         try {
             await signInWithEmailAndPassword(auth, data.email, data.password);
+            toast.success("Login bem-sucedido!");
         } catch (error) {
             const errorMessage = handleErrorMessage(error);
             setState({ error: errorMessage, loading: false, cancelled: false });
