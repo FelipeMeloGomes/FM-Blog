@@ -74,3 +74,4 @@ As seguintes melhorias foram implementadas no projeto:
 -   Adição de hooks personalizados para melhorar a performance.
 -   Implementação do react-quill para a criação de textos mais ricos.
 -   Implementação do TypeScript para melhoria de tipagem e segurança do código.
+-   Implementação da biblioteca Toastify para exibir notificações pop-up de forma eficiente e visualmente atraente.
