@@ -3,7 +3,5 @@ declare module "*.module.css" {
     export default classes;
 }
 
-declare module "*.webp" {
-    const value: any;
-    export default value;
-}
+declare module "*.png";
+declare module "*.webp";
