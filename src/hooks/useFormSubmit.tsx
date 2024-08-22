@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface User {
     uid: string;
@@ -112,6 +113,7 @@ export const useFormSubmit = ({
 
         const formData = createFormData();
         handleAction(formData);
+        toast.success("Documento criado com sucesso!");
 
         clearFormFields();
         navigate("/");

@@ -1,6 +1,7 @@
 import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 interface DeleteState {
     loading: boolean | null;
@@ -53,6 +54,7 @@ export const useDeleteDocument = (docCollection: string) => {
         try {
             await deleteDoc(doc(db, docCollection, id));
             checkCancelBeforeDispatch({ type: "DELETED_DOC" });
+            toast.success("Documento deletado com sucesso!");
         } catch (error: any) {
             const errorMessage =
                 "message" in error
