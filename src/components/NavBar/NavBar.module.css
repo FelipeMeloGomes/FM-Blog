@@ -13,9 +13,6 @@
     padding: 1em 2em;
 }
 
-.brand {
-    font-size: 1.2em;
-}
 
 .brand span {
     font-weight: 900;
@@ -118,7 +115,6 @@
         align-items: flex-end;
         justify-content: center;
         right: 20px;
-        font-size: 25px;
         z-index: 2;
     }
 

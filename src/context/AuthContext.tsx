@@ -1,4 +1,3 @@
-// Hooks
 import { useContext, createContext } from "react";
 import { AuthContextType, AuthProviderProps, AuthValue } from "./types";
 

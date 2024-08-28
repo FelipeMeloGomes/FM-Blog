@@ -1,4 +1,3 @@
-// Estilos css
 import styles from "./SubmitButton.module.css";
 import { SubmitButtonProps } from "./types";
 

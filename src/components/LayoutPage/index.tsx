@@ -1,4 +1,3 @@
-// Estilos Css
 import styles from "./LayoutPage.module.css";
 import { LayoutPageProps } from "./types";
 

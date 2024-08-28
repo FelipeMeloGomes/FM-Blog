@@ -1,8 +1,5 @@
-// React Quill
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
-// React
 import { forwardRef } from "react";
 import { EditorRef, EditorProps } from "./types";
 

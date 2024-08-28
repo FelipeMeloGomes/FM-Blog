@@ -1,23 +1,14 @@
-// Hooks
 import { useAuthForm } from "../../hooks/useAuthForm";
-
-// React Router Dom
 import { Link } from "react-router-dom";
-
-// Estilos css
 import styles from "./LoginForm.module.css";
-
-// Components
 import { TextInputWithIcon } from "../TextInputWithIcon";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SubmitButton } from "../SubmitButton";
 import { Icon } from "../IconComponent";
-
-// utils
 import { PasswordToggle } from "../../utils/PasswordToggle";
 import { loginFormProps } from "./types";
 
-const LoginForm: React.FC<loginFormProps> = ({ isLogin, onSubmit }) => {
+const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
     const {
         error,
         formData,
