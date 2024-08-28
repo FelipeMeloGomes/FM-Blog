@@ -1,15 +1,21 @@
 import { ReactNode } from "react";
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export interface AuthValue {
-    isAuthenticated?: boolean;
-    user?: string;
+  isAuthenticated?: boolean;
+  user: User | null;
 }
 
 export interface AuthContextType {
-    authValue: AuthValue;
+  authValue: AuthValue | undefined;
 }
 
 export interface AuthProviderProps {
-    children: ReactNode;
-    value: AuthValue;
+  children: ReactNode;
+  value: AuthValue;
 }
