@@ -1,7 +1,4 @@
-// Hooks
 import { useAuthForm } from "../../hooks/useAuthForm";
-
-// components
 import { LoginForm } from "../../components/LoginForm";
 import { LayoutPage } from "../../components/LayoutPage";
 import { TextField } from "../../components/TextField";

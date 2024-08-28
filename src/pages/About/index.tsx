@@ -1,22 +1,17 @@
-// Estilos css
 import styles from "./About.module.css";
-
-// Image
 import aboutImg from "./assets/about.webp";
-
-// components
 import { TextField } from "../../components/TextField";
 import { LayoutPage } from "../../components/LayoutPage";
 import { Icon } from "../../components/IconComponent";
 import { ButtonProps } from "./types";
 
-const Button: React.FC<ButtonProps> = ({ alt, children, ...rest }) => (
+const Button = ({ alt, children, ...rest }: ButtonProps) => (
     <button {...rest} className={styles.button} aria-label={alt}>
         {children}
     </button>
 );
 
-const About: React.FC<ButtonProps> = () => {
+const About =  () => {
     return (
         <LayoutPage>
             <TextField

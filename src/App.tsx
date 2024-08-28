@@ -11,20 +11,20 @@ import { Navigator } from "./navigator";
 import { useAuthState } from "./hooks/useAuthState";
 
 const App: React.FC = () => {
-    const user = useAuthState();
+  const user = useAuthState();
 
-    return (
-        <div className="App">
-            <AuthProvider value={{ user }}>
-                <BrowserRouter>
-                    <LayoutPage>
-                        <NavBar />
-                        <Navigator />
-                    </LayoutPage>
-                </BrowserRouter>
-            </AuthProvider>
-        </div>
-    );
+  return (
+    <div className="App">
+      <AuthProvider value={{ user }}>
+        <BrowserRouter>
+          <LayoutPage>
+            <NavBar />
+            <Navigator />
+          </LayoutPage>
+        </BrowserRouter>
+      </AuthProvider>
+    </div>
+  );
 };
 
 export default App;

@@ -1,21 +1,12 @@
-// Estilos css
 import styles from "./Home.module.css";
-
-// Hooks
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useSearchPost } from "../../hooks/useSearchPost";
 import { useEffect } from "react";
-
-// React Router Dom
 import { Link } from "react-router-dom";
-
-// Components
 import { PostDetail } from "../../components/PostDetail";
 import { Spinner } from "../../components/Spinner";
 import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
-
-// utils
 import { SortPost } from "../../utils/SortPost";
 import { Post } from "./type";
 
