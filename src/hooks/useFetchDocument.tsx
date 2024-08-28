@@ -3,65 +3,63 @@ import { db } from "../firebase/config";
 import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
 
 interface DocumentData {
-    tagsArray?: string[];
-    body?: string | TrustedHTML;
-    createdBy?: string;
-    image?: string;
-    id?: string;
-    title?: string;
-    content?: string;
+  tagsArray?: string[];
+  body?: string | TrustedHTML;
+  createdBy?: string;
+  image?: string;
+  id?: string;
+  title?: string;
+  content?: string;
 }
 
 interface FetchDocumentResult {
-    document: DocumentData | null;
-    loading: boolean;
-    error: string | null;
+  document: DocumentData | null;
+  loading: boolean;
+  error: string | null;
 }
 
 export const useFetchDocument = (
-    docCollection: string,
-    id: string
+  docCollection: string,
+  id: string,
 ): FetchDocumentResult => {
-    const [document, setDocument] = useState<DocumentData | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+  const [document, setDocument] = useState<DocumentData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        let isMounted = true;
+  useEffect(() => {
+    let isMounted = true;
 
-        const loadDocument = async () => {
-            setLoading(true);
+    const loadDocument = async () => {
+      setLoading(true);
 
-            try {
-                const docRef = doc(db, docCollection, id);
-                const docSnap: DocumentSnapshot<DocumentData> = await getDoc(
-                    docRef
-                );
+      try {
+        const docRef = doc(db, docCollection, id);
+        const docSnap: DocumentSnapshot<DocumentData> = await getDoc(docRef);
 
-                if (docSnap.exists()) {
-                    setDocument({ id: docSnap.id, ...docSnap.data() });
-                    setError(null);
-                } else {
-                    setError("Document not found");
-                }
-            } catch (error: any) {
-                const errorMessage =
-                    "message" in error
-                        ? error.message
-                        : "Ocorreu um erro ao buscar o documento.";
+        if (docSnap.exists()) {
+          setDocument({ id: docSnap.id, ...docSnap.data() });
+          setError(null);
+        } else {
+          setError("Document not found");
+        }
+      } catch (error: any) {
+        const errorMessage =
+          "message" in error
+            ? error.message
+            : "Ocorreu um erro ao buscar o documento.";
 
-                setError(errorMessage);
-            }
+        setError(errorMessage);
+      }
 
-            if (isMounted) setLoading(false);
-        };
+      if (isMounted) setLoading(false);
+    };
 
-        loadDocument();
+    loadDocument();
 
-        return () => {
-            isMounted = false;
-        };
-    }, [docCollection, id]);
+    return () => {
+      isMounted = false;
+    };
+  }, [docCollection, id]);
 
-    return { document, loading, error };
+  return { document, loading, error };
 };

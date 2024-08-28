@@ -15,12 +15,12 @@ const CreatePost = () => {
     imageUrl,
     bodyRef,
     tagsRef,
-    handleImageUrlChange,
+    handleChange,
     errorParagraph,
     error,
     navigate,
   } = usePostForm();
-  const { user } = useAuthValue ();
+  const { user } = useAuthValue();
   const { insertDocument, response } = useInsertDocument("posts");
   const { handleSubmit, formError } = useFormSubmit({
     insertDocument,
@@ -70,7 +70,7 @@ const CreatePost = () => {
               alt="Insira uma imagem"
               required
               ref={imageRef}
-              onChange={handleImageUrlChange}
+              onChange={handleChange}
               placeholder="Insira uma imagem"
             />
             <figure className={styles.containerImg}>
