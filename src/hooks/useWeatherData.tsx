@@ -24,24 +24,24 @@ interface WeatherHook {
 
 export const useWeatherData = (): WeatherHook => {
     const [isLoading, setIsLoading] = useState(false);
-    const [wicon, setWicon] = useState<ReactElement>(<Icon name="cloud-sun" />);
+    const [wicon, setWicon] = useState<ReactElement>(<Icon name="CloudSun" />);
     const weatherIconMap: WeatherIconMap = {
-        "01d": <Icon name="sun" />,
-        "01n": <Icon name="sun" />,
-        "02d": <Icon name="cloud" />,
-        "02n": <Icon name="cloud" />,
-        "03d": <Icon name="drizzle" />,
-        "03n": <Icon name="drizzle" />,
-        "04d": <Icon name="drizzle" />,
-        "04n": <Icon name="drizzle" />,
-        "09d": <Icon name="rain" />,
-        "09n": <Icon name="rain" />,
-        "10d": <Icon name="rain" />,
-        "10n": <Icon name="rain" />,
-        "13d": <Icon name="snow" />,
-        "13n": <Icon name="snow" />,
+        "01d": <Icon name="Sun" />,
+        "01n": <Icon name="Sun" />,
+        "02d": <Icon name="Cloud" />,
+        "02n": <Icon name="Cloud" />,
+        "03d": <Icon name="Drizzle" />,
+        "03n": <Icon name="Drizzle" />,
+        "04d": <Icon name="Drizzle" />,
+        "04n": <Icon name="Drizzle" />,
+        "09d": <Icon name="Rain" />,
+        "09n": <Icon name="Rain" />,
+        "10d": <Icon name="Rain" />,
+        "10n": <Icon name="Rain" />,
+        "13d": <Icon name="Snow" />,
+        "13n": <Icon name="Snow" />,
     };
-    const defaultIcon: ReactElement = <Icon name="sun" />;
+    const defaultIcon: ReactElement = <Icon name="Sun" />;
     const [climaData, setClimaData] = useState<WeatherData>({
         humidity: "",
         wind: "",
