@@ -18,7 +18,7 @@ const EditPost = () => {
   const { handleEditorChange, content, setContent } = EditorContext();
   const {
     bodyRef,
-    handleTitleChange,
+    handleChange,
     imageRef,
     navigate,
     tagsRef,
@@ -81,7 +81,7 @@ const EditPost = () => {
                 className={styles.input__field}
                 placeholder="Pense num bom título"
                 ref={titleRef}
-                onChange={handleTitleChange}
+                onChange={handleChange}
               />
             </div>
             <div className={styles.input}>
