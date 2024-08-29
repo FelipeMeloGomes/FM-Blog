@@ -1,16 +1,11 @@
-// React Router
 import { BrowserRouter } from "react-router-dom";
-
-// Context
 import { AuthProvider } from "./context/AuthContext";
-
-// Components
 import { NavBar } from "./components/NavBar";
 import { LayoutPage } from "./components/LayoutPage";
 import { Navigator } from "./navigator";
 import { useAuthState } from "./hooks/useAuthState";
 
-const App: React.FC = () => {
+const App = () => {
   const user = useAuthState();
 
   return (
