@@ -15,7 +15,7 @@ export const Editor = forwardRef<EditorRef, EditorProps>(
     ];
     return (
       <ReactQuill
-        className="editor"
+        className="max-w-full w-full"
         value={value}
         onChange={onChange}
         theme="snow"

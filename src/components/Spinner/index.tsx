@@ -1,5 +1,3 @@
-import styles from "./Spinner.module.css";
-
 const Spinner = ({
   startColor = "#000",
   middleColor = "#f6fcff",
@@ -8,13 +6,16 @@ const Spinner = ({
   width = "",
 }) => {
   return (
-    <div className={styles.loader} style={{ height, width }}>
+    <div
+      className="flex justify-center items-center h-screen place-items-center"
+      style={{ height, width }}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 66 66"
         height="100px"
         width="100px"
-        className={styles.spinner}
+        className="w-[250px] h-[150px] relative rounded-full animate-rotation"
       >
         <circle
           stroke={`url(#gradient-${startColor}-${middleColor}-${endColor})`}
@@ -23,7 +24,8 @@ const Spinner = ({
           cx="33"
           strokeWidth="1"
           fill="transparent"
-          className={styles.path}
+          className="custom-path stroke-linecap-round"
+          d="M10 10 H 90 V 90 H 10 Z"
         ></circle>
         <linearGradient
           id={`gradient-${startColor}-${middleColor}-${endColor}`}

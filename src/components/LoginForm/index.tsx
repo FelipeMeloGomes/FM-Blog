@@ -1,6 +1,5 @@
 import { useAuthForm } from "../../hooks/useAuthForm";
 import { Link } from "react-router-dom";
-import styles from "./LoginForm.module.css";
 import { TextInputWithIcon } from "../TextInputWithIcon";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SubmitButton } from "../SubmitButton";
@@ -22,7 +21,10 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
   } = useAuthForm(isLogin, onSubmit);
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, formData)} className={styles.form}>
+    <form
+      onSubmit={(e) => handleSubmit(e, formData)}
+      className="flex flex-col gap-2.5 mx-auto p-8 w-[500px] max-w-[90%] bg-white shadow-[0px_-2px_10px_rgba(0,0,0,0.15)] rounded-2xl text-center"
+    >
       {!isLogin && (
         <TextInputWithIcon
           label="Nome de usuário"
@@ -119,9 +121,9 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
 
       {isLogin && (
         <div>
-          <p className={styles.p}>
+          <p className="text-center text-black text-sm my-1">
             Não tem uma conta?{" "}
-            <span className={styles.span}>
+            <span className="text-sm text-black font-medium ml-1 cursor-pointer">
               <Link to="/register">Cadastre-se</Link>
             </span>
           </p>
@@ -129,9 +131,9 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
       )}
       {!isLogin && (
         <div>
-          <p className={styles.p}>
+          <p className="text-center text-black text-sm my-1">
             Já tem uma conta?{" "}
-            <span className={styles.span}>
+            <span className="text-sm text-black font-medium ml-1 cursor-pointer">
               <Link to="/login">Entrar</Link>
             </span>
           </p>

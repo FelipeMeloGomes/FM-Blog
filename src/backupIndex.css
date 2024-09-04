@@ -1,8 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
+  --font-family: "Helvetica", sans-serif;
   --primary-color: #1a8918;
   --secondary-color: #000;
   --text-color: #000;
@@ -17,13 +14,24 @@
   --layout-page-min-height: 100vh;
 }
 
-body {
-  font-family: "Helvetica", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: var(--font-family);
+  font-size: 16px;
+}
+
+ul li {
+  list-style: none;
+}
+
+body,
+html {
+  background-color: #fafafa;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 input::placeholder,
@@ -173,7 +181,7 @@ button[disabled] {
   margin-right: 1em;
 }
 
-.custom-path {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 20;
+.editor {
+  max-width: 100%;
+  width: 100%;
 }
