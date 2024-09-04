@@ -86,11 +86,17 @@ export const useFormSubmit = ({
     };
   };
 
-  const handleAction = (formData: FormData): void => {
-    if (actionType === "create") {
-      insertDocument(formData);
-    } else if (actionType === "edit") {
-      updateDocument(id, formData);
+  const handleAction = async (formData: FormData): Promise<void> => {
+    try {
+      if (actionType === "create") {
+        await insertDocument(formData);
+        toast.success("Documento criado com sucesso!");
+      } else if (actionType === "edit") {
+        await updateDocument(id, formData);
+        toast.success("Documento atualizado com sucesso!");
+      }
+    } catch (error) {
+      toast.error("Erro ao salvar documento.");
     }
   };
 
@@ -117,7 +123,6 @@ export const useFormSubmit = ({
 
     const formData = createFormData();
     handleAction(formData);
-    toast.success("Documento criado com sucesso!");
 
     clearFormFields();
     navigate("/");

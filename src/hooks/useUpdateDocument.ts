@@ -1,8 +1,6 @@
 import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { updateDoc, doc } from "firebase/firestore";
-import { toast } from "react-toastify";
-
 interface UpdateState {
   loading: boolean | null;
   error: string | null;
@@ -51,8 +49,6 @@ export const useUpdateDocument = (docCollection: string) => {
     try {
       const docRef = doc(db, docCollection, uid);
       await updateDoc(docRef, data);
-      toast.success("Documento atualizado com sucesso!");
-
       checkCancelBeforeDispatch({ type: "UPDATED_DOC" });
     } catch (error: any) {
       checkCancelBeforeDispatch({
