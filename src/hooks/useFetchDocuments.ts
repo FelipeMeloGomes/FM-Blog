@@ -14,6 +14,8 @@ interface DocumentData {
   id?: string;
   title?: string;
   content?: string;
+  likes?: string[];
+  likeCount?: number;
 }
 
 interface FetchDocumentsResult {

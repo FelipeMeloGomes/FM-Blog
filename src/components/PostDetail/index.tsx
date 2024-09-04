@@ -1,22 +1,26 @@
 import { Link } from "react-router-dom";
 import styles from "./PostDetail.module.css";
-import { useEffect, useState } from "react";
 import { LikeButton } from "../LikeButton";
 import { Spinner } from "../Spinner";
 import { Icon } from "../IconComponent";
 import { PostDetailProps } from "../../utils/SortPost/types";
+import { useAuthValue } from "../../context/AuthContext";
+import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 
 const PostDetail = ({ post }: PostDetailProps) => {
-  const [loading, setLoading] = useState(false);
+  const { user } = useAuthValue();
+  const uid = user?.uid;
+  const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
 
-  useEffect(() => {
-    setLoading(true);
-  }, []);
+  if (loading) {
+    return;
+  }
 
   return (
     <div className={styles.post_detail}>
-      {!loading && <Spinner width="350px" />}
-      {loading && (
+      {loading ? (
+        <Spinner width="350px" />
+      ) : (
         <>
           <figure className={styles.containerImg}>
             <img src={post.image} loading="eager" alt={post.title} />
@@ -28,7 +32,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
           <p className={styles.block}></p>
 
           <div className={styles.tags}>
-            {post?.tagsArray.map((tag: string, index: number) => (
+            {post.tagsArray.map((tag: string, index: number) => (
               <div key={`${tag}_${index}`}>
                 <p>{tag}</p>
               </div>
@@ -39,7 +43,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
             <Link to={`/posts/${post.id}`} className="btn btn-outline">
               Ler
             </Link>
-            <LikeButton />
+            {user && <LikeButton postId={post.id} userId={user.uid} />}
           </div>
         </>
       )}

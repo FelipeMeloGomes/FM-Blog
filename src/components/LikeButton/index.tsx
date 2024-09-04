@@ -1,17 +1,71 @@
+import { useState, useEffect } from "react";
+import { useLike } from "../../hooks/useLikeResult";
 import styles from "./LikeButton.module.css";
-import { useState } from "react";
 
-function LikeButton() {
-  const [likeCount, setLikeCount] = useState(0);
+interface LikeButtonProps {
+  postId: string;
+  userId: string;
+}
 
-  const handleLikeClick = () => {
-    setLikeCount(likeCount + 1);
+const LikeButton = ({ postId, userId }: LikeButtonProps) => {
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [liked, setLiked] = useState<boolean>(false);
+  const { likePost, getLikeCount, isLiked, error } = useLike();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchLikeData = async () => {
+      if (postId && userId) {
+        try {
+          const [likedStatus, likeCount] = await Promise.all([
+            isLiked(postId, userId),
+            getLikeCount(postId),
+          ]);
+          setLiked(likedStatus);
+          setLikeCount(likeCount);
+        } catch (err) {
+          console.error("Error fetching like data:", err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchLikeData();
+  }, [postId, userId, isLiked, getLikeCount]);
+
+  const handleLikeClick = async () => {
+    if (postId && userId) {
+      try {
+        // Toggle like status and update like count
+        await likePost(postId, userId);
+
+        // Refresh like count from the database
+        const updatedLikeCount = await getLikeCount(postId);
+        setLikeCount(updatedLikeCount);
+
+        // Refresh liked status
+        const updatedLikedStatus = await isLiked(postId, userId);
+        setLiked(updatedLikedStatus);
+      } catch (error) {
+        console.error("Erro ao curtir o post:", error);
+      }
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <button className={styles.Btn} onClick={handleLikeClick}>
+    <button
+      className={`${styles.Btn} ${liked ? styles.liked : ""}`}
+      onClick={handleLikeClick}
+      disabled={!postId || !userId}
+    >
       <span className={styles.leftContainer}>
         <svg
-          fill="white"
+          fill={liked ? "red" : "white"}
           viewBox="0 0 512 512"
           height="1em"
           xmlns="http://www.w3.org/2000/svg"
@@ -23,6 +77,6 @@ function LikeButton() {
       <span className={styles.likeCount}>{likeCount}</span>
     </button>
   );
-}
+};
 
 export { LikeButton };

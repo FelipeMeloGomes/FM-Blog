@@ -19,6 +19,8 @@ interface FormData {
   tagsArray: string[];
   uid: string;
   createdBy: string;
+  likeCount: number;
+  likes: string[];
 }
 
 interface FormSubmitProps {
@@ -79,6 +81,8 @@ export const useFormSubmit = ({
       tagsArray,
       uid: user.uid,
       createdBy: user.displayName,
+      likeCount: 0,
+      likes: [],
     };
   };
 
