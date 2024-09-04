@@ -4,21 +4,21 @@ import styles from "./LikeButton.module.css";
 
 interface LikeButtonProps {
   postId: string;
-  userId: string;
+  userId?: string;
 }
 
 const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
-  const { likePost, getLikeCount, isLiked, error } = useLike();
+  const { likePost, getLikeCount, isLiked } = useLike();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchLikeData = async () => {
-      if (postId && userId) {
+      if (postId) {
         try {
           const [likedStatus, likeCount] = await Promise.all([
-            isLiked(postId, userId),
+            userId ? isLiked(postId, userId) : false,
             getLikeCount(postId),
           ]);
           setLiked(likedStatus);
@@ -28,6 +28,8 @@ const LikeButton = ({ postId, userId }: LikeButtonProps) => {
         } finally {
           setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     };
 
@@ -37,14 +39,9 @@ const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   const handleLikeClick = async () => {
     if (postId && userId) {
       try {
-        // Toggle like status and update like count
         await likePost(postId, userId);
-
-        // Refresh like count from the database
         const updatedLikeCount = await getLikeCount(postId);
         setLikeCount(updatedLikeCount);
-
-        // Refresh liked status
         const updatedLikedStatus = await isLiked(postId, userId);
         setLiked(updatedLikedStatus);
       } catch (error) {
@@ -53,15 +50,11 @@ const LikeButton = ({ postId, userId }: LikeButtonProps) => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <button
       className={`${styles.Btn} ${liked ? styles.liked : ""}`}
       onClick={handleLikeClick}
-      disabled={!postId || !userId}
+      disabled={loading || !postId || !userId}
     >
       <span className={styles.leftContainer}>
         <svg

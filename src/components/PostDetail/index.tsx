@@ -43,7 +43,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
             <Link to={`/posts/${post.id}`} className="btn btn-outline">
               Ler
             </Link>
-            {user && <LikeButton postId={post.id} userId={user.uid} />}
+            <LikeButton postId={post.id} userId={user?.uid || ""} />
           </div>
         </>
       )}

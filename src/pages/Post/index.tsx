@@ -54,7 +54,7 @@ const Post = () => {
               <Link to="/" className="btn btn-outline">
                 <Icon name="ArrowBack" className="icon_font" />
               </Link>
-              {user && <LikeButton postId={post.id} userId={user.uid} />}
+              <LikeButton postId={post.id} userId={user?.uid || ""} />
             </div>
           </>
         )

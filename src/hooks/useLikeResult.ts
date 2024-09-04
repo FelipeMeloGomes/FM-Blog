@@ -77,6 +77,12 @@ export const useLike = (): UseLikeResult => {
     hasLiked: boolean,
   ) => {
     const postRef = doc(db, "posts", postId);
+    const postDoc = await getDoc(postRef);
+    if (!postDoc.exists()) return;
+
+    const postData = postDoc.data();
+    const currentLikeCount = postData.likeCount || 0;
+
     const updateData = hasLiked
       ? {
           likes: arrayRemove(userId),
@@ -86,6 +92,8 @@ export const useLike = (): UseLikeResult => {
           likes: arrayUnion(userId),
           likeCount: increment(1),
         };
+
+    if (hasLiked && currentLikeCount <= 0) return;
 
     await updateDoc(postRef, updateData);
   };
