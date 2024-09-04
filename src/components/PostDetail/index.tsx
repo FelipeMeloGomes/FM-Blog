@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
-import styles from "./PostDetail.module.css";
 import { LikeButton } from "../LikeButton";
 import { Spinner } from "../Spinner";
 import { Icon } from "../IconComponent";
 import { PostDetailProps } from "../../utils/SortPost/types";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
+import { toast } from "react-toastify";
+import styles from "./PostDetail.module.css";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue();
   const uid = user?.uid;
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
+
+  const handleNotLoggedIn = () => {
+    toast.error(
+      "Você precisa estar logado para curtir este post. Por favor, faça o login ou registre-se para participar.",
+    );
+  };
 
   if (loading) {
     return;
@@ -43,7 +50,11 @@ const PostDetail = ({ post }: PostDetailProps) => {
             <Link to={`/posts/${post.id}`} className="btn btn-outline">
               Ler
             </Link>
-            <LikeButton postId={post.id} userId={user?.uid || ""} />
+            <LikeButton
+              postId={post.id}
+              onNotLoggedIn={handleNotLoggedIn}
+              userId={user?.uid}
+            />
           </div>
         </>
       )}

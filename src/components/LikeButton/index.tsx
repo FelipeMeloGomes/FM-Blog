@@ -1,60 +1,28 @@
-import { useState, useEffect } from "react";
-import { useLike } from "../../hooks/useLikeResult";
+import { useLikeButton } from "../../hooks/useLikeButton";
 import styles from "./LikeButton.module.css";
 
 interface LikeButtonProps {
   postId: string;
   userId?: string;
+  onNotLoggedIn?: () => void;
 }
 
-const LikeButton = ({ postId, userId }: LikeButtonProps) => {
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [liked, setLiked] = useState<boolean>(false);
-  const { likePost, getLikeCount, isLiked } = useLike();
-  const [loading, setLoading] = useState<boolean>(true);
+const LikeButton = ({ postId, userId, onNotLoggedIn }: LikeButtonProps) => {
+  const { likeCount, liked, loading, handleLikeClick } = useLikeButton({
+    postId,
+    userId,
+    onNotLoggedIn,
+  });
 
-  useEffect(() => {
-    const fetchLikeData = async () => {
-      if (postId) {
-        try {
-          const [likedStatus, likeCount] = await Promise.all([
-            userId ? isLiked(postId, userId) : false,
-            getLikeCount(postId),
-          ]);
-          setLiked(likedStatus);
-          setLikeCount(likeCount);
-        } catch (err) {
-          console.error("Error fetching like data:", err);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    fetchLikeData();
-  }, [postId, userId, isLiked, getLikeCount]);
-
-  const handleLikeClick = async () => {
-    if (postId && userId) {
-      try {
-        await likePost(postId, userId);
-        const updatedLikeCount = await getLikeCount(postId);
-        setLikeCount(updatedLikeCount);
-        const updatedLikedStatus = await isLiked(postId, userId);
-        setLiked(updatedLikedStatus);
-      } catch (error) {
-        console.error("Erro ao curtir o post:", error);
-      }
-    }
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <button
       className={`${styles.Btn} ${liked ? styles.liked : ""}`}
       onClick={handleLikeClick}
-      disabled={loading || !postId || !userId}
+      disabled={!postId}
     >
       <span className={styles.leftContainer}>
         <svg
