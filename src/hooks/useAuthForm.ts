@@ -44,32 +44,40 @@ export const useAuthForm = (
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
-    if (e && typeof e.preventDefault === "function") {
-      e.preventDefault();
-    } else {
-      return;
-    }
+    if (!e || typeof e.preventDefault !== "function") return;
 
+    e.preventDefault();
     setError("");
 
-    if (!isLogin && formData.password !== formData.confirmPassword) {
-      setError("As senhas precisam ser iguais");
-      return;
-    }
+    if (!isLogin && !validatePasswords()) return;
 
     try {
-      if (isLogin) {
-        await login(formData);
-      } else {
-        createUser(formData);
-      }
-
-      if (onSubmit) {
-        onSubmit(formData);
-      }
+      await (isLogin ? login(formData) : createUser(formData));
+      if (onSubmit) onSubmit(formData);
     } catch (error: any) {
       setError(error.message);
     }
+  };
+
+  const validatePasswords = (): boolean => {
+    if (formData.password !== formData.confirmPassword) {
+      setError("As senhas precisam ser iguais");
+      return false;
+    }
+
+    if (!isPasswordStrong(formData.password)) {
+      setError(
+        "A senha é muito fraca. Ela deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula e um número.",
+      );
+      return false;
+    }
+
+    return true;
+  };
+
+  const isPasswordStrong = (password: string): boolean => {
+    const weakPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return weakPasswordRegex.test(password);
   };
 
   useEffect(() => {
