@@ -4,10 +4,12 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  AuthError,
 } from "firebase/auth";
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { errorMessages } from "../utils/ErrorMessage";
 
 interface UserData {
   displayName: string;
@@ -26,7 +28,7 @@ interface AuthenticationResult {
   createUser: (data: UserData) => Promise<void>;
   error: string | null;
   logout: () => void;
-  login: (data: UserData) => Promise<void>;
+  login: (data: Omit<UserData, "displayName">) => Promise<void>;
   loading: boolean;
 }
 
@@ -39,21 +41,14 @@ export const useAuthentication = (): AuthenticationResult => {
 
   const auth = getAuth();
 
-  const handleErrorMessage = (error: any): string => {
-    let systemErrorMessage;
-    if (error.message.includes("Password")) {
-      systemErrorMessage = "A senha precisa conter pelo menos 6 caracteres.";
-    } else if (error.message.includes("email-already")) {
-      systemErrorMessage = "E-mail já cadastrado.";
-    } else if (error.message.includes("user-not-found")) {
-      systemErrorMessage = "Usuário não encontrado.";
-    } else if (error.message.includes("wrong-password")) {
-      systemErrorMessage = "Senha incorreta.";
-    } else {
-      systemErrorMessage =
-        "Ocorreu um erro, por favor tente novamente mais tarde.";
-    }
-    return systemErrorMessage;
+  const handleErrorMessage = (error: AuthError): string => {
+    const matchedError = Object.entries(errorMessages).find(([key]) =>
+      error.message.includes(key),
+    );
+
+    return matchedError
+      ? matchedError[1]
+      : "Ocorreu um erro, por favor tente novamente mais tarde.";
   };
 
   const checkIfIsCancelled = (): void => {
@@ -74,7 +69,7 @@ export const useAuthentication = (): AuthenticationResult => {
       await updateProfile(user, { displayName: data.displayName });
       toast.success("Registro bem-sucedido!");
     } catch (error) {
-      const errorMessage = handleErrorMessage(error);
+      const errorMessage = handleErrorMessage(error as AuthError);
       setState({ error: errorMessage, loading: false, cancelled: false });
       throw new Error(errorMessage);
     }
@@ -85,14 +80,14 @@ export const useAuthentication = (): AuthenticationResult => {
     signOut(auth);
   };
 
-  const login = async (data: UserData): Promise<void> => {
+  const login = async (data: Omit<UserData, "displayName">): Promise<void> => {
     checkIfIsCancelled();
     setState({ ...state, loading: true, error: null });
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       toast.success("Login bem-sucedido!");
     } catch (error) {
-      const errorMessage = handleErrorMessage(error);
+      const errorMessage = handleErrorMessage(error as AuthError);
       setState({ error: errorMessage, loading: false, cancelled: false });
     }
   };
