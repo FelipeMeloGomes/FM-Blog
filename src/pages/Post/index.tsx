@@ -10,9 +10,9 @@ import { useAuthValue } from "../../context/AuthContext";
 const Post = () => {
   const { user } = useAuthValue();
   const { id } = useParams();
-  const { document: post } = useFetchDocument("posts", id);
+  const { document: post, loading } = useFetchDocument("posts", id);
   const uid = user?.uid;
-  const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
+  const { documents: posts } = useFetchDocuments("posts", null, uid);
 
   return (
     <section className={styles.post_container}>
