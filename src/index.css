@@ -115,6 +115,8 @@ textarea::placeholder {
   border: none;
   padding: 10px 15px;
   font-size: 1em;
+  display: flex;
+  justify-content: center;
 }
 
 .btn.btn-dark {

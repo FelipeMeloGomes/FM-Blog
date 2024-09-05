@@ -1,4 +1,3 @@
-import styles from "./Search.module.css";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useQuery } from "../../hooks/useQuery";
 import { Link } from "react-router-dom";
@@ -13,24 +12,24 @@ const Search = () => {
 
   const { documents: posts } = useFetchDocuments<Post>("posts", search);
   return (
-    <div className={styles.search_container}>
+    <div className="flex flex-col items-center justify-center text-center mb-20 mx-auto">
       <TextField
         title="Procurar"
         paragraph={`Resultados encontrados para: ${search}`}
       />
 
       {posts?.length > 0 && (
-        <div className={styles.btnArrow}>
+        <div className="flex items-center mb-8">
           <Link to="/" className="btn btn-outline">
             <Icon name="ArrowBack" className="icon_font" />
           </Link>
         </div>
       )}
 
-      <div className={styles.container_found}>
+      <div className="flex flex-row flex-wrap gap-10 max-w-[90%] justify-center mx-auto">
         {posts?.length === 0 && (
-          <div className={styles.noposts}>
-            <p className={styles.notfoundpost}>
+          <div className="text-center mb-8">
+            <p className="mb-8">
               Não foram encontrados posts a partir da sua busca...
             </p>
 

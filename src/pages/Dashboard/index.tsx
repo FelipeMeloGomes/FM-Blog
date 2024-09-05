@@ -1,4 +1,3 @@
-import styles from "./Dashboard.module.css";
 import { Link } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
@@ -10,7 +9,7 @@ import { SortPost } from "../../utils/SortPost";
 import { ButtonProps } from "./types";
 
 const Dashboard = ({ createdBy }) => {
-  const { user } = useAuthValue();
+  const { user } = useAuthValue() || {};
   const uid = user?.uid;
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
   const { deleteDocument } = useDeleteDocument("posts");
@@ -34,42 +33,54 @@ const Dashboard = ({ createdBy }) => {
   }
 
   return (
-    <div className={styles.dashboard}>
+    <div className="flex flex-col items-center w-full min-h-screen">
       <TextField title="Dashboard" paragraph="Gerencie os seus posts" />
       {loading ? (
         <Spinner />
       ) : (
         <>
           {sortedPosts?.length === 0 ? (
-            <div className={styles.noposts}>
-              <p>Não foram encontrados posts</p>
-              <Link to="/posts/create" className="btn">
+            <div className="text-center mb-6">
+              <p className="mb-6">Não foram encontrados posts</p>
+              <Link
+                to="/posts/create"
+                className="px-6 py-2.5 bg-transparent text-black border border-black rounded text-xs font-medium hover:bg-black hover:text-white transition ease-in-out"
+              >
                 Criar primeiro post
               </Link>
             </div>
           ) : (
             <>
-              <div className={styles.post_header}>
+              <div className="flex justify-between w-full max-w-[90%] p-4 border-b-2 border-gray-300 font-bold">
                 <span>Título</span>
                 <span>Ações</span>
               </div>
 
               {sortedPosts?.map((post) => (
-                <div key={post.id} className={styles.post_row}>
-                  <p>{post.title}</p>
-                  <div>
-                    <Link to={`/posts/${post.id}`} className="btn btn-outline">
+                <div
+                  key={post.id}
+                  className="flex items-center justify-between w-full max-w-[90%] p-2 border-b border-gray-200 gap-4 mb-8"
+                >
+                  <p className="text-black text-base">{post.title}</p>
+                  <div className="flex flex-col ">
+                    <Link
+                      to={`/posts/${post.id}`}
+                      className="btn btn-outline"
+                      style={{ fontSize: "12px" }}
+                    >
                       Ver
                     </Link>
                     <Link
                       to={`/posts/edit/${post.id}`}
-                      className="btn btn-outline"
+                      className="btn btn-outline "
+                      style={{ fontSize: "12px" }}
                     >
                       Editar
                     </Link>
                     <Button
                       onClick={() => deleteDocument(post.id)}
-                      className="btn btn-outline btn-danger"
+                      className="btn btn-outline btn-danger "
+                      style={{ fontSize: "12px" }}
                       alt="Excluir"
                     >
                       Excluir

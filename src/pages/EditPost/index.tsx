@@ -1,4 +1,3 @@
-import styles from "./EditPost.module.css";
 import { useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
@@ -11,7 +10,7 @@ import { Editor } from "../../components/Editor";
 import { ButtonProps } from "./types";
 
 const EditPost = () => {
-  const { user } = useAuthValue();
+  const { user } = useAuthValue() || {};
   const { id } = useParams();
   const { document: post } = useFetchDocument("posts", id);
   const { updateDocument, response } = useUpdateDocument("posts");
@@ -40,7 +39,7 @@ const EditPost = () => {
   const Button = ({ alt, children, ...rest }: ButtonProps) => (
     <button
       {...rest}
-      className={`${styles.button} ${styles.button__primary}`}
+      className="inline-flex items-center justify-center bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm transition duration-150 ease-in-out hover:bg-black hover:text-white"
       aria-label={alt}
     >
       {children}
@@ -58,36 +57,38 @@ const EditPost = () => {
   }, [post, titleRef, bodyRef, imageRef, tagsRef]);
 
   return (
-    <div className={styles.container}>
+    <div className="flex flex-col items-center justify-center text-center p-6 mx-auto w-full max-w-4xl">
       {post && (
         <>
-          <form className={styles.modal__body} onSubmit={handleSubmit}>
-            <div className={styles.input}>
-              <label className={styles.input__label}>
-                <h2>
-                  <span>Editando Post: </span>
+          <form className="p-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col mt-7">
+              <label className="font-bold text-sm text-center">
+                <h2 className="font-bold text-xl">
+                  <span className="bg-gray-200 font-extrabold mr-2">
+                    Editando Post:{" "}
+                  </span>
                   {title || post.title}
                 </h2>
               </label>
             </div>
-            <div className={styles.input}>
-              <label className={styles.input__label}>Título:</label>
+            <div className="flex flex-col mt-7">
+              <label className="font-bold text-sm">Título:</label>
               <input
                 type="text"
                 name="title"
-                alt="Pense num bom titulo"
+                alt="Pense num bom título"
                 required
                 minLength={6}
-                className={styles.input__field}
+                className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
                 placeholder="Pense num bom título"
                 ref={titleRef}
                 onChange={handleChange}
               />
             </div>
-            <div className={styles.input}>
-              <label className={styles.input__label}>URL da imagem:</label>
+            <div className="flex flex-col mt-7">
+              <label className="font-bold text-sm">URL da imagem:</label>
               <input
-                className={styles.input__field}
+                className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
                 type="text"
                 name="image"
                 alt="Insira uma imagem"
@@ -95,32 +96,31 @@ const EditPost = () => {
                 ref={imageRef}
                 placeholder="Insira uma imagem"
               />
-              <label className={styles.input__label}>
+              <label className="font-bold text-sm mt-2">
                 <br />
-                Preview da imagem atual:{" "}
+                Preview da imagem atual:
               </label>
-              <figure>
+              <figure className="mt-2 flex justify-center">
                 <img
                   src={post.image}
                   alt={post.title}
-                  width="500px"
-                  height="500px"
+                  className="w-[500px] h-[500px] object-cover"
                   loading="lazy"
                 />
               </figure>
             </div>
-            <div className={styles.input}>
-              <label className={styles.input__label}>Conteúdo:</label>
+            <div className="flex flex-col mt-7">
+              <label className="font-bold text-sm">Conteúdo:</label>
               <Editor
                 onChange={handleEditorChange}
                 value={content}
                 ref={bodyRef}
               />
             </div>
-            <div className={styles.input}>
-              <label className={styles.input__label}>Tags:</label>
+            <div className="flex flex-col mt-7">
+              <label className="font-bold text-sm">Tags:</label>
               <input
-                className={styles.input__field}
+                className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
                 type="text"
                 name="tags"
                 placeholder="Insira as tags separadas por vírgula"
@@ -133,18 +133,22 @@ const EditPost = () => {
             {!response.loading && (
               <Button
                 alt="Salvar"
-                className={`${styles.button} ${styles.button__primary}`}
+                className="bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm hover:bg-black hover:text-white"
               >
                 Salvar
               </Button>
             )}
             {response.loading && (
-              <Button alt="Aguarde" className="btn" disabled>
+              <Button
+                alt="Aguarde"
+                className="bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm cursor-not-allowed opacity-50"
+                disabled
+              >
                 Aguarde...
               </Button>
             )}
-            {response.error && <p className="error">{response.error}</p>}
-            {formError && <p className="error">{formError}</p>}
+            {response.error && <p className="text-red-500">{response.error}</p>}
+            {formError && <p className="text-red-500">{formError}</p>}
           </form>
         </>
       )}

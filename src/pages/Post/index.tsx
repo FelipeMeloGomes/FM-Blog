@@ -1,4 +1,3 @@
-import styles from "./Post.module.css";
 import { useParams, Link } from "react-router-dom";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { Spinner } from "../../components/Spinner";
@@ -8,49 +7,57 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useAuthValue } from "../../context/AuthContext";
 
 const Post = () => {
-  const { user } = useAuthValue();
+  const { user } = useAuthValue() || {};
   const { id } = useParams();
   const { document: post, loading } = useFetchDocument("posts", id);
   const uid = user?.uid;
   const { documents: posts } = useFetchDocuments("posts", null, uid);
 
   return (
-    <section className={styles.post_container}>
+    <section className="flex flex-col max-w-[90%] w-[800px] p-6 rounded-2xl mx-auto my-10 shadow-lg">
       {loading ? (
         <Spinner />
       ) : (
         post && (
           <>
-            <div className={styles.containerImg}>
+            <div className="mt-8 w-full max-w-full mx-auto mb-8 rounded-lg ">
               <figure>
                 <img
                   src={post.image}
                   alt={post.title}
-                  className={styles.card__image}
+                  className="object-contain w-full max-w-full"
                   loading="lazy"
                 />
               </figure>
-              <p className={styles.createdby}>Por: {post.createdBy}</p>
+              <p className="italic text-center text-gray-600 text-sm my-6">
+                Por: {post.createdBy}
+              </p>
             </div>
             <div>
-              <h1 className={styles.containerTitle}>{post.title}</h1>
+              <h1 className="text-2xl text-left leading-6 font-bold mb-6">
+                {post.title}
+              </h1>
               <div
-                className={styles.bodyText}
+                className="text-left mt-4 mx-auto max-w-full"
                 dangerouslySetInnerHTML={{
                   __html: post.body,
                 }}
               />
             </div>
-            <div className={styles.containerText}>
-              <h3 className={styles.titleh3}>Este post trata sobre:</h3>
+            <div className="mt-8">
+              <h3 className="mt-6 mb-6 text-xl">Este post trata sobre:</h3>
             </div>
-            <div className={styles.tags}>
+            <div className="w-full flex justify-center gap-4 flex-wrap">
               {post?.tagsArray?.map((tag: string, index: number) => (
-                <p key={`${tag}_${index}`}>{tag}</p>
+                <p
+                  key={`${tag}_${index}`}
+                  className="inline-flex text-base justify-center px-2 py-1 bg-black text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
+                >
+                  {tag}
+                </p>
               ))}
             </div>
-
-            <div className={styles.btnArrow}>
+            <div className="flex gap-4 mt-8 items-center justify-between w-full">
               <Link to="/" className="btn btn-outline">
                 <Icon name="ArrowBack" className="icon_font" />
               </Link>
