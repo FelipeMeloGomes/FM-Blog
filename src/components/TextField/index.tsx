@@ -1,4 +1,3 @@
-import styles from "./TextField.module.css";
 import { TextFieldProps } from "./types";
 
 const TextField = ({
@@ -14,13 +13,13 @@ const TextField = ({
   return (
     <>
       <h1
-        className={styles.title}
+        className="text-center p-4"
         style={{ padding, textAlign: textAlignTitle, color, margin }}
       >
         {title}
       </h1>
       <p
-        className={styles.paragraph}
+        className="text-gray-400 m-2 text-center"
         style={{ marginBottom, textAlign: textAlignParagraph, color }}
       >
         {paragraph}

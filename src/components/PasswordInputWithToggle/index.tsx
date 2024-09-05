@@ -1,5 +1,4 @@
 import { forwardRef, ReactElement } from "react";
-import styles from "./PasswordInputWithToggle.module.css";
 import { IconName, PasswordInputProps } from "./types";
 import { Icon } from "../IconComponent";
 
@@ -43,9 +42,9 @@ const PasswordInputWithToggle = forwardRef<
     };
 
     return (
-      <div className={styles.flex_column}>
+      <div className="text-[#151717] font-medium">
         <label>{label}</label>
-        <div className={styles.inputForm}>
+        <div className="border-[1.5px] border-[#ecedec] rounded-[10px] h-[50px] flex items-center pl-[10px] transition-all duration-200 ease-in-out focus-within:border-[#000]">
           {renderIcon(iconName)}
           <input
             type={passwordVisible ? "text" : "password"}
@@ -55,7 +54,7 @@ const PasswordInputWithToggle = forwardRef<
             maxLength={maxLength}
             required={required}
             onChange={onChange}
-            className={styles.input}
+            className="ml-[10px] rounded-[10px] border-none w-[85%] h-full focus:outline-none"
             placeholder={placeholder}
             alt={alt}
             ref={ref}
