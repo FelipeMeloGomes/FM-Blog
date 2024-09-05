@@ -37,6 +37,7 @@ pnpm run dev
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - HTML e CSS.
+- TailwindCSS.
 - JavaScript.
 - Typescript.
 - React.
@@ -49,6 +50,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Front-end.
 - Gerenciamento de pacotes com NPM.
 - CSS Modules para organização e modularização de estilos.
+- Estilização e Layout com TailwindCSS.
 - Implementação de Design Responsivo.
 - Criação e reutilização de componentes.
 - Proficiência na Biblioteca React, incluindo o uso de Hooks como useState e useEffect.
