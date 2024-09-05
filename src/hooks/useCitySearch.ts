@@ -10,7 +10,7 @@ const normalizeCity = (city: string): string => {
   const normalizedCity = cityWithoutAccents
     .replace(/[\W_]+/g, " ")
     .trim()
-    .replace(/\s+/g, "");
+    .replace(/\s+/g, " ");
   return normalizedCity;
 };
 
