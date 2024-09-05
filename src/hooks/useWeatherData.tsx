@@ -1,6 +1,4 @@
 import { useState, ReactElement } from "react";
-
-// Components
 import { Icon } from "../components/IconComponent";
 
 interface WeatherData {
@@ -9,11 +7,9 @@ interface WeatherData {
   temperature: string;
   location: string;
 }
-
 interface WeatherIconMap {
   [key: string]: ReactElement;
 }
-
 interface WeatherHook {
   isLoading: boolean;
   climaData: WeatherData;
