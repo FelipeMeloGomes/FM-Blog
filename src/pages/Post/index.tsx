@@ -5,6 +5,7 @@ import { LikeButton } from "../../components/LikeButton";
 import { Icon } from "../../components/IconComponent";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useAuthValue } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Post = () => {
   const { user } = useAuthValue() || {};
@@ -12,6 +13,12 @@ const Post = () => {
   const { document: post, loading } = useFetchDocument("posts", id);
   const uid = user?.uid;
   const { documents: posts } = useFetchDocuments("posts", null, uid);
+
+  const handleNotLoggedIn = () => {
+    toast.error(
+      "Você precisa estar logado para curtir este post. Por favor, faça o login ou registre-se para participar.",
+    );
+  };
 
   return (
     <section className="flex flex-col max-w-[90%] w-[800px] p-6 rounded-2xl mx-auto my-10 shadow-lg">
@@ -61,7 +68,11 @@ const Post = () => {
               <Link to="/" className="btn btn-outline">
                 <Icon name="ArrowBack" className="icon_font" />
               </Link>
-              <LikeButton postId={post.id} userId={user?.uid || ""} />
+              <LikeButton
+                postId={post.id}
+                onNotLoggedIn={handleNotLoggedIn}
+                userId={user?.uid}
+              />
             </div>
           </>
         )
