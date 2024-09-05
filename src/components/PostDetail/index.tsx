@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import styles from "./PostDetail.module.css";
 
 const PostDetail = ({ post }: PostDetailProps) => {
-  const { user } = useAuthValue();
+  const { user } = useAuthValue() || {};
   const uid = user?.uid;
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
 
