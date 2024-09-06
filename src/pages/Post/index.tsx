@@ -10,9 +10,9 @@ import { toast } from "react-toastify";
 const Post = () => {
   const { user } = useAuthValue() || {};
   const { id } = useParams();
-  const { document: post, loading } = useFetchDocument("posts", id);
+  const { document: post, loading } = useFetchDocument<Post>("posts", id);
   const uid = user?.uid;
-  const { documents: posts } = useFetchDocuments("posts", null, uid);
+  const { documents: posts } = useFetchDocuments<Post>("posts", null, uid);
 
   const handleNotLoggedIn = () => {
     toast.error(
@@ -23,7 +23,7 @@ const Post = () => {
   return (
     <section className="flex flex-col max-w-[90%] w-[800px] p-6 rounded-2xl mx-auto my-10 shadow-lg">
       {loading ? (
-        <Spinner />
+        <Spinner width="350px" />
       ) : (
         post && (
           <>

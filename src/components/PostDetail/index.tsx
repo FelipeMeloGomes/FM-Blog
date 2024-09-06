@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";
-import { Spinner } from "../Spinner";
 import { Icon } from "../IconComponent";
-import { PostDetailProps } from "../../utils/SortPost/types";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
+import { Post, PostDetailProps } from "./types";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
   const uid = user?.uid;
-  const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
+  const { documents: posts, loading } = useFetchDocuments<Post>(
+    "posts",
+    null,
+    uid,
+  );
 
   const handleNotLoggedIn = () => {
     toast.error(

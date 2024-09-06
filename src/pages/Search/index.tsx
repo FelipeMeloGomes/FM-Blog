@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 import { PostDetail } from "../../components/PostDetail";
 import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
-import { Post } from "./types";
 
 const Search = () => {
   const query = useQuery();
   const search = query.get("q");
 
-  const { documents: posts } = useFetchDocuments<Post>("posts", search);
+  const { documents: posts } = useFetchDocuments("posts", search);
   return (
     <div className="flex flex-col items-center justify-center text-center mb-20 mx-auto">
       <TextField
@@ -18,7 +17,7 @@ const Search = () => {
         paragraph={`Resultados encontrados para: ${search}`}
       />
 
-      {posts?.length > 0 && (
+      {posts && posts?.length > 0 && (
         <div className="flex items-center mb-8">
           <Link to="/" className="btn btn-outline">
             <Icon name="ArrowBack" className="icon_font" />
@@ -38,7 +37,7 @@ const Search = () => {
             </Link>
           </div>
         )}
-        {posts?.map((post: Post) => (
+        {posts?.map((post) => (
           <PostDetail key={post.id} post={post} />
         ))}
       </div>

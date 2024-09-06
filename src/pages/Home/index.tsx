@@ -6,22 +6,18 @@ import { PostDetail } from "../../components/PostDetail";
 import { Spinner } from "../../components/Spinner";
 import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
-import { SortPost } from "../../utils/SortPost";
-import { Post } from "./type";
 
 const Home = () => {
   const { documents: posts, loading } = useFetchDocuments("posts");
-  const { handleSubmit, setQuery, sortedPosts, setSortedPosts } =
-    useSearchPost();
+  const { handleSubmit, setQuery, setSortedPosts } = useSearchPost();
 
   useEffect(() => {
     if (posts) {
-      const sorted = SortPost(posts);
-      setSortedPosts(sorted);
+      setSortedPosts(posts);
     }
-  }, [posts]);
+  }, [posts, setSortedPosts]);
 
-  if (loading || sortedPosts.length === 0) {
+  if (loading) {
     return <Spinner />;
   }
 
@@ -29,7 +25,7 @@ const Home = () => {
     <div className="flex flex-col items-center justify-center home">
       <TextField margin="0 0.7em" title="Veja os nossos posts mais recentes" />
       <form
-        className="w-full max-w-xl  flex justify-center mb-12 gap-2 search_form"
+        className="w-full max-w-xl flex justify-center mb-12 gap-2 search_form"
         onSubmit={handleSubmit}
       >
         <input
@@ -44,7 +40,7 @@ const Home = () => {
         </button>
       </form>
       <div className="post-list">
-        {sortedPosts?.length === 0 && (
+        {posts?.length === 0 && (
           <div className="text-center noposts">
             <p>Não foram encontrados posts</p>
             <Link to="/posts/create" className="btn">
@@ -52,7 +48,7 @@ const Home = () => {
             </Link>
           </div>
         )}
-        {sortedPosts?.map((post: Post) => (
+        {posts?.map((post) => (
           <PostDetail key={post.id} post={post} />
         ))}
       </div>

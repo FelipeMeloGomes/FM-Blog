@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { TextInputWithIcon } from "../TextInputWithIcon";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SubmitButton } from "../SubmitButton";
-import { Icon } from "../IconComponent";
 import { PasswordToggle } from "../../utils/PasswordToggle";
 import { loginFormProps } from "./types";
 
@@ -64,7 +63,6 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
         iconName="Lock"
         minLength={6}
         maxLength={64}
-        icon={Icon}
         required
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         placeholder="Insira sua senha"
@@ -78,7 +76,6 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
           label="Confirmar Senha"
           placeholder="Confirme a sua senha"
           alt="Confirme a  sua senha"
-          icon={Icon}
           minLength={6}
           maxLength={64}
           required
