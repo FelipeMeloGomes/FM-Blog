@@ -8,11 +8,12 @@ import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { EditorContext } from "../../utils/EditorContext";
 import { Editor } from "../../components/Editor";
 import { ButtonProps } from "./types";
+import { Spinner } from "../../components/Spinner";
 
 const EditPost = () => {
   const { user } = useAuthValue() || {};
   const { id } = useParams();
-  const { document: post } = useFetchDocument("posts", id);
+  const { document: post, loading } = useFetchDocument("posts", id);
   const { updateDocument, response } = useUpdateDocument("posts");
   const { handleEditorChange, content, setContent } = EditorContext();
   const {
@@ -55,6 +56,10 @@ const EditPost = () => {
       tagsRef.current.value = textTags;
     }
   }, [post, titleRef, bodyRef, imageRef, tagsRef]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center text-center p-6 mx-auto w-full max-w-4xl">

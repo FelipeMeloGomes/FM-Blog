@@ -5,6 +5,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
 import { Post, PostDetailProps } from "./types";
+import { Spinner } from "../Spinner";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};

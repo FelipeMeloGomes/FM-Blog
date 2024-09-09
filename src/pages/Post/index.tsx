@@ -21,7 +21,7 @@ const Post = () => {
   };
 
   return (
-    <section className="flex flex-col max-w-[90%] w-[800px] p-6 rounded-2xl mx-auto my-10 shadow-lg">
+    <section className="flex flex-col justify-center items-center max-w-[90%] w-[800px] p-6 rounded-2xl mx-auto my-10 shadow-lg">
       {loading ? (
         <Spinner width="350px" />
       ) : (
