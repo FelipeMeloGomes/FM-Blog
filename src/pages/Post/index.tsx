@@ -40,17 +40,18 @@ const Post = () => {
                 Por: {post.createdBy}
               </p>
             </div>
-            <div>
+            <div className="overflow-auto max-w-full">
               <h1 className="text-2xl text-left leading-6 font-bold mb-6">
                 {post.title}
               </h1>
               <div
-                className="text-left mt-4 mx-auto max-w-full"
+                className="text-left mt-4 mx-auto max-w-full overflow-hidden break-words"
                 dangerouslySetInnerHTML={{
                   __html: post.body,
                 }}
               />
             </div>
+
             <div className="mt-8">
               <h3 className="mt-6 mb-6 text-xl">Este post trata sobre:</h3>
             </div>
