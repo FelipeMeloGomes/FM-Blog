@@ -6,18 +6,15 @@ import { PostDetail } from "../../components/PostDetail";
 import { Spinner } from "../../components/Spinner";
 import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
-import { useFetchDocument } from "../../hooks/useFetchDocument";
 
 const Home = () => {
-  const { documents: posts } = useFetchDocuments("posts");
-  const { loading } = useFetchDocument("posts");
-  const { handleSubmit, setQuery, setSortedPosts } = useSearchPost();
+  const { documents: posts, loading } = useFetchDocuments("posts");
+  const { handleSubmit, setQuery } = useSearchPost();
 
   useEffect(() => {
     if (posts) {
-      setSortedPosts(posts);
     }
-  }, [posts, setSortedPosts]);
+  }, [posts]);
 
   if (loading) {
     return <Spinner />;
