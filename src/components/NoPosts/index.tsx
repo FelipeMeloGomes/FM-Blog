@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const NoPostsMessage = () => (
+const NoPosts = () => (
   <div className="flex flex-col justify-center text-center mb-6 ">
     <p className="mb-6">Não foram encontrados posts</p>
     <Link
@@ -12,4 +12,4 @@ const NoPostsMessage = () => (
   </div>
 );
 
-export { NoPostsMessage };
+export { NoPosts };

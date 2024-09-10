@@ -5,7 +5,7 @@ import { TextField } from "../../components/TextField";
 import { Spinner } from "../../components/Spinner";
 import { handleDeletePost } from "../../utils/HandleDelete";
 import PostItem from "../../components/PostItem";
-import { NoPostsMessage } from "../../components/NoPostsMessage";
+import { NoPosts } from "../../components/NoPosts";
 
 const Dashboard = ({ createdBy }: { createdBy: string }) => {
   const { user } = useAuthValue() || {};
@@ -21,7 +21,7 @@ const Dashboard = ({ createdBy }: { createdBy: string }) => {
     <div className="flex flex-col items-center w-full min-h-screen">
       <TextField title="Dashboard" paragraph="Gerencie os seus posts" />
       {posts?.length === 0 ? (
-        <NoPostsMessage />
+        <NoPosts />
       ) : (
         <>
           <div className="flex justify-between w-full max-w-[90%] p-4 border-b-2 border-gray-300 font-bold">
