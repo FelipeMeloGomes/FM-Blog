@@ -6,6 +6,7 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
 import { Post, PostDetailProps } from "./types";
 import { Spinner } from "../Spinner";
+import { TagsDisplay } from "../TagsDisplay";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
@@ -41,17 +42,8 @@ const PostDetail = ({ post }: PostDetailProps) => {
           <p className="italic text-[#444] text-[0.8em] mb-[1.5em] flex items-center  gap-2">
             <Icon name="User" /> {post.createdBy}
           </p>
+          <TagsDisplay tags={post.tagsArray} />
           <div className="border border-black mb-[1em] w-full"></div>
-
-          <div className="mb-[1.5em] gap-[16px] flex flex-wrap justify-center">
-            {post.tagsArray.map((tag: string, index: number) => (
-              <div key={`${tag}_${index}`}>
-                <p className="inline-flex text-base justify-center px-[0.5em] bg-black text-white rounded-[20px] max-w-[150px] cursor-pointer transition-transform duration-300 ease-in-out capitalize hover:scale-110">
-                  {tag}
-                </p>
-              </div>
-            ))}
-          </div>
 
           <div className="flex gap-[1em] justify-around mb-[2em] w-full max-w-[90%]">
             <Link to={`/posts/${post.id}`} className="btn btn-outline">

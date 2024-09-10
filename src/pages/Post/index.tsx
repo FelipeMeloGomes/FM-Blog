@@ -6,6 +6,7 @@ import { Icon } from "../../components/IconComponent";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useAuthValue } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { TagsDisplay } from "../../components/TagsDisplay";
 
 const Post = () => {
   const { user } = useAuthValue() || {};
@@ -55,16 +56,7 @@ const Post = () => {
             <div className="mt-8">
               <h3 className="mt-6 mb-6 text-xl">Este post trata sobre:</h3>
             </div>
-            <div className="w-full flex justify-center gap-4 flex-wrap">
-              {post?.tagsArray?.map((tag: string, index: number) => (
-                <p
-                  key={`${tag}_${index}`}
-                  className="inline-flex text-base justify-center px-2 py-1 bg-black text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
-                >
-                  {tag}
-                </p>
-              ))}
-            </div>
+            <TagsDisplay tags={post.tagsArray} />
             <div className="flex gap-4 mt-8 items-center justify-between w-full">
               <Link to="/" className="btn btn-outline">
                 <Icon name="ArrowBack" className="icon_font" />

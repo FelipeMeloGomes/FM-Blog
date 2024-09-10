@@ -3,7 +3,3 @@ export interface ButtonProps
   children: React.ReactNode;
   alt: string;
 }
-
-export interface DashboardProps {
-  createdBy?: string;
-}

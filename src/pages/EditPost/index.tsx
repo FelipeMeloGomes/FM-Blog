@@ -7,8 +7,12 @@ import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { EditorContext } from "../../utils/EditorContext";
 import { Editor } from "../../components/Editor";
-import { ButtonProps } from "./types";
 import { Spinner } from "../../components/Spinner";
+import { PostTitle } from "../../components/PostTitle";
+import { TextInput } from "../../components/TextInput";
+import { ImagePreview } from "../../components/ImagePreview";
+import { TagsInput } from "../../components/TagsInput";
+import { FormButtons } from "../../components/FormButtons";
 
 const EditPost = () => {
   const { user } = useAuthValue() || {};
@@ -37,16 +41,6 @@ const EditPost = () => {
     postId: id,
   });
 
-  const Button = ({ alt, children, ...rest }: ButtonProps) => (
-    <button
-      {...rest}
-      className="inline-flex items-center justify-center bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm transition duration-150 ease-in-out hover:bg-black hover:text-white"
-      aria-label={alt}
-    >
-      {children}
-    </button>
-  );
-
   useEffect(() => {
     if (post && bodyRef.current) {
       titleRef.current.value = post.title;
@@ -66,54 +60,21 @@ const EditPost = () => {
       {post && (
         <>
           <form className="p-4" onSubmit={handleSubmit}>
-            <div className="flex flex-col mt-7">
-              <label className="font-bold text-sm text-center">
-                <h2 className="font-bold text-xl">
-                  <span className="bg-gray-200 font-extrabold mr-2">
-                    Editando Post:{" "}
-                  </span>
-                  {title || post.title}
-                </h2>
-              </label>
-            </div>
-            <div className="flex flex-col mt-7">
-              <label className="font-bold text-sm">Título:</label>
-              <input
-                type="text"
-                name="title"
-                alt="Pense num bom título"
-                required
-                minLength={6}
-                className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
-                placeholder="Pense num bom título"
-                ref={titleRef}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex flex-col mt-7">
-              <label className="font-bold text-sm">URL da imagem:</label>
-              <input
-                className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
-                type="text"
-                name="image"
-                alt="Insira uma imagem"
-                required
-                ref={imageRef}
-                placeholder="Insira uma imagem"
-              />
-              <label className="font-bold text-sm mt-2">
-                <br />
-                Preview da imagem atual:
-              </label>
-              <figure className="mt-2 flex justify-center">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-[500px] h-[500px] object-cover"
-                  loading="lazy"
-                />
-              </figure>
-            </div>
+            <PostTitle title={title || post.title} />
+            <TextInput
+              label="Título:"
+              name="title"
+              placeholder="Pense num bom título"
+              ref={titleRef}
+              onChange={handleChange}
+            />
+            <TextInput
+              label="URL da imagem:"
+              name="image"
+              placeholder="Insira uma imagem"
+              ref={imageRef}
+            />
+            <ImagePreview image={post.image} alt={post.title} />
             <div className="flex flex-col mt-7">
               <label className="font-bold text-sm">Conteúdo:</label>
               <Editor
@@ -122,38 +83,11 @@ const EditPost = () => {
                 ref={bodyRef}
               />
             </div>
-            <div className="flex flex-col mt-7">
-              <label className="font-bold text-sm">Tags:</label>
-              <input
-                className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
-                type="text"
-                name="tags"
-                placeholder="Insira as tags separadas por vírgula"
-                alt="Insira as tags separadas por vírgula"
-                required
-                ref={tagsRef}
-              />
-            </div>
-            <br />
-            {!response.loading && (
-              <Button
-                alt="Salvar"
-                className="bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm hover:bg-black hover:text-white"
-              >
-                Salvar
-              </Button>
-            )}
-            {response.loading && (
-              <Button
-                alt="Aguarde"
-                className="bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm cursor-not-allowed opacity-50"
-                disabled
-              >
-                Aguarde...
-              </Button>
-            )}
-            {response.error && <p className="text-red-500">{response.error}</p>}
-            {formError && <p className="text-red-500">{formError}</p>}
+            <TagsInput
+              placeholder="Insira as tags separadas por vírgula"
+              ref={tagsRef}
+            />
+            <FormButtons response={response} formError={formError} />
           </form>
         </>
       )}
