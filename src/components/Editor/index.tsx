@@ -14,17 +14,15 @@ export const Editor = forwardRef<EditorRef, EditorProps>(
       ["clean"],
     ];
     return (
-      <div className="w-full max-w-full box-border p-4 overflow-hidden">
-        <ReactQuill
-          className="max-w-full w-full h-full"
-          value={value}
-          onChange={onChange}
-          theme="snow"
-          placeholder="Digite o conteúdo aqui"
-          ref={ref}
-          modules={{ toolbar: toolbarOptions }}
-        />
-      </div>
+      <ReactQuill
+        className="max-w-full w-full h-full"
+        value={value}
+        onChange={onChange}
+        theme="snow"
+        placeholder="Digite o conteúdo aqui"
+        ref={ref}
+        modules={{ toolbar: toolbarOptions }}
+      />
     );
   },
 );
