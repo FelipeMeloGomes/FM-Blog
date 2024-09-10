@@ -10,7 +10,7 @@ const ImagePreview = ({ image, alt }: ImagePreviewProps) => (
       <img
         src={image}
         alt={alt}
-        className="w-[500px] h-[500px] object-cover"
+        className="w-full  object-cover"
         loading="lazy"
       />
     </figure>
