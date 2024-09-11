@@ -28,7 +28,9 @@ const Weather = () => {
         flexDirection="column"
         maxW="600px"
         p={6}
-        mx="auto"
+        mx={{ base: 4, md: "auto" }}
+        mt="auto"
+        mb="auto"
         borderRadius="xl"
         bg="black"
       >
