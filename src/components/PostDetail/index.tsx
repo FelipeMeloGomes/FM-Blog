@@ -1,14 +1,29 @@
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Flex,
+  Avatar,
+  Box,
+  Heading,
+  Text,
+  IconButton,
+  Image,
+  Button,
+} from "@chakra-ui/react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BiLike, BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";
-import { Icon } from "../IconComponent";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
-import { Post, PostDetailProps } from "./types";
 import { Spinner } from "../Spinner";
 import { TagsDisplay } from "../TagsDisplay";
+import { TagsDisplayProps } from "./types";
 
-const PostDetail = ({ post }: PostDetailProps) => {
+const PostDetail = ({ post }: TagsDisplayProps) => {
   const { user } = useAuthValue() || {};
   const uid = user?.uid;
   const { documents: posts, loading } = useFetchDocuments<Post>(
@@ -24,40 +39,66 @@ const PostDetail = ({ post }: PostDetailProps) => {
   };
 
   if (loading) {
-    return;
+    return <Spinner width="350px" />;
   }
 
   return (
-    <div className="flex flex-col items-center shadow-[0px_-2px_10px_rgba(0,0,0,0.15)] rounded-[20px] max-w-[350px] mb-[2em]">
-      {loading ? (
-        <Spinner width="350px" />
-      ) : (
-        <>
-          <figure className="object-cover max-w-full w-full">
-            <img src={post.image} loading="eager" alt={post.title} />
-          </figure>
-          <h2 className="mb-[1.5em] font-bold text-[1.5em] max-w-[90%] flex justify-center text-left">
-            {post.title}
-          </h2>
-          <p className="italic text-[#444] text-[0.8em] mb-[1.5em] flex items-center  gap-2">
-            <Icon name="User" /> {post.createdBy}
-          </p>
-          <TagsDisplay tags={post.tagsArray} />
-          <div className="border border-black mb-[1em] w-full"></div>
+    <Card maxW="md" mx="auto" mb="2em" shadow="lg" borderRadius="20px">
+      <CardHeader>
+        <Flex spacing="4">
+          <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+            <Avatar />
 
-          <div className="flex gap-[1em] justify-around mb-[2em] w-full max-w-[90%]">
-            <Link to={`/posts/${post.id}`} className="btn btn-outline">
-              Ler
-            </Link>
-            <LikeButton
-              postId={post.id}
-              onNotLoggedIn={handleNotLoggedIn}
-              userId={user?.uid}
-            />
-          </div>
-        </>
-      )}
-    </div>
+            <Box textAlign="left">
+              <Heading size="sm">{post.createdBy}</Heading>
+              <Text>Author, {post.createdBy}</Text>
+            </Box>
+          </Flex>
+        </Flex>
+      </CardHeader>
+      <CardBody>
+        <Text textAlign="left">{post.title}</Text>
+      </CardBody>
+
+      <Image
+        objectFit="cover"
+        src={post.image}
+        alt={post.title}
+        loading="eager"
+      />
+
+      <CardBody>
+        <Text mb={4}>{post.description}</Text>
+
+        <TagsDisplay tags={post.tagsArray} />
+      </CardBody>
+
+      <CardFooter p={4} flexDirection="column" gap={2}>
+        <Flex width="100%" gap={2}>
+          <Button
+            as={Link}
+            to={`/posts/${post.id}`}
+            flex="1"
+            variant="outline"
+            colorScheme="black"
+          >
+            Ler
+          </Button>
+
+          <LikeButton
+            postId={post.id}
+            onNotLoggedIn={handleNotLoggedIn}
+            userId={user?.uid}
+          />
+        </Flex>
+
+        <Box mt={2} width="100%">
+          <Button variant="ghost" leftIcon={<BiShare />} width="100%">
+            Compartilhar
+          </Button>
+        </Box>
+      </CardFooter>
+    </Card>
   );
 };
 

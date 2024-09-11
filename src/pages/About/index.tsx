@@ -1,17 +1,27 @@
-import aboutImg from "./assets/about.webp";
+import { Image, Box, Flex, IconButton } from "@chakra-ui/react";
 import { TextField } from "../../components/TextField";
 import { LayoutPage } from "../../components/LayoutPage";
 import { Icon } from "../../components/IconComponent";
 import { ButtonProps } from "./types";
+import aboutImg from "./assets/about.webp";
 
-const Button = ({ alt, children, ...rest }: ButtonProps) => (
-  <button
-    {...rest}
-    className="bg-white border-none rounded-full shadow-md hover:scale-150 hover:rotate-[-360deg] hover:translate-y-[-1em] hover:shadow-[0_0_20px_rgba(29,161,242,0.5)] transition-transform duration-500 w-16 h-16 flex items-center justify-center perspective-[500px]"
+const ChakraButton = ({ alt, children, ...rest }: ButtonProps) => (
+  <IconButton
     aria-label={alt}
-  >
-    {children}
-  </button>
+    icon={children}
+    borderRadius="full"
+    bg="white"
+    boxShadow="md"
+    _hover={{
+      transform: "scale(1.5) rotate(-360deg) translateY(-1em)",
+      boxShadow: "0 0 20px rgba(29,161,242,0.5)",
+      transition: "transform 0.5s, box-shadow 0.5s",
+    }}
+    w="64px"
+    h="64px"
+    perspective="500px"
+    {...rest}
+  />
 );
 
 const About = () => {
@@ -21,12 +31,8 @@ const About = () => {
         title="Sobre o FM Blog"
         paragraph="Este projeto consiste em um blog feito com React, salvando os dados no Firebase."
       />
-
-      <div className="mt-4 flex gap-8 justify-center">
-        <Button
-          alt="Linkedim"
-          className="bg-white border-none rounded-full shadow-md hover:scale-150 hover:rotate-[-360deg] hover:translate-y-[-1em] hover:shadow-[0_0_20px_rgba(29,161,242,0.5)] transition-transform duration-500 w-16 h-16 flex items-center justify-center perspective-[500px]"
-        >
+      <Flex mt={4} gap={8} justify="center">
+        <ChakraButton alt="Linkedin">
           <a
             href="https://www.linkedin.com/in/felipemelog/"
             target="_blank"
@@ -34,14 +40,14 @@ const About = () => {
           >
             <Icon
               name="Linkedin"
-              className="w-16 h-16 text-[#0b65c2] filter drop-shadow-md hover:scale-150 transition-transform duration-500"
+              color="#0b65c2"
+              width="64px"
+              height="64px"
+              _hover={{ transform: "scale(1.5)", transition: "transform 0.5s" }}
             />
           </a>
-        </Button>
-        <Button
-          alt="Github"
-          className="bg-white border-none rounded-full shadow-md hover:scale-150 hover:rotate-[-360deg] hover:translate-y-[-1em] hover:shadow-[0_0_20px_rgba(29,161,242,0.5)] transition-transform duration-500 w-16 h-16 flex items-center justify-center perspective-[500px]"
-        >
+        </ChakraButton>
+        <ChakraButton alt="Github">
           <a
             href="https://github.com/FelipeMeloGomes/FM-Blog"
             target="_blank"
@@ -49,19 +55,24 @@ const About = () => {
           >
             <Icon
               name="Github"
-              className="w-16 h-16 text-[#080808] filter drop-shadow-md hover:scale-150 transition-transform duration-500"
+              color="#080808"
+              width="64px"
+              height="64px"
+              _hover={{ transform: "scale(1.5)", transition: "transform 0.5s" }}
             />
           </a>
-        </Button>
-      </div>
-      <figure className="flex justify-center">
-        <img
+        </ChakraButton>
+      </Flex>
+      <Box mt={4} display="flex" justifyContent="center">
+        <Image
           src={aboutImg}
+          alt="Garoto mexendo no computador"
           loading="lazy"
-          alt="Garoto mechendo no computador"
-          className=" mt-4 w-[400px] max-w-[90%] animate-float"
+          boxSize={{ base: "90%", md: "400px" }}
+          objectFit="cover"
+          className="animate-float"
         />
-      </figure>
+      </Box>
     </LayoutPage>
   );
 };

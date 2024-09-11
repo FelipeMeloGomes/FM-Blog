@@ -1,17 +1,22 @@
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { TagsDisplayProps } from "./types";
 
 const TagsDisplay = ({ tags }: TagsDisplayProps) => {
   return (
-    <div className="w-full flex justify-center gap-4 flex-wrap p-2">
+    <Flex width="100%" justifyContent="center" gap={2} flexWrap="wrap" p={1}>
       {tags?.map((tag, index) => (
-        <p
+        <Box
           key={`${tag}_${index}`}
-          className="inline-flex text-base justify-center px-2 py-1 bg-black text-white rounded-full cursor-pointer transition-transform transform hover:scale-110"
+          bg="gray.200"
+          color="gray.700"
+          px={3}
+          py={1}
+          borderRadius="md"
         >
-          {tag}
-        </p>
+          <Text fontSize="sm">{tag}</Text>
+        </Box>
       ))}
-    </div>
+    </Flex>
   );
 };
 

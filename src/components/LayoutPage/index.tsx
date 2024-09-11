@@ -1,10 +1,11 @@
+import { Box } from "@chakra-ui/react";
 import { LayoutPageProps } from "./types";
 
 const LayoutPage = ({ children }: LayoutPageProps) => {
   return (
-    <section className="text-center, m-0, mx-auto, h-screen">
+    <Box textAlign="center" m={0} mx="auto" h="100vh">
       {children}
-    </section>
+    </Box>
   );
 };
 

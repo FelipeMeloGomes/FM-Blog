@@ -1,125 +1,226 @@
-import { NavLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Stack,
+  Button,
+  useDisclosure,
+  Collapse,
+} from "@chakra-ui/react";
+import {
+  MdHome,
+  MdPerson,
+  MdAdd,
+  MdDashboard,
+  MdCloud,
+  MdInfo,
+  MdLogout,
+} from "react-icons/md";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useAuthValue } from "../../context/AuthContext";
-import { useState } from "react";
-import { Icon } from "../IconComponent";
-import styles from "./NavBar.module.css";
-import { MobileMenuButtonProps } from "./types";
 
-const NavBar = ({}: MobileMenuButtonProps) => {
-  const [Mobile, setMobile] = useState(false);
+const NavBar = () => {
+  const { isOpen, onToggle } = useDisclosure();
   const { user } = useAuthValue() || {};
   const { logout } = useAuthentication();
 
   return (
-    <nav className={styles.navbar}>
-      <NavLink className={styles.brand} to="/">
-        FM <span>Blog</span>
-      </NavLink>
-
-      <button
-        role="menu mobile"
-        aria-label="menu mobile"
-        className={styles.mobile_icon}
-        onClick={() => setMobile(!Mobile)}
+    <Box bg="black" color="white" px={4}>
+      <Flex
+        h={16}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        w="100%"
       >
-        {Mobile ? <Icon name="Cross" /> : <Icon name="Bars" />}
-      </button>
-      <ul
-        className={Mobile ? styles.nav_mobile : styles.nav_list}
-        onClick={() => setMobile(false)}
-      >
-        <li>
-          <NavLink
+        <Flex alignItems={"center"}>
+          <Button
+            variant="link"
+            as={RouterLink}
             to="/"
-            end
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            fontSize="xl"
+            fontWeight="bold"
           >
-            <Icon name="Home" className={styles.icon} />
+            FM <span>Blog</span>
+          </Button>
+        </Flex>
+        <Flex alignItems={"center"}>
+          <IconButton
+            size="lg"
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label="Toggle Navigation"
+            display={{ md: "none" }} // Exibe no mobile
+            onClick={onToggle}
+            mr={4}
+          />
+        </Flex>
+
+        <Flex
+          alignItems={"center"}
+          display={{ base: "none", md: "flex" }} // Oculta no mobile
+        >
+          <Stack direction={"row"} spacing={4}>
+            <Button variant="link" as={RouterLink} to="/" leftIcon={<MdHome />}>
+              Home
+            </Button>
+            {!user ? (
+              <>
+                <Button
+                  variant="link"
+                  as={RouterLink}
+                  to="/login"
+                  leftIcon={<MdPerson />}
+                >
+                  Entrar
+                </Button>
+                <Button
+                  variant="link"
+                  as={RouterLink}
+                  to="/register"
+                  leftIcon={<MdAdd />}
+                >
+                  Cadastrar
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="link"
+                  as={RouterLink}
+                  to="/posts/create"
+                  leftIcon={<MdAdd />}
+                >
+                  Novo Post
+                </Button>
+                <Button
+                  variant="link"
+                  as={RouterLink}
+                  to="/dashboard"
+                  leftIcon={<MdDashboard />}
+                >
+                  Dashboard
+                </Button>
+                <Button
+                  variant="link"
+                  as={RouterLink}
+                  to="/weather"
+                  leftIcon={<MdCloud />}
+                >
+                  Clima
+                </Button>
+              </>
+            )}
+            <Button
+              variant="link"
+              as={RouterLink}
+              to="/about"
+              leftIcon={<MdInfo />}
+            >
+              Sobre
+            </Button>
+            {user && (
+              <Button variant="link" onClick={logout} leftIcon={<MdLogout />}>
+                Sair
+              </Button>
+            )}
+          </Stack>
+        </Flex>
+      </Flex>
+      <Collapse in={isOpen} animateOpacity>
+        <Stack bg="gray.700" p={4} display={{ base: "flex", md: "none" }}>
+          {" "}
+          {/* Exibe no mobile */}
+          <Button
+            variant="link"
+            as={RouterLink}
+            to="/"
+            w="full"
+            onClick={onToggle}
+            leftIcon={<MdHome />}
+          >
             Home
-          </NavLink>
-        </li>
-        {!user && (
-          <>
-            <li>
-              <NavLink
+          </Button>
+          {!user ? (
+            <>
+              <Button
+                variant="link"
+                as={RouterLink}
                 to="/login"
-                end
-                className={({ isActive }) => (isActive ? styles.active : "")}
+                w="full"
+                onClick={onToggle}
+                leftIcon={<MdPerson />}
               >
-                <Icon name="User" className={styles.icon} />
                 Entrar
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
+              </Button>
+              <Button
+                variant="link"
+                as={RouterLink}
                 to="/register"
-                end
-                className={({ isActive }) => (isActive ? styles.active : "")}
+                w="full"
+                onClick={onToggle}
+                leftIcon={<MdAdd />}
               >
-                {" "}
-                <Icon name="Plus" className={styles.icon} />
                 Cadastrar
-              </NavLink>
-            </li>
-          </>
-        )}
-        {user && (
-          <>
-            <li>
-              <NavLink
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="link"
+                as={RouterLink}
                 to="/posts/create"
-                end
-                className={({ isActive }) => (isActive ? styles.active : "")}
+                w="full"
+                onClick={onToggle}
+                leftIcon={<MdAdd />}
               >
-                <Icon name="Add" className={styles.icon} />
                 Novo Post
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
+              </Button>
+              <Button
+                variant="link"
+                as={RouterLink}
                 to="/dashboard"
-                end
-                className={({ isActive }) => (isActive ? styles.active : "")}
+                w="full"
+                onClick={onToggle}
+                leftIcon={<MdDashboard />}
               >
-                <Icon name="Dashboard" className={styles.icon} />
                 Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
+              </Button>
+              <Button
+                variant="link"
+                as={RouterLink}
                 to="/weather"
-                end
-                className={({ isActive }) => (isActive ? styles.active : "")}
+                w="full"
+                onClick={onToggle}
+                leftIcon={<MdCloud />}
               >
-                <Icon name="Cloud" className={styles.icon} />
                 Clima
-              </NavLink>
-            </li>
-          </>
-        )}
-
-        <li>
-          <NavLink
+              </Button>
+            </>
+          )}
+          <Button
+            variant="link"
+            as={RouterLink}
             to="/about"
-            end
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            w="full"
+            onClick={onToggle}
+            leftIcon={<MdInfo />}
           >
-            <Icon name="Info" className={styles.icon} />
             Sobre
-          </NavLink>
-        </li>
-
-        {user && (
-          <li>
-            <button className={styles.bntLogout} onClick={logout}>
-              <Icon name="Logout" className={styles.icon} />
+          </Button>
+          {user && (
+            <Button
+              variant="link"
+              onClick={logout}
+              w="full"
+              leftIcon={<MdLogout />}
+            >
               Sair
-            </button>
-          </li>
-        )}
-      </ul>
-    </nav>
+            </Button>
+          )}
+        </Stack>
+      </Collapse>
+    </Box>
   );
 };
 

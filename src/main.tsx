@@ -3,11 +3,14 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { ToastContainer } from "react-toastify";
+import { ChakraProvider } from "@chakra-ui/react";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
-    <ToastContainer />
+    <ChakraProvider>
+      <App />
+      <ToastContainer />
+    </ChakraProvider>
   </React.StrictMode>,
 );

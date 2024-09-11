@@ -5,6 +5,7 @@ import { TextField } from "../../components/TextField";
 import { SearchForm } from "../../components/SearchForm";
 import { PostList } from "../../components/PostList";
 import { NoPosts } from "../../components/NoPosts";
+import { Flex } from "@chakra-ui/react";
 
 const Home = () => {
   const { documents: posts, loading } = useFetchDocuments("posts");
@@ -20,11 +21,18 @@ const Home = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center home">
-      <TextField margin="0 0.7em" title="Veja os nossos posts mais recentes" />
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      minHeight="100vh"
+      width="100%"
+      p={4}
+    >
+      <TextField title="Veja os nossos posts mais recentes" />
       <SearchForm handleSubmit={handleSubmit} setQuery={setQuery} />
       {posts?.length === 0 ? <NoPosts /> : <PostList posts={posts} />}
-    </div>
+    </Flex>
   );
 };
 

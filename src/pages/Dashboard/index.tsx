@@ -4,7 +4,7 @@ import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { TextField } from "../../components/TextField";
 import { Spinner } from "../../components/Spinner";
 import { handleDeletePost } from "../../utils/HandleDelete";
-import PostItem from "../../components/PostItem";
+import { PostItem } from "../../components/PostItem";
 import { NoPosts } from "../../components/NoPosts";
 
 const Dashboard = ({ createdBy }: { createdBy: string }) => {

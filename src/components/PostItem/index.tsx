@@ -40,4 +40,4 @@ const PostItem = ({ post, handleDelete, createdBy, userId }: PostItemProps) => {
   );
 };
 
-export default PostItem;
+export { PostItem };
