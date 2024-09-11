@@ -1,5 +1,7 @@
 import { useState, ReactElement } from "react";
-import { Icon } from "../components/IconComponent";
+import { SunIcon } from "@chakra-ui/icons";
+import { BiCloud, BiCloudDrizzle } from "react-icons/bi";
+import { WiRain, WiSnow } from "react-icons/wi";
 
 interface WeatherData {
   humidity: string;
@@ -15,29 +17,30 @@ interface WeatherHook {
   climaData: WeatherData;
   fetchData: (city: string) => Promise<void>;
   wicon: ReactElement;
-  Icon: typeof Icon;
 }
 
 export const useWeatherData = (): WeatherHook => {
   const [isLoading, setIsLoading] = useState(false);
-  const [wicon, setWicon] = useState<ReactElement>(<Icon name="CloudSun" />);
+  const [wicon, setWicon] = useState<ReactElement>(<SunIcon boxSize={30} />);
+
   const weatherIconMap: WeatherIconMap = {
-    "01d": <Icon name="Sun" />,
-    "01n": <Icon name="Sun" />,
-    "02d": <Icon name="Cloud" />,
-    "02n": <Icon name="Cloud" />,
-    "03d": <Icon name="Drizzle" />,
-    "03n": <Icon name="Drizzle" />,
-    "04d": <Icon name="Drizzle" />,
-    "04n": <Icon name="Drizzle" />,
-    "09d": <Icon name="Rain" />,
-    "09n": <Icon name="Rain" />,
-    "10d": <Icon name="Rain" />,
-    "10n": <Icon name="Rain" />,
-    "13d": <Icon name="Snow" />,
-    "13n": <Icon name="Snow" />,
+    "01d": <SunIcon boxSize={30} />,
+    "01n": <SunIcon boxSize={30} />,
+    "02d": <BiCloud size={30} />,
+    "02n": <BiCloud size={30} />,
+    "03d": <BiCloudDrizzle size={30} />,
+    "03n": <BiCloudDrizzle size={30} />,
+    "04d": <BiCloudDrizzle size={30} />,
+    "04n": <BiCloudDrizzle size={30} />,
+    "09d": <WiRain size={30} />,
+    "09n": <WiRain size={30} />,
+    "10d": <WiRain size={30} />,
+    "10n": <WiRain size={30} />,
+    "13d": <WiSnow size={30} />,
+    "13n": <WiSnow size={30} />,
   };
-  const defaultIcon: ReactElement = <Icon name="Sun" />;
+
+  const defaultIcon: ReactElement = <SunIcon boxSize={30} />;
   const [climaData, setClimaData] = useState<WeatherData>({
     humidity: "",
     wind: "",
@@ -72,5 +75,5 @@ export const useWeatherData = (): WeatherHook => {
     }
   };
 
-  return { isLoading, climaData, fetchData, wicon, Icon };
+  return { isLoading, climaData, fetchData, wicon };
 };
