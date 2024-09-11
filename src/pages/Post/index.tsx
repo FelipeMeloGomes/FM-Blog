@@ -48,7 +48,7 @@ const Post = () => {
       ) : (
         post && (
           <Stack spacing={8}>
-            <Box mb={2} borderRadius="lg" overflow="hidden">
+            <Box mb={2} overflow="hidden">
               <Image
                 src={post.image}
                 alt={post.title}
