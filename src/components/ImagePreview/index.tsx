@@ -1,20 +1,21 @@
+import { Box, FormLabel, Image } from "@chakra-ui/react";
 import { ImagePreviewProps } from "./types";
 
 const ImagePreview = ({ image, alt }: ImagePreviewProps) => (
-  <div className="flex flex-col mt-7">
-    <label className="font-bold text-sm mt-2">
-      <br />
+  <Box mt={7}>
+    <FormLabel fontWeight="bold" fontSize="sm" mt={2}>
       Preview da imagem atual:
-    </label>
-    <figure className="mt-2 flex justify-center">
-      <img
+    </FormLabel>
+    <Box mt={2} display="flex" justifyContent="center">
+      <Image
         src={image}
         alt={alt}
-        className="w-full  object-cover"
+        objectFit="cover"
+        boxSize="full"
         loading="lazy"
       />
-    </figure>
-  </div>
+    </Box>
+  </Box>
 );
 
 export { ImagePreview };

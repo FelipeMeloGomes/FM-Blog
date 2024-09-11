@@ -1,4 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Text,
+  VStack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { DeleteButton } from "../DeleteButton";
 import { PostItemProps } from "./types";
 
@@ -6,37 +13,54 @@ const PostItem = ({ post, handleDelete, createdBy, userId }: PostItemProps) => {
   const canDelete = userId === createdBy;
 
   return (
-    <div
+    <Box
       key={post.id}
-      className="flex items-center justify-between w-full max-w-[90%] p-2 border-b border-gray-200 gap-4 mb-8"
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      w="full"
+      maxW="90%"
+      p={2}
+      borderBottomWidth="1px"
+      borderColor="gray.200"
+      mb={2}
+      gap={8}
     >
-      <p className="text-black text-base">{post.title}</p>
-      <div className="flex flex-col">
-        <Link
+      <Text
+        color="black"
+        fontSize={useBreakpointValue({ base: "md", md: "lg" })}
+      >
+        {post.title}
+      </Text>
+      <VStack align="flex-start" spacing={2}>
+        <Button
+          as={RouterLink}
           to={`/posts/${post.id}`}
-          className="btn btn-outline "
-          style={{ fontSize: "12px" }}
+          colorScheme="blue"
+          borderRadius="md"
+          size="md"
+          fontWeight="medium"
         >
           Ver
-        </Link>
-        <Link
+        </Button>
+        <Button
+          as={RouterLink}
           to={`/posts/edit/${post.id}`}
-          className="btn btn-outline"
-          style={{ fontSize: "12px" }}
+          colorScheme="teal"
+          variant="outline"
+          borderRadius="md"
+          size="md"
+          fontWeight="medium"
         >
           Editar
-        </Link>
+        </Button>
         {canDelete && (
-          <DeleteButton
-            onClick={() => handleDelete(post.id)}
-            style={{ fontSize: "12px" }}
-            alt="Excluir"
-          >
+          <DeleteButton onConfirm={() => handleDelete(post.id)} alt="Excluir">
             Excluir
           </DeleteButton>
         )}
-      </div>
-    </div>
+      </VStack>
+    </Box>
   );
 };
 

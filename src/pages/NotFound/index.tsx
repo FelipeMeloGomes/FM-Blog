@@ -1,31 +1,39 @@
-import { TextField } from "../../components/TextField";
+import { Box, Flex, Link as ChakraLink, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import NotFoundImg from "./assets/NotFoundImg.webp";
+import { TextField } from "../../components/TextField";
 
 const NotFound = () => {
   return (
-    <div className="w-full max-w-full  p-6 bg-green-500 container">
+    <Box w="full" p={6} bg="green.500" textAlign="center">
       <TextField
         color="black"
         title="404"
         paragraph="Página Não Encontrada Desculpe."
       />
-      <div className="flex justify-center items-center bg-green-500 center">
-        <Link to="/" className="btn btn-outline">
+      <Flex justify="center" align="center" bg="green.500" mt={6}>
+        <ChakraLink as={Link} to="/" variant="outline" colorScheme="teal">
           Home
-        </Link>
-      </div>
-      <div className="mt-8 w-full max-w-[400px] mx-auto mb-8 rounded-lg animate-float containerImg">
-        <figure>
-          <img
-            className="w-full h-auto"
-            src={NotFoundImg}
-            alt="not found"
-            loading="lazy"
-          />
-        </figure>
-      </div>
-    </div>
+        </ChakraLink>
+      </Flex>
+      <Box
+        mt={8}
+        w="full"
+        maxW="400px"
+        mx="auto"
+        mb={8}
+        borderRadius="lg"
+        overflow="hidden"
+        boxShadow="md"
+      >
+        <Image
+          src={NotFoundImg}
+          alt="not found"
+          loading="lazy"
+          objectFit="cover"
+        />
+      </Box>
+    </Box>
   );
 };
 

@@ -8,18 +8,16 @@ import {
   Box,
   Heading,
   Text,
-  IconButton,
   Image,
   Button,
 } from "@chakra-ui/react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { BiLike, BiShare } from "react-icons/bi";
+
+import { BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
-import { Spinner } from "../Spinner";
 import { TagsDisplay } from "../TagsDisplay";
 import { TagsDisplayProps } from "./types";
 
@@ -39,7 +37,7 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
   };
 
   if (loading) {
-    return <Spinner width="350px" />;
+    return;
   }
 
   return (

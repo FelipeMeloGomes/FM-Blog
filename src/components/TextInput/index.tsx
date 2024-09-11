@@ -1,19 +1,24 @@
-import React from "react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { TextInputProps } from "./types";
+import React from "react";
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, name, placeholder, onChange }, ref) => (
-    <div className="flex flex-col mt-7">
-      <label className="font-bold text-sm">{label}</label>
-      <input
+    <FormControl mt={7}>
+      <FormLabel fontWeight="bold" fontSize="sm">
+        {label}
+      </FormLabel>
+      <Input
         type="text"
         name={name}
         placeholder={placeholder}
-        className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
+        borderColor="gray.300"
+        focusBorderColor="black"
+        variant="outline"
         ref={ref}
         onChange={onChange}
       />
-    </div>
+    </FormControl>
   ),
 );
 

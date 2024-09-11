@@ -1,10 +1,10 @@
 import { PostDetail } from "../PostDetail";
-import { Spinner } from "../Spinner";
 import { PostListProps } from "./types";
+import { ResponsiveSkeletonCard } from "../PostSkeleton";
 
 const PostList = ({ posts }: PostListProps) => {
   if (!posts || posts.length === 0) {
-    return <Spinner />;
+    return <ResponsiveSkeletonCard />;
   }
 
   return (

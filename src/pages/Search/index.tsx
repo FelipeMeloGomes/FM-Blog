@@ -4,44 +4,50 @@ import { Link } from "react-router-dom";
 import { PostDetail } from "../../components/PostDetail";
 import { TextField } from "../../components/TextField";
 import { Icon } from "../../components/IconComponent";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 
 const Search = () => {
   const query = useQuery();
   const search = query.get("q");
 
   const { documents: posts } = useFetchDocuments("posts", search);
+
   return (
-    <div className="flex flex-col items-center justify-center text-center mb-20 mx-auto">
+    <Box textAlign="center" mb={20} mx="auto" maxW="90%">
       <TextField
         title="Procurar"
         paragraph={`Resultados encontrados para: ${search}`}
       />
 
-      {posts && posts?.length > 0 && (
-        <div className="flex items-center mb-8">
-          <Link to="/" className="btn btn-outline">
-            <Icon name="ArrowBack" className="icon_font" />
-          </Link>
-        </div>
+      {posts && posts.length > 0 && (
+        <Flex justify="center" mb={8}>
+          <Button
+            as={Link}
+            to="/"
+            variant="outline"
+            colorScheme="blue"
+            leftIcon={<Icon name="ArrowBack" />}
+          >
+            Voltar
+          </Button>
+        </Flex>
       )}
 
-      <div className="flex flex-row flex-wrap gap-10 max-w-[90%] justify-center mx-auto">
-        {posts?.length === 0 && (
-          <div className="text-center mb-8">
-            <p className="mb-8">
+      <Flex flexWrap="wrap" gap={10} justify="center">
+        {posts?.length === 0 ? (
+          <Box textAlign="center" mb={8}>
+            <Text mb={8}>
               Não foram encontrados posts a partir da sua busca...
-            </p>
-
-            <Link to="/" className="btn btn-dark">
+            </Text>
+            <Button as={Link} to="/" colorScheme="blue">
               Voltar
-            </Link>
-          </div>
+            </Button>
+          </Box>
+        ) : (
+          posts?.map((post) => <PostDetail key={post.id} post={post} />)
         )}
-        {posts?.map((post) => (
-          <PostDetail key={post.id} post={post} />
-        ))}
-      </div>
-    </div>
+      </Flex>
+    </Box>
   );
 };
 

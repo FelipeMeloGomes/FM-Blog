@@ -39,12 +39,7 @@ const Weather = () => {
 
         {isLoading && (
           <div className="flex justify-center items-center mt-10">
-            <Spinner
-              height="100px"
-              startColor="white"
-              middleColor="white"
-              endColor="white"
-            />
+            <Spinner />
           </div>
         )}
 

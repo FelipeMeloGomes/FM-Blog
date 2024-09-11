@@ -6,6 +6,7 @@ import { Spinner } from "../../components/Spinner";
 import { handleDeletePost } from "../../utils/HandleDelete";
 import { PostItem } from "../../components/PostItem";
 import { NoPosts } from "../../components/NoPosts";
+import { Flex, Text } from "@chakra-ui/react";
 
 const Dashboard = ({ createdBy }: { createdBy: string }) => {
   const { user } = useAuthValue() || {};
@@ -18,31 +19,44 @@ const Dashboard = ({ createdBy }: { createdBy: string }) => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full min-h-screen">
+    <Flex direction="column" align="center" w="full" minH="100vh" p={4}>
       <TextField title="Dashboard" paragraph="Gerencie os seus posts" />
       {posts?.length === 0 ? (
         <NoPosts />
       ) : (
         <>
-          <div className="flex justify-between w-full max-w-[90%] p-4 border-b-2 border-gray-300 font-bold">
-            <span>Título</span>
-            <span>Ações</span>
-          </div>
+          <Flex
+            justify="space-between"
+            w="full"
+            maxW="90%"
+            p={4}
+            borderBottomWidth="2px"
+            borderColor="gray.300"
+            fontWeight="bold"
+          >
+            <Text>Título</Text>
+            <Text>Ações</Text>
+          </Flex>
 
           {posts?.map((post) => (
             <PostItem
               key={post.id}
               post={post}
               handleDelete={() =>
-                handleDeletePost(post.id, createdBy, user?.uid, deleteDocument)
+                handleDeletePost(
+                  post.id,
+                  createdBy,
+                  user?.uid || "",
+                  deleteDocument,
+                )
               }
               createdBy={createdBy}
-              userId={user?.uid}
+              userId={user?.uid || ""}
             />
           ))}
         </>
       )}
-    </div>
+    </Flex>
   );
 };
 

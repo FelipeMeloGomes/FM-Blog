@@ -1,18 +1,26 @@
 import React from "react";
+import { Input, FormLabel, Box } from "@chakra-ui/react";
 import { TagsInputProps } from "./types";
 
 const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
   ({ placeholder }, ref) => (
-    <div className="flex flex-col mt-7">
-      <label className="font-bold text-sm">Tags:</label>
-      <input
-        className="border border-gray-300 rounded px-3 py-3 mt-2 transition ease-in-out duration-150 focus:border-black"
+    <Box mt={7} display="flex" flexDirection="column">
+      <FormLabel fontWeight="bold" fontSize="sm">
+        Tags:
+      </FormLabel>
+      <Input
         type="text"
         name="tags"
         placeholder={placeholder}
         ref={ref}
+        borderColor="gray.300"
+        borderRadius="md"
+        px={3}
+        py={3}
+        _focus={{ borderColor: "black" }}
+        transition="all 0.2s ease-in-out"
       />
-    </div>
+    </Box>
   ),
 );
 

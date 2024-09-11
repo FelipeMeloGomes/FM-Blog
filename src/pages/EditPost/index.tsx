@@ -13,6 +13,7 @@ import { TextInput } from "../../components/TextInput";
 import { ImagePreview } from "../../components/ImagePreview";
 import { TagsInput } from "../../components/TagsInput";
 import { FormButtons } from "../../components/FormButtons";
+import { Box, FormLabel } from "@chakra-ui/react";
 
 const EditPost = () => {
   const { user } = useAuthValue() || {};
@@ -56,10 +57,20 @@ const EditPost = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center text-center p-6 mx-auto w-full max-w-4xl">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      textAlign="center"
+      p={6}
+      mx="auto"
+      w="full"
+      maxW="4xl"
+    >
       {post && (
         <>
-          <form className="p-4" onSubmit={handleSubmit}>
+          <Box as="form" p={4} onSubmit={handleSubmit}>
             <PostTitle title={title || post.title} />
             <TextInput
               label="Título:"
@@ -75,23 +86,25 @@ const EditPost = () => {
               ref={imageRef}
             />
             <ImagePreview image={post.image} alt={post.title} />
-            <div className="flex flex-col mt-7">
-              <label className="font-bold text-sm">Conteúdo:</label>
+            <Box display="flex" flexDirection="column" mt={7}>
+              <FormLabel fontWeight="bold" fontSize="sm">
+                Conteúdo:
+              </FormLabel>
               <Editor
                 onChange={handleEditorChange}
                 value={content}
                 ref={bodyRef}
               />
-            </div>
+            </Box>
             <TagsInput
               placeholder="Insira as tags separadas por vírgula"
               ref={tagsRef}
             />
             <FormButtons response={response} formError={formError} />
-          </form>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
