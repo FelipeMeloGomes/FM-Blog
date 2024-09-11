@@ -38,6 +38,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - HTML e CSS.
 - TailwindCSS.
+- Chakra UI.
 - JavaScript.
 - Typescript.
 - React.
