@@ -5,7 +5,8 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
-import { ButtonProps } from "./types";
+import { Box, FormLabel, Input, Image } from "@chakra-ui/react";
+import { CustomButton } from "../../components/CustomButton";
 
 const CreatePost = () => {
   const {
@@ -32,43 +33,71 @@ const CreatePost = () => {
     actionType: "create",
   });
 
-  const Button = ({ alt, children, ...rest }: ButtonProps) => (
-    <button
-      {...rest}
-      className=" mx-auto flex items-center justify-center bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm cursor-pointer hover:bg-black hover:text-white transition duration-150 ease-in-out"
-      aria-label={alt}
-    >
-      {children}
-    </button>
-  );
-
   return (
     <LayoutPage textAlign="center">
       <TextField title="Novo Post" paragraph="Compartilhe suas ideias!" />
-      <div className="modal flex flex-col w-[600px] max-w-[90%] bg-white-900 shadow-md rounded-2xl my-6 mx-auto">
-        <form className="modal__body p-4" onSubmit={handleSubmit}>
-          <div className="input mt-7">
-            <label className="input__label font-bold text-sm text-left">
+      <Box
+        className="modal"
+        display="flex"
+        flexDirection="column"
+        w="600px"
+        maxW="90%"
+        bg="white"
+        boxShadow="md"
+        borderRadius="2xl"
+        my={6}
+        mx="auto"
+      >
+        <Box as="form" className="modal__body" p={4} onSubmit={handleSubmit}>
+          <Box className="input" mt={7}>
+            <FormLabel
+              className="input__label"
+              fontWeight="bold"
+              fontSize="sm"
+              textAlign="center"
+            >
               Título:
-            </label>
-            <input
+            </FormLabel>
+            <Input
               type="text"
               name="title"
               alt="Pense num bom título"
               minLength={6}
               required
-              className="w-full input__field block mt-2 border border-gray-300 rounded py-3 px-3 transition duration-150 ease-in-out focus:border-black"
+              w="full"
+              mt={2}
+              border="1px"
+              borderColor="gray.300"
+              rounded="md"
+              py={3}
+              px={3}
+              transition="all 0.15s ease-in-out"
+              _focus={{ borderColor: "black" }}
               placeholder="Pense num bom título"
               ref={titleRef}
             />
-          </div>
+          </Box>
 
-          <div className="input mt-7">
-            <label className="input__label font-bold text-sm text-left">
+          <Box className="input" mt={7}>
+            <FormLabel
+              className="input__label"
+              fontWeight="bold"
+              fontSize="sm"
+              textAlign="center"
+            >
               URL da imagem:
-            </label>
-            <input
-              className="w-full input__field block mt-2 border border-gray-300 rounded py-3 px-3 transition duration-150 ease-in-out focus:border-black"
+            </FormLabel>
+            <Input
+              className="input__field"
+              w="full"
+              mt={2}
+              border="1px"
+              borderColor="gray.300"
+              rounded="md"
+              py={3}
+              px={3}
+              transition="all 0.15s ease-in-out"
+              _focus={{ borderColor: "black" }}
               type="text"
               name="image"
               alt="Insira uma imagem"
@@ -77,26 +106,44 @@ const CreatePost = () => {
               onChange={handleChange}
               placeholder="Insira uma imagem"
             />
-            <figure className="containerImg mt-4">
+            <Box className="containerImg" mt={4}>
               {imageUrl && !error && (
-                <img src={imageUrl} loading="lazy" alt="Imagem" />
+                <Image src={imageUrl} loading="lazy" alt="Imagem" />
               )}
-            </figure>
-          </div>
-
-          <div className="input mt-7">
-            <label className="w-full input__label font-bold text-sm text-left">
+            </Box>
+          </Box>
+          <Box className="input" mt={7}>
+            <FormLabel
+              w="full"
+              className="input__label"
+              fontWeight="bold"
+              fontSize="sm"
+              textAlign="center"
+            >
               Conteúdo:
-            </label>
+            </FormLabel>
             <Editor ref={bodyRef} />
-          </div>
-
-          <div className="input mt-7">
-            <label className="w-full input__label font-bold text-sm text-left">
+          </Box>
+          <Box className="input" mt={7}>
+            <FormLabel
+              w="full"
+              className="input__label"
+              fontWeight="bold"
+              fontSize="sm"
+              textAlign="center"
+            >
               Tags:
-            </label>
-            <input
-              className=" w-full input__field block mt-2 border border-gray-300 rounded py-3 px-3 transition duration-150 ease-in-out focus:border-black"
+            </FormLabel>
+            <Input
+              w="full"
+              className="input__field"
+              mt={2}
+              borderColor="gray.300"
+              borderRadius="md"
+              py={3}
+              px={3}
+              transition="all 0.15s ease-in-out"
+              _focus={{ borderColor: "black" }}
               type="text"
               name="tags"
               alt="Insira as tags separadas por vírgula"
@@ -104,22 +151,16 @@ const CreatePost = () => {
               required
               ref={tagsRef}
             />
-          </div>
+          </Box>
           <br />
           {!response.loading && (
-            <Button
-              alt="Cadastrar"
-              className="w-6 mx-auto flex items-center justify-center bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm cursor-pointer hover:bg-black hover:text-white transition duration-150 ease-in-out"
-            >
-              Cadastrar
-            </Button>
+            <CustomButton alt="Cadastrar">Cadastrar</CustomButton>
           )}
-
           {response.error && errorParagraph(response.error)}
           <br />
           {formError && errorParagraph(formError)}
-        </form>
-      </div>
+        </Box>
+      </Box>
     </LayoutPage>
   );
 };
