@@ -11,7 +11,6 @@ import {
   Image,
   Button,
 } from "@chakra-ui/react";
-
 import { BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";

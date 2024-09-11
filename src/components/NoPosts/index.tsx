@@ -1,15 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Button, Text } from "@chakra-ui/react";
 
 const NoPosts = () => (
-  <div className="flex flex-col justify-center text-center mb-6 ">
-    <p className="mb-6">Não foram encontrados posts</p>
-    <Link
+  <Box textAlign="center" mb={6}>
+    <Text mb={6}>Não foram encontrados posts</Text>
+    <Button
+      as={RouterLink}
       to="/posts/create"
-      className="bg-[#1a8918] text-white text-center cursor-pointer rounded-lg w-full font-bold border-none py-2.5 px-4 text-base flex justify-center btn-outline  "
+      colorScheme="green"
+      color="white"
+      fontWeight="bold"
+      borderRadius="lg"
+      width="full"
+      py={2.5}
+      px={4}
+      fontSize="base"
+      _hover={{ bg: "green.600" }}
+      _focus={{ boxShadow: "none" }}
     >
       Criar primeiro post
-    </Link>
-  </div>
+    </Button>
+  </Box>
 );
 
 export { NoPosts };

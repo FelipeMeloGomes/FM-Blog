@@ -1,10 +1,12 @@
 import { useAuthForm } from "../../hooks/useAuthForm";
-import { Link } from "react-router-dom";
 import { TextInputWithIcon } from "../TextInputWithIcon";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SubmitButton } from "../SubmitButton";
 import { PasswordToggle } from "../../utils/PasswordToggle";
 import { loginFormProps } from "./types";
+import { SignUpPrompt } from "../SignUpPrompt";
+import { Box } from "@chakra-ui/react";
+import { FormEvent } from "react";
 
 const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
   const {
@@ -20,9 +22,20 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
   } = useAuthForm(isLogin, onSubmit);
 
   return (
-    <form
-      onSubmit={(e) => handleSubmit(e, formData)}
-      className="flex flex-col gap-2.5 mx-auto p-8 w-[500px] max-w-[90%] bg-white shadow-[0px_-2px_10px_rgba(0,0,0,0.15)] rounded-2xl text-center"
+    <Box
+      as="form"
+      onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e, formData)}
+      display="flex"
+      flexDirection="column"
+      gap={10}
+      mx="auto"
+      p={8}
+      w="500px"
+      maxW="90%"
+      bg="white"
+      shadow="md"
+      borderRadius="xl"
+      textAlign="center"
     >
       {!isLogin && (
         <TextInputWithIcon
@@ -117,27 +130,21 @@ const LoginForm = ({ isLogin, onSubmit }: loginFormProps) => {
       )}
 
       {isLogin && (
-        <div>
-          <p className="text-center text-black text-sm my-1">
-            Não tem uma conta?{" "}
-            <span className="text-sm text-black font-medium ml-1 cursor-pointer">
-              <Link to="/register">Cadastre-se</Link>
-            </span>
-          </p>
-        </div>
+        <SignUpPrompt
+          message="Não tem uma conta?"
+          linkText="Cadastre-se"
+          linkUrl="/register"
+        />
       )}
       {!isLogin && (
-        <div>
-          <p className="text-center text-black text-sm my-1">
-            Já tem uma conta?{" "}
-            <span className="text-sm text-black font-medium ml-1 cursor-pointer">
-              <Link to="/login">Entrar</Link>
-            </span>
-          </p>
-        </div>
+        <SignUpPrompt
+          message="Já tem uma conta?"
+          linkText="Entrar"
+          linkUrl="/login"
+        />
       )}
       {error && <p className="error">{error}</p>}
-    </form>
+    </Box>
   );
 };
 

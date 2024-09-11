@@ -1,5 +1,11 @@
-import { TextInputWithIconProps } from "./types";
+import {
+  FormLabel,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import { Icon } from "../IconComponent";
+import { TextInputWithIconProps } from "./types";
 
 const TextInputWithIcon = ({
   label,
@@ -14,11 +20,17 @@ const TextInputWithIcon = ({
   alt,
 }: TextInputWithIconProps) => {
   return (
-    <div className="flex flex-col">
-      <label className="text-[#151717] font-medium">{label}</label>
-      <div className="flex items-center border border-[#ecedec] rounded-lg h-12 pl-2.5 transition-colors duration-200 ease-in-out focus-within:border-black">
-        {iconName && <Icon name={iconName} className="icon_font" />}
-        <input
+    <div>
+      <FormLabel color="#151717" fontWeight="medium" textAlign="center">
+        {label}
+      </FormLabel>
+      <InputGroup size="md">
+        {iconName && (
+          <InputLeftElement pointerEvents="none">
+            <Icon name={iconName} />
+          </InputLeftElement>
+        )}
+        <Input
           type="text"
           name={name}
           value={value}
@@ -26,11 +38,14 @@ const TextInputWithIcon = ({
           maxLength={maxLength}
           required={required}
           onChange={onChange}
-          className="ml-2.5 rounded-lg border-none w-[85%] h-full focus:outline-none"
           placeholder={placeholder}
-          alt={alt}
+          aria-label={alt}
+          borderColor="#ecedec"
+          borderRadius="md"
+          focusBorderColor="black"
+          pl={iconName ? "2.5rem" : "1rem"}
         />
-      </div>
+      </InputGroup>
     </div>
   );
 };

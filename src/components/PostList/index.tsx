@@ -1,6 +1,7 @@
 import { PostDetail } from "../PostDetail";
 import { PostListProps } from "./types";
 import { ResponsiveSkeletonCard } from "../PostSkeleton";
+import { Stack } from "@chakra-ui/react";
 
 const PostList = ({ posts }: PostListProps) => {
   if (!posts || posts.length === 0) {
@@ -8,11 +9,17 @@ const PostList = ({ posts }: PostListProps) => {
   }
 
   return (
-    <div className="post-list">
+    <Stack
+      direction="row"
+      wrap="wrap"
+      maxW="90%"
+      justify="center"
+      align="center"
+    >
       {posts.map((post) => (
         <PostDetail key={post.id} post={post} />
       ))}
-    </div>
+    </Stack>
   );
 };
 

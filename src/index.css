@@ -26,72 +26,6 @@
   box-sizing: border-box;
 }
 
-input::placeholder,
-textarea::placeholder {
-  font-size: 14px;
-  color: var(--placeholder-color);
-}
-
-p,
-h1,
-h2,
-h3,
-h4 {
-  text-wrap: pretty;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-}
-
-a,
-nav button {
-  text-decoration: none;
-  background-color: transparent;
-  border: none;
-  color: var(--text-color);
-  transition: 0.4s;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-a:hover,
-nav button:hover {
-  color: var(--link-hover-color);
-}
-
-label {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1em;
-  align-items: center;
-}
-
-label span {
-  margin-bottom: 0.3em;
-  font-weight: bold;
-  text-align: left;
-}
-
-img {
-  object-fit: cover;
-  max-width: 100%;
-  width: 100%;
-}
-
-input,
-textarea {
-  border: none;
-  border-bottom: 1px solid var(--border-color);
-  padding: 0.8em 0em;
-  background-color: transparent;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--placeholder-color);
-}
 
 .btn {
   background-color: var(--primary-color);
@@ -145,26 +79,4 @@ button[disabled] {
   border: 1px solid var(--error-text-color);
   padding: 5px;
   border-radius: 5px;
-}
-
-.post-list {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 2.5em;
-  max-width: 90%;
-}
-
-.icon_font {
-  font-size: 1.5em;
-}
-.icon {
-  cursor: pointer;
-  margin-right: 1em;
-}
-
-.custom-path {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 20;
 }
