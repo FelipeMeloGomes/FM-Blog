@@ -16,7 +16,7 @@ const handleShare = async (post: Post): Promise<void> => {
   } else {
     const shareUrl = `mailto:?subject=${encodeURIComponent(
       shareData.title,
-    )}&body=${encodeURIComponent(shareData.text)}%0A${encodeURIComponent(
+    )}&body=${encodeURIComponent(shareData.title)}%0A${encodeURIComponent(
       shareData.url,
     )}`;
 
