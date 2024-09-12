@@ -19,6 +19,7 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
 import { TagsDisplay } from "../TagsDisplay";
 import { TagsDisplayProps } from "./types";
+import { ShareContent } from "../../utils/ShareContent";
 
 const PostDetail = ({ post }: TagsDisplayProps) => {
   const { user } = useAuthValue() || {};
@@ -33,6 +34,14 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
     toast.error(
       "Você precisa estar logado para curtir este post. Por favor, faça o login ou registre-se para participar.",
     );
+  };
+
+  const handleShare = () => {
+    ShareContent({
+      title: post.title,
+      text: post.description,
+      url: window.location.href,
+    });
   };
 
   if (loading) {
@@ -90,7 +99,12 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
         </Flex>
 
         <Box mt={2} width="100%">
-          <Button variant="ghost" leftIcon={<BiShare />} width="100%">
+          <Button
+            variant="ghost"
+            leftIcon={<BiShare />}
+            width="100%"
+            onClick={handleShare}
+          >
             Compartilhar
           </Button>
         </Box>

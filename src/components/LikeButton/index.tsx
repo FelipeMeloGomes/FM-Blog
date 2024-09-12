@@ -16,7 +16,7 @@ const LikeButton = ({ postId, userId, onNotLoggedIn }: LikeButtonProps) => {
 
   return (
     <Button
-      width="100%"
+      width={{ base: "full", md: "auto" }}
       maxWidth="150px"
       height="40px"
       display="flex"
