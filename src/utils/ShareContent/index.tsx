@@ -10,9 +10,8 @@ const handleShare = async (post: Post): Promise<void> => {
   if (navigator.share) {
     try {
       await navigator.share(shareData);
-      console.log("Post shared successfully!");
     } catch (error) {
-      console.error("Error sharing post:", error);
+      console.error(error);
     }
   } else {
     const shareUrl = `mailto:?subject=${encodeURIComponent(
