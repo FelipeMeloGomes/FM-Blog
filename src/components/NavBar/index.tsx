@@ -42,7 +42,7 @@ const NavBar = () => {
             fontSize="xl"
             fontWeight="bold"
           >
-            FM <span>Blog</span>
+            FM <span className="pl-2">Blog</span>
           </Button>
         </Flex>
         <Flex alignItems={"center"}>
@@ -50,16 +50,13 @@ const NavBar = () => {
             size="lg"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label="Toggle Navigation"
-            display={{ md: "none" }} // Exibe no mobile
+            display={{ md: "none" }}
             onClick={onToggle}
             mr={4}
           />
         </Flex>
 
-        <Flex
-          alignItems={"center"}
-          display={{ base: "none", md: "flex" }} // Oculta no mobile
-        >
+        <Flex alignItems={"center"} display={{ base: "none", md: "flex" }}>
           <Stack direction={"row"} spacing={4}>
             <Button variant="link" as={RouterLink} to="/" leftIcon={<MdHome />}>
               Home
@@ -128,9 +125,12 @@ const NavBar = () => {
         </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
-        <Stack bg="gray.700" p={4} display={{ base: "flex", md: "none" }}>
-          {" "}
-          {/* Exibe no mobile */}
+        <Stack
+          bg="gray.700"
+          p={4}
+          gap={4}
+          display={{ base: "flex", md: "none" }}
+        >
           <Button
             variant="link"
             as={RouterLink}
