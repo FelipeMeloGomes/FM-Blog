@@ -19,7 +19,7 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { toast } from "react-toastify";
 import { TagsDisplay } from "../TagsDisplay";
 import { TagsDisplayProps } from "./types";
-import { ShareContent } from "../../utils/ShareContent";
+import { handleShare } from "../../utils/ShareContent";
 
 const PostDetail = ({ post }: TagsDisplayProps) => {
   const { user } = useAuthValue() || {};
@@ -36,13 +36,6 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
     );
   };
 
-  const handleShare = () => {
-    ShareContent({
-      title: post.title,
-      text: post.description,
-      url: window.location.href,
-    });
-  };
 
   if (loading) {
     return;

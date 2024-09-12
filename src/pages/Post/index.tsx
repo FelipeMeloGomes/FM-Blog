@@ -16,7 +16,7 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { ShareContent } from "../../utils/ShareContent";
+import { handleShare } from "../../utils/ShareContent";
 import { BiShare } from "react-icons/bi";
 
 const Post = () => {
@@ -30,14 +30,6 @@ const Post = () => {
     toast.error(
       "Você precisa estar logado para curtir este post. Por favor, faça o login ou registre-se para participar.",
     );
-  };
-
-  const handleShare = () => {
-    ShareContent({
-      title: post.title,
-      text: post.description,
-      url: window.location.href,
-    });
   };
 
   return (

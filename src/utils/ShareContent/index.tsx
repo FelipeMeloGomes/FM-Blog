@@ -1,21 +1,28 @@
-import { WebShareProps } from "./types";
+import { Post, ShareData } from "./types";
 
-export const ShareContent = async ({
-  title,
-  text,
-  url,
-}: WebShareProps): Promise<void> => {
+const handleShare = async (post: Post): Promise<void> => {
+  const shareData: ShareData = {
+    title: post.title,
+    text: post.description,
+    url: window.location.href,
+  };
+
   if (navigator.share) {
     try {
-      await navigator.share({
-        title,
-        text,
-        url,
-      });
+      await navigator.share(shareData);
+      console.log("Post shared successfully!");
     } catch (error) {
-      console.error(error);
+      console.error("Error sharing post:", error);
     }
   } else {
-    console.log("Web Share API não é suportada neste navegador.");
+    const shareUrl = `mailto:?subject=${encodeURIComponent(
+      shareData.title,
+    )}&body=${encodeURIComponent(shareData.text)}%0A${encodeURIComponent(
+      shareData.url,
+    )}`;
+
+    window.open(shareUrl, "_blank");
   }
 };
+
+export { handleShare };
