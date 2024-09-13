@@ -104,7 +104,7 @@ const Post = () => {
                 Voltar
               </Button>
               <Button
-                onClick={handleShare}
+                onClick={() => handleShare(post)}
                 leftIcon={<BiShare />}
                 variant="outline"
                 colorScheme="black"

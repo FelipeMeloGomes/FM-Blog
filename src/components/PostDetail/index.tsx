@@ -36,7 +36,6 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
     );
   };
 
-
   if (loading) {
     return;
   }
@@ -96,7 +95,7 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
             variant="ghost"
             leftIcon={<BiShare />}
             width="100%"
-            onClick={handleShare}
+            onClick={() => handleShare(post)}
           >
             Compartilhar
           </Button>
