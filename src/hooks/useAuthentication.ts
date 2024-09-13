@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  sendPasswordResetEmail,
   AuthError,
 } from "firebase/auth";
 
@@ -29,6 +30,7 @@ interface AuthenticationResult {
   error: string | null;
   logout: () => void;
   login: (data: Omit<UserData, "displayName">) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   loading: boolean;
 }
 
@@ -92,6 +94,19 @@ export const useAuthentication = (): AuthenticationResult => {
     }
   };
 
+  const resetPassword = async (email: string): Promise<void> => {
+    checkIfIsCancelled();
+    setState({ ...state, loading: true });
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success("E-mail de redefinição de senha enviado!");
+    } catch (error) {
+      const errorMessage = handleErrorMessage(error as AuthError);
+      toast.error("Error ao enviar Email");
+      setState({ error: errorMessage, loading: false, cancelled: false });
+    }
+  };
+
   useEffect(() => {
     return () => setState({ ...state, cancelled: true });
   }, []);
@@ -102,6 +117,7 @@ export const useAuthentication = (): AuthenticationResult => {
     error: state.error,
     logout,
     login,
+    resetPassword,
     loading: state.loading,
   };
 };

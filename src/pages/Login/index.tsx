@@ -12,7 +12,7 @@ const Login = () => {
                 title="Entrar"
                 paragraph="Faça login para utilizar o sistema!"
             />
-            <LoginForm onSubmit={handleSubmit} isLogin={true} />
+            <LoginForm onSubmit={handleSubmit} isLogin={true} resetPassword={false} />
         </LayoutPage>
     );
 };

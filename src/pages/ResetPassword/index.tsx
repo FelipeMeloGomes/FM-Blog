@@ -3,18 +3,18 @@ import { LoginForm } from "../../components/LoginForm";
 import { LayoutPage } from "../../components/LayoutPage";
 import { TextField } from "../../components/TextField";
 
-const Register = () => {
-  const { handleSubmit } = useAuthForm();
+const ResetPassword = () => {
+  const { handlePasswordReset } = useAuthForm();
 
   return (
     <LayoutPage>
       <TextField
-        title="Cadastre-se para postar"
-        paragraph="Crie o seu usuário e compartilhe suas histórias"
+        title="Esqueceu a senha?"
+        paragraph="Digite no campo abaixo para recuperar a senha!"
       />
-      <LoginForm onSubmit={handleSubmit} isLogin={false} resetPassword={false} />
+      <LoginForm onSubmit={handlePasswordReset} isLogin={true}  resetPassword={true}/>
     </LayoutPage>
   );
 };
 
-export { Register };
+export { ResetPassword };

@@ -1,5 +1,6 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useAuthentication } from "./useAuthentication";
+import { toast } from "react-toastify";
 
 interface FormData {
   displayName: string;
@@ -21,6 +22,7 @@ interface AuthFormHook {
     e: React.FormEvent<HTMLFormElement>,
     data?: FormData,
   ) => Promise<void>;
+  handlePasswordReset: (email: string) => Promise<void>;
   loading: boolean;
 }
 
@@ -28,7 +30,13 @@ export const useAuthForm = (
   isLogin?: boolean,
   onSubmit?: (formData: FormData) => void,
 ): AuthFormHook => {
-  const { login, createUser, error: authError, loading } = useAuthentication();
+  const {
+    login,
+    createUser,
+    error: authError,
+    loading,
+    resetPassword,
+  } = useAuthentication();
 
   const [formData, setFormData] = useState<FormData>({
     displayName: "",
@@ -56,6 +64,14 @@ export const useAuthForm = (
       if (onSubmit) onSubmit(formData);
     } catch (error: any) {
       setError(error.message);
+    }
+  };
+
+  const handlePasswordReset = async (email: string) => {
+    try {
+      await resetPassword(email);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -96,6 +112,7 @@ export const useAuthForm = (
     error,
     setError,
     handleSubmit,
+    handlePasswordReset,
     loading,
   };
 };

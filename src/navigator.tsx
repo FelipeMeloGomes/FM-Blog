@@ -11,6 +11,7 @@ import { CreatePost } from "./pages/CreatePost";
 import { Dashboard } from "./pages/Dashboard";
 import { Weather } from "./pages/Weather";
 import { Search } from "./pages/Search";
+import { ResetPassword } from "./pages/ResetPassword";
 
 const Navigator = () => {
   const user = useAuthState();
@@ -23,6 +24,7 @@ const Navigator = () => {
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
         <Route path="/posts/:id" element={<Post />} />
+        <Route path="/resetPassword" element={<ResetPassword />} />
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}
