@@ -1,16 +1,7 @@
 import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
-
-interface InsertState {
-  loading: boolean | null;
-  error: string | null;
-}
-
-type InsertAction =
-  | { type: "LOADING" }
-  | { type: "INSERTED_DOC" }
-  | { type: "ERROR"; payload: string };
+import { InsertAction, InsertState } from "./types";
 
 const initialState: InsertState = {
   loading: null,

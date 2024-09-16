@@ -8,13 +8,7 @@ import {
   getDoc,
   arrayRemove,
 } from "firebase/firestore";
-
-interface UseLikeResult {
-  likePost: (postId: string, userId: string) => Promise<void>;
-  isLiked: (postId: string, userId: string) => Promise<boolean>;
-  getLikeCount: (postId: string) => Promise<number>;
-  error: string | null;
-}
+import { UseLikeResult } from "./types";
 
 export const useLike = (): UseLikeResult => {
   const [error, setError] = useState<string | null>(null);

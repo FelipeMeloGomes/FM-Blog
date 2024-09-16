@@ -11,28 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { errorMessages } from "../utils/ErrorMessage";
-
-interface UserData {
-  displayName: string;
-  email: string;
-  password: string;
-}
-
-interface AuthenticationState {
-  error: string | null;
-  loading: boolean;
-  cancelled: boolean;
-}
-
-interface AuthenticationResult {
-  auth: ReturnType<typeof getAuth>;
-  createUser: (data: UserData) => Promise<void>;
-  error: string | null;
-  logout: () => void;
-  login: (data: Omit<UserData, "displayName">) => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
-  loading: boolean;
-}
+import { AuthenticationResult, AuthenticationState, UserData } from "./types";
 
 export const useAuthentication = (): AuthenticationResult => {
   const [state, setState] = useState<AuthenticationState>({

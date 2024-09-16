@@ -1,22 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase/config";
 import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
-
-interface DocumentData {
-  tagsArray?: string[];
-  body?: string | TrustedHTML;
-  createdBy?: string;
-  image?: string;
-  id?: string;
-  title?: string;
-  content?: string;
-}
-
-interface FetchDocumentResult {
-  document: DocumentData | null;
-  loading: boolean;
-  error: string | null;
-}
+import { DocumentData, FetchDocumentResult } from "./types";
 
 export const useFetchDocument = (
   docCollection: string,

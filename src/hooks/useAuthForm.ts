@@ -1,29 +1,6 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { useAuthentication } from "./useAuthentication";
-
-interface FormData {
-  displayName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface AuthFormHook {
-  formData: FormData;
-  setFormData: Dispatch<SetStateAction<FormData>>;
-  passwordVisible: boolean;
-  setPasswordVisible: Dispatch<SetStateAction<boolean>>;
-  passwordVisibleTwo: boolean;
-  setPasswordVisibleTwo: Dispatch<SetStateAction<boolean>>;
-  error: string;
-  setError: Dispatch<SetStateAction<string>>;
-  handleSubmit: (
-    e: React.FormEvent<HTMLFormElement>,
-    data?: FormData,
-  ) => Promise<void>;
-  handlePasswordReset: (email: string) => Promise<void>;
-  loading: boolean;
-}
+import { AuthFormHook, FormData } from "./types";
 
 export const useAuthForm = (
   isLogin?: boolean,

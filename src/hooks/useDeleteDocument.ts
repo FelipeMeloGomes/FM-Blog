@@ -2,16 +2,7 @@ import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-
-interface DeleteState {
-  loading: boolean | null;
-  error: string | null;
-}
-
-type DeleteAction =
-  | { type: "LOADING" }
-  | { type: "DELETED_DOC" }
-  | { type: "ERROR"; payload: string };
+import { DeleteAction, DeleteState } from "./types";
 
 const initialState: DeleteState = {
   loading: null,

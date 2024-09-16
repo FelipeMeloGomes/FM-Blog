@@ -1,15 +1,7 @@
 import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { updateDoc, doc } from "firebase/firestore";
-interface UpdateState {
-  loading: boolean | null;
-  error: string | null;
-}
-
-type UpdateAction =
-  | { type: "LOADING" }
-  | { type: "UPDATED_DOC" }
-  | { type: "ERROR"; payload: string };
+import { UpdateAction, UpdateState } from "./types";
 
 const initialState: UpdateState = {
   loading: null,

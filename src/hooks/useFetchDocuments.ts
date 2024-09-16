@@ -9,20 +9,7 @@ import {
   QuerySnapshot,
   DocumentData as FirestoreDocumentData,
 } from "firebase/firestore";
-
-interface DocumentData {
-  id?: string;
-  title?: string;
-  content?: string;
-  likes?: string[];
-  likeCount?: number;
-}
-
-interface FetchDocumentsResult {
-  documents: DocumentData[] | null;
-  loading: boolean;
-  error: string | null;
-}
+import { DocumentData, FetchDocumentsResult } from "./types";
 
 export const useFetchDocuments = (
   docCollection: string,

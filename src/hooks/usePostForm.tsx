@@ -1,24 +1,6 @@
 import { useRef, useState, ChangeEvent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface PostFormHook {
-  titleRef: React.RefObject<HTMLInputElement>;
-  imageRef: React.RefObject<HTMLInputElement>;
-  bodyRef: React.RefObject<HTMLTextAreaElement>;
-  tagsRef: React.RefObject<HTMLInputElement>;
-  navigate: ReturnType<typeof useNavigate>;
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  imageUrl: string;
-  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
-  error: string;
-  setError: React.Dispatch<React.SetStateAction<string>>;
-  handleChange: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-  validateImageUrl: (url: string) => void;
-  errorParagraph: (errorMessage: string) => JSX.Element;
-}
+import { PostFormHook } from "./types";
 
 export const usePostForm = (): PostFormHook => {
   const navigate = useNavigate();

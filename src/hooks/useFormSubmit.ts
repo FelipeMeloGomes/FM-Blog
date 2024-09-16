@@ -1,40 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-interface User {
-  uid: string;
-  displayName: string;
-}
-
-interface FormSubmitHook {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  formError: string;
-}
-
-interface FormData {
-  title: string;
-  image: string;
-  body: string;
-  tagsArray: string[];
-  uid: string;
-  createdBy: string;
-  likeCount: number;
-  likes: string[];
-}
-
-interface FormSubmitProps {
-  insertDocument: (formData: FormData) => void;
-  updateDocument: (id: string, formData: FormData) => void;
-  navigate: ReturnType<typeof useNavigate>;
-  titleRef: React.MutableRefObject<HTMLInputElement | null>;
-  imageRef: React.MutableRefObject<HTMLInputElement | null>;
-  bodyRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  tagsRef: React.MutableRefObject<HTMLInputElement | null>;
-  user: User;
-  actionType: "create" | "edit";
-  postId: string;
-}
+import { FormSubmitHook, FormSubmitProps, FormData } from "./types";
 
 export const useFormSubmit = ({
   insertDocument,

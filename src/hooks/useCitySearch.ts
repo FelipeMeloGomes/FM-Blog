@@ -1,6 +1,5 @@
-import { useState, useCallback, Dispatch, SetStateAction } from "react";
-
-type FetchDataFunction = (city: string) => Promise<void>;
+import { useState, useCallback } from "react";
+import { CitySearchHook, FetchDataFunction } from "./types";
 
 const normalizeCity = (city: string): string => {
   const cityWithoutAccents = city
@@ -23,15 +22,6 @@ const createSearchStrategy = (fetchData: FetchDataFunction) => {
     await fetchData(normalizedCity);
   };
 };
-
-interface CitySearchHook {
-  city: string;
-  setCity: Dispatch<SetStateAction<string>>;
-  showDetails: boolean;
-  setShowDetails: Dispatch<SetStateAction<boolean>>;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  search: () => Promise<void>;
-}
 
 export const useCitySearch = (fetchData: FetchDataFunction): CitySearchHook => {
   const [city, setCity] = useState<string>("");

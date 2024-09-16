@@ -1,18 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLike } from "./useLikeResult";
-
-interface UseLikeButtonProps {
-  postId: string;
-  userId?: string;
-  onNotLoggedIn?: () => void;
-}
-
-interface UseLikeButtonResult {
-  likeCount: number;
-  liked: boolean;
-  loading: boolean;
-  handleLikeClick: () => void;
-}
+import { UseLikeButtonProps, UseLikeButtonResult } from "./types";
 
 export const useLikeButton = ({
   postId,

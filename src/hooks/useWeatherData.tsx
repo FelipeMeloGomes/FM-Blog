@@ -2,22 +2,7 @@ import { useState, ReactElement } from "react";
 import { SunIcon } from "@chakra-ui/icons";
 import { BiCloud, BiCloudDrizzle } from "react-icons/bi";
 import { WiRain, WiSnow } from "react-icons/wi";
-
-interface WeatherData {
-  humidity: string;
-  wind: string;
-  temperature: string;
-  location: string;
-}
-interface WeatherIconMap {
-  [key: string]: ReactElement;
-}
-interface WeatherHook {
-  isLoading: boolean;
-  climaData: WeatherData;
-  fetchData: (city: string) => Promise<void>;
-  wicon: ReactElement;
-}
+import { WeatherData, WeatherHook, WeatherIconMap } from "./types";
 
 export const useWeatherData = (): WeatherHook => {
   const [isLoading, setIsLoading] = useState(false);
