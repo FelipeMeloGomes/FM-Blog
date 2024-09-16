@@ -1,6 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useAuthentication } from "./useAuthentication";
-import { toast } from "react-toastify";
 
 interface FormData {
   displayName: string;

@@ -1,22 +1,21 @@
+export interface FormData {
+  email: string;
+  password: string;
+  displayName: string;
+  confirmPassword: string;
+}
+
+type PartialFormData = Partial<FormData>;
+
 export interface LoginFormFieldsProps {
   isLogin: boolean;
-  formData: {
-    email: string;
-    password: string;
-    displayName: string;
-    confirmPassword: string;
-  };
-  setFormData: (data: {
-    email: string;
-    password: string;
-    displayName: string;
-    confirmPassword: string;
-  }) => void;
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<PartialFormData>>;
   passwordVisible: boolean;
-  setPasswordVisible: (visible: boolean) => void;
+  setPasswordVisible: React.Dispatch<React.SetStateAction<boolean>>;
   passwordVisibleTwo: boolean;
-  setPasswordVisibleTwo: (visible: boolean) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>, data: any) => void;
+  setPasswordVisibleTwo: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>, data: FormData) => void;
   loading: boolean;
   error: string | null;
 }

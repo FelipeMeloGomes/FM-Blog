@@ -50,7 +50,6 @@ const LoginFormFields = ({
       label="Senha"
       name="password"
       value={formData.password}
-      iconName="Lock"
       minLength={6}
       maxLength={64}
       required
@@ -63,7 +62,6 @@ const LoginFormFields = ({
 
     {!isLogin && (
       <PasswordInputWithToggle
-        iconName="Lock"
         label="Confirmar Senha"
         placeholder="Confirme a sua senha"
         alt="Confirme a sua senha"

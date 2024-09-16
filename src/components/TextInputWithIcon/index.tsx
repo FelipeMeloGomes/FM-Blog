@@ -1,4 +1,5 @@
 import {
+  Box,
   FormLabel,
   Input,
   InputGroup,
@@ -20,7 +21,7 @@ const TextInputWithIcon = ({
   alt,
 }: TextInputWithIconProps) => {
   return (
-    <div>
+    <Box>
       <FormLabel color="#151717" fontWeight="medium" textAlign="center">
         {label}
       </FormLabel>
@@ -46,7 +47,7 @@ const TextInputWithIcon = ({
           pl={iconName ? "2.5rem" : "1rem"}
         />
       </InputGroup>
-    </div>
+    </Box>
   );
 };
 

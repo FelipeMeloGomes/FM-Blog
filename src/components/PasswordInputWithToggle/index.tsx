@@ -1,6 +1,6 @@
-import { forwardRef, ReactElement } from "react";
+import { forwardRef } from "react";
 import { PasswordInputProps } from "./types";
-import { Icon } from "../IconComponent";
+import { FaEye as EyeIcon, FaEyeSlash as SlashIcon } from "react-icons/fa";
 import {
   FormControl,
   FormLabel,
@@ -10,6 +10,7 @@ import {
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
+import { LockIcon } from "@chakra-ui/icons";
 
 const PasswordInputWithToggle = forwardRef<
   HTMLInputElement,
@@ -20,63 +21,45 @@ const PasswordInputWithToggle = forwardRef<
       label,
       name,
       value,
-      minLength,
-      maxLength,
-      required,
+      minLength = 0,
+      maxLength = 100,
+      required = false,
       onChange,
       placeholder,
       alt,
       passwordVisible,
       togglePasswordVisibility,
-      iconName,
       ...rest
     },
     ref,
-  ) => {
-    const renderIcon = (iconName?: string): ReactElement | null => {
-      return iconName ? <Icon name={iconName} /> : null;
-    };
-
-    const renderVisibilityIcon = (
-      passwordVisible: boolean,
-      togglePasswordVisibility: () => void,
-    ): ReactElement | null => {
-      const icon = passwordVisible ? "Eye" : "Slash";
-      return (
-        <IconButton
-          aria-label={passwordVisible ? "Hide password" : "Show password"}
-          icon={<Icon name={icon} />}
-          onClick={togglePasswordVisibility}
-          variant="unstyled"
+  ) => (
+    <FormControl id={name} isRequired={required}>
+      <FormLabel textAlign="center">{label}</FormLabel>
+      <InputGroup>
+        {<LockIcon /> && <InputLeftElement>{<LockIcon />}</InputLeftElement>}
+        <Input
+          type={passwordVisible ? "text" : "password"}
+          name={name}
+          value={value}
+          minLength={minLength}
+          maxLength={maxLength}
+          onChange={onChange}
+          placeholder={placeholder}
+          ref={ref}
+          aria-label={alt}
+          {...rest}
         />
-      );
-    };
-
-    return (
-      <FormControl id={name} isRequired={required}>
-        <FormLabel textAlign="center">{label}</FormLabel>
-        <InputGroup>
-          {iconName && (
-            <InputLeftElement>{renderIcon(iconName)}</InputLeftElement>
-          )}
-          <Input
-            type={passwordVisible ? "text" : "password"}
-            name={name}
-            value={value}
-            minLength={minLength}
-            maxLength={maxLength}
-            onChange={onChange}
-            placeholder={placeholder}
-            ref={ref}
-            {...rest}
+        <InputRightElement>
+          <IconButton
+            aria-label={passwordVisible ? "Hide password" : "Show password"}
+            icon={passwordVisible ? <EyeIcon /> : <SlashIcon />}
+            onClick={togglePasswordVisibility}
+            variant="unstyled"
           />
-          <InputRightElement>
-            {renderVisibilityIcon(passwordVisible, togglePasswordVisibility)}
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
-    );
-  },
+        </InputRightElement>
+      </InputGroup>
+    </FormControl>
+  ),
 );
 
 export { PasswordInputWithToggle };

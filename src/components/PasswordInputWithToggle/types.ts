@@ -1,23 +1,3 @@
-export type IconName =
-  | "User"
-  | "Drizzle"
-  | "Rain"
-  | "Snow"
-  | "Sun"
-  | "Eye"
-  | "Slash"
-  | "CloudSun"
-  | "Humidity"
-  | "Windy"
-  | "ArrowBack"
-  | "Search"
-  | "Github"
-  | "Linkedin"
-  | "Sign"
-  | "Lock"
-  | "Logout"
-  | "Home";
-
 export interface PasswordInputProps {
   label: string;
   name: string;
@@ -25,10 +5,9 @@ export interface PasswordInputProps {
   minLength?: number;
   maxLength?: number;
   required?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
   alt?: string;
   passwordVisible: boolean;
   togglePasswordVisibility: () => void;
-  iconName?: IconName;
 }
