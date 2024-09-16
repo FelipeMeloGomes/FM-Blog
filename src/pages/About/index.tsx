@@ -1,27 +1,8 @@
-import { Image, Box, Flex, IconButton, Icon } from "@chakra-ui/react";
+import { Image, Box, Flex } from "@chakra-ui/react";
 import { TextField } from "../../components/TextField";
 import { LayoutPage } from "../../components/LayoutPage";
-import { ButtonProps } from "./types";
 import aboutImg from "./assets/about.webp";
-
-const ChakraButton = ({ alt, children, ...rest }: ButtonProps) => (
-  <IconButton
-    aria-label={alt}
-    icon={children}
-    borderRadius="full"
-    bg="white"
-    boxShadow="md"
-    _hover={{
-      transform: "scale(1.5) rotate(-360deg) translateY(-1em)",
-      boxShadow: "0 0 20px rgba(29,161,242,0.5)",
-      transition: "transform 0.5s, box-shadow 0.5s",
-    }}
-    w="64px"
-    h="64px"
-    perspective="500px"
-    {...rest}
-  />
-);
+import { AboutButton } from "../../components/AboutButton";
 
 const About = () => {
   return (
@@ -31,36 +12,18 @@ const About = () => {
         paragraph="Este projeto consiste em um blog feito com React, salvando os dados no Firebase."
       />
       <Flex mt={4} gap={8} justify="center">
-        <ChakraButton alt="Linkedin">
-          <a
-            href="https://www.linkedin.com/in/felipemelog/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              name="Linkedin"
-              color="#0b65c2"
-              width="64px"
-              height="64px"
-              _hover={{ transform: "scale(1.5)", transition: "transform 0.5s" }}
-            />
-          </a>
-        </ChakraButton>
-        <ChakraButton alt="Github">
-          <a
-            href="https://github.com/FelipeMeloGomes/FM-Blog"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              name="Github"
-              color="#080808"
-              width="64px"
-              height="64px"
-              _hover={{ transform: "scale(1.5)", transition: "transform 0.5s" }}
-            />
-          </a>
-        </ChakraButton>
+        <AboutButton
+          alt="LinkedIn"
+          iconName="Linkedin"
+          iconColor="#0b65c2"
+          href="https://www.linkedin.com/in/felipemelog/"
+        />
+        <AboutButton
+          alt="Github"
+          iconName="Github"
+          iconColor="#080808"
+          href="https://github.com/FelipeMeloGomes/FM-Blog"
+        />
       </Flex>
       <Box mt={4} display="flex" justifyContent="center">
         <Image
