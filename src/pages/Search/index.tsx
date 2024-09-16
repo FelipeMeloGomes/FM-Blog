@@ -3,8 +3,8 @@ import { useQuery } from "../../hooks/useQuery";
 import { Link } from "react-router-dom";
 import { PostDetail } from "../../components/PostDetail";
 import { TextField } from "../../components/TextField";
-import { Icon } from "../../components/IconComponent";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const Search = () => {
   const query = useQuery();
@@ -26,7 +26,7 @@ const Search = () => {
             to="/"
             variant="outline"
             colorScheme="blue"
-            leftIcon={<Icon name="ArrowBack" />}
+            leftIcon={<ArrowBackIcon />}
           >
             Voltar
           </Button>

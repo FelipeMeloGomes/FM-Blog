@@ -4,6 +4,7 @@ import { SubmitButton } from "../SubmitButton";
 import { PasswordToggle } from "../../utils/PasswordToggle";
 import { SignUpPrompt } from "../SignUpPrompt";
 import { LoginFormFieldsProps } from "./types";
+import { BiUser } from "react-icons/bi";
 
 const LoginFormFields = ({
   isLogin,
@@ -20,9 +21,9 @@ const LoginFormFields = ({
     {!isLogin && (
       <TextInputWithIcon
         label="Nome de usuário"
+        iconName={<BiUser />}
         name="displayName"
         value={formData.displayName}
-        iconName="User"
         minLength={6}
         maxLength={16}
         required
@@ -37,8 +38,8 @@ const LoginFormFields = ({
     <TextInputWithIcon
       label="Email"
       name="email"
-      iconName="Sign"
       value={formData.email}
+      iconName={<BiUser />}
       minLength={6}
       required
       onChange={(e) => setFormData({ ...formData, email: e.target.value })}

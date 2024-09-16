@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { Spinner } from "../../components/Spinner";
 import { LikeButton } from "../../components/LikeButton";
-import { Icon } from "../../components/IconComponent";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useAuthValue } from "../../context/AuthContext";
 import { toast } from "react-toastify";
@@ -18,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { handleShare } from "../../utils/ShareContent";
 import { BiShare } from "react-icons/bi";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const Post = () => {
   const { user } = useAuthValue() || {};
@@ -96,7 +96,7 @@ const Post = () => {
               <Button
                 as={Link}
                 to="/"
-                leftIcon={<Icon name="ArrowBack" />}
+                leftIcon={<ArrowBackIcon />}
                 variant="outline"
                 colorScheme="black"
                 width={{ base: "full", md: "auto" }}

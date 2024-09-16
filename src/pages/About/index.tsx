@@ -1,7 +1,6 @@
-import { Image, Box, Flex, IconButton } from "@chakra-ui/react";
+import { Image, Box, Flex, IconButton, Icon } from "@chakra-ui/react";
 import { TextField } from "../../components/TextField";
 import { LayoutPage } from "../../components/LayoutPage";
-import { Icon } from "../../components/IconComponent";
 import { ButtonProps } from "./types";
 import aboutImg from "./assets/about.webp";
 
