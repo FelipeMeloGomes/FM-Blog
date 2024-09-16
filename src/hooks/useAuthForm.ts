@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useAuthentication } from "./useAuthentication";
-import { AuthFormHook, FormData } from "./types";
+import { AuthFormHook, AuthFormValues } from "./types";
 
 export const useAuthForm = (
   isLogin?: boolean,
-  onSubmit?: (formData: FormData) => void,
+  onSubmit?: (formData: AuthFormValues) => void,
 ): AuthFormHook => {
   const {
     login,
@@ -14,7 +14,7 @@ export const useAuthForm = (
     resetPassword,
   } = useAuthentication();
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<AuthFormValues>({
     displayName: "",
     email: "",
     password: "",

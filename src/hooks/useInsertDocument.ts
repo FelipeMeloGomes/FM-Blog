@@ -1,17 +1,17 @@
 import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { InsertAction, InsertState } from "./types";
+import { InsertAction, OperationState } from "./types";
 
-const initialState: InsertState = {
+const initialState: OperationState = {
   loading: null,
   error: null,
 };
 
 const insertReducer = (
-  state: InsertState,
+  state: OperationState,
   action: InsertAction,
-): InsertState => {
+): OperationState => {
   switch (action.type) {
     case "LOADING":
       return { loading: true, error: null };

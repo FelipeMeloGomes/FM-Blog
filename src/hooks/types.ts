@@ -8,6 +8,17 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
+export interface OperationState {
+  loading: boolean | null;
+  error: string | null;
+}
+
+export interface FetchDocumentResult {
+  document: DocumentData | null;
+  loading: boolean;
+  error: string | null;
+}
+
 export interface UserData {
   displayName: string;
   email: string;
@@ -20,6 +31,21 @@ export interface AuthenticationState {
   cancelled: boolean;
 }
 
+export type UpdateAction =
+  | { type: "LOADING" }
+  | { type: "UPDATED_DOC" }
+  | { type: "ERROR"; payload: string };
+
+export type DeleteAction =
+  | { type: "LOADING" }
+  | { type: "DELETED_DOC" }
+  | { type: "ERROR"; payload: string };
+
+export type InsertAction =
+  | { type: "LOADING" }
+  | { type: "INSERTED_DOC" }
+  | { type: "ERROR"; payload: string };
+
 export interface AuthenticationResult {
   auth: ReturnType<typeof getAuth>;
   createUser: (data: UserData) => Promise<void>;
@@ -30,7 +56,7 @@ export interface AuthenticationResult {
   loading: boolean;
 }
 
-export interface FormData {
+export interface AuthFormValues {
   displayName: string;
   email: string;
   password: string;
@@ -38,8 +64,8 @@ export interface FormData {
 }
 
 export interface AuthFormHook {
-  formData: FormData;
-  setFormData: Dispatch<SetStateAction<FormData>>;
+  formData: AuthFormValues;
+  setFormData: Dispatch<SetStateAction<AuthFormValues>>;
   passwordVisible: boolean;
   setPasswordVisible: Dispatch<SetStateAction<boolean>>;
   passwordVisibleTwo: boolean;
@@ -65,16 +91,6 @@ export interface CitySearchHook {
 
 export type FetchDataFunction = (city: string) => Promise<void>;
 
-export interface DeleteState {
-  loading: boolean | null;
-  error: string | null;
-}
-
-export type DeleteAction =
-  | { type: "LOADING" }
-  | { type: "DELETED_DOC" }
-  | { type: "ERROR"; payload: string };
-
 export interface DocumentData {
   tagsArray?: string[];
   body?: string | TrustedHTML;
@@ -85,24 +101,12 @@ export interface DocumentData {
   content?: string;
 }
 
-export interface FetchDocumentResult {
-  document: DocumentData | null;
-  loading: boolean;
-  error: string | null;
-}
-
 export interface DocumentData {
   id?: string;
   title?: string;
   content?: string;
   likes?: string[];
   likeCount?: number;
-}
-
-export interface FetchDocumentsResult {
-  documents: DocumentData[] | null;
-  loading: boolean;
-  error: string | null;
 }
 
 export interface User {
@@ -139,16 +143,6 @@ export interface FormSubmitProps {
   postId: string;
 }
 
-export interface InsertState {
-  loading: boolean | null;
-  error: string | null;
-}
-
-export type InsertAction =
-  | { type: "LOADING" }
-  | { type: "INSERTED_DOC" }
-  | { type: "ERROR"; payload: string };
-
 export interface UseLikeButtonProps {
   postId: string;
   userId?: string;
@@ -176,10 +170,10 @@ export interface PostFormHook {
   tagsRef: React.RefObject<HTMLInputElement>;
   navigate: ReturnType<typeof useNavigate>;
   title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  imageUrl: string;
-  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   error: string;
+  imageUrl: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   setError: React.Dispatch<React.SetStateAction<string>>;
   handleChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -193,16 +187,6 @@ export interface SearchPostHook {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
 }
-
-export interface UpdateState {
-  loading: boolean | null;
-  error: string | null;
-}
-
-export type UpdateAction =
-  | { type: "LOADING" }
-  | { type: "UPDATED_DOC" }
-  | { type: "ERROR"; payload: string };
 
 export interface WeatherData {
   humidity: string;

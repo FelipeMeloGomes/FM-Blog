@@ -2,17 +2,17 @@ import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { DeleteAction, DeleteState } from "./types";
+import { DeleteAction, OperationState } from "./types";
 
-const initialState: DeleteState = {
+const initialState: OperationState = {
   loading: null,
   error: null,
 };
 
 const deleteReducer = (
-  state: DeleteState,
+  state: OperationState,
   action: DeleteAction,
-): DeleteState => {
+): OperationState => {
   switch (action.type) {
     case "LOADING":
       return { loading: true, error: null };
