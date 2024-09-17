@@ -1,76 +1,35 @@
-import { Stack, Button } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Stack } from "@chakra-ui/react";
+import { User, Logout } from "../NavBarLinks/types";
+import { NavButton } from "../NavBarButton";
 import {
-  MdHome,
-  MdPerson,
-  MdAdd,
-  MdDashboard,
-  MdCloud,
-  MdInfo,
-  MdLogout,
-} from "react-icons/md";
+  guestButtons,
+  aboutButton,
+  logoutButton,
+  userButtons,
+} from "../NavBarLinksButton";
 
-const NavBarLinks = ({ user, logout }) => (
-  <Stack direction={"row"} spacing={4}>
-    <Button variant="link" as={RouterLink} to="/" leftIcon={<MdHome />}>
-      Home
-    </Button>
-    {!user ? (
-      <>
-        <Button
-          variant="link"
-          as={RouterLink}
-          to="/login"
-          leftIcon={<MdPerson />}
-        >
-          Entrar
-        </Button>
-        <Button
-          variant="link"
-          as={RouterLink}
-          to="/register"
-          leftIcon={<MdAdd />}
-        >
-          Cadastrar
-        </Button>
-      </>
-    ) : (
-      <>
-        <Button
-          variant="link"
-          as={RouterLink}
-          to="/posts/create"
-          leftIcon={<MdAdd />}
-        >
-          Novo Post
-        </Button>
-        <Button
-          variant="link"
-          as={RouterLink}
-          to="/dashboard"
-          leftIcon={<MdDashboard />}
-        >
-          Dashboard
-        </Button>
-        <Button
-          variant="link"
-          as={RouterLink}
-          to="/weather"
-          leftIcon={<MdCloud />}
-        >
-          Clima
-        </Button>
-      </>
-    )}
-    <Button variant="link" as={RouterLink} to="/about" leftIcon={<MdInfo />}>
-      Sobre
-    </Button>
-    {user && (
-      <Button variant="link" onClick={logout} leftIcon={<MdLogout />}>
-        Sair
-      </Button>
-    )}
-  </Stack>
-);
+interface NavBarLinksProps {
+  user: User | null;
+  logout: Logout;
+}
+
+const NavBarLinks = ({ user, logout }: NavBarLinksProps) => {
+  return (
+    <Stack direction={"row"} spacing={4}>
+      {user === null &&
+        guestButtons.map((button) => (
+          <NavButton key={button.text} {...button} />
+        ))}
+      {user !== null &&
+        userButtons.map((button) => (
+          <NavButton key={button.text} {...button} />
+        ))}
+      <NavButton key={aboutButton.text} {...aboutButton} />
+      {user !== null && (
+        <NavButton key={logoutButton.text} {...logoutButton} onClick={logout} />
+      )}
+    </Stack>
+  );
+};
 
 export { NavBarLinks };

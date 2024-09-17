@@ -1,107 +1,65 @@
 import { Stack, Button, Collapse } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
-import {
-  MdHome,
-  MdPerson,
-  MdAdd,
-  MdDashboard,
-  MdCloud,
-  MdInfo,
-  MdLogout,
-} from "react-icons/md";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import { getButtonData } from "../NavBarMobileButton";
+import { MdLogout } from "react-icons/md";
+import { NavBarProps } from "./types";
+import { ButtonConfig } from "../NavBarMobileButton/types";
 
-const NavBarMobile = ({ isOpen, user, logout, onToggle }) => (
-  <Collapse in={isOpen} animateOpacity>
-    <Stack bg="gray.700" p={4} gap={4} display={{ base: "flex", md: "none" }}>
-      <Button
-        variant="link"
-        as={RouterLink}
-        to="/"
-        w="full"
-        onClick={onToggle}
-        leftIcon={<MdHome />}
-      >
-        Home
-      </Button>
-      {!user ? (
-        <>
+const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
+  const buttonData: ButtonConfig[] = getButtonData(user);
+  const location = useLocation();
+
+  return (
+    <Collapse in={isOpen} animateOpacity>
+      <Stack bg="black" p={4} gap={8} display={{ base: "flex", md: "none" }}>
+        {buttonData
+          .filter((button) => button.show)
+          .map((button) => {
+            const isActive = location.pathname === button.to;
+
+            return (
+              <Button
+                key={button.text}
+                variant="link"
+                as={RouterLink}
+                to={button.to}
+                w="full"
+                onClick={onToggle}
+                leftIcon={button.icon}
+                fontSize={{ base: "lg", md: "xl" }}
+                fontWeight="semibold"
+                color={isActive ? "white" : "blue.400"}
+                _hover={{ textDecoration: "none", color: "blue.500" }}
+                _focus={{ boxShadow: "none" }}
+                display="flex"
+                alignItems="center"
+                spacing={2}
+              >
+                {button.text}
+              </Button>
+            );
+          })}
+        {user && (
           <Button
             variant="link"
-            as={RouterLink}
-            to="/login"
+            onClick={logout}
             w="full"
-            onClick={onToggle}
-            leftIcon={<MdPerson />}
+            leftIcon={<MdLogout />}
+            fontSize={{ base: "lg", md: "xl" }}
+            fontWeight="semibold"
+            color="blue.400"
+            _hover={{ textDecoration: "none", color: "blue.500" }}
+            _focus={{ boxShadow: "none" }}
+            display="flex"
+            alignItems="center"
+            spacing={2}
           >
-            Entrar
+            Sair
           </Button>
-          <Button
-            variant="link"
-            as={RouterLink}
-            to="/register"
-            w="full"
-            onClick={onToggle}
-            leftIcon={<MdAdd />}
-          >
-            Cadastrar
-          </Button>
-        </>
-      ) : (
-        <>
-          <Button
-            variant="link"
-            as={RouterLink}
-            to="/posts/create"
-            w="full"
-            onClick={onToggle}
-            leftIcon={<MdAdd />}
-          >
-            Novo Post
-          </Button>
-          <Button
-            variant="link"
-            as={RouterLink}
-            to="/dashboard"
-            w="full"
-            onClick={onToggle}
-            leftIcon={<MdDashboard />}
-          >
-            Dashboard
-          </Button>
-          <Button
-            variant="link"
-            as={RouterLink}
-            to="/weather"
-            w="full"
-            onClick={onToggle}
-            leftIcon={<MdCloud />}
-          >
-            Clima
-          </Button>
-        </>
-      )}
-      <Button
-        variant="link"
-        as={RouterLink}
-        to="/about"
-        w="full"
-        onClick={onToggle}
-        leftIcon={<MdInfo />}
-      >
-        Sobre
-      </Button>
-      {user && (
-        <Button
-          variant="link"
-          onClick={logout}
-          w="full"
-          leftIcon={<MdLogout />}
-        >
-          Sair
-        </Button>
-      )}
-    </Stack>
-  </Collapse>
-);
+        )}
+      </Stack>
+    </Collapse>
+  );
+};
 
 export { NavBarMobile };
