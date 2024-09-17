@@ -21,7 +21,7 @@ const TextInputWithIcon = ({
 }: TextInputWithIconProps) => {
   return (
     <Box>
-      <FormLabel color="#151717" fontWeight="medium" textAlign="center">
+      <FormLabel color="#151717" fontWeight="medium">
         {label}
       </FormLabel>
       <InputGroup size="md">

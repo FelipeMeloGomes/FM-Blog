@@ -5,6 +5,7 @@ import { PasswordToggle } from "../../utils/PasswordToggle";
 import { SignUpPrompt } from "../SignUpPrompt";
 import { LoginFormFieldsProps } from "./types";
 import { BiUser } from "react-icons/bi";
+import { Box } from "@chakra-ui/react";
 
 const LoginFormFields = ({
   isLogin,
@@ -79,6 +80,18 @@ const LoginFormFields = ({
       />
     )}
 
+    {isLogin && (
+      <Box display="flex" justifyContent="flex-end">
+        <SignUpPrompt linkText="Recuperar Senha?" linkUrl="/resetPassword" />
+      </Box>
+    )}
+
+    {!isLogin && (
+      <Box display="flex" justifyContent="flex-end">
+        <SignUpPrompt linkText="Entrar" linkUrl="/login" />
+      </Box>
+    )}
+
     {isLogin ? (
       <>
         {!loading && (
@@ -99,29 +112,6 @@ const LoginFormFields = ({
       >
         Cadastrar
       </SubmitButton>
-    )}
-
-    {isLogin && (
-      <>
-        <SignUpPrompt
-          message="Não tem uma conta?"
-          linkText="Cadastre-se"
-          linkUrl="/register"
-        />
-        <SignUpPrompt
-          message="Esqueceu a senha?"
-          linkText="Recupere através do seu e-mail"
-          linkUrl="/resetPassword"
-        />
-      </>
-    )}
-
-    {!isLogin && (
-      <SignUpPrompt
-        message="Já tem uma conta?"
-        linkText="Entrar"
-        linkUrl="/login"
-      />
     )}
     {error && <p className="error">{error}</p>}
   </>

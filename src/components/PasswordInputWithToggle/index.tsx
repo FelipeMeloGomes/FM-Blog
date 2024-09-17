@@ -34,7 +34,7 @@ const PasswordInputWithToggle = forwardRef<
     ref,
   ) => (
     <FormControl id={name} isRequired={required}>
-      <FormLabel textAlign="center">{label}</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <InputGroup>
         {<LockIcon /> && <InputLeftElement>{<LockIcon />}</InputLeftElement>}
         <Input

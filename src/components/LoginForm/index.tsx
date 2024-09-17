@@ -35,15 +35,14 @@ const LoginForm = ({
       }
       display="flex"
       flexDirection="column"
-      gap={10}
+      gap={4}
       mx="auto"
-      p={8}
-      w="500px"
+      p={6}
+      w="600px"
       maxW="90%"
-      bg="#fff"
-      shadow="md"
-      borderRadius="xl"
-      textAlign="center"
+      bg="white"
+      shadow="lg"
+      borderRadius="md"
     >
       {resetPassword ? (
         <PasswordResetForm
@@ -66,7 +65,9 @@ const LoginForm = ({
           error={error}
         />
       )}
-      <AuthButtons handleGoogleLogin={handleGoogleLogin} loading={loading} />
+      {!resetPassword && (
+        <AuthButtons handleGoogleLogin={handleGoogleLogin} loading={loading} />
+      )}
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 export interface SignUpPromptProps {
-  message: string;
+  message?: string;
   linkText: string;
   linkUrl: string;
 }

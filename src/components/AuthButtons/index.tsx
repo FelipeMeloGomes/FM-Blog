@@ -9,16 +9,14 @@ const AuthButtons = ({ handleGoogleLogin, loading }: AuthButtonsProps) => {
       align="center"
       justify="center"
       gap={8}
-      mt={8}
-      w="100%"
+      w="full"
     >
       <Button
         onClick={handleGoogleLogin}
         colorScheme="blue"
         isLoading={loading}
         leftIcon={<FaGoogle />}
-        w={{ base: "100%", md: "auto" }}
-        maxW={{ base: "full", md: "none" }}
+        w="full"
       >
         Google
       </Button>
