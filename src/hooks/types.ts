@@ -53,7 +53,6 @@ export interface AuthenticationResult {
   logout: () => void;
   login: (data: Omit<UserData, "displayName">) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
-  loginWithGithub: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   loading: boolean;
 }

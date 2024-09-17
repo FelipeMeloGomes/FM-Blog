@@ -83,6 +83,7 @@ As seguintes melhorias foram implementadas no projeto:
   - Adição de uma verificação para garantir que a senha atenda a critérios de força antes do registro.
 - **Centralização de Mensagens de Erro**:
   - Mensagens de erro foram movidas para um arquivo separado (`src/errorMessages.ts`) para melhor organização e manutenção do código.
+- adição de login com google.
 
 ## 🤝 Contribuição
 
