@@ -5,6 +5,7 @@ import { PasswordToggle } from "../../utils/PasswordToggle";
 import { SignUpPrompt } from "../SignUpPrompt";
 import { LoginFormFieldsProps } from "./types";
 import { BiUser } from "react-icons/bi";
+import { AuthButtons } from "../AuthButtons";
 
 const LoginFormFields = ({
   isLogin,
@@ -90,6 +91,7 @@ const LoginFormFields = ({
           </SubmitButton>
         )}
         {loading && <SubmitButton disabled>Aguarde...</SubmitButton>}
+        <AuthButtons />
       </>
     ) : (
       <SubmitButton
