@@ -7,7 +7,6 @@ import {
   sendPasswordResetEmail,
   AuthError,
   signInWithPopup,
-  GithubAuthProvider,
   GoogleAuthProvider,
 } from "firebase/auth";
 
@@ -76,7 +75,6 @@ export const useAuthentication = (): AuthenticationResult => {
     }
   };
 
-  // Login with Google
   const loginWithGoogle = async (): Promise<void> => {
     checkIfIsCancelled();
     const provider = new GoogleAuthProvider();
@@ -84,20 +82,6 @@ export const useAuthentication = (): AuthenticationResult => {
     try {
       await signInWithPopup(auth, provider);
       toast.success("Login com Google bem-sucedido!");
-    } catch (error) {
-      const errorMessage = handleErrorMessage(error as AuthError);
-      setState({ error: errorMessage, loading: false, cancelled: false });
-    }
-  };
-
-  // Login with GitHub
-  const loginWithGithub = async (): Promise<void> => {
-    checkIfIsCancelled();
-    const provider = new GithubAuthProvider();
-    setState({ ...state, loading: true, error: null });
-    try {
-      await signInWithPopup(auth, provider);
-      toast.success("Login com GitHub bem-sucedido!");
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
       setState({ error: errorMessage, loading: false, cancelled: false });
@@ -127,7 +111,6 @@ export const useAuthentication = (): AuthenticationResult => {
     error: state.error,
     logout,
     login,
-    loginWithGithub,
     loginWithGoogle,
     resetPassword,
     loading: state.loading,

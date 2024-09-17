@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 import { loginFormProps } from "./types";
 import { PasswordResetForm } from "../PasswordResetForm";
 import { LoginFormFields } from "../LoginFormFields";
+import { AuthButtons } from "../AuthButtons";
 
 const LoginForm = ({
   isLogin,
@@ -18,25 +19,11 @@ const LoginForm = ({
     setPasswordVisible,
     passwordVisibleTwo,
     setPasswordVisibleTwo,
-    handlePasswordReset,
+    handleResetPasswordSubmit,
+    handleGoogleLogin,
     handleSubmit,
     loading,
   } = useAuthForm(isLogin, onSubmit);
-
-  const handleResetPasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const email = formData.email;
-      if (email.trim() === "") {
-        console.log("O e-mail está vazio");
-        return;
-      }
-      await handlePasswordReset(email);
-      console.log("E-mail de redefinição enviado com sucesso");
-    } catch (error) {
-      console.error("Erro ao enviar e-mail de redefinição:", error);
-    }
-  };
 
   return (
     <Box
@@ -53,7 +40,7 @@ const LoginForm = ({
       p={8}
       w="500px"
       maxW="90%"
-      bg="white"
+      bg="#fff"
       shadow="md"
       borderRadius="xl"
       textAlign="center"
@@ -79,6 +66,7 @@ const LoginForm = ({
           error={error}
         />
       )}
+      <AuthButtons handleGoogleLogin={handleGoogleLogin} loading={loading} />
     </Box>
   );
 };

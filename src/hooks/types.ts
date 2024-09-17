@@ -79,6 +79,8 @@ export interface AuthFormHook {
     data?: FormData,
   ) => Promise<void>;
   handlePasswordReset: (email: string) => Promise<void>;
+  handleGoogleLogin: () => Promise<void>;
+  handleResetPasswordSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   loading: boolean;
 }
 

@@ -1,26 +1,8 @@
 import { Button, Flex } from "@chakra-ui/react";
-import { useAuthentication } from "../../hooks/useAuthentication";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
+import { AuthButtonsProps } from "./types";
 
-const AuthButtons = () => {
-  const { loginWithGoogle, loginWithGithub, loading } = useAuthentication();
-
-  const handleGoogleLogin = async () => {
-    try {
-      await loginWithGoogle();
-    } catch (error) {
-      console.error("Erro ao fazer login com Google:", error);
-    }
-  };
-
-  const handleGithubLogin = async () => {
-    try {
-      await loginWithGithub();
-    } catch (error) {
-      console.error("Erro ao fazer login com GitHub:", error);
-    }
-  };
-
+const AuthButtons = ({ handleGoogleLogin, loading }: AuthButtonsProps) => {
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -32,24 +14,13 @@ const AuthButtons = () => {
     >
       <Button
         onClick={handleGoogleLogin}
-        isLoading={loading}
         colorScheme="blue"
+        isLoading={loading}
         leftIcon={<FaGoogle />}
         w={{ base: "100%", md: "auto" }}
         maxW={{ base: "full", md: "none" }}
       >
         Google
-      </Button>
-
-      <Button
-        onClick={handleGithubLogin}
-        isLoading={loading}
-        colorScheme="gray"
-        leftIcon={<FaGithub />}
-        w={{ base: "100%", md: "auto" }}
-        maxW={{ base: "full", md: "none" }}
-      >
-        GitHub
       </Button>
     </Flex>
   );

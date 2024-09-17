@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useAuthentication } from "./useAuthentication";
 import { AuthFormHook, AuthFormValues } from "./types";
 
@@ -8,6 +8,8 @@ export const useAuthForm = (
 ): AuthFormHook => {
   const {
     login,
+    loginWithGithub,
+    loginWithGoogle,
     createUser,
     error: authError,
     loading,
@@ -51,6 +53,29 @@ export const useAuthForm = (
     }
   };
 
+  const handleResetPasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const email = formData.email;
+      if (email.trim() === "") {
+        console.log("O e-mail está vazio");
+        return;
+      }
+      await handlePasswordReset(email);
+      console.log("E-mail de redefinição enviado com sucesso");
+    } catch (error) {
+      console.error("Erro ao enviar e-mail de redefinição:", error);
+    }
+  };
+
+  const handleGoogleLogin = async (): Promise<void> => {
+    try {
+      await loginWithGoogle();
+    } catch (error) {
+      console.error("Erro ao fazer login com Google:", error);
+    }
+  };
+
   const validatePasswords = (): boolean => {
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas precisam ser iguais");
@@ -89,6 +114,8 @@ export const useAuthForm = (
     setError,
     handleSubmit,
     handlePasswordReset,
+    handleResetPasswordSubmit,
+    handleGoogleLogin,
     loading,
   };
 };

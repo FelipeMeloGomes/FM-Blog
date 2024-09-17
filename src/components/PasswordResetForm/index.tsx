@@ -3,6 +3,7 @@ import { SubmitButton } from "../SubmitButton";
 import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { PasswordResetFormProps } from "./types";
+import { AtSignIcon } from "@chakra-ui/icons";
 
 const PasswordResetForm = ({
   formData,
@@ -13,7 +14,7 @@ const PasswordResetForm = ({
     <TextInputWithIcon
       label="Email para redefinição de senha"
       name="email"
-      iconName="Sign"
+      iconName={<AtSignIcon />}
       value={formData.email}
       minLength={6}
       required
