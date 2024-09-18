@@ -9,16 +9,14 @@ const App = () => {
   const user = useAuthState();
 
   return (
-    <div className="App">
-      <AuthProvider value={{ user }}>
-        <BrowserRouter>
-          <LayoutPage>
-            <NavBar />
-            <Navigator />
-          </LayoutPage>
-        </BrowserRouter>
-      </AuthProvider>
-    </div>
+    <AuthProvider value={{ user }}>
+      <BrowserRouter>
+        <LayoutPage>
+          <NavBar />
+          <Navigator />
+        </LayoutPage>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
