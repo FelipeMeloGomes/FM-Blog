@@ -16,10 +16,10 @@ import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
-import { toast } from "react-toastify";
 import { TagsDisplay } from "../TagsDisplay";
 import { TagsDisplayProps } from "./types";
 import { handleShare } from "../../utils/ShareContent";
+import { useToastNotification } from "../../hooks/useToastNotification";
 
 const PostDetail = ({ post }: TagsDisplayProps) => {
   const { user } = useAuthValue() || {};
@@ -29,11 +29,17 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
     null,
     uid,
   );
+  const { showToast } = useToastNotification();
 
   const handleNotLoggedIn = () => {
-    toast.error(
-      "Você precisa estar logado para curtir este post. Por favor, faça o login ou registre-se para participar.",
-    );
+    showToast({
+      title: "Info",
+      description: "Faça login ou registre-se para curtir este post.",
+      status: "error",
+      position: "top-right",
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   if (loading) {

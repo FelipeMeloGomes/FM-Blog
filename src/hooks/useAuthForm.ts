@@ -62,9 +62,8 @@ export const useAuthForm = (
         return;
       }
       await handlePasswordReset(email);
-      console.log("E-mail de redefinição enviado com sucesso");
     } catch (error) {
-      console.error("Erro ao enviar e-mail de redefinição:", error);
+      console.error(error);
     }
   };
 
@@ -72,7 +71,7 @@ export const useAuthForm = (
     try {
       await loginWithGoogle();
     } catch (error) {
-      console.error("Erro ao fazer login com Google:", error);
+      console.error(error);
     }
   };
 

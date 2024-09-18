@@ -11,9 +11,9 @@ import {
 } from "firebase/auth";
 
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import { errorMessages } from "../utils/ErrorMessage";
 import { AuthenticationResult, AuthenticationState, UserData } from "./types";
+import { useToastNotification } from "./useToastNotification";
 
 export const useAuthentication = (): AuthenticationResult => {
   const [state, setState] = useState<AuthenticationState>({
@@ -23,6 +23,7 @@ export const useAuthentication = (): AuthenticationResult => {
   });
 
   const auth = getAuth();
+  const { showToast } = useToastNotification();
 
   const handleErrorMessage = (error: AuthError): string => {
     const matchedError = Object.entries(errorMessages).find(([key]) =>
@@ -50,10 +51,25 @@ export const useAuthentication = (): AuthenticationResult => {
         data.password,
       );
       await updateProfile(user, { displayName: data.displayName });
-      toast.success("Registro bem-sucedido!");
+      showToast({
+        title: "Success",
+        description: "Usuário registrado com sucesso.",
+        status: "success",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
       setState({ error: errorMessage, loading: false, cancelled: false });
+      showToast({
+        title: "Error",
+        description: errorMessage,
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
       throw new Error(errorMessage);
     }
   };
@@ -68,9 +84,24 @@ export const useAuthentication = (): AuthenticationResult => {
     setState({ ...state, loading: true, error: null });
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      toast.success("Login bem-sucedido!");
+      showToast({
+        title: "Success",
+        position: "top-right",
+        description: "Login efetuado com sucesso.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
+      showToast({
+        title: "Error",
+        description: errorMessage,
+        position: "top-right",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       setState({ error: errorMessage, loading: false, cancelled: false });
     }
   };
@@ -81,9 +112,24 @@ export const useAuthentication = (): AuthenticationResult => {
     setState({ ...state, loading: true, error: null });
     try {
       await signInWithPopup(auth, provider);
-      toast.success("Login com Google bem-sucedido!");
+      showToast({
+        title: "Success",
+        description: "Login efetuado com sucesso no Google.",
+        status: "success",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
+      showToast({
+        title: "Error",
+        description: errorMessage,
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
       setState({ error: errorMessage, loading: false, cancelled: false });
     }
   };
@@ -93,10 +139,24 @@ export const useAuthentication = (): AuthenticationResult => {
     setState({ ...state, loading: true });
     try {
       await sendPasswordResetEmail(auth, email);
-      toast.success("E-mail de redefinição de senha enviado!");
+      showToast({
+        title: "Success",
+        description: "E-mail de redefinição de senha enviado!",
+        status: "success",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
-      toast.error("Error ao enviar Email");
+      showToast({
+        title: "Error",
+        description: errorMessage,
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
       setState({ error: errorMessage, loading: false, cancelled: false });
     }
   };

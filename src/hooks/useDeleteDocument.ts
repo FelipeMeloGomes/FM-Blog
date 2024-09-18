@@ -1,8 +1,8 @@
 import { useState, useEffect, useReducer } from "react";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
 import { DeleteAction, OperationState } from "./types";
+import { useToastNotification } from "./useToastNotification";
 
 const initialState: OperationState = {
   loading: null,
@@ -33,6 +33,8 @@ export const useDeleteDocument = (docCollection: string) => {
 
   const [isCancelled, setIsCancelled] = useState<boolean>(false);
 
+  const { showToast } = useToastNotification();
+
   const checkCancelBeforeDispatch = (action: DeleteAction) => {
     if (!isCancelled) {
       dispatch(action);
@@ -45,7 +47,14 @@ export const useDeleteDocument = (docCollection: string) => {
     try {
       await deleteDoc(doc(db, docCollection, id));
       checkCancelBeforeDispatch({ type: "DELETED_DOC" });
-      toast.success("Documento deletado com sucesso!");
+      showToast({
+        title: "Success",
+        description: "Documento Deletado com Sucesso.",
+        status: "success",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error: any) {
       const errorMessage =
         "message" in error

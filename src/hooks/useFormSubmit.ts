@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { useToastNotification } from "./useToastNotification";
 import { FormSubmitHook, FormSubmitProps, FormData } from "./types";
 
 export const useFormSubmit = ({
@@ -15,6 +15,7 @@ export const useFormSubmit = ({
   postId: id,
 }: FormSubmitProps): FormSubmitHook => {
   const [formError, setFormError] = useState("");
+  const { showToast } = useToastNotification();
 
   const isValidImageUrl = (url: string): boolean => {
     try {
@@ -56,13 +57,34 @@ export const useFormSubmit = ({
     try {
       if (actionType === "create") {
         await insertDocument(formData);
-        toast.success("Documento criado com sucesso!");
+        showToast({
+          title: "Success",
+          description: "Documento criado com sucesso!",
+          status: "success",
+          position: "top-right",
+          duration: 5000,
+          isClosable: true,
+        });
       } else if (actionType === "edit") {
         await updateDocument(id, formData);
-        toast.success("Documento atualizado com sucesso!");
+        showToast({
+          title: "Success",
+          description: "Documento atualizado com sucesso!",
+          status: "success",
+          position: "top-right",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     } catch (error) {
-      toast.error("Erro ao salvar documento.");
+      showToast({
+        title: "Error",
+        description: "Erro ao salvar documento.",
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 

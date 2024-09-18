@@ -4,7 +4,6 @@ import { Spinner } from "../../components/Spinner";
 import { LikeButton } from "../../components/LikeButton";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useAuthValue } from "../../context/AuthContext";
-import { toast } from "react-toastify";
 import { TagsDisplay } from "../../components/TagsDisplay";
 import {
   Box,
@@ -18,6 +17,7 @@ import {
 import { handleShare } from "../../utils/ShareContent";
 import { BiShare } from "react-icons/bi";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import { useToastNotification } from "../../hooks/useToastNotification";
 
 const Post = () => {
   const { user } = useAuthValue() || {};
@@ -25,11 +25,17 @@ const Post = () => {
   const { document: post, loading } = useFetchDocument<Post>("posts", id);
   const uid = user?.uid;
   const { documents: posts } = useFetchDocuments<Post>("posts", null, uid);
+  const { showToast } = useToastNotification();
 
   const handleNotLoggedIn = () => {
-    toast.error(
-      "Você precisa estar logado para curtir este post. Por favor, faça o login ou registre-se para participar.",
-    );
+    showToast({
+      title: "Info",
+      description: "Faça login ou registre-se para curtir este post.",
+      status: "error",
+      position: "top-right",
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (
