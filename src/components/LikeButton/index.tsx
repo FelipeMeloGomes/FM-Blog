@@ -3,11 +3,10 @@ import { useLikeButton } from "../../hooks/useLikeButton";
 import { LikeButtonProps } from "./types";
 import { BiLike } from "react-icons/bi";
 
-const LikeButton = ({ postId, userId, onNotLoggedIn }: LikeButtonProps) => {
+const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   const { likeCount, liked, loading, handleLikeClick } = useLikeButton({
     postId,
     userId,
-    onNotLoggedIn,
   });
 
   if (loading) {

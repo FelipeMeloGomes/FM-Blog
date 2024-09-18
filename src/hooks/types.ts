@@ -19,6 +19,12 @@ export interface FetchDocumentResult {
   error: string | null;
 }
 
+export interface FetchDocumentsResult {
+  documents: DocumentData[] | null;
+  loading: boolean;
+  error: string | null;
+}
+
 export interface UserData {
   displayName: string;
   email: string;

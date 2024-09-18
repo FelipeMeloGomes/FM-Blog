@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { useLike } from "./useLikeResult";
 import { UseLikeButtonProps, UseLikeButtonResult } from "./types";
+import { useHandleNotLoggedIn } from "./useHandleNotLoggedIn";
 
 export const useLikeButton = ({
   postId,
   userId,
-  onNotLoggedIn,
 }: UseLikeButtonProps): UseLikeButtonResult => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
   const { likePost, getLikeCount, isLiked } = useLike();
   const [loading, setLoading] = useState<boolean>(true);
+  const handleNotLoggedIn = useHandleNotLoggedIn();
 
   useEffect(() => {
     const fetchLikeData = async () => {
@@ -37,9 +38,7 @@ export const useLikeButton = ({
 
   const handleLikeClick = async () => {
     if (!userId) {
-      if (onNotLoggedIn) {
-        onNotLoggedIn();
-      }
+      handleNotLoggedIn();
       return;
     }
     if (postId && userId) {
@@ -50,7 +49,7 @@ export const useLikeButton = ({
         const updatedLikedStatus = await isLiked(postId, userId);
         setLiked(updatedLikedStatus);
       } catch (error) {
-        console.error("Error liking the post:", error);
+        console.error(error);
       }
     }
   };

@@ -19,7 +19,8 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { TagsDisplay } from "../TagsDisplay";
 import { TagsDisplayProps } from "./types";
 import { handleShare } from "../../utils/ShareContent";
-import { useToastNotification } from "../../hooks/useToastNotification";
+import { useFormattedDate } from "../../hooks/useFormattedDate";
+import { useHandleNotLoggedIn } from "../../hooks/useHandleNotLoggedIn";
 
 const PostDetail = ({ post }: TagsDisplayProps) => {
   const { user } = useAuthValue() || {};
@@ -29,22 +30,13 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
     null,
     uid,
   );
-  const { showToast } = useToastNotification();
-
-  const handleNotLoggedIn = () => {
-    showToast({
-      title: "Info",
-      description: "Faça login ou registre-se para curtir este post.",
-      status: "error",
-      position: "top-right",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+  const handleNotLoggedIn = useHandleNotLoggedIn();
 
   if (loading) {
     return;
   }
+
+  const formattedDate = useFormattedDate(post.createdAt);
 
   return (
     <Card maxW="md" mx="auto" mb="2em" shadow="lg" borderRadius="20px">
@@ -56,6 +48,7 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
             <Box textAlign="left">
               <Heading size="sm">{post.createdBy}</Heading>
               <Text>Author, {post.createdBy}</Text>
+              <Text>Data, {formattedDate}</Text>
             </Box>
           </Flex>
         </Flex>
@@ -89,11 +82,7 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
             Ler
           </Button>
 
-          <LikeButton
-            postId={post.id}
-            onNotLoggedIn={handleNotLoggedIn}
-            userId={user?.uid}
-          />
+          <LikeButton postId={post.id} userId={user?.uid} />
         </Flex>
 
         <Box mt={2} width="100%">

@@ -1,4 +1,3 @@
-// utils/handleDelete.ts
 export const handleDeletePost = (
   postId: string,
   createdBy: string,

@@ -17,7 +17,7 @@ import {
 import { handleShare } from "../../utils/ShareContent";
 import { BiShare } from "react-icons/bi";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { useToastNotification } from "../../hooks/useToastNotification";
+import { useHandleNotLoggedIn } from "../../hooks/useHandleNotLoggedIn";
 
 const Post = () => {
   const { user } = useAuthValue() || {};
@@ -25,18 +25,7 @@ const Post = () => {
   const { document: post, loading } = useFetchDocument<Post>("posts", id);
   const uid = user?.uid;
   const { documents: posts } = useFetchDocuments<Post>("posts", null, uid);
-  const { showToast } = useToastNotification();
-
-  const handleNotLoggedIn = () => {
-    showToast({
-      title: "Info",
-      description: "Faça login ou registre-se para curtir este post.",
-      status: "error",
-      position: "top-right",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+  const handleNotLoggedIn = useHandleNotLoggedIn();
 
   return (
     <Box
@@ -118,11 +107,7 @@ const Post = () => {
               >
                 Compartilhar
               </Button>
-              <LikeButton
-                postId={post.id}
-                onNotLoggedIn={handleNotLoggedIn}
-                userId={user?.uid}
-              />
+              <LikeButton postId={post.id} userId={user?.uid} />
             </Flex>
           </Stack>
         )
