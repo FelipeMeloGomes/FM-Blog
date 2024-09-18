@@ -8,7 +8,6 @@ export const useAuthForm = (
 ): AuthFormHook => {
   const {
     login,
-    loginWithGithub,
     loginWithGoogle,
     createUser,
     error: authError,
