@@ -2,11 +2,11 @@ import { useState } from "react";
 import { db } from "../firebase/config";
 import {
   doc,
-  updateDoc,
   arrayUnion,
+  arrayRemove,
   increment,
   getDoc,
-  arrayRemove,
+  runTransaction,
 } from "firebase/firestore";
 import { UseLikeResult } from "./types";
 
@@ -17,10 +17,31 @@ export const useLike = (): UseLikeResult => {
     if (!validateInputs(postId, userId)) return;
 
     try {
-      const hasLiked = await isLiked(postId, userId);
-      await updateLikeCount(postId, userId, hasLiked);
+      await runTransaction(db, async (transaction) => {
+        const postRef = doc(db, "posts", postId);
+        const postDoc = await transaction.get(postRef);
+        if (!postDoc.exists()) throw new Error("Post does not exist");
+
+        const postData = postDoc.data();
+        const hasLiked = postData?.likes?.includes(userId) ?? false;
+        const currentLikeCount = postData.likeCount || 0;
+
+        if (hasLiked) {
+          if (currentLikeCount > 0) {
+            transaction.update(postRef, {
+              likes: arrayRemove(userId),
+              likeCount: increment(-1),
+            });
+          }
+        } else {
+          transaction.update(postRef, {
+            likes: arrayUnion(userId),
+            likeCount: increment(1),
+          });
+        }
+      });
     } catch (err) {
-      handleError("Erro ao atualizar o like. Por favor, tente novamente.", err);
+      handleError("Error updating like. Please try again.", err);
     }
   };
 
@@ -31,7 +52,7 @@ export const useLike = (): UseLikeResult => {
       const postData = await fetchPostData(postId);
       return postData?.likes?.includes(userId) ?? false;
     } catch (err) {
-      handleError("Erro ao verificar o like. Por favor, tente novamente.", err);
+      handleError("Error checking like status. Please try again.", err);
       return false;
     }
   };
@@ -43,10 +64,7 @@ export const useLike = (): UseLikeResult => {
       const postData = await fetchPostData(postId);
       return postData?.likeCount ?? 0;
     } catch (err) {
-      handleError(
-        "Erro ao obter o número de likes. Por favor, tente novamente.",
-        err,
-      );
+      handleError("Error fetching like count. Please try again.", err);
       return 0;
     }
   };
@@ -63,33 +81,6 @@ export const useLike = (): UseLikeResult => {
     const postRef = doc(db, "posts", postId);
     const postDoc = await getDoc(postRef);
     return postDoc.data();
-  };
-
-  const updateLikeCount = async (
-    postId: string,
-    userId: string,
-    hasLiked: boolean,
-  ) => {
-    const postRef = doc(db, "posts", postId);
-    const postDoc = await getDoc(postRef);
-    if (!postDoc.exists()) return;
-
-    const postData = postDoc.data();
-    const currentLikeCount = postData.likeCount || 0;
-
-    const updateData = hasLiked
-      ? {
-          likes: arrayRemove(userId),
-          likeCount: increment(-1),
-        }
-      : {
-          likes: arrayUnion(userId),
-          likeCount: increment(1),
-        };
-
-    if (hasLiked && currentLikeCount <= 0) return;
-
-    await updateDoc(postRef, updateData);
   };
 
   const handleError = (message: string, err: unknown) => {
