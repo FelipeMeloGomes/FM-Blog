@@ -1,7 +1,6 @@
 import {
   Button,
   ButtonProps as ChakraButtonProps,
-  useDisclosure,
   AlertDialog,
   AlertDialogOverlay,
   AlertDialogContent,
@@ -9,7 +8,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useDeleteDialog } from "../../hooks/useDeleteDialog";
 
 interface DeleteButtonProps extends ChakraButtonProps {
   alt?: string;
@@ -22,13 +21,9 @@ const DeleteButton = ({
   onConfirm,
   ...rest
 }: DeleteButtonProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-
-  const handleConfirm = () => {
-    onConfirm();
-    onClose();
-  };
+  const { isOpen, onOpen, cancelRef, handleConfirm, onClose } = useDeleteDialog(
+    { onConfirm },
+  );
 
   return (
     <>
