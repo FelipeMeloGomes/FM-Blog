@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-const EditorContext = () => {
+const useEditorContext = () => {
   const [content, setContent] = useState("");
-  const handleEditorChange = (content: any) => {
-    setContent(content);
-  };
-  return { handleEditorChange, content, setContent };
+
+  const handleEditorChange = (content: string) => setContent(content);
+
+  return { content, handleEditorChange, setContent };
 };
 
-export { EditorContext };
+export { useEditorContext };

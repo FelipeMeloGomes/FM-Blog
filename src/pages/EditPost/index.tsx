@@ -5,7 +5,6 @@ import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { useEffect } from "react";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
-import { EditorContext } from "../../utils/EditorContext";
 import { Editor } from "../../components/Editor";
 import { Spinner } from "../../components/Spinner";
 import { PostTitle } from "../../components/PostTitle";
@@ -14,13 +13,14 @@ import { ImagePreview } from "../../components/ImagePreview";
 import { TagsInput } from "../../components/TagsInput";
 import { FormButtons } from "../../components/FormButtons";
 import { Box, FormLabel } from "@chakra-ui/react";
+import { useEditorContext } from "../../utils/EditorContext";
 
 const EditPost = () => {
   const { user } = useAuthValue() || {};
   const { id } = useParams();
   const { document: post, loading } = useFetchDocument("posts", id);
   const { updateDocument, response } = useUpdateDocument("posts");
-  const { handleEditorChange, content, setContent } = EditorContext();
+  const { handleEditorChange, content, setContent } = useEditorContext();
   const {
     bodyRef,
     handleChange,
