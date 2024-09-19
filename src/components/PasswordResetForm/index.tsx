@@ -1,6 +1,6 @@
 import { TextInputWithIcon } from "../TextInputWithIcon";
-import { SubmitButton } from "../SubmitButton";
-import { Box, Button } from "@chakra-ui/react";
+import { Button } from "../Button";
+import { Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { PasswordResetFormProps } from "./types";
 import { AtSignIcon } from "@chakra-ui/icons";
@@ -22,12 +22,9 @@ const PasswordResetForm = ({
       placeholder="Insira seu email"
       alt="Insira seu email"
     />
-    <SubmitButton
-      alt="Enviar e-mail de redefinição"
-      disabled={formData.email === ""}
-    >
+    <Button alt="Enviar e-mail de redefinição" disabled={formData.email === ""}>
       Enviar e-mail de redefinição
-    </SubmitButton>
+    </Button>
     <Box mt={4}>
       <Link to="/login">
         <Button>Voltar ao login</Button>

@@ -1,4 +1,4 @@
-import { EditButton } from "../EditButton";
+import { Button } from "../Button";
 import { FormButtonsProps } from "./types";
 
 const FormButtons = ({ response, formError }: FormButtonsProps) => {
@@ -10,21 +10,21 @@ const FormButtons = ({ response, formError }: FormButtonsProps) => {
         <br />
       </>
       {!isResponseLoading && (
-        <EditButton
+        <Button
           alt="Salvar"
           className="bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm hover:bg-black hover:text-white"
         >
           Salvar
-        </EditButton>
+        </Button>
       )}
       {isResponseLoading && (
-        <EditButton
+        <Button
           alt="Aguarde"
           className="bg-transparent text-black py-3 px-5 rounded border border-black font-medium text-sm cursor-not-allowed opacity-50"
           disabled
         >
           Aguarde...
-        </EditButton>
+        </Button>
       )}
       {response?.error && <p className="text-red-500">{response.error}</p>}
       {formError && <p className="text-red-500">{formError}</p>}

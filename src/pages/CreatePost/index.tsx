@@ -6,7 +6,7 @@ import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { Box, FormLabel, Input, Image } from "@chakra-ui/react";
-import { CustomButton } from "../../components/CustomButton";
+import { Button } from "../../components/Button";
 
 const CreatePost = () => {
   const {
@@ -153,9 +153,7 @@ const CreatePost = () => {
             />
           </Box>
           <br />
-          {!response.loading && (
-            <CustomButton alt="Cadastrar">Cadastrar</CustomButton>
-          )}
+          {!response.loading && <Button alt="Cadastrar">Cadastrar</Button>}
           {response.error && errorParagraph(response.error)}
           <br />
           {formError && errorParagraph(formError)}

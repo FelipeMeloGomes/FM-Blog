@@ -1,11 +1,11 @@
 import { TextInputWithIcon } from "../TextInputWithIcon";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
-import { SubmitButton } from "../SubmitButton";
 import { PasswordToggle } from "../../utils/PasswordToggle";
 import { SignUpPrompt } from "../SignUpPrompt";
 import { LoginFormFieldsProps } from "./types";
 import { BiUser } from "react-icons/bi";
 import { Box } from "@chakra-ui/react";
+import { Button } from "../Button";
 
 const LoginFormFields = ({
   isLogin,
@@ -95,23 +95,23 @@ const LoginFormFields = ({
     {isLogin ? (
       <>
         {!loading && (
-          <SubmitButton
+          <Button
             alt="Entrar"
             disabled={formData.email === "" || formData.password.length < 6}
           >
             Entrar
-          </SubmitButton>
+          </Button>
         )}
-        {loading && <SubmitButton disabled>Aguarde...</SubmitButton>}
+        {loading && <Button disabled>Aguarde...</Button>}
       </>
     ) : (
-      <SubmitButton
+      <Button
         alt="Cadastrar"
         disabled={formData.email === "" || formData.password.length < 6}
         type="submit"
       >
         Cadastrar
-      </SubmitButton>
+      </Button>
     )}
     {error && <p className="error">{error}</p>}
   </>
