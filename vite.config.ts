@@ -18,13 +18,15 @@ export default defineConfig({
             "@emotion/styled",
             "framer-motion",
           ],
-          vendor: ["some-heavy-library"],
+          tailwind: ["tailwindcss", "postcss", "autoprefixer"],
         },
       },
     },
   },
   css: {
-    preprocessorOptions: {},
+    postcss: {
+      plugins: [require("tailwindcss"), require("autoprefixer")],
+    },
   },
   resolve: {
     alias: {
@@ -37,6 +39,8 @@ export default defineConfig({
       "@emotion/react",
       "@emotion/styled",
       "framer-motion",
+      "tailwindcss",
+      "autoprefixer",
     ],
   },
 });
