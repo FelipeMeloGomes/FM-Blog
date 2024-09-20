@@ -58,12 +58,11 @@ const Post = () => {
                 Por: {post.createdBy}
               </Text>
             </Box>
-            <Box overflow="auto">
+            <Box overflow="auto" textAlign="left">
               <Heading as="h1" size="2xl" mb={6}>
                 {post.title}
               </Heading>
               <Box
-                textAlign="left"
                 mt={4}
                 whiteSpace="pre-wrap"
                 wordBreak="break-word"
