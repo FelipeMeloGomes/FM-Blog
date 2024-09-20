@@ -20,7 +20,7 @@ const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   return (
     <Button
       width={{ base: "full", md: "auto" }}
-      maxWidth="150px"
+      maxWidth="full"
       height="40px"
       display="flex"
       alignItems="center"

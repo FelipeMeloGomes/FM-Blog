@@ -20,6 +20,7 @@ import { PostDetailProps } from "./types";
 import { handleShare } from "../../utils/ShareContent";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { useAuthValue } from "../../context/AuthContext";
+import { MdBook } from "react-icons/md";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
@@ -64,30 +65,35 @@ const PostDetail = ({ post }: PostDetailProps) => {
       </CardBody>
 
       <CardFooter p={4} flexDirection="column" gap={2}>
-        <Flex width="100%" gap={2}>
+        <Flex
+          gap={4}
+          mt={8}
+          align="center"
+          justify={{ base: "center", md: "space-between" }}
+          wrap="wrap"
+        >
           <Button
             as={Link}
             to={`/posts/${post.id}`}
             flex="1"
+            maxWidth="full"
             variant="outline"
             colorScheme="black"
+            leftIcon={<MdBook />}
           >
             Ler
           </Button>
-
-          <LikeButton postId={post.id} userId={user?.uid} />
-        </Flex>
-
-        <Box mt={2} width="100%">
           <Button
-            variant="ghost"
-            leftIcon={<BiShare />}
-            width="100%"
             onClick={() => handleShare(post)}
+            leftIcon={<BiShare />}
+            variant="outline"
+            colorScheme="black"
+            width={{ base: "full", md: "auto" }}
           >
             Compartilhar
           </Button>
-        </Box>
+          <LikeButton postId={post.id} userId={user?.uid} />
+        </Flex>
       </CardFooter>
     </Card>
   );
