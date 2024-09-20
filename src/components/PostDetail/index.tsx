@@ -14,23 +14,16 @@ import {
 import { BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";
-import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { TagsDisplay } from "../TagsDisplay";
-import { TagsDisplayProps } from "./types";
+import { PostDetailProps } from "./types";
 import { handleShare } from "../../utils/ShareContent";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { useHandleNotLoggedIn } from "../../hooks/useHandleNotLoggedIn";
+import { useAuthValue } from "../../context/AuthContext";
 
-const PostDetail = ({ post }: TagsDisplayProps) => {
+const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
-  const uid = user?.uid;
-  const { documents: posts, loading } = useFetchDocuments<Post>(
-    "posts",
-    null,
-    uid,
-  );
-  const handleNotLoggedIn = useHandleNotLoggedIn();
+  const { loading } = useFetchDocuments("posts", null);
 
   if (loading) {
     return;
@@ -41,7 +34,7 @@ const PostDetail = ({ post }: TagsDisplayProps) => {
   return (
     <Card maxW="md" mx="auto" mb="2em" shadow="lg" borderRadius="20px">
       <CardHeader>
-        <Flex spacing="4">
+        <Flex gap="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar />
 

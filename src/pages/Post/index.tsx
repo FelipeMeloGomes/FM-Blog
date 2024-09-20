@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { Spinner } from "../../components/Spinner";
 import { LikeButton } from "../../components/LikeButton";
-import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useAuthValue } from "../../context/AuthContext";
 import { TagsDisplay } from "../../components/TagsDisplay";
 import {
@@ -17,15 +16,11 @@ import {
 import { handleShare } from "../../utils/ShareContent";
 import { BiShare } from "react-icons/bi";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { useHandleNotLoggedIn } from "../../hooks/useHandleNotLoggedIn";
 
 const Post = () => {
   const { user } = useAuthValue() || {};
-  const { id } = useParams();
-  const { document: post, loading } = useFetchDocument<Post>("posts", id);
-  const uid = user?.uid;
-  const { documents: posts } = useFetchDocuments<Post>("posts", null, uid);
-  const handleNotLoggedIn = useHandleNotLoggedIn();
+  const { id } = useParams<{ id: string }>();
+  const { document: post, loading } = useFetchDocument("posts", id);
 
   return (
     <Box

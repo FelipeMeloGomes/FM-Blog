@@ -1,4 +1,4 @@
-import { Button, Box, Text, Badge } from "@chakra-ui/react";
+import { Button, Box, Text, Badge, Skeleton } from "@chakra-ui/react";
 import { useLikeButton } from "../../hooks/useLikeButton";
 import { LikeButtonProps } from "./types";
 import { BiLike } from "react-icons/bi";
@@ -10,7 +10,11 @@ const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   });
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return (
+      <Skeleton>
+        <Text>Loading...</Text>
+      </Skeleton>
+    );
   }
 
   return (
