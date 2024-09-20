@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef } from "react";
 import {
   Input,
   Button,
@@ -10,42 +10,61 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { SearchFormProps } from "./types";
 
 const SearchForm = ({ handleSubmit, setQuery }: SearchFormProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const toggleInput = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const handleFormSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (inputRef.current) {
+        const query = inputRef.current.value.trim().toLowerCase();
+        setQuery(query);
+      }
+      handleSubmit(e);
+    },
+    [handleSubmit, setQuery],
+  );
+
+  const handleIconClick = useCallback(() => {
+    formRef.current?.dispatchEvent(new Event("submit", { bubbles: true }));
+  }, []);
+
+  const handleInputKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        formRef.current?.dispatchEvent(new Event("submit", { bubbles: true }));
+      }
+    },
+    [],
+  );
 
   return (
     <Box display="flex" alignItems="center" p={4}>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(e);
-        }}
+        ref={formRef}
+        onSubmit={handleFormSubmit}
         style={{ display: "flex", alignItems: "center", width: "100%" }}
       >
-        {isOpen ? (
-          <InputGroup width="100%" maxWidth="600px">
-            <InputLeftElement pointerEvents="none">
-              <SearchIcon color="gray.300" />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Ou busque por tags..."
-              onChange={(e) => setQuery(e.target.value.toLowerCase())}
-              aria-label="Buscar por tags"
-              autoFocus
-            />
-          </InputGroup>
-        ) : null}
+        <InputGroup width="100%" maxWidth="600px">
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon color="gray.300" />
+          </InputLeftElement>
+          <Input
+            ref={inputRef}
+            type="text"
+            placeholder="Ou busque por tags..."
+            aria-label="Buscar por tags"
+            autoFocus
+            onKeyDown={handleInputKeyDown}
+          />
+        </InputGroup>
 
         <Button
           type="button"
           colorScheme="blue"
           ml={2}
-          onClick={toggleInput}
-          aria-label={isOpen ? "Fechar pesquisa" : "Abrir pesquisa"}
+          onClick={handleIconClick}
+          aria-label="Pesquisar"
         >
           <SearchIcon />
         </Button>
