@@ -1,14 +1,32 @@
 import { useState, useEffect } from "react";
-import { User, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { useAuthentication } from "./useAuthentication";
 
-export const useAuthState = (): User | null => {
+interface CustomUser extends FirebaseUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export const useAuthState = (): CustomUser | null => {
   const { auth } = useAuthentication();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<CustomUser | null>(null);
 
   useEffect(() => {
+    if (!auth) return;
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        const customUser: CustomUser = {
+          ...currentUser,
+          id: currentUser.uid,
+          name: currentUser.displayName || "Nome não disponível",
+          email: currentUser.email ?? "",
+        };
+        setUser(customUser);
+      } else {
+        setUser(null);
+      }
     });
 
     return () => unsubscribe();
