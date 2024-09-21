@@ -16,7 +16,7 @@ const NavButton = ({ text, icon, to, onClick }: NavButtonProps) => {
       _focus={{ boxShadow: "none" }}
       display="flex"
       alignItems="center"
-      spacing={2}
+      iconSpacing={2}
     >
       {text}
     </Button>
@@ -32,7 +32,7 @@ const NavButton = ({ text, icon, to, onClick }: NavButtonProps) => {
       _focus={{ boxShadow: "none" }}
       display="flex"
       alignItems="center"
-      spacing={2}
+      iconSpacing={2}
     >
       {text}
     </Button>

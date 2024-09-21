@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { To } from "react-router-dom";
 
 export interface ButtonConfig {
   text: string;
-  icon: ReactNode;
-  to?: string;
-  onClick?: boolean;
+  to?: To;
+  onClick?: () => void;
+  disabled?: boolean;
 }

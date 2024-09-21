@@ -1,8 +1,9 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
+import { To } from "react-router-dom";
 
 export interface NavButtonProps {
-  text: string;
-  icon: ReactNode;
-  to?: string;
+  text?: string;
+  icon?: ReactElement;
+  to?: To;
   onClick?: () => void;
 }
