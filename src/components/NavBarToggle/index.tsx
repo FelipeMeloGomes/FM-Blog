@@ -1,7 +1,8 @@
 import { IconButton } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { NavBarToggleProps } from "./types";
 
-const NavBarMenuToggle = ({ isOpen, onToggle }) => (
+const NavBarMenuToggle = ({ isOpen, onToggle }: NavBarToggleProps) => (
   <IconButton
     size="lg"
     icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
