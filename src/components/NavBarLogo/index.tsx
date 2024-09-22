@@ -1,5 +1,6 @@
 import { Box, Image } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import logo from "./logo.png";
 
 const NavBarLogo = () => (
   <Box
@@ -8,13 +9,7 @@ const NavBarLogo = () => (
     _hover={{ opacity: 0.9 }}
     transition="opacity 0.3s"
   >
-    <Image
-      src="./src/public/logo.png"
-      alt="Logo"
-      maxW="100px"
-      objectFit="contain"
-      opacity={1}
-    />
+    <Image src={logo} alt="Logo" maxW="100px" objectFit="contain" opacity={1} />
   </Box>
 );
 
