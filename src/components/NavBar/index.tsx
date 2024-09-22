@@ -12,9 +12,9 @@ const NavBar = () => {
   const { logout } = useAuthentication();
 
   return (
-    <Box bg="black" color="white" px={4}>
+    <Box bg="#191a23" color="white" px={4}>
       <Flex
-        h={16}
+        h={20}
         alignItems={"center"}
         justifyContent={"space-between"}
         w="100%"

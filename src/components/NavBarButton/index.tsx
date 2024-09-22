@@ -11,7 +11,7 @@ const NavButton = ({ text, icon, to, onClick }: NavButtonProps) => {
       leftIcon={icon}
       fontSize={{ base: "lg", md: "xl" }}
       fontWeight="semibold"
-      color="blue.400"
+      color="#e0e0e0"
       _hover={{ textDecoration: "none", color: "blue.500" }}
       _focus={{ boxShadow: "none" }}
       display="flex"

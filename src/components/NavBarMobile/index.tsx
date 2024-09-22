@@ -11,7 +11,7 @@ const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
 
   return (
     <Collapse in={isOpen} animateOpacity>
-      <Stack bg="black" p={4} gap={8} display={{ base: "flex", md: "none" }}>
+      <Stack bg="#191a23" p={4} gap={8} display={{ base: "flex", md: "none" }}>
         {buttonData
           .filter((button) => button.show)
           .map((button) => {
@@ -33,7 +33,6 @@ const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
                 _focus={{ boxShadow: "none" }}
                 display="flex"
                 alignItems="center"
-                spacing={2}
               >
                 {button.text}
               </Button>
@@ -52,7 +51,6 @@ const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
             _focus={{ boxShadow: "none" }}
             display="flex"
             alignItems="center"
-            spacing={2}
           >
             Sair
           </Button>
