@@ -9,7 +9,7 @@ const NavBarLogo = () => (
     transition="opacity 0.3s"
   >
     <Image
-      src="/src/public/logo.png"
+      src="./src/public/logo.png"
       alt="Logo"
       maxW="100px"
       objectFit="contain"
