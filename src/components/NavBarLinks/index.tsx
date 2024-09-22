@@ -1,12 +1,8 @@
 import { Stack } from "@chakra-ui/react";
 import { User, Logout } from "../NavBarLinks/types";
 import { NavButton } from "../NavBarButton";
-import {
-  guestButtons,
-  aboutButton,
-  logoutButton,
-  userButtons,
-} from "../NavBarLinksButton";
+import { guestButtons, userButtons } from "../NavBarLinksButton";
+import { AvatarMenu } from "../AvatarMenu";
 
 interface NavBarLinksProps {
   user: User | null;
@@ -16,6 +12,7 @@ interface NavBarLinksProps {
 const NavBarLinks = ({ user, logout }: NavBarLinksProps) => {
   return (
     <Stack direction={"row"} spacing={4}>
+      <NavButton text="Home" to="/" />
       {user === null &&
         guestButtons.map((button) => (
           <NavButton key={button.text} {...button} />
@@ -24,10 +21,7 @@ const NavBarLinks = ({ user, logout }: NavBarLinksProps) => {
         userButtons.map((button) => (
           <NavButton key={button.text} {...button} />
         ))}
-      <NavButton key={aboutButton.text} {...aboutButton} />
-      {user !== null && (
-        <NavButton key={logoutButton.text} {...logoutButton} onClick={logout} />
-      )}
+      {user !== null && <AvatarMenu logout={logout} />}
     </Stack>
   );
 };
