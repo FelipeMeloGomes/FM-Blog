@@ -8,6 +8,7 @@ export interface Post {
   tagsArray: string[];
   createdAt?: Timestamp | null | undefined;
   description?: string;
+  likes?: string[];
 }
 
 export interface PostDetailProps {

@@ -7,8 +7,10 @@ import { usePostForm } from "../../hooks/usePostForm";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { Box, FormLabel, Input, Image } from "@chakra-ui/react";
 import { Button } from "../../components/Button";
+import { PostDetailProps } from "../../components/PostDetail/types";
 
-const CreatePost = () => {
+const CreatePost = ({ post }: PostDetailProps) => {
+  const existingLikes = post ? post.likes : [];
   const {
     titleRef,
     imageRef,
@@ -19,7 +21,7 @@ const CreatePost = () => {
     errorParagraph,
     error,
     navigate,
-  } = usePostForm();
+  } = usePostForm({ existingLikes });
   const { user } = useAuthValue() || {};
   const { insertDocument, response } = useInsertDocument("posts");
   const { handleSubmit, formError } = useFormSubmit({
@@ -31,6 +33,7 @@ const CreatePost = () => {
     tagsRef,
     user,
     actionType: "create",
+    existingLikes: [],
   });
 
   return (

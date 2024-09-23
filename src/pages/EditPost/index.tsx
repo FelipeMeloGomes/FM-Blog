@@ -48,15 +48,14 @@ const EditPost = () => {
   });
 
   useEffect(() => {
-    if (post && bodyRef.current) {
+    if (post) {
       titleRef.current.value = post.title;
       setContent(post.body);
       imageRef.current.value = post.image;
-      const textTags = post.tagsArray.join(", ");
-      tagsRef.current.value = textTags;
-      setLikes(post.likes || []); // Inicializa os likes no estado
+      tagsRef.current.value = post.tagsArray.join(", ");
+      setLikes(post.likes || []);
     }
-  }, [post, titleRef, bodyRef, imageRef, tagsRef, setLikes]);
+  }, [post]);
 
   if (loading) {
     return <Spinner />;
