@@ -1,15 +1,10 @@
 import { Stack } from "@chakra-ui/react";
-import { User, Logout } from "../NavBarLinks/types";
 import { NavButton } from "../NavBarButton";
 import { guestButtons, userButtons } from "../NavBarLinksButton";
 import { AvatarMenu } from "../AvatarMenu";
+import { NavBarProps } from "../NavBarMobile/types";
 
-interface NavBarLinksProps {
-  user: User | null;
-  logout: Logout;
-}
-
-const NavBarLinks = ({ user, logout }: NavBarLinksProps) => {
+const NavBarLinks = ({ user, logout }: NavBarProps) => {
   return (
     <Stack direction={"row"} spacing={4}>
       <NavButton text="Home" to="/" />
