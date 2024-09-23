@@ -21,6 +21,8 @@ const EditPost = () => {
   const { document: post, loading } = useFetchDocument("posts", id);
   const { updateDocument, response } = useUpdateDocument("posts");
   const { handleEditorChange, content, setContent } = useEditorContext();
+  const existingLikes = post ? post.likes : [];
+
   const {
     bodyRef,
     handleChange,
@@ -29,7 +31,9 @@ const EditPost = () => {
     tagsRef,
     title,
     titleRef,
-  } = usePostForm();
+    likes,
+    setLikes,
+  } = usePostForm({ existingLikes });
   const { handleSubmit, formError } = useFormSubmit({
     updateDocument,
     navigate,
@@ -40,6 +44,7 @@ const EditPost = () => {
     user,
     actionType: "edit",
     postId: id,
+    existingLikes: likes,
   });
 
   useEffect(() => {
@@ -49,8 +54,9 @@ const EditPost = () => {
       imageRef.current.value = post.image;
       const textTags = post.tagsArray.join(", ");
       tagsRef.current.value = textTags;
+      setLikes(post.likes || []); // Inicializa os likes no estado
     }
-  }, [post, titleRef, bodyRef, imageRef, tagsRef]);
+  }, [post, titleRef, bodyRef, imageRef, tagsRef, setLikes]);
 
   if (loading) {
     return <Spinner />;

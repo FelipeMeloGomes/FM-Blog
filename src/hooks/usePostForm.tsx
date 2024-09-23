@@ -1,8 +1,10 @@
 import { useRef, useState, ChangeEvent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { PostFormHook } from "./types";
+import { PostFormHook, UsePostFormProps } from "./types";
 
-export const usePostForm = (): PostFormHook => {
+export const usePostForm = ({
+  existingLikes = [],
+}: UsePostFormProps): PostFormHook => {
   const navigate = useNavigate();
 
   const titleRef = useRef<HTMLInputElement>(null);
@@ -11,6 +13,7 @@ export const usePostForm = (): PostFormHook => {
   const tagsRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [likes, setLikes] = useState<string[]>(existingLikes);
   const [error, setError] = useState<string>("");
 
   const handleChange = useCallback(
@@ -53,6 +56,8 @@ export const usePostForm = (): PostFormHook => {
     setTitle,
     imageUrl,
     setImageUrl,
+    likes,
+    setLikes,
     error,
     setError,
     handleChange,

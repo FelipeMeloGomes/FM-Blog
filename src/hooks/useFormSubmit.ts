@@ -13,6 +13,7 @@ export const useFormSubmit = ({
   user,
   actionType,
   postId: id,
+  existingLikes = [],
 }: FormSubmitProps): FormSubmitHook => {
   const [formError, setFormError] = useState("");
   const { showToast } = useToastNotification();
@@ -48,8 +49,8 @@ export const useFormSubmit = ({
       tagsArray,
       uid: user.uid,
       createdBy: user.displayName,
-      likeCount: 0,
-      likes: [],
+      likeCount: existingLikes.length, // Usando o length corretamente
+      likes: existingLikes, // Mantendo o array de likes atual
     };
   };
 

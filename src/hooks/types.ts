@@ -150,6 +150,7 @@ export interface FormSubmitProps {
   user: User;
   actionType: "create" | "edit";
   postId: string;
+  existingLikes: string[];
 }
 
 export interface UseLikeButtonProps {
@@ -183,6 +184,8 @@ export interface PostFormHook {
   title: string;
   error: string;
   imageUrl: string;
+  likes: string[];
+  setLikes: React.Dispatch<React.SetStateAction<string[]>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -193,6 +196,9 @@ export interface PostFormHook {
   errorParagraph: (errorMessage: string) => JSX.Element;
 }
 
+export interface UsePostFormProps {
+  existingLikes?: string[];
+}
 export interface SearchPostHook {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   query: string;
