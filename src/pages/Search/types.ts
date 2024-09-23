@@ -1,7 +1,5 @@
-export interface Post {
-    id: number;
-}
+import { Post } from "../../components/PostDetail/types";
 
 export interface Props {
-    posts?: Post[];
+  posts?: Post[];
 }

@@ -11,7 +11,6 @@ import {
   Image,
   Button,
 } from "@chakra-ui/react";
-import { BiShare } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { LikeButton } from "../LikeButton";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
@@ -21,6 +20,7 @@ import { handleShare } from "../../utils/ShareContent";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { useAuthValue } from "../../context/AuthContext";
 import { MdBook } from "react-icons/md";
+import { ShareButton } from "../ShareButton";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
@@ -38,7 +38,6 @@ const PostDetail = ({ post }: PostDetailProps) => {
         <Flex gap="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar />
-
             <Box textAlign="left">
               <Heading size="sm">{post.createdBy}</Heading>
               <Text>Author, {post.createdBy}</Text>
@@ -50,7 +49,6 @@ const PostDetail = ({ post }: PostDetailProps) => {
       <CardBody>
         <Text textAlign="left">{post.title}</Text>
       </CardBody>
-
       <Image
         objectFit="cover"
         src={post.image}
@@ -83,15 +81,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
           >
             Ler
           </Button>
-          <Button
-            onClick={() => handleShare(post)}
-            leftIcon={<BiShare />}
-            variant="outline"
-            colorScheme="black"
-            width={{ base: "full", md: "auto" }}
-          >
-            Compartilhar
-          </Button>
+          <ShareButton post={post} onShare={handleShare} />
           <LikeButton postId={post.id} userId={user?.uid} />
         </Flex>
       </CardFooter>
