@@ -49,8 +49,8 @@ export const useFormSubmit = ({
       tagsArray,
       uid: user.uid,
       createdBy: user.displayName,
-      likeCount: existingLikes.length, // Usando o length corretamente
-      likes: existingLikes, // Mantendo o array de likes atual
+      likeCount: existingLikes.length,
+      likes: existingLikes,
     };
   };
 
