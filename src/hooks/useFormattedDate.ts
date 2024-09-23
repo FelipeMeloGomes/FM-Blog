@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
-export const useFormattedDate = (timestamp: Timestamp | null) => {
+export const useFormattedDate = (timestamp: Timestamp | null | undefined) => {
   const [formattedDate, setFormattedDate] = useState<string>("");
 
   useEffect(() => {

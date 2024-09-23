@@ -22,7 +22,7 @@ const ResponsiveSkeletonCard = () => {
       p={4}
     >
       <CardHeader>
-        <Flex spacing="4">
+        <Flex gap="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <SkeletonCircle size="12" />
             <Box textAlign="left" flex="1">
