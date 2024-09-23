@@ -7,22 +7,12 @@ import {
   MenuDivider,
   IconButton,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import { AvatarMenuProps } from "./types";
+import { useNavigation } from "../../utils/NavigationUtils";
 
 const AvatarMenu = ({ logout }: AvatarMenuProps) => {
-  const navigate = useNavigate();
-
-  const handleProfileClick = () => {
-    navigate("/profile");
-  };
-  const handleAboutClick = () => {
-    navigate("/about");
-  };
-  const handleWeatherClick = () => {
-    navigate("/weather");
-  };
-
+  const { handleProfileClick, handleAboutClick, handleWeatherClick } =
+    useNavigation();
   return (
     <Menu>
       <MenuButton
