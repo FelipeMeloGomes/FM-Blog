@@ -167,8 +167,10 @@ export interface UseLikeButtonResult {
 
 export interface UseLikeResult {
   likePost: (postId: string, userId: string) => Promise<void>;
-  isLiked: (postId: string, userId: string) => Promise<boolean>;
-  getLikeCount: (postId: string) => Promise<number>;
+  getLikeInfo: (
+    postId: string,
+    userId: string,
+  ) => Promise<{ isLiked: boolean; likeCount: number }>;
   error: string | null;
 }
 

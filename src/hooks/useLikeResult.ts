@@ -17,55 +17,41 @@ export const useLike = (): UseLikeResult => {
     if (!validateInputs(postId, userId)) return;
 
     try {
+      const postRef = doc(db, "posts", postId);
+
       await runTransaction(db, async (transaction) => {
-        const postRef = doc(db, "posts", postId);
         const postDoc = await transaction.get(postRef);
         if (!postDoc.exists()) throw new Error("Post does not exist");
 
         const postData = postDoc.data();
         const hasLiked = postData?.likes?.includes(userId) ?? false;
-        const currentLikeCount = postData.likeCount || 0;
 
-        if (hasLiked) {
-          if (currentLikeCount > 0) {
-            transaction.update(postRef, {
-              likes: arrayRemove(userId),
-              likeCount: increment(-1),
-            });
-          }
-        } else {
-          transaction.update(postRef, {
-            likes: arrayUnion(userId),
-            likeCount: increment(1),
-          });
-        }
+        transaction.update(postRef, {
+          likes: hasLiked ? arrayRemove(userId) : arrayUnion(userId),
+          likeCount: increment(hasLiked ? -1 : 1),
+        });
       });
     } catch (err) {
       handleError("Error updating like. Please try again.", err);
     }
   };
 
-  const isLiked = async (postId: string, userId: string): Promise<boolean> => {
-    if (!validateInputs(postId, userId)) return false;
+  const getLikeInfo = async (
+    postId: string,
+    userId: string,
+  ): Promise<{ isLiked: boolean; likeCount: number }> => {
+    if (!validateInputs(postId, userId))
+      return { isLiked: false, likeCount: 0 };
 
     try {
       const postData = await fetchPostData(postId);
-      return postData?.likes?.includes(userId) ?? false;
+      return {
+        isLiked: postData?.likes?.includes(userId) ?? false,
+        likeCount: postData?.likeCount ?? 0,
+      };
     } catch (err) {
-      handleError("Error checking like status. Please try again.", err);
-      return false;
-    }
-  };
-
-  const getLikeCount = async (postId: string): Promise<number> => {
-    if (!validateInputs(postId)) return 0;
-
-    try {
-      const postData = await fetchPostData(postId);
-      return postData?.likeCount ?? 0;
-    } catch (err) {
-      handleError("Error fetching like count. Please try again.", err);
-      return 0;
+      handleError("Error fetching like information. Please try again.", err);
+      return { isLiked: false, likeCount: 0 };
     }
   };
 
@@ -88,5 +74,9 @@ export const useLike = (): UseLikeResult => {
     console.error(message, err);
   };
 
-  return { likePost, isLiked, error, getLikeCount };
+  return {
+    likePost,
+    error,
+    getLikeInfo,
+  };
 };

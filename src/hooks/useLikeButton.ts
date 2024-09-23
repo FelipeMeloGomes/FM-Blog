@@ -9,7 +9,7 @@ export const useLikeButton = ({
 }: UseLikeButtonProps): UseLikeButtonResult => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
-  const { likePost, getLikeCount, isLiked } = useLike();
+  const { likePost, getLikeInfo } = useLike();
   const [loading, setLoading] = useState<boolean>(true);
   const handleNotLoggedIn = useHandleNotLoggedIn();
 
@@ -17,12 +17,14 @@ export const useLikeButton = ({
     const fetchLikeData = async () => {
       if (postId) {
         try {
-          const [likedStatus, likeCount] = await Promise.all([
-            userId ? isLiked(postId, userId) : false,
-            getLikeCount(postId),
-          ]);
-          setLiked(likedStatus);
-          setLikeCount(likeCount);
+          if (userId) {
+            const { isLiked, likeCount } = await getLikeInfo(postId, userId);
+            setLiked(isLiked);
+            setLikeCount(likeCount);
+          } else {
+            const { likeCount } = await getLikeInfo(postId, "");
+            setLikeCount(likeCount);
+          }
         } catch (err) {
           console.error("Error fetching like data:", err);
         } finally {
@@ -34,7 +36,7 @@ export const useLikeButton = ({
     };
 
     fetchLikeData();
-  }, [postId, userId, isLiked, getLikeCount]);
+  }, [postId, userId, getLikeInfo]);
 
   const handleLikeClick = async () => {
     if (!userId) {
@@ -44,10 +46,9 @@ export const useLikeButton = ({
     if (postId && userId) {
       try {
         await likePost(postId, userId);
-        const updatedLikeCount = await getLikeCount(postId);
-        setLikeCount(updatedLikeCount);
-        const updatedLikedStatus = await isLiked(postId, userId);
-        setLiked(updatedLikedStatus);
+        const { isLiked, likeCount } = await getLikeInfo(postId, userId);
+        setLiked(isLiked);
+        setLikeCount(likeCount);
       } catch (error) {
         console.error(error);
       }
