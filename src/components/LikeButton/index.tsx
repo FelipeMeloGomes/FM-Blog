@@ -2,6 +2,12 @@ import { Button, Box, Text, Badge, Skeleton } from "@chakra-ui/react";
 import { useLikeButton } from "../../hooks/useLikeButton";
 import { LikeButtonProps } from "./types";
 import { BiLike } from "react-icons/bi";
+import {
+  getButtonActiveStyle,
+  getButtonColorScheme,
+  getButtonHoverStyle,
+  getIconColor,
+} from "../../utils/LikeButtonStyles";
 
 const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   const { likeCount, liked, loading, handleLikeClick } = useLikeButton({
@@ -27,27 +33,27 @@ const LikeButton = ({ postId, userId }: LikeButtonProps) => {
       justifyContent="space-between"
       borderRadius="md"
       variant="outline"
-      colorScheme={liked ? "red" : "gray"}
+      colorScheme={getButtonColorScheme(liked)}
       onClick={handleLikeClick}
       isDisabled={!postId}
       transition="background-color 0.3s ease, color 0.3s ease"
-      _hover={{ backgroundColor: liked ? "red.100" : "gray.100" }}
-      _active={{ backgroundColor: liked ? "red.200" : "gray.200" }}
+      _hover={getButtonHoverStyle(liked)}
+      _active={getButtonActiveStyle(liked)}
     >
       <Box
         display="flex"
         alignItems="center"
         gap="2"
         flex="1"
-        color={liked ? "red.600" : "gray.500"}
+        color={getIconColor(liked)}
       >
-        {liked ? <BiLike size="1.25em" /> : <BiLike size="1.25em" />}
+        <BiLike size="1.25em" />
         <Text fontWeight="semibold" p={1} fontSize="sm">
           {liked ? "Curtidas" : "Curtir"}
         </Text>
       </Box>
       <Badge
-        colorScheme={liked ? "red" : "gray"}
+        colorScheme={getButtonColorScheme(liked)}
         fontSize="0.8em"
         borderRadius="full"
         px={2}
