@@ -8,6 +8,7 @@ import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { Box, FormLabel, Input, Image } from "@chakra-ui/react";
 import { Button } from "../../components/Button";
 import { PostDetailProps } from "../../components/PostDetail/types";
+import { ErrorMessage } from "../../components/ErrorMessage";
 
 const CreatePost = ({ post }: PostDetailProps) => {
   const existingLikes = post ? post.likes : [];
@@ -18,7 +19,6 @@ const CreatePost = ({ post }: PostDetailProps) => {
     bodyRef,
     tagsRef,
     handleChange,
-    errorParagraph,
     error,
     navigate,
   } = usePostForm({ existingLikes });
@@ -157,9 +157,9 @@ const CreatePost = ({ post }: PostDetailProps) => {
           </Box>
           <br />
           {!response.loading && <Button alt="Cadastrar">Cadastrar</Button>}
-          {response.error && errorParagraph(response.error)}
+          {response.error && <ErrorMessage message={response.error} />}
           <br />
-          {formError && errorParagraph(formError)}
+          {formError && <ErrorMessage message={formError} />}
         </Box>
       </Box>
     </LayoutPage>

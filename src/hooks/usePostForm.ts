@@ -13,7 +13,7 @@ export const usePostForm = ({
   const tagsRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [likes, setLikes] = useState<string[]>(existingLikes); // Inicialização correta
+  const [likes, setLikes] = useState<string[]>(existingLikes);
   const [error, setError] = useState<string>("");
 
   const handleChange = (
@@ -41,10 +41,6 @@ export const usePostForm = ({
       setError("A URL inserida não corresponde a uma imagem válida.");
   };
 
-  const errorParagraph = (errorMessage: string) => (
-    <p className="error">{errorMessage}</p>
-  );
-
   return {
     titleRef,
     imageRef,
@@ -61,6 +57,5 @@ export const usePostForm = ({
     setError,
     handleChange,
     validateImageUrl,
-    errorParagraph,
   };
 };

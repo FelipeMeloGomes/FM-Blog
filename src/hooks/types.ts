@@ -193,7 +193,6 @@ export interface PostFormHook {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   validateImageUrl: (url: string) => void;
-  errorParagraph: (errorMessage: string) => JSX.Element;
 }
 
 export interface UsePostFormProps {
