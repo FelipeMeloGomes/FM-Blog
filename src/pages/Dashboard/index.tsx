@@ -7,12 +7,15 @@ import { handleDeletePost } from "../../utils/HandleDelete";
 import { PostItem } from "../../components/PostItem";
 import { NoPosts } from "../../components/NoPosts";
 import { Flex, Text } from "@chakra-ui/react";
+import { SearchForm } from "../../components/SearchForm";
+import { useSearchPostTitle } from "../../hooks/useSearchTitle";
 
 const Dashboard = ({ createdBy }: { createdBy: string }) => {
   const { user } = useAuthValue() || {};
   const uid = user?.uid;
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
   const { deleteDocument } = useDeleteDocument("posts");
+  const { handleSubmit, setQuery, filteredPosts } = useSearchPostTitle(posts);
 
   if (loading) {
     return <Spinner />;
@@ -21,10 +24,11 @@ const Dashboard = ({ createdBy }: { createdBy: string }) => {
   return (
     <Flex direction="column" align="center" w="full" minH="100vh" p={4}>
       <TextField title="Dashboard" paragraph="Gerencie os seus posts" />
-      {posts?.length === 0 ? (
+      {filteredPosts?.length === 0 ? (
         <NoPosts />
       ) : (
         <>
+          <SearchForm handleSubmit={handleSubmit} setQuery={setQuery} />
           <Flex
             justify="space-between"
             w="full"
@@ -38,7 +42,7 @@ const Dashboard = ({ createdBy }: { createdBy: string }) => {
             <Text>Ações</Text>
           </Flex>
 
-          {posts?.map((post) => (
+          {filteredPosts?.map((post) => (
             <PostItem
               key={post.id}
               post={post}
