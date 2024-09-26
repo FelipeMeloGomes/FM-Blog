@@ -33,11 +33,19 @@ const PostDetail = ({ post }: PostDetailProps) => {
   const formattedDate = useFormattedDate(post.createdAt);
 
   return (
-    <Card maxW="md" mx="auto" mb="2em" shadow="lg" borderRadius="20px">
+    <Card
+      maxW="md"
+      mx="auto"
+      mb="2em"
+      shadow="md"
+      borderRadius="lg"
+      borderColor="gray.200"
+      borderWidth={1}
+    >
       <CardHeader>
         <Flex gap="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-            <Avatar />
+            <Avatar name={post.createdBy} />
             <Box textAlign="left">
               <Heading size="sm">{post.createdBy}</Heading>
               <Text>Author, {post.createdBy}</Text>
