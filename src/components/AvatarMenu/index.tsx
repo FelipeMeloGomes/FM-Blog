@@ -11,8 +11,7 @@ import { AvatarMenuProps } from "./types";
 import { useNavigation } from "../../utils/NavigationUtils";
 
 const AvatarMenu = ({ logout }: AvatarMenuProps) => {
-  const { handleProfileClick, handleAboutClick, handleWeatherClick } =
-    useNavigation();
+  const { handleProfileClick, handleAboutClick } = useNavigation();
   return (
     <Menu>
       <MenuButton
@@ -43,15 +42,6 @@ const AvatarMenu = ({ logout }: AvatarMenuProps) => {
           onClick={handleAboutClick}
         >
           Sobre
-        </MenuItem>
-        <MenuItem
-          minH="48px"
-          bg="gray.700"
-          color="white"
-          _hover={{ bg: "gray.600" }}
-          onClick={handleWeatherClick}
-        >
-          Clima
         </MenuItem>
         <MenuDivider />
         <MenuItem

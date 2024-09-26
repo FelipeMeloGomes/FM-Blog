@@ -9,7 +9,6 @@ import { Register } from "./pages/Register";
 import { EditPost } from "./pages/EditPost";
 import { CreatePost } from "./pages/CreatePost";
 import { Dashboard } from "./pages/Dashboard";
-import { Weather } from "./pages/Weather";
 import { Search } from "./pages/Search";
 import { ResetPassword } from "./pages/ResetPassword";
 
@@ -46,10 +45,6 @@ const Navigator = () => {
           element={
             user ? <Dashboard createdBy={user.uid} /> : <Navigate to="/login" />
           }
-        />
-        <Route
-          path="/weather"
-          element={user ? <Weather /> : <Navigate to="/login" />}
         />
       </Routes>
     </>

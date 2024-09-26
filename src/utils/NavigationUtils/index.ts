@@ -11,13 +11,8 @@ export const useNavigation = () => {
     navigate("/about");
   };
 
-  const handleWeatherClick = () => {
-    navigate("/weather");
-  };
-
   return {
     handleProfileClick,
     handleAboutClick,
-    handleWeatherClick,
   };
 };

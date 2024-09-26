@@ -203,19 +203,3 @@ export interface SearchPostHook {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
 }
-
-export interface WeatherData {
-  humidity: string;
-  wind: string;
-  temperature: string;
-  location: string;
-}
-export interface WeatherIconMap {
-  [key: string]: ReactElement;
-}
-export interface WeatherHook {
-  isLoading: boolean;
-  climaData: WeatherData;
-  fetchData: (city: string) => Promise<void>;
-  iconCode: string;
-}
