@@ -4,12 +4,12 @@ import { useCitySearch } from "../../hooks/useCitySearch";
 import { TextField } from "../../components/TextField";
 import { Spinner } from "../../components/Spinner";
 import { LayoutPage } from "../../components/LayoutPage";
-import { Box, Flex, Input, Text } from "@chakra-ui/react";
+import { Box, Flex, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { WiHumidity, WiWindy } from "react-icons/wi";
+import { WeatherDetails } from "../../components/WeatherDetails";
 
 const Weather = () => {
-  const { isLoading, climaData, fetchData, wicon } = useWeatherData();
+  const { isLoading, climaData, fetchData, iconCode } = useWeatherData();
   const { city, setCity, showDetails, handleKeyDown, search } =
     useCitySearch(fetchData);
 
@@ -83,68 +83,7 @@ const Weather = () => {
         {isLoading && <Spinner />}
 
         {showDetails && !isLoading && (
-          <>
-            <Box>
-              <Text
-                color="white"
-                fontSize="4xl"
-                fontWeight="normal"
-                textAlign="center"
-                mt={5}
-              >
-                {climaData.location}
-              </Text>
-
-              <Flex
-                p={4}
-                alignItems="center"
-                justifyContent="center"
-                textAlign="center"
-                gap={8}
-              >
-                <Text
-                  color="white"
-                  fontSize="4xl"
-                  display="flex"
-                  justifyContent="center"
-                >
-                  {wicon}
-                </Text>
-                <Text color="white" fontSize="4xl" fontWeight="normal">
-                  {climaData.temperature !== ""
-                    ? climaData.temperature.toString().substring(0, 2)
-                    : ""}
-                  °C
-                </Text>
-              </Flex>
-
-              <Flex mt={5} color="white" justifyContent="center" gap={10}>
-                <Flex alignItems="center" justifyContent="center" gap={3}>
-                  <WiHumidity name="Humidity" size={30} />
-                  <Box textAlign="center">
-                    <Text fontSize="3xl" fontWeight="normal">
-                      {climaData.humidity}%
-                    </Text>
-                    <Text fontSize="xs" fontWeight="normal">
-                      Humidade
-                    </Text>
-                  </Box>
-                </Flex>
-
-                <Flex alignItems="center" justifyContent="center" gap={3}>
-                  <WiWindy name="Windy" size={30} />
-                  <Box textAlign="center">
-                    <Text fontSize="3xl" fontWeight="normal">
-                      {climaData.wind} km/h
-                    </Text>
-                    <Text fontSize="xs" fontWeight="normal">
-                      Velocidade do vento
-                    </Text>
-                  </Box>
-                </Flex>
-              </Flex>
-            </Box>
-          </>
+          <WeatherDetails climaData={climaData} iconCode={iconCode} />
         )}
       </Box>
     </LayoutPage>

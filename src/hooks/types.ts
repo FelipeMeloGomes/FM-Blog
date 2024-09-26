@@ -217,5 +217,5 @@ export interface WeatherHook {
   isLoading: boolean;
   climaData: WeatherData;
   fetchData: (city: string) => Promise<void>;
-  wicon: ReactElement;
+  iconCode: string;
 }
