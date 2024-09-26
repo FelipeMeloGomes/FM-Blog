@@ -61,15 +61,14 @@ export const useLike = (): UseLikeResult => {
   const getLikeInfo = useCallback(
     async (
       postId: string,
-      userId: string,
+      userId?: string,
     ): Promise<{ isLiked: boolean; likeCount: number }> => {
-      if (!validateInputs(postId, userId))
-        return { isLiked: false, likeCount: 0 };
+      if (!validateInputs(postId)) return { isLiked: false, likeCount: 0 };
 
       try {
         const postData = await fetchPostData(postId);
         return {
-          isLiked: postData?.likes?.includes(userId) ?? false,
+          isLiked: userId ? postData?.likes?.includes(userId) ?? false : false,
           likeCount: postData?.likeCount ?? 0,
         };
       } catch (err) {
