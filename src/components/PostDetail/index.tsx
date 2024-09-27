@@ -24,7 +24,7 @@ import { ShareButton } from "../ShareButton";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
-  const { loading } = useFetchDocuments("posts", null);
+  const { loading } = useFetchDocuments("posts");
 
   if (loading) {
     return;

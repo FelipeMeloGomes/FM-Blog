@@ -17,6 +17,8 @@ export interface FetchDocumentsResult {
   documents: DocumentData[] | null;
   loading: boolean;
   error: string | null;
+  lastVisible: any;
+  loadMoreDocuments: () => Promise<void>;
 }
 
 export interface UserData {

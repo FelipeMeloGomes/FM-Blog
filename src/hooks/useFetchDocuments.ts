@@ -6,6 +6,9 @@ import {
   orderBy,
   onSnapshot,
   where,
+  limit,
+  startAfter,
+  getDocs,
   QuerySnapshot,
   DocumentData as FirestoreDocumentData,
 } from "firebase/firestore";
@@ -15,21 +18,19 @@ export const useFetchDocuments = (
   docCollection: string,
   search: string | null = null,
   uid: string | null = null,
+  limitCount: number = 5,
 ): FetchDocumentsResult => {
   const [documents, setDocuments] = useState<DocumentData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [lastVisible, setLastVisible] = useState<any>(null); // Adicione o estado para lastVisible
   const [cancelled, setCancelled] = useState<boolean>(false);
 
   useEffect(() => {
     const loadData = async () => {
-      if (cancelled) {
-        return;
-      }
+      if (cancelled) return;
 
       setLoading(true);
-
       const collectionRef = collection(db, docCollection);
 
       try {
@@ -41,15 +42,21 @@ export const useFetchDocuments = (
             collectionRef,
             where("tagsArray", "array-contains", searchWithoutSpaces),
             orderBy("createdAt", "desc"),
+            limit(limitCount),
           );
         } else if (uid) {
           q = query(
             collectionRef,
             where("uid", "==", uid),
             orderBy("createdAt", "desc"),
+            limit(limitCount),
           );
         } else {
-          q = query(collectionRef, orderBy("createdAt", "desc"));
+          q = query(
+            collectionRef,
+            orderBy("createdAt", "desc"),
+            limit(limitCount),
+          );
         }
 
         const unsubscribe = onSnapshot(
@@ -61,6 +68,7 @@ export const useFetchDocuments = (
                 ...doc.data(),
               })),
             );
+            setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]); // Atualiza lastVisible
           },
         );
 
@@ -73,11 +81,44 @@ export const useFetchDocuments = (
     };
 
     loadData();
-  }, [docCollection, search, uid, cancelled]);
+  }, [docCollection, search, uid, cancelled, limitCount]);
 
   useEffect(() => {
     return () => setCancelled(true);
   }, []);
 
-  return { documents, loading, error };
+  // Adicione o loadMoreDocuments aqui
+  const loadMoreDocuments = async () => {
+    if (!lastVisible) return;
+
+    const collectionRef = collection(db, docCollection);
+    const nextQuery = query(
+      collectionRef,
+      orderBy("createdAt", "desc"),
+      startAfter(lastVisible),
+      limit(limitCount),
+    );
+
+    try {
+      const snapshot = await getDocs(nextQuery);
+      const newDocs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      if (newDocs.length === 0) {
+        setLastVisible(null); // Reset lastVisible se não houver novos documentos
+        return;
+      }
+
+      setDocuments((prevDocs) =>
+        prevDocs ? [...prevDocs, ...newDocs] : newDocs,
+      );
+      setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+
+  return { documents, loading, error, loadMoreDocuments, lastVisible }; // Retorne lastVisible
 };

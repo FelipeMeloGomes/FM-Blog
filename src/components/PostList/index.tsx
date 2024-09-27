@@ -15,6 +15,7 @@ const PostList = ({ posts }: PostListProps) => {
       maxW="90%"
       justify="center"
       align="center"
+      gap={10}
     >
       {posts.map((post) => (
         <PostDetail key={post.id} post={post} />

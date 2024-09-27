@@ -1,15 +1,29 @@
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useSearchPost } from "../../hooks/useSearchPost";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from "../../components/TextField";
 import { SearchForm } from "../../components/SearchForm";
 import { PostList } from "../../components/PostList";
 import { NoPosts } from "../../components/NoPosts";
-import { Flex } from "@chakra-ui/react";
+import { Spinner } from "../../components/Spinner";
+import { Button } from "../../components/Button";
+import { Box, Flex } from "@chakra-ui/react";
 
 const Home = () => {
-  const { documents: posts, loading } = useFetchDocuments("posts");
+  const {
+    documents: posts,
+    loading,
+    loadMoreDocuments,
+    lastVisible,
+  } = useFetchDocuments("posts", null, null, 6);
   const { handleSubmit, setQuery } = useSearchPost();
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const handleLoadMore = () => {
+    setLoadingMore(true);
+    loadMoreDocuments();
+    setLoadingMore(false);
+  };
 
   useEffect(() => {
     if (posts) {
@@ -17,7 +31,7 @@ const Home = () => {
   }, [posts]);
 
   if (loading) {
-    return;
+    return <Spinner />;
   }
 
   return (
@@ -32,6 +46,11 @@ const Home = () => {
       <TextField title="Veja os nossos posts mais recentes" />
       <SearchForm handleSubmit={handleSubmit} setQuery={setQuery} />
       {posts?.length === 0 ? <NoPosts /> : <PostList posts={posts} />}
+      <Box>
+        <Button onClick={handleLoadMore} disabled={loadingMore || !lastVisible}>
+          {loadingMore ? <Spinner /> : "Carregar mais posts"}
+        </Button>
+      </Box>
     </Flex>
   );
 };
