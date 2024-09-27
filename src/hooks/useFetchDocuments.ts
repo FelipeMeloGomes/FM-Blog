@@ -23,7 +23,7 @@ export const useFetchDocuments = (
   const [documents, setDocuments] = useState<DocumentData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [lastVisible, setLastVisible] = useState<any>(null); // Adicione o estado para lastVisible
+  const [lastVisible, setLastVisible] = useState<any>(null);
   const [cancelled, setCancelled] = useState<boolean>(false);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const useFetchDocuments = (
                 ...doc.data(),
               })),
             );
-            setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]); // Atualiza lastVisible
+            setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
           },
         );
 
@@ -87,7 +87,6 @@ export const useFetchDocuments = (
     return () => setCancelled(true);
   }, []);
 
-  // Adicione o loadMoreDocuments aqui
   const loadMoreDocuments = async () => {
     if (!lastVisible) return;
 
@@ -107,7 +106,7 @@ export const useFetchDocuments = (
       }));
 
       if (newDocs.length === 0) {
-        setLastVisible(null); // Reset lastVisible se não houver novos documentos
+        setLastVisible(null);
         return;
       }
 
@@ -120,5 +119,5 @@ export const useFetchDocuments = (
     }
   };
 
-  return { documents, loading, error, loadMoreDocuments, lastVisible }; // Retorne lastVisible
+  return { documents, loading, error, loadMoreDocuments, lastVisible };
 };
