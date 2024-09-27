@@ -8,8 +8,9 @@ import {
   AuthError,
   signInWithPopup,
   GoogleAuthProvider,
+  onAuthStateChanged,
+  getIdToken,
 } from "firebase/auth";
-
 import { useState, useEffect } from "react";
 import { errorMessages } from "../utils/ErrorMessage";
 import { AuthenticationResult, AuthenticationState, UserData } from "./types";
@@ -20,6 +21,8 @@ export const useAuthentication = (): AuthenticationResult => {
     error: null,
     loading: false,
     cancelled: false,
+    user: null,
+    token: null,
   });
 
   const auth = getAuth();
@@ -51,6 +54,8 @@ export const useAuthentication = (): AuthenticationResult => {
         data.password,
       );
       await updateProfile(user, { displayName: data.displayName });
+      const token = await getIdToken(user);
+      setState({ ...state, user, token });
       showToast({
         title: "Success",
         description: "Usuário registrado com sucesso.",
@@ -61,7 +66,15 @@ export const useAuthentication = (): AuthenticationResult => {
       });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
-      setState({ error: errorMessage, loading: false, cancelled: false });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+        cancelled: false,
+        token: null,
+        user: null,
+      }));
+
       showToast({
         title: "Error",
         description: errorMessage,
@@ -74,16 +87,23 @@ export const useAuthentication = (): AuthenticationResult => {
     }
   };
 
-  const logout = (): void => {
+  const logout = async (): Promise<void> => {
     checkIfIsCancelled();
-    signOut(auth);
+    await signOut(auth);
+    setState({ ...state, user: null, token: null });
   };
 
   const login = async (data: Omit<UserData, "displayName">): Promise<void> => {
     checkIfIsCancelled();
     setState({ ...state, loading: true, error: null });
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      const { user } = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
+      const token = await getIdToken(user);
+      setState({ ...state, user, token });
       showToast({
         title: "Success",
         position: "top-right",
@@ -102,7 +122,12 @@ export const useAuthentication = (): AuthenticationResult => {
         duration: 5000,
         isClosable: true,
       });
-      setState({ error: errorMessage, loading: false, cancelled: false });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+        cancelled: false,
+      }));
     }
   };
 
@@ -111,7 +136,9 @@ export const useAuthentication = (): AuthenticationResult => {
     const provider = new GoogleAuthProvider();
     setState({ ...state, loading: true, error: null });
     try {
-      await signInWithPopup(auth, provider);
+      const { user } = await signInWithPopup(auth, provider);
+      const token = await getIdToken(user);
+      setState({ ...state, user, token });
       showToast({
         title: "Success",
         description: "Login efetuado com sucesso no Google.",
@@ -130,7 +157,12 @@ export const useAuthentication = (): AuthenticationResult => {
         duration: 5000,
         isClosable: true,
       });
-      setState({ error: errorMessage, loading: false, cancelled: false });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+        cancelled: false,
+      }));
     }
   };
 
@@ -157,12 +189,34 @@ export const useAuthentication = (): AuthenticationResult => {
         duration: 5000,
         isClosable: true,
       });
-      setState({ error: errorMessage, loading: false, cancelled: false });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+        cancelled: false,
+      }));
     }
   };
 
   useEffect(() => {
-    return () => setState({ ...state, cancelled: true });
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getIdToken(user).then((token) => {
+          setState((prevState) => ({
+            ...prevState,
+            user: user,
+            token: token,
+          }));
+        });
+      } else {
+        setState({ ...state, user: null, token: null });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      setState({ ...state, cancelled: true });
+    };
   }, []);
 
   return {
@@ -174,5 +228,7 @@ export const useAuthentication = (): AuthenticationResult => {
     loginWithGoogle,
     resetPassword,
     loading: state.loading,
+    user: state.user,
+    token: state.token,
   };
 };

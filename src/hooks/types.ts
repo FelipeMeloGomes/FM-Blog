@@ -1,11 +1,5 @@
-import { getAuth } from "firebase/auth";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  ReactElement,
-  SetStateAction,
-} from "react";
+import { Auth } from "firebase/auth";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 
 export interface OperationState {
@@ -35,6 +29,8 @@ export interface AuthenticationState {
   error: string | null;
   loading: boolean;
   cancelled: boolean;
+  token: string | null;
+  user: User | null;
 }
 
 export type UpdateAction =
@@ -53,7 +49,7 @@ export type InsertAction =
   | { type: "ERROR"; payload: string };
 
 export interface AuthenticationResult {
-  auth: ReturnType<typeof getAuth>;
+  auth: Auth;
   createUser: (data: UserData) => Promise<void>;
   error: string | null;
   logout: () => void;
@@ -61,6 +57,8 @@ export interface AuthenticationResult {
   loginWithGoogle: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   loading: boolean;
+  user: User | null;
+  token: string | null;
 }
 
 export interface AuthFormValues {
@@ -120,7 +118,7 @@ export interface DocumentData {
 
 export interface User {
   uid: string;
-  displayName: string;
+  displayName: string | null;
 }
 
 export interface FormSubmitHook {
