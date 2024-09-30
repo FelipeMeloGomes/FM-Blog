@@ -16,6 +16,6 @@ export interface Post {
 
 export interface ShareData {
   title: string;
-  text: string;
+  text: string | undefined;
   url: string;
 }
