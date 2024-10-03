@@ -1,9 +1,10 @@
 import { useToastNotification } from "./useToastNotification";
+import { useCallback } from "react";
 
 export const useHandleNotLoggedIn = () => {
   const { showToast } = useToastNotification();
 
-  const handleNotLoggedIn = () => {
+  const handleNotLoggedIn = useCallback(() => {
     showToast({
       title: "Info",
       description: "Faça login ou registre-se para curtir este post.",
@@ -12,7 +13,7 @@ export const useHandleNotLoggedIn = () => {
       duration: 5000,
       isClosable: true,
     });
-  };
+  }, [showToast]);
 
   return handleNotLoggedIn;
 };
