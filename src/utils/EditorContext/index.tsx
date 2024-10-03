@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const useEditorContext = () => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<string>("");
 
-  const handleEditorChange = (content: string) => setContent(content);
+  const handleEditorChange = useCallback((content: string) => {
+    setContent(content);
+  }, []);
 
   return { content, handleEditorChange, setContent };
 };
