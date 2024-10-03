@@ -1,19 +1,17 @@
 import { Timestamp } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 
 export const useFormattedDate = (timestamp: Timestamp | null | undefined) => {
-  const [formattedDate, setFormattedDate] = useState<string>("");
-
-  useEffect(() => {
+  const formattedDate = useMemo(() => {
     if (timestamp) {
       const date = timestamp.toDate();
-      const formatted = date.toLocaleDateString("pt-BR", {
+      return date.toLocaleDateString("pt-BR", {
         year: "numeric",
         month: "long",
         day: "numeric",
       });
-      setFormattedDate(formatted);
     }
+    return "";
   }, [timestamp]);
 
   return formattedDate;
