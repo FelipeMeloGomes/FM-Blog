@@ -1,5 +1,3 @@
-// likeButtonStyles.ts
-
 export const getButtonColorScheme = (liked: boolean) =>
   liked ? "red" : "gray";
 
