@@ -61,7 +61,8 @@ const PostDetail = ({ post }: PostDetailProps) => {
         objectFit="cover"
         src={post.image}
         alt={post.title}
-        loading="eager"
+        loading="lazy"
+        rel="preload"
       />
 
       <CardBody>

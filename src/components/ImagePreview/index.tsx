@@ -13,6 +13,7 @@ const ImagePreview = ({ image, alt }: ImagePreviewProps) => (
         objectFit="cover"
         boxSize="full"
         loading="lazy"
+        rel="preload"
       />
     </Box>
   </Box>
