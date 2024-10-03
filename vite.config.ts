@@ -1,27 +1,32 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import viteCompression from "vite-plugin-compression";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), viteCompression({ algorithm: "brotliCompress" })],
   build: {
-    minify: "esbuild",
     target: "esnext",
+    minify: "esbuild",
     sourcemap: false,
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 500,
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          chakra: [
-            "@chakra-ui/react",
-            "@emotion/react",
-            "@emotion/styled",
-            "framer-motion",
-          ],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return id
+              .toString()
+              .split("node_modules/")[1]
+              .split("/")[0]
+              .toString();
+          }
         },
+        entryFileNames: "assets/[name].[hash].js",
+        chunkFileNames: "assets/[name].[hash].js",
+        assetFileNames: "assets/[name].[hash].[ext]",
       },
     },
   },
-
   resolve: {
     alias: {
       "@": "/src",
