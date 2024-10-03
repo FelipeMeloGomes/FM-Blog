@@ -21,12 +21,6 @@ export const useLike = (): UseLikeResult => {
     return true;
   };
 
-  const fetchPostData = async (postId: string) => {
-    const postRef = doc(db, "posts", postId);
-    const postDoc = await getDoc(postRef);
-    return postDoc.data();
-  };
-
   const handleError = (message: string, err: unknown) => {
     setError(message);
     console.error(message, err);
@@ -66,7 +60,12 @@ export const useLike = (): UseLikeResult => {
       if (!validateInputs(postId)) return { isLiked: false, likeCount: 0 };
 
       try {
-        const postData = await fetchPostData(postId);
+        const postRef = doc(db, "posts", postId);
+        const postDoc = await getDoc(postRef);
+
+        if (!postDoc.exists()) throw new Error("Post does not exist");
+
+        const postData = postDoc.data();
         return {
           isLiked: userId ? postData?.likes?.includes(userId) ?? false : false,
           likeCount: postData?.likeCount ?? 0,
