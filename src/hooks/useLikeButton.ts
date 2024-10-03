@@ -27,8 +27,13 @@ export const useLikeButton = ({
   }, [postId, userId, getLikeInfo]);
 
   useEffect(() => {
-    setLoading(true);
-    updateLikeState().finally(() => setLoading(false));
+    const fetchLikeData = async () => {
+      setLoading(true);
+      await updateLikeState();
+      setLoading(false);
+    };
+
+    fetchLikeData();
   }, [updateLikeState]);
 
   const handleLikeClick = async () => {
