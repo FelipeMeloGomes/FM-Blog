@@ -1,18 +1,37 @@
 import { useNavigate, NavigateFunction } from "react-router-dom";
-import { useState, FormEvent } from "react";
-import { SearchPostHook } from "./types";
+import { useState, useEffect } from "react";
 
-export const useSearchPost = (): SearchPostHook => {
+export const useSearchPost = () => {
   const navigate: NavigateFunction = useNavigate();
   const [query, setQuery] = useState<string>("");
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
+    null,
+  );
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-
     if (query) {
       navigate(`/search?q=${query}`);
     }
   };
+
+  useEffect(() => {
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (query) {
+        navigate(`/search?q=${query}`);
+      }
+    }, 300);
+
+    setDebounceTimeout(timeoutId);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [query, navigate]);
 
   return {
     handleSubmit,
