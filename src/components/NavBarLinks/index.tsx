@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/react";
+import { AvatarMenu } from "../AvatarMenu";
 import { NavButton } from "../NavBarButton";
 import { guestButtons, userButtons } from "../NavBarLinksButton";
-import { AvatarMenu } from "../AvatarMenu";
 import { NavBarProps } from "../NavBarMobile/types";
 
 const NavBarLinks = ({ user, logout }: NavBarProps) => {

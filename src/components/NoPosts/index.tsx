@@ -1,5 +1,5 @@
-import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 const NoPosts = () => (
   <Box textAlign="center" mb={6}>

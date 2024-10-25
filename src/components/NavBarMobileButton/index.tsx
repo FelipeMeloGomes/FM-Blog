@@ -1,4 +1,4 @@
-import { MdHome, MdPerson, MdAdd, MdDashboard, MdInfo } from "react-icons/md";
+import { MdAdd, MdDashboard, MdHome, MdInfo, MdPerson } from "react-icons/md";
 import { ButtonConfig } from "./types";
 
 export const getButtonData = (user: any): ButtonConfig[] => [

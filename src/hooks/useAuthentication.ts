@@ -1,17 +1,17 @@
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-  signOut,
-  sendPasswordResetEmail,
   AuthError,
-  signInWithPopup,
+  createUserWithEmailAndPassword,
+  getAuth,
+  getIdToken,
   GoogleAuthProvider,
   onAuthStateChanged,
-  getIdToken,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { errorMessages } from "../utils/ErrorMessage";
 import { AuthenticationResult, AuthenticationState, UserData } from "./types";
 import { useToastNotification } from "./useToastNotification";

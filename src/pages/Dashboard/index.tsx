@@ -1,14 +1,14 @@
-import { useAuthValue } from "../../context/AuthContext";
-import { useFetchDocuments } from "../../hooks/useFetchDocuments";
-import { useDeleteDocument } from "../../hooks/useDeleteDocument";
-import { TextField } from "../../components/TextField";
-import { Spinner } from "../../components/Spinner";
-import { handleDeletePost } from "../../utils/HandleDelete";
-import { PostItem } from "../../components/PostItem";
-import { NoPosts } from "../../components/NoPosts";
 import { Flex, Text } from "@chakra-ui/react";
+import { NoPosts } from "../../components/NoPosts";
+import { PostItem } from "../../components/PostItem";
 import { SearchForm } from "../../components/SearchForm";
+import { Spinner } from "../../components/Spinner";
+import { TextField } from "../../components/TextField";
+import { useAuthValue } from "../../context/AuthContext";
+import { useDeleteDocument } from "../../hooks/useDeleteDocument";
+import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useSearchPostTitle } from "../../hooks/useSearchTitle";
+import { handleDeletePost } from "../../utils/HandleDelete";
 
 const Dashboard = ({ createdBy }: { createdBy: string }) => {
   const { user } = useAuthValue() || {};

@@ -1,13 +1,13 @@
+import { Box, Flex } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Button } from "../../components/Button";
+import { NoPosts } from "../../components/NoPosts";
+import { PostList } from "../../components/PostList";
+import { SearchForm } from "../../components/SearchForm";
+import { Spinner } from "../../components/Spinner";
+import { TextField } from "../../components/TextField";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useSearchPost } from "../../hooks/useSearchPost";
-import { useEffect, useState } from "react";
-import { TextField } from "../../components/TextField";
-import { SearchForm } from "../../components/SearchForm";
-import { PostList } from "../../components/PostList";
-import { NoPosts } from "../../components/NoPosts";
-import { Spinner } from "../../components/Spinner";
-import { Button } from "../../components/Button";
-import { Box, Flex } from "@chakra-ui/react";
 
 const Home = () => {
   const {

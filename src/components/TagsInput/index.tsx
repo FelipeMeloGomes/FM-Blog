@@ -1,5 +1,5 @@
+import { Box, FormLabel, Input } from "@chakra-ui/react";
 import React from "react";
-import { Input, FormLabel, Box } from "@chakra-ui/react";
 import { TagsInputProps } from "./types";
 
 const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(

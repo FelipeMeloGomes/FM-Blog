@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -10,7 +10,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { MdError } from "react-icons/md";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (

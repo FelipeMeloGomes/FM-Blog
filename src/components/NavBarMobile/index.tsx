@@ -1,9 +1,9 @@
-import { Stack, Button, Collapse } from "@chakra-ui/react";
+import { Button, Collapse, Stack } from "@chakra-ui/react";
+import { MdLogout } from "react-icons/md";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { getButtonData } from "../NavBarMobileButton";
-import { MdLogout } from "react-icons/md";
-import { NavBarProps } from "./types";
 import { ButtonConfig } from "../NavBarMobileButton/types";
+import { NavBarProps } from "./types";
 
 const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
   const buttonData: ButtonConfig[] = getButtonData(user);

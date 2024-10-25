@@ -1,10 +1,10 @@
-import { useFetchDocuments } from "../../hooks/useFetchDocuments";
-import { useQuery } from "../../hooks/useQuery";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { PostDetail } from "../../components/PostDetail";
 import { TextField } from "../../components/TextField";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { useFetchDocuments } from "../../hooks/useFetchDocuments";
+import { useQuery } from "../../hooks/useQuery";
 
 const Search = () => {
   const query = useQuery();

@@ -1,5 +1,5 @@
-import { useNavigate, NavigateFunction } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 export const useSearchPost = () => {
   const navigate: NavigateFunction = useNavigate();

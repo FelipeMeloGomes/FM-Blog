@@ -1,26 +1,26 @@
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Flex,
   Avatar,
   Box,
-  Heading,
-  Text,
-  Image,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Flex,
+  Heading,
+  Image,
+  Text,
 } from "@chakra-ui/react";
+import { MdBook } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { LikeButton } from "../LikeButton";
+import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
+import { useFormattedDate } from "../../hooks/useFormattedDate";
+import { handleShare } from "../../utils/ShareContent";
+import { LikeButton } from "../LikeButton";
+import { ShareButton } from "../ShareButton";
 import { TagsDisplay } from "../TagsDisplay";
 import { PostDetailProps } from "./types";
-import { handleShare } from "../../utils/ShareContent";
-import { useFormattedDate } from "../../hooks/useFormattedDate";
-import { useAuthValue } from "../../context/AuthContext";
-import { MdBook } from "react-icons/md";
-import { ShareButton } from "../ShareButton";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};

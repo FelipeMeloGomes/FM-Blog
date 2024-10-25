@@ -1,5 +1,5 @@
-import { useToastNotification } from "./useToastNotification";
 import { useCallback } from "react";
+import { useToastNotification } from "./useToastNotification";
 
 export const useHandleNotLoggedIn = () => {
   const { showToast } = useToastNotification();

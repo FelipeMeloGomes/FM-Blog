@@ -1,13 +1,13 @@
-import { useState, useCallback } from "react";
-import { db } from "../firebase/config";
 import {
-  doc,
-  arrayUnion,
   arrayRemove,
-  increment,
+  arrayUnion,
+  doc,
   getDoc,
+  increment,
   runTransaction,
 } from "firebase/firestore";
+import { useCallback, useState } from "react";
+import { db } from "../firebase/config";
 import { UseLikeResult } from "./types";
 
 export const useLike = (): UseLikeResult => {

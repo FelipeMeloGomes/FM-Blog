@@ -1,10 +1,10 @@
 import {
+  Box,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Flex,
-  Box,
   Skeleton,
   SkeletonCircle,
   SkeletonText,

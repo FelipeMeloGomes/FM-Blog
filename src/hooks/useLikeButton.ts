@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
-import { useLike } from "./useLikeResult";
+import { useCallback, useEffect, useState } from "react";
 import { UseLikeButtonProps, UseLikeButtonResult } from "./types";
 import { useHandleNotLoggedIn } from "./useHandleNotLoggedIn";
+import { useLike } from "./useLikeResult";
 
 export const useLikeButton = ({
   postId,

@@ -1,8 +1,8 @@
 import {
-  Spinner as ChakraSpinner,
   Box,
-  useBreakpointValue,
+  Spinner as ChakraSpinner,
   SpinnerProps,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 const Spinner = ({

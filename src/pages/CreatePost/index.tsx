@@ -1,14 +1,14 @@
-import { LayoutPage } from "../../components/LayoutPage";
-import { TextField } from "../../components/TextField";
+import { Box, FormLabel, Image, Input } from "@chakra-ui/react";
+import { Button } from "../../components/Button";
 import { Editor } from "../../components/Editor";
+import { ErrorMessage } from "../../components/ErrorMessage";
+import { LayoutPage } from "../../components/LayoutPage";
+import { PostDetailProps } from "../../components/PostDetail/types";
+import { TextField } from "../../components/TextField";
 import { useAuthValue } from "../../context/AuthContext";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { usePostForm } from "../../hooks/usePostForm";
-import { useFormSubmit } from "../../hooks/useFormSubmit";
-import { Box, FormLabel, Input, Image } from "@chakra-ui/react";
-import { Button } from "../../components/Button";
-import { PostDetailProps } from "../../components/PostDetail/types";
-import { ErrorMessage } from "../../components/ErrorMessage";
 
 const CreatePost = ({ post }: PostDetailProps) => {
   const existingLikes = post ? post.likes : [];

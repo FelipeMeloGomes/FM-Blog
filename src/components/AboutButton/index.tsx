@@ -1,6 +1,6 @@
-import { IconButton, Icon } from "@chakra-ui/react";
-import { AboutButtonProps } from "./types";
+import { Icon, IconButton } from "@chakra-ui/react";
 import { iconMap } from "./icon";
+import { AboutButtonProps } from "./types";
 
 const AboutButton = ({
   alt,

@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { TextInputProps } from "./types";
 import React from "react";
+import { TextInputProps } from "./types";
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, name, placeholder, onChange }, ref) => (

@@ -1,5 +1,5 @@
-import { useRef, useCallback } from "react";
 import { useDisclosure } from "@chakra-ui/react";
+import { useCallback, useRef } from "react";
 
 interface UseDeleteDialogProps {
   onConfirm: () => void;

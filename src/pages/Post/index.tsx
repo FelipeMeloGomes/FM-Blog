@@ -1,21 +1,21 @@
-import { useParams, Link } from "react-router-dom";
-import { useFetchDocument } from "../../hooks/useFetchDocument";
-import { Spinner } from "../../components/Spinner";
-import { LikeButton } from "../../components/LikeButton";
-import { useAuthValue } from "../../context/AuthContext";
-import { TagsDisplay } from "../../components/TagsDisplay";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Flex,
-  Stack,
-  Image,
-  Heading,
-  Text,
   Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
-import { handleShare } from "../../utils/ShareContent";
 import { BiShare } from "react-icons/bi";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Link, useParams } from "react-router-dom";
+import { LikeButton } from "../../components/LikeButton";
+import { Spinner } from "../../components/Spinner";
+import { TagsDisplay } from "../../components/TagsDisplay";
+import { useAuthValue } from "../../context/AuthContext";
+import { useFetchDocument } from "../../hooks/useFetchDocument";
+import { handleShare } from "../../utils/ShareContent";
 
 const Post = () => {
   const { user } = useAuthValue() || {};

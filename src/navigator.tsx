@@ -1,16 +1,16 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuthState } from "./hooks/useAuthState";
-import { Home } from "./pages/Home";
-import { NotFound } from "./pages/NotFound";
 import { About } from "./pages/About";
-import { Post } from "./pages/Post";
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
-import { EditPost } from "./pages/EditPost";
 import { CreatePost } from "./pages/CreatePost";
 import { Dashboard } from "./pages/Dashboard";
-import { Search } from "./pages/Search";
+import { EditPost } from "./pages/EditPost";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import { NotFound } from "./pages/NotFound";
+import { Post } from "./pages/Post";
+import { Register } from "./pages/Register";
 import { ResetPassword } from "./pages/ResetPassword";
+import { Search } from "./pages/Search";
 
 const Navigator = () => {
   const user = useAuthState();

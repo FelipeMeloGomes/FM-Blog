@@ -1,13 +1,13 @@
-import { Button, Box, Text, Badge, Skeleton } from "@chakra-ui/react";
-import { useLikeButton } from "../../hooks/useLikeButton";
-import { LikeButtonProps } from "./types";
+import { Badge, Box, Button, Skeleton, Text } from "@chakra-ui/react";
 import { BiLike } from "react-icons/bi";
+import { useLikeButton } from "../../hooks/useLikeButton";
 import {
   getButtonActiveStyle,
   getButtonColorScheme,
   getButtonHoverStyle,
   getIconColor,
 } from "../../utils/LikeButtonStyles";
+import { LikeButtonProps } from "./types";
 
 const LikeButton = ({ postId, userId }: LikeButtonProps) => {
   const { likeCount, liked, loading, handleLikeClick } = useLikeButton({

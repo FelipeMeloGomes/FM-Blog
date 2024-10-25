@@ -1,5 +1,5 @@
+import { Box, Link, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { Box, Text, Link } from "@chakra-ui/react";
 import { SignUpPromptProps } from "./types";
 
 const SignUpPrompt = ({ message, linkText, linkUrl }: SignUpPromptProps) => (

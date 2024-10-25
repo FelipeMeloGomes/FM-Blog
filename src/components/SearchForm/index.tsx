@@ -1,12 +1,12 @@
-import { useCallback, useRef } from "react";
+import { SearchIcon } from "@chakra-ui/icons";
 import {
-  Input,
+  Box,
   Button,
+  Input,
   InputGroup,
   InputLeftElement,
-  Box,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { useCallback, useRef } from "react";
 import { SearchFormProps } from "./types";
 
 const SearchForm = ({ handleSubmit, setQuery }: SearchFormProps) => {

@@ -1,6 +1,6 @@
-import { useState, useEffect, useReducer } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { useEffect, useReducer, useState } from "react";
 import { db } from "../firebase/config";
-import { updateDoc, doc } from "firebase/firestore";
 import { OperationState, UpdateAction } from "./types";
 
 const initialState: OperationState = {

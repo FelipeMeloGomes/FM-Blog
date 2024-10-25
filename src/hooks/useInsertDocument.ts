@@ -1,6 +1,6 @@
-import { useState, useEffect, useReducer } from "react";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { useEffect, useReducer, useState } from "react";
 import { db } from "../firebase/config";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { InsertAction, OperationState } from "./types";
 
 const initialState: OperationState = {

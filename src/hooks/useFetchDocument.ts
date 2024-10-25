@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { db } from "../firebase/config";
 import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../firebase/config";
 import { DocumentData, FetchDocumentResult } from "./types";
 
 export const useFetchDocument = (

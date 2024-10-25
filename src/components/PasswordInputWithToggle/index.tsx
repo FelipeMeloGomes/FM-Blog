@@ -1,6 +1,4 @@
-import { forwardRef } from "react";
-import { PasswordInputProps } from "./types";
-import { FaEye as EyeIcon, FaEyeSlash as SlashIcon } from "react-icons/fa";
+import { LockIcon } from "@chakra-ui/icons";
 import {
   FormControl,
   FormLabel,
@@ -10,7 +8,9 @@ import {
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
-import { LockIcon } from "@chakra-ui/icons";
+import { forwardRef } from "react";
+import { FaEye as EyeIcon, FaEyeSlash as SlashIcon } from "react-icons/fa";
+import { PasswordInputProps } from "./types";
 
 const PasswordInputWithToggle = forwardRef<
   HTMLInputElement,

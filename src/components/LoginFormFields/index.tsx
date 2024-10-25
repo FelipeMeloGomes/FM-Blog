@@ -1,11 +1,11 @@
-import { TextInputWithIcon } from "../TextInputWithIcon";
-import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
-import { PasswordToggle } from "../../utils/PasswordToggle";
-import { SignUpPrompt } from "../SignUpPrompt";
-import { LoginFormFieldsProps } from "./types";
-import { BiUser } from "react-icons/bi";
 import { Box } from "@chakra-ui/react";
+import { BiUser } from "react-icons/bi";
+import { PasswordToggle } from "../../utils/PasswordToggle";
 import { Button } from "../Button";
+import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
+import { SignUpPrompt } from "../SignUpPrompt";
+import { TextInputWithIcon } from "../TextInputWithIcon";
+import { LoginFormFieldsProps } from "./types";
 
 const LoginFormFields = ({
   isLogin,

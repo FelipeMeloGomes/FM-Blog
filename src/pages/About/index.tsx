@@ -1,8 +1,8 @@
-import { Image, Box, Flex } from "@chakra-ui/react";
-import { TextField } from "../../components/TextField";
-import { LayoutPage } from "../../components/LayoutPage";
-import aboutImg from "./assets/about.webp";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import { AboutButton } from "../../components/AboutButton";
+import { LayoutPage } from "../../components/LayoutPage";
+import { TextField } from "../../components/TextField";
+import aboutImg from "./assets/about.webp";
 
 const About = () => {
   return (

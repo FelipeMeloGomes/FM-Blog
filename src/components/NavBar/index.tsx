@@ -1,10 +1,10 @@
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
-import { useAuthentication } from "../../hooks/useAuthentication";
 import { useAuthValue } from "../../context/AuthContext";
-import { NavBarLogo } from "../NavBarLogo";
-import { NavBarMenuToggle } from "../NavBarToggle";
+import { useAuthentication } from "../../hooks/useAuthentication";
 import { NavBarLinks } from "../NavBarLinks";
+import { NavBarLogo } from "../NavBarLogo";
 import { NavBarMobile } from "../NavBarMobile";
+import { NavBarMenuToggle } from "../NavBarToggle";
 
 const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();

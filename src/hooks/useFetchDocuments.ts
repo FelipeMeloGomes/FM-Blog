@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { db } from "../firebase/config";
 import {
   collection,
-  query,
-  orderBy,
-  onSnapshot,
-  where,
-  limit,
-  startAfter,
-  getDocs,
-  QuerySnapshot,
   DocumentData as FirestoreDocumentData,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  QuerySnapshot,
+  startAfter,
+  where,
 } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../firebase/config";
 import { DocumentData, FetchDocumentsResult } from "./types";
 
 export const useFetchDocuments = (

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { useAuthentication } from "./useAuthentication";
 
 interface CustomUser extends FirebaseUser {

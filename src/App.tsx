@@ -1,9 +1,9 @@
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
-import { NavBar } from "./components/NavBar";
 import { LayoutPage } from "./components/LayoutPage";
-import { Navigator } from "./navigator";
+import { NavBar } from "./components/NavBar";
+import { AuthProvider } from "./context/AuthContext";
 import { useAuthState } from "./hooks/useAuthState";
+import { Navigator } from "./navigator";
 
 const App = () => {
   const user = useAuthState();

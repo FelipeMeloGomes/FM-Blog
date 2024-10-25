@@ -1,14 +1,14 @@
 import {
   Avatar,
+  IconButton,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   MenuDivider,
-  IconButton,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
-import { AvatarMenuProps } from "./types";
 import { useNavigation } from "../../utils/NavigationUtils";
+import { AvatarMenuProps } from "./types";
 
 const AvatarMenu = ({ logout }: AvatarMenuProps) => {
   const { handleProfileClick, handleAboutClick } = useNavigation();

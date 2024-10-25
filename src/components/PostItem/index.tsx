@@ -1,4 +1,3 @@
-import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Button,
@@ -6,6 +5,7 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { DeleteButton } from "../DeleteButton";
 import { PostItemProps } from "./types";
 

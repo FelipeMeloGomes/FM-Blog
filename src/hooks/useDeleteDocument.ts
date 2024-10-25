@@ -1,6 +1,6 @@
-import { useState, useEffect, useReducer } from "react";
+import { deleteDoc, doc } from "firebase/firestore";
+import { useEffect, useReducer, useState } from "react";
 import { db } from "../firebase/config";
-import { doc, deleteDoc } from "firebase/firestore";
 import { DeleteAction, OperationState } from "./types";
 import { useToastNotification } from "./useToastNotification";
 

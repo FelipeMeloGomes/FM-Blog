@@ -1,9 +1,9 @@
-import { TextInputWithIcon } from "../TextInputWithIcon";
-import { Button } from "../Button";
+import { AtSignIcon } from "@chakra-ui/icons";
 import { Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { Button } from "../Button";
+import { TextInputWithIcon } from "../TextInputWithIcon";
 import { PasswordResetFormProps } from "./types";
-import { AtSignIcon } from "@chakra-ui/icons";
 
 const PasswordResetForm = ({
   formData,

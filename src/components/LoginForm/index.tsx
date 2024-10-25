@@ -1,10 +1,10 @@
-import { useAuthForm } from "../../hooks/useAuthForm";
 import { Box } from "@chakra-ui/react";
 import { FormEvent } from "react";
-import { loginFormProps } from "./types";
-import { PasswordResetForm } from "../PasswordResetForm";
-import { LoginFormFields } from "../LoginFormFields";
+import { useAuthForm } from "../../hooks/useAuthForm";
 import { AuthButtons } from "../AuthButtons";
+import { LoginFormFields } from "../LoginFormFields";
+import { PasswordResetForm } from "../PasswordResetForm";
+import { loginFormProps } from "./types";
 
 const LoginForm = ({
   isLogin,

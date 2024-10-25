@@ -1,7 +1,7 @@
-import { PostDetail } from "../PostDetail";
-import { PostListProps } from "./types";
-import { ResponsiveSkeletonCard } from "../PostSkeleton";
 import { Stack } from "@chakra-ui/react";
+import { PostDetail } from "../PostDetail";
+import { ResponsiveSkeletonCard } from "../PostSkeleton";
+import { PostListProps } from "./types";
 
 const PostList = ({ posts }: PostListProps) => {
   if (!posts || posts.length === 0) {

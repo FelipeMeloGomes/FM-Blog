@@ -1,6 +1,6 @@
-import { useState, useEffect, FormEvent } from "react";
-import { useAuthentication } from "./useAuthentication";
+import { FormEvent, useEffect, useState } from "react";
 import { AuthFormHook, AuthFormValues } from "./types";
+import { useAuthentication } from "./useAuthentication";
 
 export const useAuthForm = (
   isLogin?: boolean,

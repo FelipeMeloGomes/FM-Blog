@@ -1,7 +1,7 @@
+import { forwardRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { forwardRef } from "react";
-import { EditorRef, EditorProps } from "./types";
+import { EditorProps, EditorRef } from "./types";
 
 export const Editor = forwardRef<EditorRef, EditorProps>(
   ({ value, onChange }, ref) => {
