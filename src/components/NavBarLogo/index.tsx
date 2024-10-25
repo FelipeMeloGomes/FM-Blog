@@ -1,6 +1,6 @@
 import { Box, Image } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import logo from "./logo.png";
+import logo from "../../public/logo.webp";
 
 const NavBarLogo = () => (
   <Box
