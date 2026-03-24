@@ -68,6 +68,7 @@ export const useAuthForm = (
   const handleGoogleLogin = async (): Promise<void> => {
     try {
       await loginWithGoogle();
+      if (onSubmit) onSubmit(formData);
     } catch (err) {
       console.error(err);
     }
