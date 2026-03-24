@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "protobufjs"]
+  },
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
