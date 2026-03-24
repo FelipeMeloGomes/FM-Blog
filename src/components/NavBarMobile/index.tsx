@@ -1,9 +1,12 @@
-import { Box, Collapse, VStack } from "@chakra-ui/react";
+import { Box, Collapse, Divider, HStack, Icon, Text, VStack, useColorMode } from "@chakra-ui/react";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import type { NavBarProps } from "./types";
 
 const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
   const location = useLocation();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const isDark = colorMode === "dark";
 
   const menuItems = [
     { text: "Início", to: "/", show: true },
@@ -57,12 +60,33 @@ const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
               fontWeight="medium"
               color="red.500"
               textAlign="left"
+              _dark={{ _hover: { bg: "red.900" } }}
               _hover={{ bg: "red.50" }}
               transition="all 0.2s"
             >
               Sair
             </Box>
           )}
+
+          <Divider borderColor="border.subtle" />
+
+          <Box
+            as="button"
+            onClick={toggleColorMode}
+            py={2}
+            px={4}
+            fontSize="md"
+            fontWeight="medium"
+            color="text.secondary"
+            textAlign="left"
+            _hover={{ bg: "bg.secondary", color: "text.primary" }}
+            transition="all 0.2s"
+          >
+            <HStack spacing={3}>
+              <Icon as={isDark ? FiSun : FiMoon} boxSize={5} />
+              <Text>{isDark ? "Modo claro" : "Modo escuro"}</Text>
+            </HStack>
+          </Box>
         </VStack>
       </Box>
     </Collapse>

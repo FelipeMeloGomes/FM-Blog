@@ -47,11 +47,11 @@ const PostCard = ({ post }: PostCardProps) => {
       to={`/posts/${post.id}`}
       display="block"
       border="1px"
-      borderColor="gray.100"
+      borderColor="border.subtle"
       borderRadius="md"
       overflow="hidden"
-      _hover={{ borderColor: "gray.300" }}
-      transition="border-color 0.2s"
+      _hover={{ borderColor: "border.hover", bg: "bg.secondary" }}
+      transition="all 0.2s"
     >
       <AspectRatio ratio={16 / 9}>
         <Image
@@ -65,13 +65,13 @@ const PostCard = ({ post }: PostCardProps) => {
       <VStack spacing={3} p={5} align="stretch">
         {post.tagsArray && post.tagsArray.length > 0 && (
           <HStack spacing={2} flexWrap="wrap">
-            <Text fontSize="xs" color="gray.500" textTransform="uppercase" letterSpacing="wider">
+            <Text fontSize="xs" color="text.muted" textTransform="uppercase" letterSpacing="wider">
               {post.tagsArray[0]}
             </Text>
-            <Text fontSize="xs" color="gray.400">
+            <Text fontSize="xs" color="text.tertiary">
               ·
             </Text>
-            <Text fontSize="xs" color="gray.500">
+            <Text fontSize="xs" color="text.muted">
               {readTime} min de leitura
             </Text>
           </HStack>
@@ -82,23 +82,23 @@ const PostCard = ({ post }: PostCardProps) => {
           fontSize="md"
           fontWeight="600"
           noOfLines={2}
-          color="gray.900"
+          color="text.primary"
           lineHeight="tall"
         >
           {post.title}
         </Heading>
 
         {post.description && (
-          <Text fontSize="sm" color="gray.600" noOfLines={3} lineHeight="tall">
+          <Text fontSize="sm" color="text.secondary" noOfLines={3} lineHeight="tall">
             {post.description}
           </Text>
         )}
 
-        <Box borderTop="1px" borderColor="gray.100" pt={3} mt={2}>
+        <Box borderTop="1px" borderColor="border.subtle" pt={3} mt={2}>
           <HStack justify="space-between" align="center">
             <HStack spacing={2}>
               <Avatar size="xs" name={post.createdBy} />
-              <Text fontSize="sm" color="gray.600">
+              <Text fontSize="sm" color="text.secondary">
                 {post.createdBy}
               </Text>
             </HStack>
@@ -106,13 +106,13 @@ const PostCard = ({ post }: PostCardProps) => {
             <HStack spacing={3}>
               {post.likes && (
                 <HStack spacing={1}>
-                  <Text fontSize="sm" color="gray.500">
+                  <Text fontSize="sm" color="text.muted">
                     ♥ {post.likes.length}
                   </Text>
                 </HStack>
               )}
               {formattedDate && (
-                <Text fontSize="xs" color="gray.400">
+                <Text fontSize="xs" color="text.tertiary">
                   {formattedDate}
                 </Text>
               )}

@@ -152,14 +152,14 @@ const EditPostContent = () => {
         </Button>
       </HStack>
 
-      <Heading size="lg" fontFamily="heading" color="gray.900">
+      <Heading size="lg" fontFamily="heading" color="text.primary">
         Editar post
       </Heading>
 
       <Box as="form" onSubmit={handleSubmit}>
         <VStack spacing={6} align="stretch">
           <FormControl isRequired>
-            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+            <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
               Título do post
             </FormLabel>
             <Input
@@ -184,7 +184,7 @@ const EditPostContent = () => {
           />
 
           <FormControl>
-            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+            <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
               Conteúdo
             </FormLabel>
             <Textarea
@@ -196,7 +196,7 @@ const EditPostContent = () => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+            <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
               Tags (separadas por vírgula)
             </FormLabel>
             <Input
@@ -206,7 +206,7 @@ const EditPostContent = () => {
             />
             {tags.length > 0 && (
               <Box mt={4}>
-                <Text fontSize="sm" color="gray.500" mb={2}>
+                <Text fontSize="sm" color="text.muted" mb={2}>
                   Preview das tags:
                 </Text>
                 <HStack spacing={2} flexWrap="wrap">

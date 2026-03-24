@@ -26,6 +26,7 @@ export const theme = extendTheme(config, {
       "text.primary": { default: "gray.900", _dark: "white" },
       "text.secondary": { default: "gray.600", _dark: "gray.400" },
       "text.muted": { default: "gray.500", _dark: "gray.500" },
+      "text.tertiary": { default: "gray.400", _dark: "gray.600" },
       "border.subtle": { default: "gray.100", _dark: "gray.700" },
       "border.default": { default: "gray.200", _dark: "gray.600" },
       "border.hover": { default: "gray.300", _dark: "gray.500" },
