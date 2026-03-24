@@ -1,13 +1,11 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
-  AspectRatio,
   Box,
   Button,
   FormControl,
   FormLabel,
   HStack,
   Heading,
-  Image,
   Input,
   Tag,
   TagCloseButton,
@@ -19,20 +17,22 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
+import { uploadPostImage } from "../../firebase/storage";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
-import { usePostForm } from "../../hooks/usePostForm";
 import { EditorProvider } from "../../utils/EditorContext";
 
 const CreatePostContent = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { user } = useAuthValue() || {};
-  const { titleRef, imageRef, imageUrl, tagsRef, handleChange, error } = usePostForm({
-    existingLikes: [],
-  });
-  const { insertDocument, response } = useInsertDocument("posts");
+  const [title, setTitle] = useState("");
+  const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
   const [tags, setTags] = useState<string[]>([]);
+  const [body, setBody] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { insertDocument, response } = useInsertDocument("posts");
 
   const handleTagsChange = (value: string) => {
     const newTags = value
@@ -49,13 +49,11 @@ const CreatePostContent = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const title = titleRef.current?.value;
-    const image = imageRef.current?.value;
-
-    if (!title || !image || tags.length === 0) {
+    if (!title || !coverImage?.file || tags.length === 0 || body.length < 10) {
       toast({
         title: "Erro",
-        description: "Preencha todos os campos obrigatórios.",
+        description:
+          "Preencha todos os campos obrigatórios. O conteúdo deve ter pelo menos 10 caracteres.",
         status: "error",
         position: "top-right",
         duration: 5000,
@@ -64,18 +62,22 @@ const CreatePostContent = () => {
       return;
     }
 
-    const formData = {
-      title,
-      image,
-      body: "",
-      tagsArray: tags,
-      uid: user?.uid || "",
-      createdBy: user?.name || user?.email || "Anonymous",
-      likeCount: 0,
-      likes: [],
-    };
+    setIsSubmitting(true);
 
     try {
+      const imageUrl = await uploadPostImage(coverImage.file, user?.uid || "anonymous");
+
+      const formData = {
+        title,
+        image: imageUrl,
+        body,
+        tagsArray: tags,
+        uid: user?.uid || "",
+        createdBy: user?.name || user?.email || "Anonymous",
+        likeCount: 0,
+        likes: [],
+      };
+
       await insertDocument(formData);
       toast({
         title: "Sucesso",
@@ -95,6 +97,8 @@ const CreatePostContent = () => {
         duration: 5000,
         isClosable: true,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -117,30 +121,22 @@ const CreatePostContent = () => {
               Título do post
             </FormLabel>
             <Input
-              ref={titleRef}
               placeholder="Digite o título do seu post"
               size="lg"
               fontFamily="heading"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
-              URL da imagem de capa
-            </FormLabel>
-            <Input
-              ref={imageRef}
-              placeholder="https://exemplo.com/imagem.jpg"
-              onChange={handleChange}
-            />
-            {imageUrl && !error && (
-              <Box mt={4}>
-                <AspectRatio ratio={16 / 9}>
-                  <Image src={imageUrl} alt="Preview" borderRadius="md" objectFit="cover" />
-                </AspectRatio>
-              </Box>
-            )}
-          </FormControl>
+          <ImageUploader
+            label="Imagem de capa"
+            required
+            multiple={false}
+            maxFiles={1}
+            maxSizeMB={5}
+            onImagesChange={(images) => setCoverImage(images[0] ?? null)}
+          />
 
           <FormControl isRequired>
             <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
@@ -150,6 +146,8 @@ const CreatePostContent = () => {
               placeholder="Escreva o conteúdo do seu post..."
               minH="300px"
               resize="vertical"
+              value={body}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)}
             />
           </FormControl>
 
@@ -158,7 +156,6 @@ const CreatePostContent = () => {
               Tags (separadas por vírgula)
             </FormLabel>
             <Input
-              ref={tagsRef}
               placeholder="react, typescript, firebase"
               onChange={(e) => handleTagsChange(e.target.value)}
             />
@@ -183,7 +180,11 @@ const CreatePostContent = () => {
             <Button as={RouterLink} to="/" variant="ghost">
               Cancelar
             </Button>
-            <Button type="submit" variant="solid" isLoading={response.loading || false}>
+            <Button
+              type="submit"
+              variant="solid"
+              isLoading={isSubmitting || response.loading || false}
+            >
               Publicar
             </Button>
           </HStack>

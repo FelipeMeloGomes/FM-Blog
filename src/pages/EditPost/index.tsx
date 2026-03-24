@@ -1,13 +1,11 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
-  AspectRatio,
   Box,
   Button,
   FormControl,
   FormLabel,
   HStack,
   Heading,
-  Image,
   Input,
   Tag,
   TagCloseButton,
@@ -19,8 +17,9 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
+import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
-import { usePostForm } from "../../hooks/usePostForm";
+import { uploadPostImage } from "../../firebase/storage";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { EditorProvider } from "../../utils/EditorContext";
@@ -31,17 +30,23 @@ const EditPostContent = () => {
   const { user } = useAuthValue() || {};
   const { data: post, isLoading } = usePost(id);
   const { updateDocument, response } = useUpdateDocument("posts");
-  const { titleRef, imageRef, imageUrl, tagsRef, handleChange, error } = usePostForm({
-    existingLikes: post?.likes || [],
-  });
   const toast = useToast();
+
+  const [title, setTitle] = useState("");
+  const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
   const [tags, setTags] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (post) {
-      titleRef.current!.value = post.title || "";
-      imageRef.current!.value = post.image || "";
-      tagsRef.current!.value = post.tagsArray?.join(", ") || "";
+      setTitle(post.title || "");
+      if (post.image) {
+        setCoverImage({
+          id: "initial",
+          file: null,
+          preview: post.image,
+        });
+      }
       setTags(post.tagsArray || []);
     }
   }, [post]);
@@ -61,10 +66,7 @@ const EditPostContent = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const title = titleRef.current?.value;
-    const image = imageRef.current?.value;
-
-    if (!title || !image || tags.length === 0) {
+    if (!title || tags.length === 0) {
       toast({
         title: "Erro",
         description: "Preencha todos os campos obrigatórios.",
@@ -76,18 +78,38 @@ const EditPostContent = () => {
       return;
     }
 
-    const formData = {
-      title,
-      image,
-      body: String(post?.body || ""),
-      tagsArray: tags,
-      uid: user?.uid || post?.uid || "",
-      createdBy: post?.createdBy || user?.name || user?.email || "Anonymous",
-      likeCount: post?.likeCount || 0,
-      likes: post?.likes || [],
-    };
+    if (!coverImage) {
+      toast({
+        title: "Erro",
+        description: "Imagem de capa obrigatória.",
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
+      let imageUrl = post?.image || "";
+
+      if (coverImage.file) {
+        imageUrl = await uploadPostImage(coverImage.file, user?.uid || post?.uid || "anonymous");
+      }
+
+      const formData = {
+        title,
+        image: imageUrl,
+        body: String(post?.body || ""),
+        tagsArray: tags,
+        uid: user?.uid || post?.uid || "",
+        createdBy: post?.createdBy || user?.name || user?.email || "Anonymous",
+        likeCount: post?.likeCount || 0,
+        likes: post?.likes || [],
+      };
+
       await updateDocument(id!, formData);
       toast({
         title: "Sucesso",
@@ -107,6 +129,8 @@ const EditPostContent = () => {
         duration: 5000,
         isClosable: true,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -137,32 +161,25 @@ const EditPostContent = () => {
               Título do post
             </FormLabel>
             <Input
-              ref={titleRef}
               placeholder="Digite o título do seu post"
               size="lg"
               fontFamily="heading"
-              defaultValue={post.title}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
-              URL da imagem de capa
-            </FormLabel>
-            <Input
-              ref={imageRef}
-              placeholder="https://exemplo.com/imagem.jpg"
-              onChange={handleChange}
-              defaultValue={post.image}
-            />
-            {imageUrl && !error && (
-              <Box mt={4}>
-                <AspectRatio ratio={16 / 9}>
-                  <Image src={imageUrl} alt="Preview" borderRadius="md" objectFit="cover" />
-                </AspectRatio>
-              </Box>
-            )}
-          </FormControl>
+          <ImageUploader
+            label="Imagem de capa"
+            required
+            multiple={false}
+            maxFiles={1}
+            maxSizeMB={5}
+            initialImageUrl={post.image}
+            onImagesChange={(images) => {
+              setCoverImage(images[0] ?? null);
+            }}
+          />
 
           <FormControl>
             <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
@@ -181,7 +198,6 @@ const EditPostContent = () => {
               Tags (separadas por vírgula)
             </FormLabel>
             <Input
-              ref={tagsRef}
               placeholder="react, typescript, firebase"
               onChange={(e) => handleTagsChange(e.target.value)}
               defaultValue={post.tagsArray?.join(", ")}
@@ -207,7 +223,11 @@ const EditPostContent = () => {
             <Button as={RouterLink} to="/" variant="ghost">
               Cancelar
             </Button>
-            <Button type="submit" variant="solid" isLoading={response.loading || false}>
+            <Button
+              type="submit"
+              variant="solid"
+              isLoading={isSubmitting || response.loading || false}
+            >
               Salvar
             </Button>
           </HStack>
