@@ -19,8 +19,8 @@ import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
-import { uploadPostImage } from "../../firebase/storage";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
+import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { EditorProvider } from "../../utils/EditorContext";
 
 const CreatePostContent = () => {
@@ -65,7 +65,8 @@ const CreatePostContent = () => {
     setIsSubmitting(true);
 
     try {
-      const imageUrl = await uploadPostImage(coverImage.file, user?.uid || "anonymous");
+      const uploadedUrl = await uploadToCloudinary(coverImage.file);
+      const imageUrl = transformCloudinaryUrl(uploadedUrl);
 
       const formData = {
         title,
@@ -88,10 +89,11 @@ const CreatePostContent = () => {
         isClosable: true,
       });
       navigate("/");
-    } catch {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Erro ao criar post.";
       toast({
         title: "Erro",
-        description: "Erro ao criar post.",
+        description: errorMessage,
         status: "error",
         position: "top-right",
         duration: 5000,

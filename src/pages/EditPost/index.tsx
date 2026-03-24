@@ -19,8 +19,8 @@ import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
-import { uploadPostImage } from "../../firebase/storage";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
+import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { EditorProvider } from "../../utils/EditorContext";
 
@@ -96,7 +96,8 @@ const EditPostContent = () => {
       let imageUrl = post?.image || "";
 
       if (coverImage.file) {
-        imageUrl = await uploadPostImage(coverImage.file, user?.uid || post?.uid || "anonymous");
+        const uploadedUrl = await uploadToCloudinary(coverImage.file);
+        imageUrl = transformCloudinaryUrl(uploadedUrl);
       }
 
       const formData = {
@@ -120,10 +121,11 @@ const EditPostContent = () => {
         isClosable: true,
       });
       navigate("/");
-    } catch {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Erro ao atualizar post.";
       toast({
         title: "Erro",
-        description: "Erro ao atualizar post.",
+        description: errorMessage,
         status: "error",
         position: "top-right",
         duration: 5000,
