@@ -1,55 +1,55 @@
-import { Badge, Box, Button, Skeleton, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Text, useColorMode } from "@chakra-ui/react";
 import { memo } from "react";
-import { BiLike } from "react-icons/bi";
+import { FiHeart } from "react-icons/fi";
 import { useLikeButton } from "../../hooks/useLikeButton";
-import {
-  getButtonActiveStyle,
-  getButtonColorScheme,
-  getButtonHoverStyle,
-  getIconColor,
-} from "../../utils/LikeButtonStyles";
 import type { LikeButtonProps } from "./types";
 
 const LikeButtonComponent = ({ postId, userId }: LikeButtonProps) => {
+  const { colorMode } = useColorMode();
   const { likeCount, liked, loading, handleLikeClick } = useLikeButton({
     postId,
     userId,
   });
 
-  if (loading) {
-    return (
-      <Skeleton>
-        <Text>Loading...</Text>
-      </Skeleton>
-    );
-  }
+  const isDark = colorMode === "dark";
 
   return (
     <Button
-      width={{ base: "full", md: "auto" }}
-      maxWidth="full"
-      height="40px"
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
+      variant="ghost"
+      size="sm"
+      height="auto"
+      px={3}
+      py={1}
       borderRadius="md"
-      variant="outline"
-      colorScheme={getButtonColorScheme(liked)}
+      bg={liked ? "red.50" : "transparent"}
+      border="1px"
+      borderColor={liked ? "red.200" : "border.subtle"}
       onClick={handleLikeClick}
-      isDisabled={!postId}
-      transition="background-color 0.3s ease, color 0.3s ease"
-      _hover={getButtonHoverStyle(liked)}
-      _active={getButtonActiveStyle(liked)}
+      isDisabled={!postId || loading}
+      _hover={{
+        bg: liked ? "red.100" : isDark ? "whiteAlpha.100" : "gray.100",
+      }}
+      _active={{
+        bg: liked ? "red.200" : isDark ? "whiteAlpha.200" : "gray.200",
+      }}
+      _disabled={{
+        opacity: 0.5,
+        cursor: "not-allowed",
+      }}
+      transition="all 0.2s"
     >
-      <Box display="flex" alignItems="center" gap="2" flex="1" color={getIconColor(liked)}>
-        <BiLike size="1.25em" />
-        <Text fontWeight="semibold" p={1} fontSize="sm">
-          {liked ? "Curtidas" : "Curtir"}
+      <HStack spacing={2}>
+        <Box
+          as={FiHeart}
+          size={16}
+          color={liked ? "red.500" : "text.secondary"}
+          fill={liked ? "currentColor" : "none"}
+          transition="all 0.2s"
+        />
+        <Text fontSize="sm" fontWeight="medium" color={liked ? "red.500" : "text.secondary"}>
+          {likeCount}
         </Text>
-      </Box>
-      <Badge colorScheme={getButtonColorScheme(liked)} fontSize="0.8em" borderRadius="full" px={2}>
-        {likeCount}
-      </Badge>
+      </HStack>
     </Button>
   );
 };

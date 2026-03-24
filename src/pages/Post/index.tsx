@@ -13,9 +13,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
+import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
+import { ShareButton } from "../../components/ShareButton";
 import { useAuthValue } from "../../context/AuthContext";
 import { usePost } from "../../lib/hooks/usePostsQuery";
+import { handleShare } from "../../utils/ShareContent";
 import { sanitizeHtml } from "../../utils/sanitize";
 
 const formatDate = (date: unknown): string => {
@@ -192,10 +195,9 @@ const Post = () => {
         <Divider />
 
         <HStack justify="space-between" align="center" flexWrap="wrap" gap={4}>
-          <HStack spacing={4}>
-            <Text fontSize="sm" color="text.secondary">
-              ♥ {post.likes?.length || 0} curtidas
-            </Text>
+          <HStack spacing={2}>
+            <LikeButton postId={post.id!} userId={user?.uid || ""} />
+            <ShareButton post={post as any} onShare={handleShare} />
           </HStack>
 
           <HStack spacing={4}>
