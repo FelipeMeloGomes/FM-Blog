@@ -13,7 +13,6 @@ import {
   Text,
   Textarea,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
@@ -22,6 +21,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { usePost } from "../../lib/hooks/usePostsQuery";
+import { useFeedback } from "../../providers/ToastProvider";
 import { EditorProvider } from "../../utils/EditorContext";
 
 const processTags = (input: string): string[] => {
@@ -40,7 +40,7 @@ const EditPostContent = () => {
   const { user } = useAuthValue() || {};
   const { data: post, isLoading } = usePost(id);
   const { updateDocument, response } = useUpdateDocument("posts");
-  const toast = useToast();
+  const { success, error } = useFeedback();
 
   const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
@@ -77,38 +77,17 @@ const EditPostContent = () => {
     e.preventDefault();
 
     if (!title.trim() || previewTags.length === 0) {
-      toast({
-        title: "Erro",
-        description: "Preencha todos os campos obrigatórios.",
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      error("Erro", "Preencha todos os campos obrigatórios.");
       return;
     }
 
     if (!coverImage) {
-      toast({
-        title: "Erro",
-        description: "Imagem de capa obrigatória.",
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      error("Erro", "Imagem de capa obrigatória.");
       return;
     }
 
     if (titleError) {
-      toast({
-        title: "Erro",
-        description: titleError,
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      error("Erro", titleError);
       return;
     }
 
@@ -134,25 +113,11 @@ const EditPostContent = () => {
       };
 
       await updateDocument(id!, formData);
-      toast({
-        title: "Sucesso",
-        description: "Post atualizado com sucesso!",
-        status: "success",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      success("Sucesso", "Post atualizado com sucesso!");
       navigate("/");
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Erro ao atualizar post.";
-      toast({
-        title: "Erro",
-        description: errorMessage,
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao atualizar post.";
+      error("Erro", errorMessage);
     } finally {
       setIsSubmitting(false);
     }

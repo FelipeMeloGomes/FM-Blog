@@ -19,7 +19,6 @@ import {
   Textarea,
   VStack,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -27,6 +26,7 @@ import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
+import { useFeedback } from "../../providers/ToastProvider";
 import { EditorProvider } from "../../utils/EditorContext";
 
 const processTags = (input: string): string[] => {
@@ -41,7 +41,7 @@ const processTags = (input: string): string[] => {
 
 const CreatePostContent = () => {
   const navigate = useNavigate();
-  const toast = useToast();
+  const { success, error } = useFeedback();
   const { user } = useAuthValue() || {};
   const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
@@ -91,27 +91,15 @@ const CreatePostContent = () => {
     e.preventDefault();
 
     if (!title.trim() || !coverImage?.file || previewTags.length === 0 || body.length < 10) {
-      toast({
-        title: "Erro",
-        description:
-          "Preencha todos os campos obrigatórios. O conteúdo deve ter pelo menos 10 caracteres.",
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      error(
+        "Erro",
+        "Preencha todos os campos obrigatórios. O conteúdo deve ter pelo menos 10 caracteres."
+      );
       return;
     }
 
     if (titleError) {
-      toast({
-        title: "Erro",
-        description: titleError,
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      error("Erro", titleError);
       return;
     }
 
@@ -133,25 +121,11 @@ const CreatePostContent = () => {
       };
 
       await insertDocument(formData);
-      toast({
-        title: "Sucesso",
-        description: "Post criado com sucesso!",
-        status: "success",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+      success("Sucesso", "Post criado com sucesso!");
       navigate("/");
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Erro ao criar post.";
-      toast({
-        title: "Erro",
-        description: errorMessage,
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
-      });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro ao criar post.";
+      error("Erro", errorMessage);
     } finally {
       setIsSubmitting(false);
     }

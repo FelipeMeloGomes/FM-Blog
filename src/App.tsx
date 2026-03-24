@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { AuthProvider } from "./context/AuthContext";
 import { useAuthState } from "./hooks/useAuthState";
+import { ToastProvider } from "./providers/ToastProvider";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -15,6 +16,7 @@ const Search = lazy(() => import("./pages/Search"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 const PageLoader = () => (
   <Box display="flex" justifyContent="center" alignItems="center" minH="50vh">
@@ -36,6 +38,7 @@ const AppContent = () => {
             <Route path="posts/edit/:id" element={<EditPost />} />
             <Route path="posts/:id" element={<Post />} />
             <Route path="dashboard" element={<Dashboard createdBy={user?.email || ""} />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="search" element={<Search />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
@@ -50,7 +53,9 @@ const AppContent = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <AppContent />
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </BrowserRouter>
   );
 };
