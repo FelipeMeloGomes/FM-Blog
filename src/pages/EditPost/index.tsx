@@ -65,10 +65,18 @@ const EditPostContent = () => {
     return processTags(tagsInput);
   }, [tagsInput]);
 
+  const titleLength = title.trim().length;
+  const titleError =
+    titleLength > 0 && titleLength < 10
+      ? "Título deve ter pelo menos 10 caracteres"
+      : titleLength > 200
+        ? "Título deve ter no máximo 200 caracteres"
+        : "";
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || previewTags.length === 0) {
+    if (!title.trim() || previewTags.length === 0) {
       toast({
         title: "Erro",
         description: "Preencha todos os campos obrigatórios.",
@@ -84,6 +92,18 @@ const EditPostContent = () => {
       toast({
         title: "Erro",
         description: "Imagem de capa obrigatória.",
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (titleError) {
+      toast({
+        title: "Erro",
+        description: titleError,
         status: "error",
         position: "top-right",
         duration: 5000,
@@ -160,7 +180,7 @@ const EditPostContent = () => {
 
       <Box as="form" onSubmit={handleSubmit}>
         <VStack spacing={6} align="stretch">
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!!titleError && titleLength > 0}>
             <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
               Título do post
             </FormLabel>
@@ -170,7 +190,20 @@ const EditPostContent = () => {
               fontFamily="heading"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              maxLength={220}
             />
+            <HStack justify="space-between" mt={1}>
+              {titleError && titleLength > 0 ? (
+                <Text fontSize="xs" color="red.500">
+                  {titleError}
+                </Text>
+              ) : (
+                <Box />
+              )}
+              <Text fontSize="xs" color={titleLength > 200 ? "red.500" : "text.tertiary"}>
+                {titleLength}/200
+              </Text>
+            </HStack>
           </FormControl>
 
           <ImageUploader

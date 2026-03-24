@@ -1,8 +1,5 @@
 import { IconButton, Tooltip, useColorMode } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { FiMoon, FiSun } from "react-icons/fi";
-
-const MotionIconButton = motion(IconButton);
 
 const ColorModeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -10,16 +7,16 @@ const ColorModeToggle = () => {
 
   return (
     <Tooltip label="Alternar tema" hasArrow>
-      <MotionIconButton
+      <IconButton
         aria-label="Alternar tema"
-        icon={isDark ? <FiSun /> : <FiMoon />}
+        icon={isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
         variant="ghost"
         size="sm"
         borderRadius="full"
         onClick={toggleColorMode}
-        animate={{ rotate: isDark ? 0 : 180 }}
-        transition={{ duration: 0.3 }}
         _hover={{ bg: "bg.secondary" }}
+        transition="transform 0.3s"
+        transform={isDark ? "rotate(0deg)" : "rotate(180deg)"}
       />
     </Tooltip>
   );

@@ -36,6 +36,7 @@ import { EmptyState } from "../../components/EmptyState";
 import { Pagination } from "../../components/Pagination";
 import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useUserPosts } from "../../lib/hooks/usePostsQuery";
 
 const POSTS_PER_PAGE = 5;
@@ -98,8 +99,8 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const { data: posts, isLoading } = useUserPosts(uid);
   const { deleteDocument } = useDeleteDocument("posts");
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("recent");
+  const [searchQuery, setSearchQuery] = useLocalStorage("dashboard-search", "");
+  const [sortBy, setSortBy] = useLocalStorage<SortOption>("dashboard-sort", "recent");
   const [currentPage, setCurrentPage] = useState(1);
 
   const postsArray = useMemo(() => {

@@ -1,5 +1,11 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   FormControl,
@@ -12,9 +18,10 @@ import {
   Text,
   Textarea,
   VStack,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
@@ -42,21 +49,64 @@ const CreatePostContent = () => {
   const [body, setBody] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { insertDocument, response } = useInsertDocument("posts");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   const tagsInputRef = useRef<HTMLInputElement>(null);
+
+  const hasUnsavedChanges = title.trim() || coverImage || tagsInput.trim() || body.trim();
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges && !isSubmitting) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [hasUnsavedChanges, isSubmitting]);
 
   const previewTags = useMemo(() => {
     return processTags(tagsInput);
   }, [tagsInput]);
 
+  const titleLength = title.trim().length;
+  const titleError =
+    titleLength > 0 && titleLength < 10
+      ? "Título deve ter pelo menos 10 caracteres"
+      : titleLength > 200
+        ? "Título deve ter no máximo 200 caracteres"
+        : "";
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges) {
+      onOpen();
+    } else {
+      navigate("/");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || !coverImage?.file || previewTags.length === 0 || body.length < 10) {
+    if (!title.trim() || !coverImage?.file || previewTags.length === 0 || body.length < 10) {
       toast({
         title: "Erro",
         description:
           "Preencha todos os campos obrigatórios. O conteúdo deve ter pelo menos 10 caracteres.",
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (titleError) {
+      toast({
+        title: "Erro",
+        description: titleError,
         status: "error",
         position: "top-right",
         duration: 5000,
@@ -121,7 +171,7 @@ const CreatePostContent = () => {
 
       <Box as="form" onSubmit={handleSubmit}>
         <VStack spacing={6} align="stretch">
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!!titleError && titleLength > 0}>
             <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
               Título do post
             </FormLabel>
@@ -131,7 +181,20 @@ const CreatePostContent = () => {
               fontFamily="heading"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              maxLength={220}
             />
+            <HStack justify="space-between" mt={1}>
+              {titleError && titleLength > 0 ? (
+                <Text fontSize="xs" color="red.500">
+                  {titleError}
+                </Text>
+              ) : (
+                <Box />
+              )}
+              <Text fontSize="xs" color={titleLength > 200 ? "red.500" : "text.tertiary"}>
+                {titleLength}/200
+              </Text>
+            </HStack>
           </FormControl>
 
           <ImageUploader
@@ -183,7 +246,7 @@ const CreatePostContent = () => {
           </FormControl>
 
           <HStack justify="flex-end" pt={4}>
-            <Button as={RouterLink} to="/" variant="ghost">
+            <Button variant="ghost" onClick={handleCancel}>
               Cancelar
             </Button>
             <Button
@@ -196,6 +259,25 @@ const CreatePostContent = () => {
           </HStack>
         </VStack>
       </Box>
+
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader>Sair sem salvar?</AlertDialogHeader>
+            <AlertDialogBody>
+              Você tem alterações não salvas. Tem certeza que deseja sair?
+            </AlertDialogBody>
+            <AlertDialogFooter as={HStack} spacing={3}>
+              <Button ref={cancelRef} onClick={onClose}>
+                Continuar editando
+              </Button>
+              <Button colorScheme="red" onClick={() => navigate("/")}>
+                Sair
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </VStack>
   );
 };

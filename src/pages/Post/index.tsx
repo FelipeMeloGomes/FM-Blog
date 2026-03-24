@@ -123,6 +123,7 @@ const Post = () => {
             alt={post.title}
             objectFit="cover"
             borderRadius="md"
+            loading="lazy"
             fallbackSrc="https://via.placeholder.com/800x450?text=Sem+imagem"
           />
         </AspectRatio>

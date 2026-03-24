@@ -58,6 +58,7 @@ const PostCard = ({ post }: PostCardProps) => {
           src={post.image}
           alt={post.title}
           objectFit="cover"
+          loading="lazy"
           fallbackSrc="https://via.placeholder.com/640x360?text=Sem+imagem"
         />
       </AspectRatio>

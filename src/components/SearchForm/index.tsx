@@ -30,7 +30,7 @@ const SearchForm = ({ handleSubmit, setQuery }: SearchFormProps) => {
       <form ref={formRef} onSubmit={handleFormSubmit}>
         <InputGroup size="lg">
           <InputLeftElement pointerEvents="none">
-            <SearchIcon color="gray.300" />
+            <SearchIcon color="text.tertiary" />
           </InputLeftElement>
           <Input
             ref={inputRef}
@@ -38,9 +38,11 @@ const SearchForm = ({ handleSubmit, setQuery }: SearchFormProps) => {
             placeholder="Buscar por tags..."
             aria-label="Buscar por tags"
             onKeyDown={handleInputKeyDown}
-            bg="white"
-            borderColor="gray.200"
-            _focus={{ borderColor: "gray.900", boxShadow: "none" }}
+            bg="bg.primary"
+            borderColor="border.default"
+            color="text.primary"
+            _focus={{ borderColor: "text.primary", boxShadow: "none" }}
+            _placeholder={{ color: "text.tertiary" }}
           />
         </InputGroup>
       </form>
