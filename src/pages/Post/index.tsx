@@ -9,8 +9,12 @@ import {
   HStack,
   Heading,
   Image,
+  Tag,
+  TagLabel,
   Text,
   VStack,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { LikeButton } from "../../components/LikeButton";
@@ -19,6 +23,7 @@ import { ShareButton } from "../../components/ShareButton";
 import { useAuthValue } from "../../context/AuthContext";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { handleShare } from "../../utils/ShareContent";
+import type { Post as PostType } from "../../utils/ShareContent/types";
 import { sanitizeHtml } from "../../utils/sanitize";
 
 const formatDate = (date: unknown): string => {
@@ -84,20 +89,6 @@ const Post = () => {
   return (
     <Container maxW="2xl" py={8}>
       <VStack spacing={8} align="stretch">
-        {post.tagsArray && post.tagsArray.length > 0 && (
-          <HStack spacing={2}>
-            <Text fontSize="xs" color="text.muted" textTransform="uppercase" letterSpacing="wider">
-              {post.tagsArray[0]}
-            </Text>
-            <Text fontSize="xs" color="text.muted">
-              ·
-            </Text>
-            <Text fontSize="xs" color="text.muted">
-              {readTime} min de leitura
-            </Text>
-          </HStack>
-        )}
-
         <Heading
           fontFamily="heading"
           fontSize={{ base: "2xl", md: "3xl" }}
@@ -192,12 +183,29 @@ const Post = () => {
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(String(post.body || "")) }}
         />
 
+        {post.tagsArray && post.tagsArray.length > 0 && (
+          <Wrap spacing={2} align="center">
+            {post.tagsArray.map((tag) => (
+              <WrapItem key={tag}>
+                <Tag size="sm" variant="subtle" colorScheme="gray">
+                  <TagLabel>{tag}</TagLabel>
+                </Tag>
+              </WrapItem>
+            ))}
+            <WrapItem>
+              <Text fontSize="xs" color="text.muted">
+                · {readTime} min de leitura
+              </Text>
+            </WrapItem>
+          </Wrap>
+        )}
+
         <Divider />
 
         <HStack justify="space-between" align="center" flexWrap="wrap" gap={4}>
           <HStack spacing={2}>
             <LikeButton postId={post.id!} userId={user?.uid || ""} />
-            <ShareButton post={post as any} onShare={handleShare} />
+            <ShareButton post={post as PostType} onShare={handleShare} />
           </HStack>
 
           <HStack spacing={4}>

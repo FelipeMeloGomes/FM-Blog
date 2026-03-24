@@ -1,4 +1,4 @@
-import { AspectRatio, Avatar, Box, HStack, Heading, Image, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Box, HStack, Heading, Image, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import type { PostCardProps } from "./types";
 
@@ -46,81 +46,61 @@ const PostCard = ({ post }: PostCardProps) => {
       as={RouterLink}
       to={`/posts/${post.id}`}
       display="block"
-      border="1px"
-      borderColor="border.subtle"
-      borderRadius="md"
+      bg="bg.primary"
+      borderRadius="lg"
       overflow="hidden"
-      _hover={{ borderColor: "border.hover", bg: "bg.secondary" }}
       transition="all 0.2s"
+      _hover={{
+        transform: "translateY(-4px)",
+        shadow: "lg",
+      }}
+      cursor="pointer"
     >
-      <AspectRatio ratio={16 / 9}>
+      <Box position="relative" overflow="hidden" height="200px">
         <Image
           src={post.image}
           alt={post.title}
+          width="100%"
+          height="100%"
           objectFit="cover"
-          loading="lazy"
+          transition="transform 0.3s"
+          _hover={{ transform: "scale(1.05)" }}
           fallbackSrc="https://via.placeholder.com/640x360?text=Sem+imagem"
         />
-      </AspectRatio>
+      </Box>
 
-      <VStack spacing={3} p={5} align="stretch">
-        {post.tagsArray && post.tagsArray.length > 0 && (
-          <HStack spacing={2} flexWrap="wrap">
-            <Text fontSize="xs" color="text.muted" textTransform="uppercase" letterSpacing="wider">
-              {post.tagsArray[0]}
-            </Text>
-            <Text fontSize="xs" color="text.tertiary">
-              ·
-            </Text>
-            <Text fontSize="xs" color="text.muted">
-              {readTime} min de leitura
-            </Text>
-          </HStack>
-        )}
-
+      <Box p={6}>
         <Heading
-          fontFamily="heading"
-          fontSize="md"
-          fontWeight="600"
-          noOfLines={2}
+          as="h3"
+          fontSize="lg"
+          fontWeight="semibold"
+          lineHeight="tight"
+          mb={3}
           color="text.primary"
-          lineHeight="tall"
+          noOfLines={2}
+          _hover={{ color: "text.secondary" }}
         >
           {post.title}
         </Heading>
 
         {post.description && (
-          <Text fontSize="sm" color="text.secondary" noOfLines={3} lineHeight="tall">
+          <Text fontSize="sm" color="text.secondary" lineHeight="relaxed" mb={4} noOfLines={3}>
             {post.description}
           </Text>
         )}
 
-        <Box borderTop="1px" borderColor="border.subtle" pt={3} mt={2}>
-          <HStack justify="space-between" align="center">
-            <HStack spacing={2}>
-              <Avatar size="xs" name={post.createdBy} />
-              <Text fontSize="sm" color="text.secondary">
-                {post.createdBy}
-              </Text>
-            </HStack>
-
-            <HStack spacing={3}>
-              {post.likes && (
-                <HStack spacing={1}>
-                  <Text fontSize="sm" color="text.muted">
-                    ♥ {post.likes.length}
-                  </Text>
-                </HStack>
-              )}
-              {formattedDate && (
-                <Text fontSize="xs" color="text.tertiary">
-                  {formattedDate}
-                </Text>
-              )}
-            </HStack>
-          </HStack>
-        </Box>
-      </VStack>
+        <HStack gap={3}>
+          <Avatar size="sm" name={post.createdBy} />
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="text.primary">
+              {post.createdBy}
+            </Text>
+            <Text fontSize="xs" color="text.muted">
+              {formattedDate} · {readTime} min
+            </Text>
+          </Box>
+        </HStack>
+      </Box>
     </Box>
   );
 };
