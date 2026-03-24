@@ -1,14 +1,13 @@
-export interface FormData {
+export interface AuthFormValues {
+  displayName: string;
   email: string;
   password: string;
-  displayName: string;
   confirmPassword: string;
 }
 
-type PartialFormData = Partial<FormData>;
 export interface PasswordResetFormProps {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<PartialFormData>>;
+  formData: AuthFormValues;
+  setFormData: React.Dispatch<React.SetStateAction<AuthFormValues>>;
   handleResetPasswordSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   error: string | null;
 }

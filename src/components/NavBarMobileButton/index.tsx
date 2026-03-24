@@ -1,7 +1,14 @@
 import { MdAdd, MdDashboard, MdHome, MdInfo, MdPerson } from "react-icons/md";
-import { ButtonConfig } from "./types";
+import type { ButtonConfig } from "./types";
 
-export const getButtonData = (user: any): ButtonConfig[] => [
+interface NavBarUser {
+  id?: string;
+  name?: string;
+  email?: string;
+  uid?: string | null;
+}
+
+export const getButtonData = (user: NavBarUser | null | undefined): ButtonConfig[] => [
   { text: "Home", to: "/", icon: <MdHome />, show: true },
   { text: "Entrar", to: "/login", icon: <MdPerson />, show: !user },
   { text: "Cadastrar", to: "/register", icon: <MdAdd />, show: !user },

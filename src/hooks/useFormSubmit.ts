@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FormData, FormSubmitHook, FormSubmitProps } from "./types";
+import { useEditorContext } from "../utils/EditorContext";
+import type { FormData, FormSubmitHook, FormSubmitProps } from "./types";
 import { useToastNotification } from "./useToastNotification";
 
 export const useFormSubmit = ({
@@ -17,22 +18,24 @@ export const useFormSubmit = ({
 }: FormSubmitProps): FormSubmitHook => {
   const [formError, setFormError] = useState("");
   const { showToast } = useToastNotification();
+  const { content: editorContent } = useEditorContext();
 
   const isValidImageUrl = (url: string): boolean => {
     try {
       const { protocol } = new URL(url);
       return protocol === "http:" || protocol === "https:";
-    } catch (error) {
+    } catch {
       return false;
     }
   };
 
   const isFormValid = (): boolean => {
+    const bodyContent = bodyRef?.current?.value || editorContent || "";
     return (
       !!titleRef.current?.value &&
       !!imageRef.current?.value &&
       !!tagsRef.current?.value &&
-      !!bodyRef.current?.value
+      !!bodyContent.trim()
     );
   };
 
@@ -42,13 +45,14 @@ export const useFormSubmit = ({
         .split(",")
         .map((tag) => tag.trim().toLowerCase())
         .filter((tag) => tag) || [];
+    const bodyContent = bodyRef?.current?.value || editorContent || "";
     return {
       title: titleRef.current?.value || "",
       image: imageRef.current?.value || "",
-      body: bodyRef.current?.value || "",
+      body: bodyContent,
       tagsArray,
-      uid: user.uid,
-      createdBy: user.displayName,
+      uid: user?.uid || "",
+      createdBy: user?.displayName || "",
       likeCount: existingLikes.length,
       likes: existingLikes,
     };
@@ -56,7 +60,7 @@ export const useFormSubmit = ({
 
   const handleAction = async (formData: FormData): Promise<void> => {
     try {
-      if (actionType === "create") {
+      if (actionType === "create" && insertDocument) {
         await insertDocument(formData);
         showToast({
           title: "Success",
@@ -66,7 +70,7 @@ export const useFormSubmit = ({
           duration: 5000,
           isClosable: true,
         });
-      } else if (actionType === "edit") {
+      } else if (actionType === "edit" && updateDocument) {
         await updateDocument(id, formData);
         showToast({
           title: "Success",
@@ -77,7 +81,7 @@ export const useFormSubmit = ({
           isClosable: true,
         });
       }
-    } catch (error) {
+    } catch {
       showToast({
         title: "Error",
         description: "Erro ao salvar documento.",
@@ -90,10 +94,15 @@ export const useFormSubmit = ({
   };
 
   const clearFormFields = (): void => {
-    titleRef.current && (titleRef.current.value = "");
-    imageRef.current && (imageRef.current.value = "");
-    bodyRef.current && (bodyRef.current.value = "");
-    tagsRef.current && (tagsRef.current.value = "");
+    if (titleRef.current) {
+      titleRef.current.value = "";
+    }
+    if (imageRef.current) {
+      imageRef.current.value = "";
+    }
+    if (tagsRef.current) {
+      tagsRef.current.value = "";
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {

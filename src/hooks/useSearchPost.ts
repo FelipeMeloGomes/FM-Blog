@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { type NavigateFunction, useNavigate } from "react-router-dom";
 
 export const useSearchPost = () => {
   const navigate: NavigateFunction = useNavigate();
   const [query, setQuery] = useState<string>("");
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
-    null,
+  const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(
+    null
   );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -31,6 +31,7 @@ export const useSearchPost = () => {
     return () => {
       clearTimeout(timeoutId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, navigate]);
 
   return {

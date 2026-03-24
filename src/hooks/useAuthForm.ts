@@ -1,10 +1,10 @@
-import { FormEvent, useEffect, useState } from "react";
-import { AuthFormHook, AuthFormValues } from "./types";
+import { type FormEvent, useEffect, useState } from "react";
+import type { AuthFormHook, AuthFormValues } from "./types";
 import { useAuthentication } from "./useAuthentication";
 
 export const useAuthForm = (
   isLogin?: boolean,
-  onSubmit?: (formData: AuthFormValues) => void,
+  onSubmit?: (formData: AuthFormValues) => void
 ): AuthFormHook => {
   const {
     login,
@@ -26,9 +26,7 @@ export const useAuthForm = (
   const [passwordVisibleTwo, setPasswordVisibleTwo] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     if (!e || typeof e.preventDefault !== "function") return;
 
     e.preventDefault();
@@ -39,16 +37,17 @@ export const useAuthForm = (
     try {
       await (isLogin ? login(formData) : createUser(formData));
       if (onSubmit) onSubmit(formData);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Ocorreu um erro.";
+      setError(errorMessage);
     }
   };
 
   const handlePasswordReset = async (email: string) => {
     try {
       await resetPassword(email);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -61,16 +60,16 @@ export const useAuthForm = (
         return;
       }
       await handlePasswordReset(email);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   const handleGoogleLogin = async (): Promise<void> => {
     try {
       await loginWithGoogle();
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -82,7 +81,7 @@ export const useAuthForm = (
 
     if (!isPasswordStrong(formData.password)) {
       setError(
-        "A senha é muito fraca. Ela deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula e um número.",
+        "A senha é muito fraca. Ela deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula e um número."
       );
       return false;
     }

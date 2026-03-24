@@ -1,4 +1,4 @@
-import { HTMLChakraProps } from "@chakra-ui/react";
+import type { HTMLChakraProps } from "@chakra-ui/react";
 
 interface AboutButtonProps extends HTMLChakraProps<"button"> {
   alt: string;

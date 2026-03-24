@@ -1,4 +1,4 @@
-import { Post } from "../../utils/ShareContent/types";
+import type { Post } from "../../utils/ShareContent/types";
 
 export interface ShareButtonProps {
   post: Post;

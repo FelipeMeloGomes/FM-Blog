@@ -3,13 +3,9 @@ import { Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import { TextInputWithIcon } from "../TextInputWithIcon";
-import { PasswordResetFormProps } from "./types";
+import type { PasswordResetFormProps } from "./types";
 
-const PasswordResetForm = ({
-  formData,
-  setFormData,
-  error,
-}: PasswordResetFormProps) => (
+const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormProps) => (
   <>
     <TextInputWithIcon
       label="Email para redefinição de senha"
@@ -18,7 +14,7 @@ const PasswordResetForm = ({
       value={formData.email}
       minLength={6}
       required
-      onChange={(e) => setFormData({ email: e.target.value })}
+      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
       placeholder="Insira seu email"
       alt="Insira seu email"
     />

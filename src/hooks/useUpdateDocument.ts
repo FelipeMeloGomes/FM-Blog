@@ -1,17 +1,14 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { useEffect, useReducer, useState } from "react";
 import { db } from "../firebase/config";
-import { OperationState, UpdateAction } from "./types";
+import type { FormData, OperationState, UpdateAction } from "./types";
 
 const initialState: OperationState = {
   loading: null,
   error: null,
 };
 
-const updateReducer = (
-  state: OperationState,
-  action: UpdateAction,
-): OperationState => {
+const updateReducer = (state: OperationState, action: UpdateAction): OperationState => {
   switch (action.type) {
     case "LOADING":
       return { loading: true, error: null };
@@ -35,17 +32,19 @@ export const useUpdateDocument = (docCollection: string) => {
     }
   };
 
-  const updateDocument = async (uid: string, data: any) => {
+  const updateDocument = async (uid: string, data: Partial<FormData>) => {
     checkCancelBeforeDispatch({ type: "LOADING" });
 
     try {
       const docRef = doc(db, docCollection, uid);
       await updateDoc(docRef, data);
       checkCancelBeforeDispatch({ type: "UPDATED_DOC" });
-    } catch (error: any) {
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Ocorreu um erro ao atualizar o documento.";
       checkCancelBeforeDispatch({
         type: "ERROR",
-        payload: error.message,
+        payload: errorMessage,
       });
     }
   };

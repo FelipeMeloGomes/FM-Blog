@@ -1,8 +1,9 @@
 import { Button } from "@chakra-ui/react";
+import { memo } from "react";
 import { BiShare } from "react-icons/bi";
-import { ShareButtonProps } from "./types";
+import type { ShareButtonProps } from "./types";
 
-const ShareButton = ({ post, onShare }: ShareButtonProps) => {
+const ShareButton = memo(({ post, onShare }: ShareButtonProps) => {
   return (
     <Button
       onClick={() => onShare(post)}
@@ -14,6 +15,8 @@ const ShareButton = ({ post, onShare }: ShareButtonProps) => {
       Compartilhar
     </Button>
   );
-};
+});
+
+ShareButton.displayName = "ShareButton";
 
 export { ShareButton };

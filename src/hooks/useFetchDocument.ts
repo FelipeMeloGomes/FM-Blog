@@ -1,12 +1,9 @@
-import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
+import { type DocumentSnapshot, doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
-import { DocumentData, FetchDocumentResult } from "./types";
+import type { DocumentData, FetchDocumentResult } from "./types";
 
-export const useFetchDocument = (
-  docCollection: string,
-  id: string,
-): FetchDocumentResult => {
+export const useFetchDocument = (docCollection: string, id: string): FetchDocumentResult => {
   const [document, setDocument] = useState<DocumentData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -27,11 +24,9 @@ export const useFetchDocument = (
         } else {
           setError("Document not found");
         }
-      } catch (error: any) {
+      } catch (err) {
         const errorMessage =
-          "message" in error
-            ? error.message
-            : "Ocorreu um erro ao buscar o documento.";
+          err instanceof Error ? err.message : "Ocorreu um erro ao buscar o documento.";
 
         setError(errorMessage);
       }

@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import React from "react";
-import { TextInputProps } from "./types";
+import type { TextInputProps } from "./types";
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, name, placeholder, onChange }, ref) => (
@@ -19,7 +19,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         onChange={onChange}
       />
     </FormControl>
-  ),
+  )
 );
 
 export { TextInput };

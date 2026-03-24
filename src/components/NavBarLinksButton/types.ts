@@ -1,4 +1,4 @@
-import { To } from "react-router-dom";
+import type { To } from "react-router-dom";
 
 export interface ButtonConfig {
   text: string;

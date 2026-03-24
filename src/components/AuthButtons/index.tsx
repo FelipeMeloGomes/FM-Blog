@@ -1,6 +1,6 @@
 import { Button, Flex } from "@chakra-ui/react";
 import { FaGoogle } from "react-icons/fa";
-import { AuthButtonsProps } from "./types";
+import type { AuthButtonsProps } from "./types";
 
 const AuthButtons = ({ handleGoogleLogin, loading }: AuthButtonsProps) => {
   return (

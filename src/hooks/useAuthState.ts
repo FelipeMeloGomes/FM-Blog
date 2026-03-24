@@ -1,4 +1,4 @@
-import { User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
+import { type User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useAuthentication } from "./useAuthentication";
 

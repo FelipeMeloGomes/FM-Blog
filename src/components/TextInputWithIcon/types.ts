@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement } from "react";
+import type { ChangeEvent, ReactElement } from "react";
 
 export interface TextInputWithIconProps {
   label: string;

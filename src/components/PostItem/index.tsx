@@ -1,13 +1,7 @@
-import {
-  Box,
-  Button,
-  Text,
-  VStack,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { Box, Button, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { DeleteButton } from "../DeleteButton";
-import { PostItemProps } from "./types";
+import type { PostItemProps } from "./types";
 
 const PostItem = ({ post, handleDelete, createdBy, userId }: PostItemProps) => {
   const canDelete = userId === createdBy;
@@ -26,10 +20,7 @@ const PostItem = ({ post, handleDelete, createdBy, userId }: PostItemProps) => {
       mb={2}
       gap={8}
     >
-      <Text
-        color="black"
-        fontSize={useBreakpointValue({ base: "md", md: "lg" })}
-      >
+      <Text color="black" fontSize={useBreakpointValue({ base: "md", md: "lg" })}>
         {post.title}
       </Text>
       <VStack align="flex-start" spacing={2}>

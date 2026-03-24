@@ -12,15 +12,7 @@ import {
 
 const ResponsiveSkeletonCard = () => {
   return (
-    <Card
-      w="full"
-      maxW="lg"
-      mx="auto"
-      my="4"
-      shadow="lg"
-      borderRadius="20px"
-      p={4}
-    >
+    <Card w="full" maxW="lg" mx="auto" my="4" shadow="lg" borderRadius="20px" p={4}>
       <CardHeader>
         <Flex gap="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">

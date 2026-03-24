@@ -1,14 +1,8 @@
 import { Icon, IconButton } from "@chakra-ui/react";
 import { iconMap } from "./icon";
-import { AboutButtonProps } from "./types";
+import type { AboutButtonProps } from "./types";
 
-const AboutButton = ({
-  alt,
-  iconName,
-  iconColor,
-  href,
-  ...rest
-}: AboutButtonProps) => {
+const AboutButton = ({ alt, iconName, iconColor, href, ...rest }: AboutButtonProps) => {
   const IconComponent = iconMap[iconName] || Icon;
 
   return (
@@ -31,12 +25,7 @@ const AboutButton = ({
       rel="noopener noreferrer"
       {...rest}
     >
-      <IconComponent
-        color={iconColor}
-        width="64px"
-        height="64px"
-        _hover={{ transform: "scale(1.5)", transition: "transform 0.5s" }}
-      />
+      <IconComponent color={iconColor} width="64px" height="64px" />
     </IconButton>
   );
 };

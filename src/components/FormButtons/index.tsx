@@ -1,14 +1,12 @@
 import { Button } from "../Button";
-import { FormButtonsProps } from "./types";
+import type { FormButtonsProps } from "./types";
 
 const FormButtons = ({ response, formError }: FormButtonsProps) => {
   const isResponseLoading = response?.loading === true;
 
   return (
     <>
-      <>
-        <br />
-      </>
+      <br />
       {!isResponseLoading && (
         <Button
           alt="Salvar"

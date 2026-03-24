@@ -1,29 +1,31 @@
 import {
+  type DocumentData as FirestoreDocumentData,
+  type Query,
+  type QueryDocumentSnapshot,
+  type QuerySnapshot,
   collection,
-  DocumentData as FirestoreDocumentData,
   getDocs,
   limit,
   onSnapshot,
   orderBy,
   query,
-  QuerySnapshot,
   startAfter,
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
-import { DocumentData, FetchDocumentsResult } from "./types";
+import type { DocumentData, FetchDocumentsResult } from "./types";
 
 export const useFetchDocuments = (
   docCollection: string,
   search: string | null = null,
   uid: string | null = null,
-  limitCount: number = 5,
+  limitCount = 5
 ): FetchDocumentsResult => {
   const [documents, setDocuments] = useState<DocumentData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [lastVisible, setLastVisible] = useState<any>(null);
+  const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot | null>(null);
   const [cancelled, setCancelled] = useState<boolean>(false);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export const useFetchDocuments = (
       const collectionRef = collection(db, docCollection);
 
       try {
-        let q;
+        let q: Query<FirestoreDocumentData>;
 
         if (search) {
           const searchWithoutSpaces = search.replace(/\s+/g, "").toLowerCase();
@@ -42,39 +44,38 @@ export const useFetchDocuments = (
             collectionRef,
             where("tagsArray", "array-contains", searchWithoutSpaces),
             orderBy("createdAt", "desc"),
-            limit(limitCount),
+            limit(limitCount)
           );
         } else if (uid) {
           q = query(
             collectionRef,
             where("uid", "==", uid),
             orderBy("createdAt", "desc"),
-            limit(limitCount),
+            limit(limitCount)
           );
         } else {
-          q = query(
-            collectionRef,
-            orderBy("createdAt", "desc"),
-            limit(limitCount),
-          );
+          q = query(collectionRef, orderBy("createdAt", "desc"), limit(limitCount));
         }
 
-        const unsubscribe = onSnapshot(
-          q,
-          (querySnapshot: QuerySnapshot<FirestoreDocumentData>) => {
-            setDocuments(
-              querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              })),
-            );
-            setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
-          },
-        );
+        const unsubscribe = onSnapshot(q, (querySnapshot: QuerySnapshot<FirestoreDocumentData>) => {
+          setDocuments(
+            querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+          );
+          setLastVisible(
+            (querySnapshot.docs[querySnapshot.docs.length - 1] as
+              | QueryDocumentSnapshot
+              | undefined) ?? null
+          );
+        });
 
         return () => unsubscribe();
-      } catch (error: any) {
-        setError(error.message);
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "Ocorreu um erro ao buscar documentos.";
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -95,7 +96,7 @@ export const useFetchDocuments = (
       collectionRef,
       orderBy("createdAt", "desc"),
       startAfter(lastVisible),
-      limit(limitCount),
+      limit(limitCount)
     );
 
     try {
@@ -110,14 +111,22 @@ export const useFetchDocuments = (
         return;
       }
 
-      setDocuments((prevDocs) =>
-        prevDocs ? [...prevDocs, ...newDocs] : newDocs,
+      setDocuments((prevDocs) => (prevDocs ? [...prevDocs, ...newDocs] : newDocs));
+      setLastVisible(
+        (snapshot.docs[snapshot.docs.length - 1] as QueryDocumentSnapshot | undefined) ?? null
       );
-      setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Ocorreu um erro ao carregar mais documentos.";
+      setError(errorMessage);
     }
   };
 
-  return { documents, loading, error, loadMoreDocuments, lastVisible };
+  return {
+    documents,
+    loading,
+    error,
+    loadMoreDocuments,
+    lastVisible: lastVisible as QueryDocumentSnapshot | null,
+  };
 };

@@ -1,116 +1,228 @@
-import { Box, FormLabel } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Editor } from "../../components/Editor";
-import { FormButtons } from "../../components/FormButtons";
-import { ImagePreview } from "../../components/ImagePreview";
-import { PostTitle } from "../../components/PostTitle";
-import { Spinner } from "../../components/Spinner";
-import { TagsInput } from "../../components/TagsInput";
-import { TextInput } from "../../components/TextInput";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import {
+  AspectRatio,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Heading,
+  Image,
+  Input,
+  Tag,
+  TagCloseButton,
+  TagLabel,
+  Text,
+  Textarea,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
-import { useFetchDocument } from "../../hooks/useFetchDocument";
-import { useFormSubmit } from "../../hooks/useFormSubmit";
 import { usePostForm } from "../../hooks/usePostForm";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
-import { useEditorContext } from "../../utils/EditorContext";
+import { usePost } from "../../lib/hooks/usePostsQuery";
+import { EditorProvider } from "../../utils/EditorContext";
 
-const EditPost = () => {
+const EditPostContent = () => {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuthValue() || {};
-  const { id } = useParams();
-  const { document: post, loading } = useFetchDocument("posts", id);
+  const { data: post, isLoading } = usePost(id);
   const { updateDocument, response } = useUpdateDocument("posts");
-  const { handleEditorChange, content, setContent } = useEditorContext();
-  const existingLikes = post ? post.likes : [];
-
-  const {
-    bodyRef,
-    handleChange,
-    imageRef,
-    navigate,
-    tagsRef,
-    title,
-    titleRef,
-    likes,
-    setLikes,
-  } = usePostForm({ existingLikes });
-  const { handleSubmit, formError } = useFormSubmit({
-    updateDocument,
-    navigate,
-    titleRef,
-    imageRef,
-    bodyRef,
-    tagsRef,
-    user,
-    actionType: "edit",
-    postId: id,
-    existingLikes: likes,
+  const { titleRef, imageRef, imageUrl, tagsRef, handleChange, error } = usePostForm({
+    existingLikes: post?.likes || [],
   });
+  const toast = useToast();
+  const [tags, setTags] = useState<string[]>([]);
 
   useEffect(() => {
     if (post) {
-      titleRef.current.value = post.title;
-      setContent(post.body);
-      imageRef.current.value = post.image;
-      tagsRef.current.value = post.tagsArray.join(", ");
-      setLikes(post.likes || []);
+      titleRef.current!.value = post.title || "";
+      imageRef.current!.value = post.image || "";
+      tagsRef.current!.value = post.tagsArray?.join(", ") || "";
+      setTags(post.tagsArray || []);
     }
   }, [post]);
 
-  if (loading) {
-    return <Spinner />;
+  const handleTagsChange = (value: string) => {
+    const newTags = value
+      .split(",")
+      .map((tag) => tag.trim().toLowerCase())
+      .filter((tag) => tag && !tags.includes(tag));
+    setTags([...tags, ...newTags]);
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const title = titleRef.current?.value;
+    const image = imageRef.current?.value;
+
+    if (!title || !image || tags.length === 0) {
+      toast({
+        title: "Erro",
+        description: "Preencha todos os campos obrigatórios.",
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    const formData = {
+      title,
+      image,
+      body: String(post?.body || ""),
+      tagsArray: tags,
+      uid: user?.uid || post?.uid || "",
+      createdBy: post?.createdBy || user?.name || user?.email || "Anonymous",
+      likeCount: post?.likeCount || 0,
+      likes: post?.likes || [],
+    };
+
+    try {
+      await updateDocument(id!, formData);
+      toast({
+        title: "Sucesso",
+        description: "Post atualizado com sucesso!",
+        status: "success",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+      navigate("/");
+    } catch {
+      toast({
+        title: "Erro",
+        description: "Erro ao atualizar post.",
+        status: "error",
+        position: "top-right",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  if (isLoading) {
+    return <Box>Carregando...</Box>;
+  }
+
+  if (!post) {
+    return <Box>Post não encontrado</Box>;
   }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      textAlign="center"
-      p={6}
-      mx="auto"
-      w="full"
-      maxW="4xl"
-    >
-      {post && (
-        <>
-          <Box as="form" p={4} onSubmit={handleSubmit}>
-            <PostTitle title={title || post.title} />
-            <TextInput
-              label="Título:"
-              name="title"
-              placeholder="Pense num bom título"
+    <VStack spacing={8} maxW="2xl" mx="auto" align="stretch">
+      <HStack justify="flex-start">
+        <Button as={RouterLink} to="/" variant="ghost" leftIcon={<ArrowBackIcon />} size="sm">
+          Voltar
+        </Button>
+      </HStack>
+
+      <Heading size="lg" fontFamily="heading" color="gray.900">
+        Editar post
+      </Heading>
+
+      <Box as="form" onSubmit={handleSubmit}>
+        <VStack spacing={6} align="stretch">
+          <FormControl isRequired>
+            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+              Título do post
+            </FormLabel>
+            <Input
               ref={titleRef}
-              onChange={handleChange}
+              placeholder="Digite o título do seu post"
+              size="lg"
+              fontFamily="heading"
+              defaultValue={post.title}
             />
-            <TextInput
-              label="URL da imagem:"
-              name="image"
-              placeholder="Insira uma imagem"
+          </FormControl>
+
+          <FormControl isRequired>
+            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+              URL da imagem de capa
+            </FormLabel>
+            <Input
               ref={imageRef}
+              placeholder="https://exemplo.com/imagem.jpg"
+              onChange={handleChange}
+              defaultValue={post.image}
             />
-            <ImagePreview image={post.image} alt={post.title} />
-            <Box display="flex" flexDirection="column" mt={7}>
-              <FormLabel fontWeight="bold" fontSize="sm">
-                Conteúdo:
-              </FormLabel>
-              <Editor
-                onChange={handleEditorChange}
-                value={content}
-                ref={bodyRef}
-              />
-            </Box>
-            <TagsInput
-              placeholder="Insira as tags separadas por vírgula"
+            {imageUrl && !error && (
+              <Box mt={4}>
+                <AspectRatio ratio={16 / 9}>
+                  <Image src={imageUrl} alt="Preview" borderRadius="md" objectFit="cover" />
+                </AspectRatio>
+              </Box>
+            )}
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+              Conteúdo
+            </FormLabel>
+            <Textarea
+              placeholder="Escreva o conteúdo do seu post..."
+              minH="300px"
+              resize="vertical"
+              defaultValue={String(post.body || "")}
+            />
+          </FormControl>
+
+          <FormControl isRequired>
+            <FormLabel fontSize="sm" fontWeight="medium" color="gray.700">
+              Tags (separadas por vírgula)
+            </FormLabel>
+            <Input
               ref={tagsRef}
+              placeholder="react, typescript, firebase"
+              onChange={(e) => handleTagsChange(e.target.value)}
+              defaultValue={post.tagsArray?.join(", ")}
             />
-            <FormButtons response={response} formError={formError} />
-          </Box>
-        </>
-      )}
-    </Box>
+            {tags.length > 0 && (
+              <Box mt={4}>
+                <Text fontSize="sm" color="gray.500" mb={2}>
+                  Preview das tags:
+                </Text>
+                <HStack spacing={2} flexWrap="wrap">
+                  {tags.map((tag) => (
+                    <Tag key={tag} size="md" variant="subtle" colorScheme="gray">
+                      <TagLabel>{tag}</TagLabel>
+                      <TagCloseButton onClick={() => removeTag(tag)} />
+                    </Tag>
+                  ))}
+                </HStack>
+              </Box>
+            )}
+          </FormControl>
+
+          <HStack justify="flex-end" pt={4}>
+            <Button as={RouterLink} to="/" variant="ghost">
+              Cancelar
+            </Button>
+            <Button type="submit" variant="solid" isLoading={response.loading || false}>
+              Salvar
+            </Button>
+          </HStack>
+        </VStack>
+      </Box>
+    </VStack>
   );
 };
 
-export { EditPost };
+const EditPost = () => {
+  return (
+    <EditorProvider>
+      <EditPostContent />
+    </EditorProvider>
+  );
+};
+
+export default EditPost;

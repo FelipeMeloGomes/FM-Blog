@@ -1,9 +1,8 @@
 import {
-  AuthError,
-  createUserWithEmailAndPassword,
-  getAuth,
-  getIdToken,
+  type AuthError,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getIdToken,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -12,8 +11,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { auth } from "../firebase/config";
 import { errorMessages } from "../utils/ErrorMessage";
-import { AuthenticationResult, AuthenticationState, UserData } from "./types";
+import type { AuthenticationResult, AuthenticationState, UserData } from "./types";
 import { useToastNotification } from "./useToastNotification";
 
 export const useAuthentication = (): AuthenticationResult => {
@@ -25,13 +25,10 @@ export const useAuthentication = (): AuthenticationResult => {
     token: null,
   });
 
-  const auth = getAuth();
   const { showToast } = useToastNotification();
 
   const handleErrorMessage = (error: AuthError): string => {
-    const matchedError = Object.entries(errorMessages).find(([key]) =>
-      error.message.includes(key),
-    );
+    const matchedError = Object.entries(errorMessages).find(([key]) => error.message.includes(key));
 
     return matchedError
       ? matchedError[1]
@@ -48,11 +45,7 @@ export const useAuthentication = (): AuthenticationResult => {
     checkIfIsCancelled();
     setState({ ...state, loading: true });
     try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      );
+      const { user } = await createUserWithEmailAndPassword(auth, data.email, data.password);
       await updateProfile(user, { displayName: data.displayName });
       const token = await getIdToken(user);
       setState({ ...state, user, token });
@@ -97,11 +90,7 @@ export const useAuthentication = (): AuthenticationResult => {
     checkIfIsCancelled();
     setState({ ...state, loading: true, error: null });
     try {
-      const { user } = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      );
+      const { user } = await signInWithEmailAndPassword(auth, data.email, data.password);
       const token = await getIdToken(user);
       setState({ ...state, user, token });
       showToast({
@@ -152,8 +141,8 @@ export const useAuthentication = (): AuthenticationResult => {
       showToast({
         title: "Error",
         description: errorMessage,
-        status: "error",
         position: "top-right",
+        status: "error",
         duration: 5000,
         isClosable: true,
       });
@@ -198,6 +187,7 @@ export const useAuthentication = (): AuthenticationResult => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -209,13 +199,13 @@ export const useAuthentication = (): AuthenticationResult => {
           }));
         });
       } else {
-        setState({ ...state, user: null, token: null });
+        setState((prevState) => ({ ...prevState, user: null, token: null }));
       }
     });
 
     return () => {
       unsubscribe();
-      setState({ ...state, cancelled: true });
+      setState((prevState) => ({ ...prevState, cancelled: true }));
     };
   }, []);
 

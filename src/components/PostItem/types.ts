@@ -1,4 +1,4 @@
-import { Post } from "../PostDetail/types";
+import type { Post } from "../PostDetail/types";
 
 export interface PostItemProps {
   post: Post;

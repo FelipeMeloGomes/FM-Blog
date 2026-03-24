@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 
 interface CreatedAt {
   seconds: number;
@@ -56,9 +56,7 @@ export const useSearchPostTitle = (posts: Post[]): UseSearchPostTitle => {
     setFilteredPosts(
       trimmedQuery === ""
         ? posts
-        : posts.filter((post) =>
-            post.title.toLowerCase().includes(trimmedQuery),
-          ),
+        : posts.filter((post) => post.title.toLowerCase().includes(trimmedQuery))
     );
   }, [debouncedQuery, posts]);
 

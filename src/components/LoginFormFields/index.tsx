@@ -5,7 +5,7 @@ import { Button } from "../Button";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SignUpPrompt } from "../SignUpPrompt";
 import { TextInputWithIcon } from "../TextInputWithIcon";
-import { LoginFormFieldsProps } from "./types";
+import type { LoginFormFieldsProps } from "./types";
 
 const LoginFormFields = ({
   isLogin,
@@ -28,9 +28,7 @@ const LoginFormFields = ({
         minLength={6}
         maxLength={16}
         required
-        onChange={(e) =>
-          setFormData({ ...formData, displayName: e.target.value })
-        }
+        onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
         placeholder="Nome do usuário"
         alt="Insira seu nome"
       />
@@ -72,9 +70,7 @@ const LoginFormFields = ({
         required
         value={formData.confirmPassword}
         passwordVisible={passwordVisible}
-        onChange={(e) =>
-          setFormData({ ...formData, confirmPassword: e.target.value })
-        }
+        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
         togglePasswordVisibility={() => PasswordToggle(setPasswordVisible)}
         name=""
       />
@@ -95,10 +91,7 @@ const LoginFormFields = ({
     {isLogin ? (
       <>
         {!loading && (
-          <Button
-            alt="Entrar"
-            disabled={formData.email === "" || formData.password.length < 6}
-          >
+          <Button alt="Entrar" disabled={formData.email === "" || formData.password.length < 6}>
             Entrar
           </Button>
         )}

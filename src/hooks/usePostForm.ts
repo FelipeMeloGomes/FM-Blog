@@ -1,10 +1,8 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PostFormHook, UsePostFormProps } from "./types";
+import type { PostFormHook, UsePostFormProps } from "./types";
 
-export const usePostForm = ({
-  existingLikes = [],
-}: UsePostFormProps): PostFormHook => {
+export const usePostForm = ({ existingLikes = [] }: UsePostFormProps): PostFormHook => {
   const navigate = useNavigate();
 
   const titleRef = useRef<HTMLInputElement>(null);
@@ -16,9 +14,7 @@ export const usePostForm = ({
   const [likes, setLikes] = useState<string[]>(existingLikes);
   const [error, setError] = useState<string>("");
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     switch (name) {
       case "title":
@@ -37,8 +33,7 @@ export const usePostForm = ({
     const img = new Image();
     img.src = url;
     img.onload = () => setError("");
-    img.onerror = () =>
-      setError("A URL inserida não corresponde a uma imagem válida.");
+    img.onerror = () => setError("A URL inserida não corresponde a uma imagem válida.");
   };
 
   return {

@@ -1,4 +1,4 @@
-import { ButtonConfig } from "./types";
+import type { ButtonConfig } from "./types";
 
 export const guestButtons: ButtonConfig[] = [
   { text: "Entrar", to: "/login" },

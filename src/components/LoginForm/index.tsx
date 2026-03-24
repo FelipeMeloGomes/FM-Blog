@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import { useAuthForm } from "../../hooks/useAuthForm";
 import { AuthButtons } from "../AuthButtons";
 import { LoginFormFields } from "../LoginFormFields";
 import { PasswordResetForm } from "../PasswordResetForm";
-import { loginFormProps } from "./types";
+import type { loginFormProps } from "./types";
 
 const LoginForm = ({
   isLogin,
@@ -65,9 +65,7 @@ const LoginForm = ({
           error={error}
         />
       )}
-      {!resetPassword && (
-        <AuthButtons handleGoogleLogin={handleGoogleLogin} loading={loading} />
-      )}
+      {!resetPassword && <AuthButtons handleGoogleLogin={handleGoogleLogin} loading={loading} />}
     </Box>
   );
 };

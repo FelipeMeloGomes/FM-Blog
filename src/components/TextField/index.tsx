@@ -1,15 +1,9 @@
 import { Box, Text } from "@chakra-ui/react";
-import { TextFieldProps } from "./types";
+import type { TextFieldProps } from "./types";
 
 const TextField = ({ title = "", paragraph = "" }: TextFieldProps) => {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      p={4}
-    >
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" p={4}>
       <Box as="h1" fontSize="xl">
         {title}
       </Box>

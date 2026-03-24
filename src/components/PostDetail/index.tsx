@@ -14,21 +14,15 @@ import {
 import { MdBook } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
-import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useFormattedDate } from "../../hooks/useFormattedDate";
 import { handleShare } from "../../utils/ShareContent";
 import { LikeButton } from "../LikeButton";
 import { ShareButton } from "../ShareButton";
 import { TagsDisplay } from "../TagsDisplay";
-import { PostDetailProps } from "./types";
+import type { PostDetailProps } from "./types";
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { user } = useAuthValue() || {};
-  const { loading } = useFetchDocuments("posts");
-
-  if (loading) {
-    return;
-  }
 
   const formattedDate = useFormattedDate(post.createdAt);
 
@@ -57,13 +51,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
       <CardBody>
         <Text textAlign="left">{post.title}</Text>
       </CardBody>
-      <Image
-        objectFit="cover"
-        src={post.image}
-        alt={post.title}
-        loading="lazy"
-        rel="preload"
-      />
+      <Image objectFit="cover" src={post.image} alt={post.title} loading="lazy" rel="preload" />
 
       <CardBody>
         <Text mb={4}>{post.description}</Text>

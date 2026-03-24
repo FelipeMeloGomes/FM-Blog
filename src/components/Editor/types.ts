@@ -1,10 +1,8 @@
-import ReactQuill from "react-quill";
-
 export interface EditorProps {
-    value?: string;
-    onChange?: (content: string) => void;
+  value?: string;
+  onChange?: (content: string) => void;
 }
 
-export type EditorRef = ReactQuill & {
-    editor: HTMLElement | null;
-};
+export interface EditorRef {
+  editor: HTMLElement | null;
+}

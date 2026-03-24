@@ -1,63 +1,70 @@
-import { Button, Collapse, Stack } from "@chakra-ui/react";
-import { MdLogout } from "react-icons/md";
+import { Box, Collapse, VStack } from "@chakra-ui/react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { getButtonData } from "../NavBarMobileButton";
-import { ButtonConfig } from "../NavBarMobileButton/types";
-import { NavBarProps } from "./types";
+import type { NavBarProps } from "./types";
 
 const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
-  const buttonData: ButtonConfig[] = getButtonData(user);
   const location = useLocation();
+
+  const menuItems = [
+    { text: "Início", to: "/", show: true },
+    { text: "Entrar", to: "/login", show: !user },
+    { text: "Cadastrar", to: "/register", show: !user },
+    { text: "Novo Post", to: "/posts/create", show: !!user },
+    { text: "Meus Posts", to: "/dashboard", show: !!user },
+    { text: "Sobre", to: "/about", show: true },
+  ];
 
   return (
     <Collapse in={isOpen} animateOpacity>
-      <Stack
-        bg="#191a23"
-        gap={10}
-        padding={10}
-        display={{ base: "flex", md: "none" }}
+      <Box
+        display={{ base: "block", md: "none" }}
+        bg="bg.primary"
+        borderTop="1px"
+        borderColor="border.subtle"
+        py={4}
       >
-        {buttonData
-          .filter((button) => button.show)
-          .map((button) => {
-            const isActive = location.pathname === button.to;
-
-            return (
-              <Button
-                key={button.text}
-                variant="link"
-                as={RouterLink}
-                to={button.to}
-                w="full"
-                onClick={onToggle}
-                leftIcon={button.icon}
-                fontSize={{ base: "xl", md: "2xl" }}
-                fontWeight="semibold"
-                color={isActive ? "white" : "blue.400"}
-                _hover={{ textDecoration: "none", color: "blue.500" }}
-                _focus={{ boxShadow: "none" }}
-              >
-                {button.text}
-              </Button>
-            );
-          })}
-        {user && (
-          <Button
-            variant="link"
-            onClick={logout}
-            w="full"
-            leftIcon={<MdLogout />}
-            fontSize={{ base: "xl", md: "2xl" }}
-            fontWeight="semibold"
-            color="blue.400"
-            _hover={{ textDecoration: "none", color: "blue.500" }}
-            _focus={{ boxShadow: "none" }}
-            display="flex"
-          >
-            Sair
-          </Button>
-        )}
-      </Stack>
+        <VStack spacing={4} align="stretch">
+          {menuItems
+            .filter((item) => item.show)
+            .map((item) => {
+              const isActive = location.pathname === item.to;
+              return (
+                <Box
+                  key={item.text}
+                  as={RouterLink}
+                  to={item.to}
+                  onClick={onToggle}
+                  py={2}
+                  px={4}
+                  fontSize="md"
+                  fontWeight="medium"
+                  color={isActive ? "text.primary" : "text.secondary"}
+                  borderRadius="sm"
+                  _hover={{ bg: "bg.secondary", color: "text.primary" }}
+                  transition="all 0.2s"
+                >
+                  {item.text}
+                </Box>
+              );
+            })}
+          {user && (
+            <Box
+              as="button"
+              onClick={logout}
+              py={2}
+              px={4}
+              fontSize="md"
+              fontWeight="medium"
+              color="red.500"
+              textAlign="left"
+              _hover={{ bg: "red.50" }}
+              transition="all 0.2s"
+            >
+              Sair
+            </Box>
+          )}
+        </VStack>
+      </Box>
     </Collapse>
   );
 };

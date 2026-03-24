@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { UseLikeButtonProps, UseLikeButtonResult } from "./types";
+import type { UseLikeButtonProps, UseLikeButtonResult } from "./types";
 import { useHandleNotLoggedIn } from "./useHandleNotLoggedIn";
 import { useLike } from "./useLikeResult";
 
-export const useLikeButton = ({
-  postId,
-  userId,
-}: UseLikeButtonProps): UseLikeButtonResult => {
+export const useLikeButton = ({ postId, userId }: UseLikeButtonProps): UseLikeButtonResult => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);

@@ -1,13 +1,7 @@
 import { SearchIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { Box, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
-import { SearchFormProps } from "./types";
+import type { SearchFormProps } from "./types";
 
 const SearchForm = ({ handleSubmit, setQuery }: SearchFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,52 +16,33 @@ const SearchForm = ({ handleSubmit, setQuery }: SearchFormProps) => {
       }
       handleSubmit(e);
     },
-    [handleSubmit, setQuery],
+    [handleSubmit, setQuery]
   );
 
-  const handleIconClick = useCallback(() => {
-    formRef.current?.dispatchEvent(new Event("submit", { bubbles: true }));
+  const handleInputKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      formRef.current?.dispatchEvent(new Event("submit", { bubbles: true }));
+    }
   }, []);
 
-  const handleInputKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") {
-        formRef.current?.dispatchEvent(new Event("submit", { bubbles: true }));
-      }
-    },
-    [],
-  );
-
   return (
-    <Box display="flex" alignItems="center" p={4}>
-      <form
-        ref={formRef}
-        onSubmit={handleFormSubmit}
-        style={{ display: "flex", alignItems: "center", width: "100%" }}
-      >
-        <InputGroup width="100%" maxWidth="600px">
+    <Box maxW="500px" mx="auto" w="full">
+      <form ref={formRef} onSubmit={handleFormSubmit}>
+        <InputGroup size="lg">
           <InputLeftElement pointerEvents="none">
             <SearchIcon color="gray.300" />
           </InputLeftElement>
           <Input
             ref={inputRef}
             type="text"
-            placeholder="Ou busque por tags..."
+            placeholder="Buscar por tags..."
             aria-label="Buscar por tags"
-            autoFocus
             onKeyDown={handleInputKeyDown}
+            bg="white"
+            borderColor="gray.200"
+            _focus={{ borderColor: "gray.900", boxShadow: "none" }}
           />
         </InputGroup>
-
-        <Button
-          type="button"
-          colorScheme="blue"
-          ml={2}
-          onClick={handleIconClick}
-          aria-label="Pesquisar"
-        >
-          <SearchIcon />
-        </Button>
       </form>
     </Box>
   );

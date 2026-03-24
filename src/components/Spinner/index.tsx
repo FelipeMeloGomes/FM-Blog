@@ -1,7 +1,7 @@
 import {
   Box,
   Spinner as ChakraSpinner,
-  SpinnerProps,
+  type SpinnerProps,
   useBreakpointValue,
 } from "@chakra-ui/react";
 
@@ -19,13 +19,7 @@ const Spinner = ({
   });
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height={height}
-      width={width}
-    >
+    <Box display="flex" justifyContent="center" alignItems="center" height={height} width={width}>
       <ChakraSpinner size={size} color={color} thickness={thickness} />
     </Box>
   );

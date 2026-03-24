@@ -1,7 +1,7 @@
 import { deleteDoc, doc } from "firebase/firestore";
 import { useEffect, useReducer, useState } from "react";
 import { db } from "../firebase/config";
-import { DeleteAction, OperationState } from "./types";
+import type { DeleteAction, OperationState } from "./types";
 import { useToastNotification } from "./useToastNotification";
 
 const initialState: OperationState = {
@@ -9,10 +9,7 @@ const initialState: OperationState = {
   error: null,
 };
 
-const deleteReducer = (
-  state: OperationState,
-  action: DeleteAction,
-): OperationState => {
+const deleteReducer = (state: OperationState, action: DeleteAction): OperationState => {
   switch (action.type) {
     case "LOADING":
       return { loading: true, error: null };
@@ -26,10 +23,7 @@ const deleteReducer = (
 };
 
 export const useDeleteDocument = (docCollection: string) => {
-  const [{ loading, error }, dispatch] = useReducer(
-    deleteReducer,
-    initialState,
-  );
+  const [{ loading, error }, dispatch] = useReducer(deleteReducer, initialState);
 
   const [isCancelled, setIsCancelled] = useState<boolean>(false);
 
@@ -55,11 +49,9 @@ export const useDeleteDocument = (docCollection: string) => {
         duration: 5000,
         isClosable: true,
       });
-    } catch (error: any) {
+    } catch (err) {
       const errorMessage =
-        "message" in error
-          ? error.message
-          : "Ocorreu um erro ao excluir o documento.";
+        err instanceof Error ? err.message : "Ocorreu um erro ao excluir o documento.";
 
       checkCancelBeforeDispatch({ type: "ERROR", payload: errorMessage });
     }

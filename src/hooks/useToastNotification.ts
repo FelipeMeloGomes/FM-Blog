@@ -1,4 +1,4 @@
-import { useToast, UseToastOptions } from "@chakra-ui/react";
+import { type UseToastOptions, useToast } from "@chakra-ui/react";
 
 interface UseToastNotification {
   showToast: (options: UseToastOptions) => void;

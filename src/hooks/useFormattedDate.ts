@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore";
+import type { Timestamp } from "firebase/firestore";
 import { useMemo } from "react";
 
 export const useFormattedDate = (timestamp: Timestamp | null | undefined) => {

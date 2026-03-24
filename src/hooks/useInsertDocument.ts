@@ -1,17 +1,14 @@
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { useEffect, useReducer, useState } from "react";
 import { db } from "../firebase/config";
-import { InsertAction, OperationState } from "./types";
+import type { FormData, InsertAction, OperationState } from "./types";
 
 const initialState: OperationState = {
   loading: null,
   error: null,
 };
 
-const insertReducer = (
-  state: OperationState,
-  action: InsertAction,
-): OperationState => {
+const insertReducer = (state: OperationState, action: InsertAction): OperationState => {
   switch (action.type) {
     case "LOADING":
       return { loading: true, error: null };
@@ -35,7 +32,7 @@ export const useInsertDocument = (docCollection: string) => {
     }
   };
 
-  const insertDocument = async (document: any) => {
+  const insertDocument = async (document: FormData) => {
     checkCancelBeforeDispatch({ type: "LOADING" });
 
     try {
@@ -44,11 +41,9 @@ export const useInsertDocument = (docCollection: string) => {
       await addDoc(collection(db, docCollection), newDocument);
 
       checkCancelBeforeDispatch({ type: "INSERTED_DOC" });
-    } catch (error: any) {
+    } catch (err) {
       const errorMessage =
-        "message" in error
-          ? error.message
-          : "Ocorreu um erro ao inserir o documento.";
+        err instanceof Error ? err.message : "Ocorreu um erro ao inserir o documento.";
 
       checkCancelBeforeDispatch({ type: "ERROR", payload: errorMessage });
     }

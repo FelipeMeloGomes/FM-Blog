@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { db } from "../firebase/config";
-import { UseLikeResult } from "./types";
+import type { UseLikeResult } from "./types";
 
 export const useLike = (): UseLikeResult => {
   const [error, setError] = useState<string | null>(null);
@@ -26,37 +26,33 @@ export const useLike = (): UseLikeResult => {
     console.error(message, err);
   };
 
-  const likePost = useCallback(
-    async (postId: string, userId: string): Promise<void> => {
-      if (!validateInputs(postId, userId)) return;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const likePost = useCallback(async (postId: string, userId: string): Promise<void> => {
+    if (!validateInputs(postId, userId)) return;
 
-      try {
-        const postRef = doc(db, "posts", postId);
+    try {
+      const postRef = doc(db, "posts", postId);
 
-        await runTransaction(db, async (transaction) => {
-          const postDoc = await transaction.get(postRef);
-          if (!postDoc.exists()) throw new Error("Post does not exist");
+      await runTransaction(db, async (transaction) => {
+        const postDoc = await transaction.get(postRef);
+        if (!postDoc.exists()) throw new Error("Post does not exist");
 
-          const postData = postDoc.data();
-          const hasLiked = postData?.likes?.includes(userId) ?? false;
+        const postData = postDoc.data();
+        const hasLiked = postData?.likes?.includes(userId) ?? false;
 
-          transaction.update(postRef, {
-            likes: hasLiked ? arrayRemove(userId) : arrayUnion(userId),
-            likeCount: increment(hasLiked ? -1 : 1),
-          });
+        transaction.update(postRef, {
+          likes: hasLiked ? arrayRemove(userId) : arrayUnion(userId),
+          likeCount: increment(hasLiked ? -1 : 1),
         });
-      } catch (err) {
-        handleError("Error updating like. Please try again.", err);
-      }
-    },
-    [],
-  );
+      });
+    } catch (err) {
+      handleError("Error updating like. Please try again.", err);
+    }
+  }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getLikeInfo = useCallback(
-    async (
-      postId: string,
-      userId?: string,
-    ): Promise<{ isLiked: boolean; likeCount: number }> => {
+    async (postId: string, userId?: string): Promise<{ isLiked: boolean; likeCount: number }> => {
       if (!validateInputs(postId)) return { isLiked: false, likeCount: 0 };
 
       try {
@@ -67,7 +63,7 @@ export const useLike = (): UseLikeResult => {
 
         const postData = postDoc.data();
         return {
-          isLiked: userId ? postData?.likes?.includes(userId) ?? false : false,
+          isLiked: userId ? (postData?.likes?.includes(userId) ?? false) : false,
           likeCount: postData?.likeCount ?? 0,
         };
       } catch (err) {
@@ -75,7 +71,7 @@ export const useLike = (): UseLikeResult => {
         return { isLiked: false, likeCount: 0 };
       }
     },
-    [],
+    []
   );
 
   return {

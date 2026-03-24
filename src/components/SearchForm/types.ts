@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 
 export interface SearchFormProps {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;

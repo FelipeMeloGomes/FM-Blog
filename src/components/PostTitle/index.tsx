@@ -1,5 +1,5 @@
 import { Box, Heading } from "@chakra-ui/react";
-import { PostTitleProps } from "./types";
+import type { PostTitleProps } from "./types";
 
 const PostTitle = ({ title }: PostTitleProps) => (
   <Box mt={7} textAlign="center">

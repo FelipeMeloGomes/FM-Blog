@@ -1,6 +1,6 @@
-import { Auth } from "firebase/auth";
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
+import type { Auth } from "firebase/auth";
+import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
+import type { useNavigate } from "react-router-dom";
 
 export interface OperationState {
   loading: boolean | null;
@@ -17,7 +17,7 @@ export interface FetchDocumentsResult {
   documents: DocumentData[] | null;
   loading: boolean;
   error: string | null;
-  lastVisible: any;
+  lastVisible: QueryDocumentSnapshot | null;
   loadMoreDocuments: () => Promise<void>;
 }
 
@@ -79,10 +79,7 @@ export interface AuthFormHook {
   setPasswordVisibleTwo: Dispatch<SetStateAction<boolean>>;
   error: string;
   setError: Dispatch<SetStateAction<string>>;
-  handleSubmit: (
-    e: React.FormEvent<HTMLFormElement>,
-    data?: FormData,
-  ) => Promise<void>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>, data?: AuthFormValues) => Promise<void>;
   handlePasswordReset: (email: string) => Promise<void>;
   handleGoogleLogin: () => Promise<void>;
   handleResetPasswordSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
@@ -101,19 +98,16 @@ export interface CitySearchHook {
 export type FetchDataFunction = (city: string) => Promise<void>;
 
 export interface DocumentData {
-  tagsArray?: string[];
+  id?: string;
+  title?: string;
+  content?: string;
   body?: string | TrustedHTML;
+  description?: string;
+  tagsArray?: string[];
   createdBy?: string;
   image?: string;
-  id?: string;
-  title?: string;
-  content?: string;
-}
-
-export interface DocumentData {
-  id?: string;
-  title?: string;
-  content?: string;
+  uid?: string;
+  createdAt?: unknown;
   likes?: string[];
   likeCount?: number;
 }
@@ -140,14 +134,14 @@ export interface FormData {
 }
 
 export interface FormSubmitProps {
-  insertDocument: (formData: FormData) => void;
-  updateDocument: (id: string, formData: FormData) => void;
+  insertDocument?: (formData: FormData) => void;
+  updateDocument?: (id: string, formData: FormData) => void;
   navigate: ReturnType<typeof useNavigate>;
   titleRef: React.MutableRefObject<HTMLInputElement | null>;
   imageRef: React.MutableRefObject<HTMLInputElement | null>;
-  bodyRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  bodyRef?: React.MutableRefObject<HTMLTextAreaElement | null>;
   tagsRef: React.MutableRefObject<HTMLInputElement | null>;
-  user: User;
+  user: User | null;
   actionType: "create" | "edit";
   postId: string;
   existingLikes: string[];
@@ -168,10 +162,7 @@ export interface UseLikeButtonResult {
 
 export interface UseLikeResult {
   likePost: (postId: string, userId: string) => Promise<void>;
-  getLikeInfo: (
-    postId: string,
-    userId: string,
-  ) => Promise<{ isLiked: boolean; likeCount: number }>;
+  getLikeInfo: (postId: string, userId: string) => Promise<{ isLiked: boolean; likeCount: number }>;
   error: string | null;
 }
 
@@ -189,9 +180,7 @@ export interface PostFormHook {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  handleChange: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   validateImageUrl: (url: string) => void;
 }
 
@@ -202,4 +191,21 @@ export interface SearchPostHook {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
+}
+
+import type { QueryDocumentSnapshot as FirebaseQueryDocumentSnapshot } from "firebase/firestore";
+
+export type QueryDocumentSnapshot = FirebaseQueryDocumentSnapshot;
+
+export interface PaginatedDocumentsResult {
+  posts: DocumentData[] | null;
+  loading: boolean;
+  error: string | null;
+  currentPage: number;
+  totalPages: number;
+  totalPosts: number;
+  goToPage: (page: number) => void;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  isLoadingPage: boolean;
 }

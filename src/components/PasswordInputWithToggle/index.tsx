@@ -10,12 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef } from "react";
 import { FaEye as EyeIcon, FaEyeSlash as SlashIcon } from "react-icons/fa";
-import { PasswordInputProps } from "./types";
+import type { PasswordInputProps } from "./types";
 
-const PasswordInputWithToggle = forwardRef<
-  HTMLInputElement,
-  PasswordInputProps
->(
+const PasswordInputWithToggle = forwardRef<HTMLInputElement, PasswordInputProps>(
   (
     {
       label,
@@ -31,12 +28,14 @@ const PasswordInputWithToggle = forwardRef<
       togglePasswordVisibility,
       ...rest
     },
-    ref,
+    ref
   ) => (
     <FormControl id={name} isRequired={required}>
       <FormLabel>{label}</FormLabel>
       <InputGroup>
-        {<LockIcon /> && <InputLeftElement>{<LockIcon />}</InputLeftElement>}
+        <InputLeftElement>
+          <LockIcon />
+        </InputLeftElement>
         <Input
           type={passwordVisible ? "text" : "password"}
           name={name}
@@ -59,7 +58,7 @@ const PasswordInputWithToggle = forwardRef<
         </InputRightElement>
       </InputGroup>
     </FormControl>
-  ),
+  )
 );
 
 export { PasswordInputWithToggle };

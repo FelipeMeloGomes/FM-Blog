@@ -1,4 +1,4 @@
-import { Post, ShareData } from "./types";
+import type { Post, ShareData } from "./types";
 
 const handleShare = async (post: Post): Promise<void> => {
   const shareData: ShareData = {
@@ -15,7 +15,7 @@ const handleShare = async (post: Post): Promise<void> => {
     }
   } else {
     const shareUrl = `mailto:?subject=${encodeURIComponent(
-      shareData.title,
+      shareData.title
     )}&body=${encodeURIComponent(shareData.url)}`;
 
     window.open(shareUrl, "_blank");

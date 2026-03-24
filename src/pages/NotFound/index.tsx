@@ -15,12 +15,7 @@ import { Link } from "react-router-dom";
 const NotFound = () => {
   return (
     <Box bg="white" _dark={{ bg: "gray.900" }} minH="100vh" py={12}>
-      <Container
-        maxW="container.xl"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Container maxW="container.xl" display="flex" alignItems="center" justifyContent="center">
         <Flex flexDirection="column" alignItems="center" textAlign="center">
           <Box
             p={3}
@@ -42,8 +37,7 @@ const NotFound = () => {
             Página não encontrada
           </Heading>
           <Text mt={4} color="gray.500" _dark={{ color: "gray.400" }}>
-            A página que você está procurando não existe. Aqui estão alguns
-            links úteis:
+            A página que você está procurando não existe. Aqui estão alguns links úteis:
           </Text>
 
           <Flex
@@ -81,4 +75,4 @@ const NotFound = () => {
   );
 };
 
-export { NotFound };
+export default NotFound;

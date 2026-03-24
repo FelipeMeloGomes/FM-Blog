@@ -1,11 +1,5 @@
-import {
-  Box,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
-import { TextInputWithIconProps } from "./types";
+import { Box, FormLabel, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import type { TextInputWithIconProps } from "./types";
 
 const TextInputWithIcon = ({
   label,
@@ -25,9 +19,7 @@ const TextInputWithIcon = ({
         {label}
       </FormLabel>
       <InputGroup size="md">
-        {iconName && (
-          <InputLeftElement pointerEvents="none">{iconName}</InputLeftElement>
-        )}
+        {iconName && <InputLeftElement pointerEvents="none">{iconName}</InputLeftElement>}
         <Input
           type="text"
           name={name}
