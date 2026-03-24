@@ -88,15 +88,7 @@ const LoginForm = ({
   };
 
   return (
-    <Box
-      w="full"
-      maxW="md"
-      mx="auto"
-      bg="bg.primary"
-      borderRadius="lg"
-      boxShadow="lg"
-      overflow="hidden"
-    >
+    <Box w="full" maxW="md" mx="auto" borderRadius="lg" boxShadow="lg" overflow="hidden">
       <Stack spacing={6} p={8}>
         <Box textAlign="center">
           <Heading size="lg" fontWeight="bold" color="text.primary">
