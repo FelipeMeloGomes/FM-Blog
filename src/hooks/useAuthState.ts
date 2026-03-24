@@ -2,10 +2,11 @@ import { type User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useAuthentication } from "./useAuthentication";
 
-interface CustomUser extends FirebaseUser {
+interface CustomUser extends Omit<FirebaseUser, "photoURL"> {
   id: string;
   name: string;
   email: string;
+  photoURL?: string | null;
 }
 
 export const useAuthState = (): CustomUser | null => {
@@ -22,6 +23,7 @@ export const useAuthState = (): CustomUser | null => {
           id: currentUser.uid,
           name: currentUser.displayName || "Nome não disponível",
           email: currentUser.email ?? "",
+          photoURL: currentUser.photoURL,
         };
         setUser(customUser);
       } else {

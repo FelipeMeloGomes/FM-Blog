@@ -5,5 +5,6 @@ export interface AvatarMenuProps {
     name?: string;
     email?: string;
     uid?: string;
+    photoURL?: string | null;
   } | null;
 }

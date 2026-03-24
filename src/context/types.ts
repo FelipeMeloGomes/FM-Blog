@@ -5,6 +5,7 @@ export interface User {
   name: string;
   email: string;
   uid?: string;
+  photoURL?: string | null;
 }
 
 export interface AuthValue {

@@ -13,6 +13,7 @@ const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
     { text: "Entrar", to: "/login", show: !user },
     { text: "Cadastrar", to: "/register", show: !user },
     { text: "Novo Post", to: "/posts/create", show: !!user },
+    { text: "Meu Perfil", to: "/profile", show: !!user },
     { text: "Meus Posts", to: "/dashboard", show: !!user },
     { text: "Sobre", to: "/about", show: true },
   ];

@@ -1,4 +1,5 @@
 import { Avatar, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/react";
+import { FiUser } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
 import type { AvatarMenuProps } from "./types";
 
@@ -10,14 +11,19 @@ const AvatarMenu = ({ logout, user }: AvatarMenuProps) => {
         size="sm"
         cursor="pointer"
         name={user?.name || user?.email || "Usuário"}
+        src={user?.photoURL || undefined}
         _hover={{ opacity: 0.8 }}
         transition="opacity 0.2s"
       />
-      <MenuList borderColor="gray.100" boxShadow="sm" minW="150px">
-        <MenuItem as={RouterLink} to="/dashboard" fontSize="sm" _hover={{ bg: "gray.50" }}>
+      <MenuList borderColor="border.subtle" boxShadow="sm" minW="150px">
+        <MenuItem as={RouterLink} to="/profile" fontSize="sm" _hover={{ bg: "bg.secondary" }}>
+          <FiUser style={{ marginRight: "8px" }} />
+          Meu Perfil
+        </MenuItem>
+        <MenuItem as={RouterLink} to="/dashboard" fontSize="sm" _hover={{ bg: "bg.secondary" }}>
           Meus Posts
         </MenuItem>
-        <MenuItem as={RouterLink} to="/about" fontSize="sm" _hover={{ bg: "gray.50" }}>
+        <MenuItem as={RouterLink} to="/about" fontSize="sm" _hover={{ bg: "bg.secondary" }}>
           Sobre
         </MenuItem>
         <MenuDivider />
