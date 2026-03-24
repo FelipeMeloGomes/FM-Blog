@@ -15,7 +15,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
@@ -23,6 +23,16 @@ import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { EditorProvider } from "../../utils/EditorContext";
+
+const processTags = (input: string): string[] => {
+  return input
+    .split(",")
+    .map((tag) => tag.trim().toLowerCase())
+    .filter((tag) => tag.length > 0)
+    .filter((tag, index, self) => self.indexOf(tag) === index)
+    .slice(0, 10)
+    .map((tag) => tag.slice(0, 30));
+};
 
 const EditPostContent = () => {
   const navigate = useNavigate();
@@ -34,7 +44,7 @@ const EditPostContent = () => {
 
   const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
+  const [tagsInput, setTagsInput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -47,26 +57,18 @@ const EditPostContent = () => {
           preview: post.image,
         });
       }
-      setTags(post.tagsArray || []);
+      setTagsInput(post.tagsArray?.join(", ") || "");
     }
   }, [post]);
 
-  const handleTagsChange = (value: string) => {
-    const newTags = value
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase())
-      .filter((tag) => tag && !tags.includes(tag));
-    setTags([...tags, ...newTags]);
-  };
-
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
+  const previewTags = useMemo(() => {
+    return processTags(tagsInput);
+  }, [tagsInput]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || tags.length === 0) {
+    if (!title || previewTags.length === 0) {
       toast({
         title: "Erro",
         description: "Preencha todos os campos obrigatórios.",
@@ -104,7 +106,7 @@ const EditPostContent = () => {
         title,
         image: imageUrl,
         body: String(post?.body || ""),
-        tagsArray: tags,
+        tagsArray: previewTags,
         uid: user?.uid || post?.uid || "",
         createdBy: post?.createdBy || user?.name || user?.email || "Anonymous",
         likeCount: post?.likeCount || 0,
@@ -201,19 +203,31 @@ const EditPostContent = () => {
             </FormLabel>
             <Input
               placeholder="react, typescript, firebase"
-              onChange={(e) => handleTagsChange(e.target.value)}
-              defaultValue={post.tagsArray?.join(", ")}
+              value={tagsInput}
+              onChange={(e) => setTagsInput(e.target.value)}
             />
-            {tags.length > 0 && (
+            {previewTags.length > 0 && (
               <Box mt={4}>
                 <Text fontSize="sm" color="text.muted" mb={2}>
                   Preview das tags:
                 </Text>
                 <HStack spacing={2} flexWrap="wrap">
-                  {tags.map((tag) => (
+                  {previewTags.map((tag) => (
                     <Tag key={tag} size="md" variant="subtle" colorScheme="gray">
                       <TagLabel>{tag}</TagLabel>
-                      <TagCloseButton onClick={() => removeTag(tag)} />
+                      <TagCloseButton
+                        onClick={() => {
+                          const parts = tagsInput
+                            .split(",")
+                            .map((t) => t.trim())
+                            .filter((t) => t.length > 0);
+                          const tagIndex = parts.findIndex((t) => t.toLowerCase() === tag);
+                          if (tagIndex !== -1) {
+                            parts.splice(tagIndex, 1);
+                            setTagsInput(parts.join(", "));
+                          }
+                        }}
+                      />
                     </Tag>
                   ))}
                 </HStack>

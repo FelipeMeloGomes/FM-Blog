@@ -8,14 +8,13 @@ import {
   Heading,
   Input,
   Tag,
-  TagCloseButton,
   TagLabel,
   Text,
   Textarea,
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { useAuthValue } from "../../context/AuthContext";
@@ -23,33 +22,37 @@ import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { EditorProvider } from "../../utils/EditorContext";
 
+const processTags = (input: string): string[] => {
+  return input
+    .split(",")
+    .map((tag) => tag.trim().toLowerCase())
+    .filter((tag) => tag.length > 0)
+    .filter((tag, index, self) => self.indexOf(tag) === index)
+    .slice(0, 10)
+    .map((tag) => tag.slice(0, 30));
+};
+
 const CreatePostContent = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { user } = useAuthValue() || {};
   const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
+  const [tagsInput, setTagsInput] = useState("");
   const [body, setBody] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { insertDocument, response } = useInsertDocument("posts");
 
-  const handleTagsChange = (value: string) => {
-    const newTags = value
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase())
-      .filter((tag) => tag && !tags.includes(tag));
-    setTags([...tags, ...newTags]);
-  };
+  const tagsInputRef = useRef<HTMLInputElement>(null);
 
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
+  const previewTags = useMemo(() => {
+    return processTags(tagsInput);
+  }, [tagsInput]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || !coverImage?.file || tags.length === 0 || body.length < 10) {
+    if (!title || !coverImage?.file || previewTags.length === 0 || body.length < 10) {
       toast({
         title: "Erro",
         description:
@@ -72,7 +75,7 @@ const CreatePostContent = () => {
         title,
         image: imageUrl,
         body,
-        tagsArray: tags,
+        tagsArray: previewTags,
         uid: user?.uid || "",
         createdBy: user?.name || user?.email || "Anonymous",
         likeCount: 0,
@@ -158,19 +161,20 @@ const CreatePostContent = () => {
               Tags (separadas por vírgula)
             </FormLabel>
             <Input
+              ref={tagsInputRef}
               placeholder="react, typescript, firebase"
-              onChange={(e) => handleTagsChange(e.target.value)}
+              value={tagsInput}
+              onChange={(e) => setTagsInput(e.target.value)}
             />
-            {tags.length > 0 && (
+            {previewTags.length > 0 && (
               <Box mt={4}>
                 <Text fontSize="sm" color="text.muted" mb={2}>
                   Preview das tags:
                 </Text>
                 <HStack spacing={2} flexWrap="wrap">
-                  {tags.map((tag) => (
+                  {previewTags.map((tag) => (
                     <Tag key={tag} size="md" variant="subtle" colorScheme="gray">
                       <TagLabel>{tag}</TagLabel>
-                      <TagCloseButton onClick={() => removeTag(tag)} />
                     </Tag>
                   ))}
                 </HStack>
