@@ -1,12 +1,5 @@
-import { Box } from "@chakra-ui/react";
-import type { LayoutPageProps } from "./types";
-
-const LayoutPage = ({ children }: LayoutPageProps) => {
-  return (
-    <Box textAlign="center" m={0} mx="auto" h="100vh">
-      {children}
-    </Box>
-  );
+const LayoutPage = ({ children }: { children: React.ReactNode }) => {
+  return <div className="text-center m-0 mx-auto h-screen">{children}</div>;
 };
 
 export { LayoutPage };

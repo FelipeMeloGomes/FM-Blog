@@ -1,5 +1,4 @@
-import { AtSignIcon } from "@chakra-ui/icons";
-import { Box } from "@chakra-ui/react";
+import { FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import { TextInputWithIcon } from "../TextInputWithIcon";
@@ -10,7 +9,7 @@ const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormPr
     <TextInputWithIcon
       label="Email para redefinição de senha"
       name="email"
-      iconName={<AtSignIcon />}
+      iconName={<FiMail />}
       value={formData.email}
       minLength={6}
       required
@@ -21,11 +20,11 @@ const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormPr
     <Button alt="Enviar e-mail de redefinição" disabled={formData.email === ""}>
       Enviar e-mail de redefinição
     </Button>
-    <Box mt={4}>
+    <div className="mt-4">
       <Link to="/login">
         <Button>Voltar ao login</Button>
       </Link>
-    </Box>
+    </div>
     {error && <p className="error">{error}</p>}
   </>
 );

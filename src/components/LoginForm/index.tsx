@@ -1,24 +1,25 @@
-import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FiLock, FiMail } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
-import { useAuthForm } from "../../hooks/useAuthForm";
+import { useAuthentication } from "../../hooks/useAuthentication";
+import { loginSchema, registerSchema, resetPasswordSchema } from "../../schemas";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import type { loginFormProps } from "./types";
+
+const Link = ({
+  to,
+  children,
+  className,
+}: { to: string; children: React.ReactNode; className?: string }) => (
+  <RouterLink to={to} className={className}>
+    {children}
+  </RouterLink>
+);
 
 const GoogleIcon = () => (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -41,26 +42,112 @@ const GoogleIcon = () => (
   </svg>
 );
 
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+interface RegisterData {
+  displayName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface ResetPasswordData {
+  email: string;
+}
+
 const LoginForm = ({
   isLogin,
   onSubmit,
   resetPassword,
 }: loginFormProps & { resetPassword?: boolean }) => {
-  const {
-    error,
-    formData,
-    setFormData,
-    handleResetPasswordSubmit: handleResetPw,
-    handleGoogleLogin: handleGoogle,
-    handleSubmit: handleFormSubmit,
-    loading,
-  } = useAuthForm(isLogin, onSubmit);
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [authError, setAuthError] = useState<string>("");
+  const {
+    login,
+    loginWithGoogle,
+    createUser,
+    resetPassword: resetPasswordFn,
+    loading,
+  } = useAuthentication();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    handleFormSubmit(e, formData);
+  const loginForm = useForm<LoginData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
+  });
+
+  const registerForm = useForm<RegisterData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { displayName: "", email: "", password: "", confirmPassword: "" },
+  });
+
+  const resetForm = useForm<ResetPasswordData>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: { email: "" },
+  });
+
+  const getCurrentForm = () => {
+    if (resetPassword) return { form: resetForm, schema: resetPasswordSchema };
+    if (isLogin) return { form: loginForm, schema: loginSchema };
+    return { form: registerForm, schema: registerSchema };
+  };
+
+  const currentForm = getCurrentForm();
+  // biome-ignore lint/suspicious/noExplicitAny: Form type is dynamic based on resetPassword/isLogin
+  const form = currentForm.form as any;
+  // biome-ignore lint/suspicious/noExplicitAny: FormState type is dynamic
+  const formState = form.formState as any;
+  const errors = formState.errors;
+
+  const onLoginSubmit = async (data: LoginData) => {
+    setAuthError("");
+    try {
+      await login({ email: data.email, password: data.password });
+      // biome-ignore lint/suspicious/noExplicitAny: onSubmit expects LoginFormData, data matches structure
+      if (onSubmit) onSubmit(data as any);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Ocorreu um erro.";
+      setAuthError(errorMessage);
+    }
+  };
+
+  const onRegisterSubmit = async (data: RegisterData) => {
+    setAuthError("");
+    try {
+      await createUser({
+        email: data.email,
+        password: data.password,
+        displayName: data.displayName,
+      });
+      // biome-ignore lint/suspicious/noExplicitAny: onSubmit expects LoginFormData
+      if (onSubmit) onSubmit(data as any);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Ocorreu um erro.";
+      setAuthError(errorMessage);
+    }
+  };
+
+  const onResetSubmit = async (data: ResetPasswordData) => {
+    setAuthError("");
+    try {
+      await resetPasswordFn(data.email);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Ocorreu um erro.";
+      setAuthError(errorMessage);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      // biome-ignore lint/suspicious/noExplicitAny: Google login doesn't have form data
+      if (onSubmit) onSubmit({} as any);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const getTitle = () => {
@@ -87,199 +174,178 @@ const LoginForm = ({
     return "Cadastrando...";
   };
 
+  const handleSubmit = resetPassword
+    ? resetForm.handleSubmit(onResetSubmit)
+    : isLogin
+      ? loginForm.handleSubmit(onLoginSubmit)
+      : registerForm.handleSubmit(onRegisterSubmit);
+
   return (
-    <Box w="full" maxW="md" mx="auto" borderRadius="lg" boxShadow="lg" overflow="hidden">
-      <Stack spacing={6} p={8}>
-        <Box textAlign="center">
-          <Heading size="lg" fontWeight="bold" color="text.primary">
-            {getTitle()}
-          </Heading>
-          <Text color="text.secondary" mt={2}>
-            {getDescription()}
-          </Text>
-        </Box>
+    <div className="w-full max-w-md mx-auto rounded-lg shadow-lg overflow-hidden">
+      <div className="p-8 space-y-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground">{getTitle()}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{getDescription()}</p>
+        </div>
 
         {!resetPassword && (
           <>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={handleGoogle}
-              leftIcon={<GoogleIcon />}
-              h="44px"
-              borderColor="border.default"
-              _hover={{ bg: "bg.secondary" }}
-            >
-              Continuar com Google
+            <Button variant="outline" size="lg" onClick={handleGoogleLogin} className="w-full h-11">
+              <GoogleIcon />
+              <span className="ml-2">Continuar com Google</span>
             </Button>
 
-            <HStack>
-              <Divider />
-              <Text fontSize="sm" color="text.secondary" whiteSpace="nowrap" px={2}>
-                ou
-              </Text>
-              <Divider />
-            </HStack>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 h-px bg-border" />
+              <span className="text-sm text-muted-foreground whitespace-nowrap px-2">ou</span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
           </>
         )}
 
-        <Box as="form" onSubmit={resetPassword ? handleResetPw : handleSubmit}>
-          <Stack spacing={4}>
-            {!isLogin && !resetPassword && (
-              <FormControl isRequired>
-                <FormLabel fontSize="sm" color="text.primary">
-                  Nome de usuário
-                </FormLabel>
-                <Input
-                  placeholder="Seu nome de usuário"
-                  value={formData.displayName}
-                  onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
-                  h="44px"
-                />
-              </FormControl>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {!isLogin && !resetPassword && (
+            <div className="space-y-2">
+              <Label htmlFor="displayName" className="text-sm">
+                Nome de usuário
+              </Label>
+              <Input
+                id="displayName"
+                placeholder="Seu nome de usuário"
+                {...registerForm.register("displayName")}
+                className="h-11"
+              />
+              {errors.displayName && (
+                <p className="text-xs text-destructive mt-1">{errors.displayName.message}</p>
+              )}
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm">
+              E-mail
+            </Label>
+            <div className="relative">
+              <Input
+                id="email"
+                type="email"
+                placeholder="seu@email.com"
+                {...form.register("email")}
+                className="h-11 pl-10"
+              />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
+                <FiMail />
+              </div>
+            </div>
+            {errors.email && (
+              <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
             )}
+          </div>
 
-            <FormControl isRequired>
-              <FormLabel fontSize="sm" color="text.primary">
-                E-mail
-              </FormLabel>
-              <InputGroup>
-                <Input
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  h="44px"
-                  pl={10}
-                />
-                <Box position="absolute" left={3} top="50%" transform="translateY(-50%)" zIndex={2}>
-                  <FiMail color="gray" />
-                </Box>
-              </InputGroup>
-            </FormControl>
-
-            {!resetPassword && (
-              <FormControl isRequired>
-                <HStack justify="space-between">
-                  <FormLabel fontSize="sm" color="text.primary">
-                    Senha
-                  </FormLabel>
-                  {isLogin && (
-                    <Link
-                      as={RouterLink}
-                      to="/resetPassword"
-                      fontSize="sm"
-                      color="text.secondary"
-                      _hover={{ color: "text.primary" }}
-                    >
-                      Esqueceu a senha?
-                    </Link>
-                  )}
-                </HStack>
-                <InputGroup>
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    h="44px"
-                    pl={10}
-                  />
-                  <Box
-                    position="absolute"
-                    left={3}
-                    top="50%"
-                    transform="translateY(-50%)"
-                    zIndex={2}
+          {!resetPassword && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-sm">
+                  Senha
+                </Label>
+                {isLogin && (
+                  <Link
+                    to="/resetPassword"
+                    className="text-sm text-muted-foreground hover:text-foreground"
                   >
-                    <FiLock color="gray" />
-                  </Box>
-                  <InputRightElement h="44px">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                    >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-            )}
+                    Esqueceu a senha?
+                  </Link>
+                )}
+              </div>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  {...form.register("password")}
+                  className="h-11 pl-10 pr-10"
+                />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
+                  <FiLock />
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-0 top-0 h-11 px-3 hover:bg-transparent"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </div>
+              {errors.password && (
+                <p className="text-xs text-destructive mt-1">{errors.password.message}</p>
+              )}
+            </div>
+          )}
 
-            {!isLogin && !resetPassword && (
-              <FormControl isRequired>
-                <FormLabel fontSize="sm" color="text.primary">
-                  Confirmar Senha
-                </FormLabel>
-                <InputGroup>
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                    h="44px"
-                    pl={10}
-                  />
-                  <Box
-                    position="absolute"
-                    left={3}
-                    top="50%"
-                    transform="translateY(-50%)"
-                    zIndex={2}
-                  >
-                    <FiLock color="gray" />
-                  </Box>
-                  <InputRightElement h="44px">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
-                    >
-                      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-            )}
+          {!isLogin && !resetPassword && (
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-sm">
+                Confirmar Senha
+              </Label>
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  {...registerForm.register("confirmPassword")}
+                  className="h-11 pl-10 pr-10"
+                />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
+                  <FiLock />
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-0 top-0 h-11 px-3 hover:bg-transparent"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-xs text-destructive mt-1">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+          )}
 
-            {error && (
-              <Text color="red.500" fontSize="sm">
-                {error}
-              </Text>
-            )}
+          {(authError || errors.root) && (
+            <p className="text-sm text-destructive">{authError || errors.root?.message}</p>
+          )}
 
-            <Button
-              type="submit"
-              variant="solid"
-              size="lg"
-              h="44px"
-              isLoading={loading}
-              loadingText={getLoadingText()}
-            >
-              {getButtonText()}
-            </Button>
-          </Stack>
-        </Box>
+          <Button
+            type="submit"
+            variant="default"
+            size="lg"
+            className="w-full h-11"
+            disabled={loading}
+          >
+            {loading ? getLoadingText() : getButtonText()}
+          </Button>
+        </form>
 
         {!resetPassword && (
-          <Text textAlign="center" fontSize="sm" color="text.secondary">
+          <p className="text-center text-sm text-muted-foreground">
             {isLogin ? "Não tem uma conta? " : "Já tem uma conta? "}
             <Link
-              as={RouterLink}
               to={isLogin ? "/register" : "/login"}
-              color="text.primary"
-              fontWeight="medium"
-              _hover={{ textDecoration: "underline" }}
+              className="font-medium text-foreground hover:underline"
             >
               {isLogin ? "Cadastre-se" : "Entrar"}
             </Link>
-          </Text>
+          </p>
         )}
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 };
 

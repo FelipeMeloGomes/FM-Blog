@@ -1,77 +1,36 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  Icon,
-  Text,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { FiArrowLeft } from "react-icons/fi";
 import { MdError } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { Button } from "../../components/ui/button";
 
 const NotFound = () => {
   return (
-    <Box bg="white" _dark={{ bg: "gray.900" }} minH="100vh" py={12}>
-      <Container maxW="container.xl" display="flex" alignItems="center" justifyContent="center">
-        <Flex flexDirection="column" alignItems="center" textAlign="center">
-          <Box
-            p={3}
-            bg="blue.50"
-            borderRadius="full"
-            color="blue.500"
-            display="inline-flex"
-            alignItems="center"
-          >
-            <Icon as={MdError} boxSize={6} />
-          </Box>
-          <Heading
-            mt={3}
-            fontSize={useBreakpointValue({ base: "2xl", md: "3xl" })}
-            fontWeight="semibold"
-            color="gray.800"
-            _dark={{ color: "white" }}
-          >
-            Página não encontrada
-          </Heading>
-          <Text mt={4} color="gray.500" _dark={{ color: "gray.400" }}>
-            A página que você está procurando não existe. Aqui estão alguns links úteis:
-          </Text>
+    <div className="min-h-[100vh] py-12 flex items-center justify-center">
+      <div className="flex flex-col items-center text-center">
+        <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full text-blue-500 inline-flex items-center">
+          <MdError className="h-6 w-6" />
+        </div>
+        <h1 className="mt-3 text-2xl md:text-3xl font-semibold text-foreground">
+          Página não encontrada
+        </h1>
+        <p className="mt-4 text-muted-foreground">
+          A página que você está procurando não existe. Aqui estão alguns links úteis:
+        </p>
 
-          <Flex
-            mt={6}
-            gap={3}
-            flexDirection={{ base: "column", sm: "row" }}
-            width="full"
-            justifyContent="center"
-          >
-            <Link to="/">
-              <Button
-                width="full"
-                variant="outline"
-                colorScheme="gray"
-                leftIcon={<Icon as={ArrowBackIcon} boxSize={5} />}
-                _hover={{ bg: "gray.100", dark: { bg: "gray.800" } }}
-              >
-                Voltar
-              </Button>
-            </Link>
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 w-full justify-center">
+          <Link to="/">
+            <Button variant="outline" className="w-full">
+              <FiArrowLeft className="mr-2 h-5 w-5" />
+              Voltar
+            </Button>
+          </Link>
 
-            <Link to="/">
-              <Button
-                width="full"
-                colorScheme="blue"
-                _hover={{ bg: "blue.600", dark: { bg: "blue.500" } }}
-              >
-                Ir para a Home
-              </Button>
-            </Link>
-          </Flex>
-        </Flex>
-      </Container>
-    </Box>
+          <Link to="/">
+            <Button className="w-full">Ir para a Home</Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

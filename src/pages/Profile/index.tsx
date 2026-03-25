@@ -1,32 +1,29 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Box,
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import { useAuthValue } from "../../context/AuthContext";
 import { uploadToCloudinary } from "../../lib/cloudinary";
 import { useFeedback } from "../../providers/ToastProvider";
+import { type ProfileFormData, profileSchema } from "../../schemas";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { success, error, info } = useFeedback();
   const { user } = useAuthValue() || {};
-  const [name, setName] = useState(user?.name || "");
-  const [email] = useState(user?.email || "");
   const [photoPreview, setPhotoPreview] = useState<string | null>(user?.photoURL || null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  const form = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: { name: user?.name || "" },
+  });
 
   const originalName = user?.name || "";
 
@@ -43,25 +40,11 @@ const Profile = () => {
     setPhotoPreview(null);
   }, []);
 
-  const validateName = (value: string): string | null => {
-    const trimmed = value.trim();
-    if (!trimmed) return "Nome é obrigatório";
-    if (trimmed.length < 3) return "Nome deve ter pelo menos 3 caracteres";
-    if (trimmed.length > 50) return "Nome deve ter no máximo 50 caracteres";
-    return null;
-  };
+  const hasChanges = form.watch("name").trim() !== originalName || photoFile !== null;
 
-  const hasChanges = name.trim() !== originalName || photoFile !== null;
-
-  const handleSave = async () => {
-    const nameError = validateName(name);
-    if (nameError) {
-      error("Erro", nameError);
-      return;
-    }
-
+  const onSubmit = async (data: ProfileFormData) => {
     if (!hasChanges) {
-      info("Info", "Nenhuma alteração foi feita.", { duration: 3000 });
+      info("Info", "Nenhuma alteração foi feita.");
       return;
     }
 
@@ -82,7 +65,7 @@ const Profile = () => {
 
       if (firebaseUser) {
         await updateProfile(firebaseUser, {
-          displayName: name.trim(),
+          displayName: data.name.trim(),
           ...(photoURL && { photoURL }),
         });
       }
@@ -104,86 +87,81 @@ const Profile = () => {
   }
 
   return (
-    <VStack spacing={8} maxW="md" mx="auto" align="stretch" py={8}>
-      <HStack justify="flex-start">
-        <Button as={RouterLink} to="/" variant="ghost" leftIcon={<ArrowBackIcon />} size="sm">
+    <div className="flex flex-col gap-8 max-w-md mx-auto py-8">
+      <div className="flex justify-start">
+        <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
+          <FiArrowLeft className="mr-2 h-4 w-4" />
           Voltar
         </Button>
-      </HStack>
+      </div>
 
-      <Heading size="lg" fontFamily="heading" color="text.primary" textAlign="center">
-        Meu Perfil
-      </Heading>
+      <h1 className="text-2xl font-bold font-heading text-foreground text-center">Meu Perfil</h1>
 
-      <VStack spacing={6} align="center">
-        <Box position="relative">
-          <Avatar
-            size="2xl"
-            name={name || user?.email || "Usuário"}
-            src={photoPreview || user?.photoURL || undefined}
-            bg="gray.200"
-          />
-        </Box>
+      <div className="flex flex-col gap-6 items-center">
+        <div className="relative">
+          <Avatar className="h-32 w-32">
+            <AvatarImage src={photoPreview || user?.photoURL || undefined} />
+            <AvatarFallback>
+              {form.watch("name")?.charAt(0) || user?.email?.charAt(0) || "U"}
+            </AvatarFallback>
+          </Avatar>
+        </div>
 
-        <Box textAlign="center">
-          <Input
+        <div className="text-center">
+          <input
             type="file"
             accept="image/jpeg,image/png,image/gif,image/webp"
             onChange={handlePhotoChange}
             id="photo-input"
-            style={{ display: "none" }}
+            className="hidden"
           />
-          <Button as="label" htmlFor="photo-input" variant="outline" size="sm" cursor="pointer">
-            {photoPreview ? "Trocar foto" : "Adicionar foto"}
+          <Button asChild variant="outline" size="sm">
+            <label htmlFor="photo-input" className="cursor-pointer">
+              {photoPreview ? "Trocar foto" : "Adicionar foto"}
+            </label>
           </Button>
           {photoPreview && (
-            <Button variant="ghost" size="xs" colorScheme="red" ml={2} onClick={handleRemovePhoto}>
+            <Button
+              variant="ghost"
+              size="xs"
+              className="ml-2 text-red-500"
+              onClick={handleRemovePhoto}
+            >
               Remover
             </Button>
           )}
-        </Box>
-      </VStack>
+        </div>
+      </div>
 
-      <VStack spacing={5} align="stretch">
-        <FormControl isRequired>
-          <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <div className="space-y-2">
+          <Label htmlFor="name" className="text-sm">
             Nome completo
-          </FormLabel>
-          <Input
-            placeholder="Seu nome"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            maxLength={55}
-          />
-          <HStack justify="space-between" mt={1}>
-            <Text fontSize="xs" color="red.500">
-              {name.trim() && validateName(name)}
-            </Text>
-            <Text fontSize="xs" color="text.tertiary">
-              {name.length}/50
-            </Text>
-          </HStack>
-        </FormControl>
+          </Label>
+          <Input id="name" placeholder="Seu nome" {...form.register("name")} maxLength={55} />
+          <div className="flex justify-between">
+            {form.formState.errors.name ? (
+              <p className="text-xs text-destructive">{form.formState.errors.name.message}</p>
+            ) : (
+              <div />
+            )}
+            <p className="text-xs text-muted-foreground">{form.watch("name").length}/50</p>
+          </div>
+        </div>
 
-        <FormControl isDisabled>
-          <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-sm">
             E-mail
-          </FormLabel>
-          <Input value={email} isDisabled bg="gray.50" />
-          <FormHelperText color="text.tertiary">O e-mail não pode ser alterado.</FormHelperText>
-        </FormControl>
-      </VStack>
+          </Label>
+          <Input id="email" value={user?.email || ""} disabled className="bg-muted" />
+          <p className="text-xs text-muted-foreground">O e-mail não pode ser alterado.</p>
+        </div>
 
-      <Button
-        variant="solid"
-        size="lg"
-        onClick={handleSave}
-        isLoading={isSaving}
-        isDisabled={!hasChanges}
-      >
-        Salvar alterações
-      </Button>
-    </VStack>
+        <Button type="submit" size="lg" disabled={isSaving || !hasChanges}>
+          {isSaving ? "Salvando..." : "Salvar alterações"}
+        </Button>
+      </form>
+    </div>
   );
 };
 

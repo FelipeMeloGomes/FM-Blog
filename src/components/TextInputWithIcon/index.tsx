@@ -1,4 +1,5 @@
-import { Box, FormLabel, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import type { TextInputWithIconProps } from "./types";
 
 const TextInputWithIcon = ({
@@ -14,12 +15,14 @@ const TextInputWithIcon = ({
   alt,
 }: TextInputWithIconProps) => {
   return (
-    <Box>
-      <FormLabel color="#151717" fontWeight="medium">
-        {label}
-      </FormLabel>
-      <InputGroup size="md">
-        {iconName && <InputLeftElement pointerEvents="none">{iconName}</InputLeftElement>}
+    <div>
+      <Label className="text-[#151717] font-medium">{label}</Label>
+      <div className="relative">
+        {iconName && (
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            {iconName}
+          </div>
+        )}
         <Input
           type="text"
           name={name}
@@ -30,13 +33,11 @@ const TextInputWithIcon = ({
           onChange={onChange}
           placeholder={placeholder}
           aria-label={alt}
-          borderColor="#ecedec"
-          borderRadius="md"
-          focusBorderColor="black"
-          pl={iconName ? "2.5rem" : "1rem"}
+          className="border-[#ecedec] rounded-md focus:border-black"
+          style={{ paddingLeft: iconName ? "2.5rem" : "1rem" }}
         />
-      </InputGroup>
-    </Box>
+      </div>
+    </div>
   );
 };
 

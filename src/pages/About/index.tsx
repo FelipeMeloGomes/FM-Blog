@@ -1,4 +1,3 @@
-import { Box, Flex, Image } from "@chakra-ui/react";
 import { AboutButton } from "../../components/AboutButton";
 import { LayoutPage } from "../../components/LayoutPage";
 import { TextField } from "../../components/TextField";
@@ -11,7 +10,7 @@ const About = () => {
         title="Sobre o FM Blog"
         paragraph="Este projeto consiste em um blog feito com React, salvando os dados no Firebase."
       />
-      <Flex mt={4} gap={8} justify="center">
+      <div className="mt-4 flex justify-center gap-8">
         <AboutButton
           alt="LinkedIn"
           iconName="Linkedin"
@@ -24,17 +23,16 @@ const About = () => {
           iconColor="#080808"
           href="https://github.com/FelipeMeloGomes/FM-Blog"
         />
-      </Flex>
-      <Box mt={4} display="flex" justifyContent="center">
-        <Image
+      </div>
+      <div className="mt-4 flex justify-center">
+        <img
           src={aboutImg}
           alt="Garoto mexendo no computador"
           loading="lazy"
-          boxSize={{ base: "90%", md: "400px" }}
-          objectFit="cover"
-          className="animate-float"
+          className="w-full max-w-md object-cover animate-float"
+          style={{ width: "min(90%, 400px)" }}
         />
-      </Box>
+      </div>
     </LayoutPage>
   );
 };

@@ -1,25 +1,10 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import {
-  AspectRatio,
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  HStack,
-  Heading,
-  Image,
-  Tag,
-  TagLabel,
-  Text,
-  VStack,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
+import { Link, useParams } from "react-router-dom";
 import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
 import { ShareButton } from "../../components/ShareButton";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
+import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { handleShare } from "../../utils/ShareContent";
@@ -68,17 +53,17 @@ const Post = () => {
 
   if (isLoading) {
     return (
-      <Container maxW="2xl" py={8}>
+      <div className="max-w-2xl mx-auto py-8">
         <PostDetailSkeleton />
-      </Container>
+      </div>
     );
   }
 
   if (!post) {
     return (
-      <Box textAlign="center" py={20}>
-        <Text color="text.secondary">Post não encontrado</Text>
-      </Box>
+      <div className="text-center py-20">
+        <p className="text-muted-foreground">Post não encontrado</p>
+      </div>
     );
   }
 
@@ -87,143 +72,78 @@ const Post = () => {
   const isOwner = user?.uid === post.uid;
 
   return (
-    <Container maxW="2xl" py={8}>
-      <VStack spacing={8} align="stretch">
-        <Heading
-          fontFamily="heading"
-          fontSize={{ base: "2xl", md: "3xl" }}
-          fontWeight="700"
-          color="text.primary"
-          lineHeight="tall"
-        >
+    <div className="max-w-2xl mx-auto py-8">
+      <div className="flex flex-col gap-8">
+        <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground leading-relaxed">
           {post.title}
-        </Heading>
+        </h1>
 
-        <HStack spacing={4}>
-          <Avatar size="sm" name={post.createdBy} />
-          <VStack spacing={0} align="start">
-            <Text fontSize="sm" color="text.secondary" fontWeight="medium">
-              {post.createdBy}
-            </Text>
-            <Text fontSize="xs" color="text.muted">
-              {formattedDate}
-            </Text>
-          </VStack>
-        </HStack>
+        <div className="flex items-center gap-4">
+          <Avatar>
+            <AvatarImage src={post.photoURL} />
+            <AvatarFallback>{post.createdBy?.charAt(0) || "?"}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col gap-0">
+            <p className="text-sm text-muted-foreground font-medium">{post.createdBy}</p>
+            <p className="text-xs text-muted-foreground">{formattedDate}</p>
+          </div>
+        </div>
 
-        <AspectRatio ratio={16 / 9}>
-          <Image
+        <div className="aspect-video relative">
+          <img
             src={post.image}
             alt={post.title}
-            objectFit="cover"
-            borderRadius="md"
+            className="w-full h-full object-cover rounded-md"
             loading="lazy"
-            fallbackSrc="https://via.placeholder.com/800x450?text=Sem+imagem"
           />
-        </AspectRatio>
+        </div>
 
-        <Box
-          className="post-content"
-          sx={{
-            "& p": {
-              marginBottom: "1.5rem",
-              lineHeight: "1.8",
-              color: "text.secondary",
-            },
-            "& h2": {
-              fontSize: "1.5rem",
-              marginTop: "2rem",
-              marginBottom: "1rem",
-              fontFamily: "heading",
-              fontWeight: "600",
-              color: "text.primary",
-            },
-            "& h3": {
-              fontSize: "1.25rem",
-              marginTop: "1.5rem",
-              marginBottom: "0.75rem",
-              fontFamily: "heading",
-              fontWeight: "600",
-              color: "text.primary",
-            },
-            "& ul, & ol": {
-              marginBottom: "1.5rem",
-              paddingLeft: "1.5rem",
-            },
-            "& li": {
-              marginBottom: "0.5rem",
-            },
-            "& img": {
-              maxWidth: "100%",
-              borderRadius: "8px",
-              margin: "1rem 0",
-            },
-            "& blockquote": {
-              borderLeft: "3px solid",
-              borderColor: "border.default",
-              paddingLeft: "1rem",
-              marginLeft: 0,
-              fontStyle: "italic",
-              color: "text.secondary",
-            },
-            "& code": {
-              bg: "bg.secondary",
-              padding: "0.25rem 0.5rem",
-              borderRadius: "sm",
-              fontSize: "sm",
-            },
-            "& pre": {
-              bg: "bg.secondary",
-              padding: "1rem",
-              borderRadius: "md",
-              overflow: "auto",
-              marginBottom: "1.5rem",
-            },
-          }}
+        <div
+          className="post-content prose prose-lg dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(String(post.body || "")) }}
         />
 
         {post.tagsArray && post.tagsArray.length > 0 && (
-          <Wrap spacing={2} align="center">
+          <div className="flex flex-wrap gap-2 items-center">
             {post.tagsArray.map((tag) => (
-              <WrapItem key={tag}>
-                <Tag size="sm" variant="subtle" colorScheme="gray">
-                  <TagLabel>{tag}</TagLabel>
-                </Tag>
-              </WrapItem>
+              <span
+                key={tag}
+                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+              >
+                {tag}
+              </span>
             ))}
-            <WrapItem>
-              <Text fontSize="xs" color="text.muted">
-                · {readTime} min de leitura
-              </Text>
-            </WrapItem>
-          </Wrap>
+            <span className="text-xs text-muted-foreground">· {readTime} min de leitura</span>
+          </div>
         )}
 
-        <Divider />
+        <div className="border-t pt-4" />
 
-        <HStack justify="space-between" align="center" flexWrap="wrap" gap={4}>
-          <HStack spacing={2}>
+        <div className="flex justify-between items-center flex-wrap gap-4">
+          <div className="flex gap-2">
             <LikeButton postId={post.id!} userId={user?.uid || ""} />
             <ShareButton post={post as PostType} onShare={handleShare} />
-          </HStack>
+          </div>
 
-          <HStack spacing={4}>
+          <div className="flex gap-4">
             {isOwner && (
-              <Button as={RouterLink} to={`/posts/edit/${post.id}`} variant="ghost" size="sm">
-                Editar post
+              <Button asChild variant="ghost" size="sm">
+                <Link to={`/posts/edit/${post.id}`}>Editar post</Link>
               </Button>
             )}
-          </HStack>
-        </HStack>
+          </div>
+        </div>
 
-        <Box pt={4}>
-          <Button as={RouterLink} to="/" variant="ghost" leftIcon={<ArrowBackIcon />} size="sm">
-            Voltar
+        <div className="pt-4">
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/">
+              <FiArrowLeft className="mr-2 h-4 w-4" />
+              Voltar
+            </Link>
           </Button>
-        </Box>
-      </VStack>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 

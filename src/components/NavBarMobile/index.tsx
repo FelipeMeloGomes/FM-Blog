@@ -1,9 +1,15 @@
-import { Box, Collapse, Divider, HStack, Icon, Text, VStack, useColorMode } from "@chakra-ui/react";
-import { FiMoon, FiSun } from "react-icons/fi";
+import { useState } from "react";
+import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import type { NavBarProps } from "./types";
+import { useColorMode } from "../../contexts/ColorModeContext";
 
-const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
+interface NavBarMobileProps {
+  user: { displayName?: string | null; email?: string | null; photoURL?: string | null } | null;
+  logout: () => void;
+}
+
+const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
@@ -19,78 +25,64 @@ const NavBarMobile = ({ isOpen, user, logout, onToggle }: NavBarProps) => {
   ];
 
   return (
-    <Collapse in={isOpen} animateOpacity>
-      <Box
-        display={{ base: "block", md: "none" }}
-        bg="bg.primary"
-        borderTop="1px"
-        borderColor="border.subtle"
-        py={4}
+    <div className="md:hidden">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 rounded-md hover:bg-secondary"
       >
-        <VStack spacing={4} align="stretch">
-          {menuItems
-            .filter((item) => item.show)
-            .map((item) => {
-              const isActive = location.pathname === item.to;
-              return (
-                <Box
-                  key={item.text}
-                  as={RouterLink}
-                  to={item.to}
-                  onClick={onToggle}
-                  py={2}
-                  px={4}
-                  fontSize="md"
-                  fontWeight="medium"
-                  color={isActive ? "text.primary" : "text.secondary"}
-                  borderRadius="sm"
-                  _hover={{ bg: "bg.secondary", color: "text.primary" }}
-                  transition="all 0.2s"
-                >
-                  {item.text}
-                </Box>
-              );
-            })}
-          {user && (
-            <Box
-              as="button"
-              onClick={logout}
-              py={2}
-              px={4}
-              fontSize="md"
-              fontWeight="medium"
-              color="red.500"
-              textAlign="left"
-              _dark={{ _hover: { bg: "red.900" } }}
-              _hover={{ bg: "red.50" }}
-              transition="all 0.2s"
-            >
-              Sair
-            </Box>
-          )}
+        {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
 
-          <Divider borderColor="border.subtle" />
+      {isOpen && (
+        <div className="absolute top-full left-0 right-0 bg-background border-b py-4 px-4">
+          <div className="flex flex-col gap-4">
+            {menuItems
+              .filter((item) => item.show)
+              .map((item) => {
+                const isActive = location.pathname === item.to;
+                return (
+                  <RouterLink
+                    key={item.text}
+                    to={item.to}
+                    onClick={() => setIsOpen(false)}
+                    className={`py-2 px-4 rounded-md font-medium transition-colors ${
+                      isActive
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    }`}
+                  >
+                    {item.text}
+                  </RouterLink>
+                );
+              })}
+            {user && (
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  setIsOpen(false);
+                }}
+                className="py-2 px-4 text-left font-medium text-red-500 hover:bg-red-50 rounded-md transition-colors"
+              >
+                Sair
+              </button>
+            )}
 
-          <Box
-            as="button"
-            onClick={toggleColorMode}
-            py={2}
-            px={4}
-            fontSize="md"
-            fontWeight="medium"
-            color="text.secondary"
-            textAlign="left"
-            _hover={{ bg: "bg.secondary", color: "text.primary" }}
-            transition="all 0.2s"
-          >
-            <HStack spacing={3}>
-              <Icon as={isDark ? FiSun : FiMoon} boxSize={5} />
-              <Text>{isDark ? "Modo claro" : "Modo escuro"}</Text>
-            </HStack>
-          </Box>
-        </VStack>
-      </Box>
-    </Collapse>
+            <div className="border-t pt-4">
+              <button
+                type="button"
+                onClick={toggleColorMode}
+                className="flex items-center gap-3 py-2 px-4 w-full text-left font-medium text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md transition-colors"
+              >
+                {isDark ? <FiSun size={20} /> : <FiMoon size={20} />}
+                <span>{isDark ? "Modo claro" : "Modo escuro"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

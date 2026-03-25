@@ -1,41 +1,24 @@
-import { Button } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import type { NavButtonProps } from "./types";
 
 const NavButton = ({ text, icon, to, onClick }: NavButtonProps) => {
   return to ? (
-    <Button
-      variant="link"
-      as={RouterLink}
+    <RouterLink
       to={to}
-      leftIcon={icon}
-      fontSize={{ base: "lg", md: "xl" }}
-      fontWeight="semibold"
-      color="#e0e0e0"
-      _hover={{ textDecoration: "none", color: "blue.500" }}
-      _focus={{ boxShadow: "none" }}
-      display="flex"
-      alignItems="center"
-      iconSpacing={2}
+      className="flex items-center gap-2 text-[#e0e0e0] hover:text-blue-500 font-semibold text-lg md:text-xl"
     >
+      {icon}
       {text}
-    </Button>
+    </RouterLink>
   ) : (
-    <Button
-      variant="link"
+    <button
+      type="button"
       onClick={onClick}
-      leftIcon={icon}
-      fontSize={{ base: "lg", md: "xl" }}
-      fontWeight="semibold"
-      color="blue.400"
-      _hover={{ textDecoration: "none", color: "blue.500" }}
-      _focus={{ boxShadow: "none" }}
-      display="flex"
-      alignItems="center"
-      iconSpacing={2}
+      className="flex items-center gap-2 text-blue-400 hover:text-blue-500 font-semibold text-lg md:text-xl"
     >
+      {icon}
       {text}
-    </Button>
+    </button>
   );
 };
 

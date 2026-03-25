@@ -1,37 +1,77 @@
-import { Avatar, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/react";
+import { useState } from "react";
 import { FiUser } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
-import type { AvatarMenuProps } from "./types";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
+interface AvatarMenuProps {
+  user: { displayName?: string | null; email?: string | null; photoURL?: string | null };
+  logout: () => void;
+}
 
 const AvatarMenu = ({ logout, user }: AvatarMenuProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Menu>
-      <MenuButton
-        as={Avatar}
-        size="sm"
-        cursor="pointer"
-        name={user?.name || user?.email || "Usuário"}
-        src={user?.photoURL || undefined}
-        _hover={{ opacity: 0.8 }}
-        transition="opacity 0.2s"
-      />
-      <MenuList borderColor="border.subtle" boxShadow="sm" minW="150px">
-        <MenuItem as={RouterLink} to="/profile" fontSize="sm" _hover={{ bg: "bg.secondary" }}>
-          <FiUser style={{ marginRight: "8px" }} />
-          Meu Perfil
-        </MenuItem>
-        <MenuItem as={RouterLink} to="/dashboard" fontSize="sm" _hover={{ bg: "bg.secondary" }}>
-          Meus Posts
-        </MenuItem>
-        <MenuItem as={RouterLink} to="/about" fontSize="sm" _hover={{ bg: "bg.secondary" }}>
-          Sobre
-        </MenuItem>
-        <MenuDivider />
-        <MenuItem fontSize="sm" color="red.500" _hover={{ bg: "red.50" }} onClick={logout}>
-          Sair
-        </MenuItem>
-      </MenuList>
-    </Menu>
+    <div className="relative">
+      <button type="button" onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+        <Avatar size="sm">
+          <AvatarImage src={user?.photoURL || undefined} />
+          <AvatarFallback>
+            {user?.displayName?.charAt(0) || user?.email?.charAt(0) || "U"}
+          </AvatarFallback>
+        </Avatar>
+      </button>
+
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40"
+            onClick={() => setIsOpen(false)}
+            onKeyDown={(e) => e.key === "Escape" && setIsOpen(false)}
+            role="button"
+            tabIndex={-1}
+            aria-label="Fechar menu"
+          />
+          <div className="absolute right-0 mt-2 w-48 bg-card rounded-md border shadow-lg z-50">
+            <div className="py-1">
+              <RouterLink
+                to="/profile"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary transition-colors"
+              >
+                <FiUser size={16} />
+                Meu Perfil
+              </RouterLink>
+              <RouterLink
+                to="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+              >
+                Meus Posts
+              </RouterLink>
+              <RouterLink
+                to="/about"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+              >
+                Sobre
+              </RouterLink>
+              <hr className="my-1" />
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  setIsOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
+              >
+                Sair
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

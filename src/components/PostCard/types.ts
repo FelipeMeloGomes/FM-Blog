@@ -4,6 +4,7 @@ export interface PostCardProps {
     title: string;
     image: string;
     createdBy: string;
+    photoURL?: string;
     tagsArray: string[];
     body?: string;
     description?: string;

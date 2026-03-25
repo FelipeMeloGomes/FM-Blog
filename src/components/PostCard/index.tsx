@@ -1,5 +1,5 @@
-import { Avatar, Box, HStack, Heading, Image, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import type { PostCardProps } from "./types";
 
 const calculateReadTime = (body: string | undefined): number => {
@@ -42,66 +42,45 @@ const PostCard = ({ post }: PostCardProps) => {
   const formattedDate = formatDate(post.createdAt);
 
   return (
-    <Box
-      as={RouterLink}
+    <RouterLink
       to={`/posts/${post.id}`}
-      display="block"
-      bg="bg.primary"
-      borderRadius="lg"
-      overflow="hidden"
-      transition="all 0.2s"
-      _hover={{
-        transform: "translateY(-4px)",
-        shadow: "lg",
-      }}
-      cursor="pointer"
+      className="block bg-card rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
     >
-      <Box position="relative" overflow="hidden" height="200px">
-        <Image
+      <div className="relative h-[200px] overflow-hidden">
+        <img
           src={post.image}
           alt={post.title}
-          width="100%"
-          height="100%"
-          objectFit="cover"
-          transition="transform 0.3s"
-          _hover={{ transform: "scale(1.05)" }}
-          fallbackSrc="https://via.placeholder.com/640x360?text=Sem+imagem"
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              "https://via.placeholder.com/640x360?text=Sem+imagem";
+          }}
         />
-      </Box>
+      </div>
 
-      <Box p={6}>
-        <Heading
-          as="h3"
-          fontSize="lg"
-          fontWeight="semibold"
-          lineHeight="tight"
-          mb={3}
-          color="text.primary"
-          noOfLines={2}
-          _hover={{ color: "text.secondary" }}
-        >
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-3 hover:text-muted-foreground transition-colors">
           {post.title}
-        </Heading>
+        </h3>
 
         {post.description && (
-          <Text fontSize="sm" color="text.secondary" lineHeight="relaxed" mb={4} noOfLines={3}>
-            {post.description}
-          </Text>
+          <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{post.description}</p>
         )}
 
-        <HStack gap={3}>
-          <Avatar size="sm" name={post.createdBy} />
-          <Box>
-            <Text fontSize="sm" fontWeight="medium" color="text.primary">
-              {post.createdBy}
-            </Text>
-            <Text fontSize="xs" color="text.muted">
+        <div className="flex items-center gap-3">
+          <Avatar size="sm">
+            <AvatarImage src={post.photoURL} />
+            <AvatarFallback>{post.createdBy?.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="text-sm font-medium text-foreground">{post.createdBy}</p>
+            <p className="text-xs text-muted-foreground">
               {formattedDate} · {readTime} min
-            </Text>
-          </Box>
-        </HStack>
-      </Box>
-    </Box>
+            </p>
+          </div>
+        </div>
+      </div>
+    </RouterLink>
   );
 };
 

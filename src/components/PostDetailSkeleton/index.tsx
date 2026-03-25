@@ -1,32 +1,34 @@
-import { HStack, Skeleton, SkeletonCircle, SkeletonText, VStack } from "@chakra-ui/react";
+import { Skeleton } from "../ui/skeleton";
 
 const PostDetailSkeleton = () => {
   return (
-    <VStack spacing={8} align="stretch">
-      <HStack spacing={2}>
-        <Skeleton height="20px" width="80px" />
-        <Skeleton height="20px" width="60px" />
-      </HStack>
+    <div className="flex flex-col gap-8">
+      <div className="flex gap-2">
+        <Skeleton className="h-5 w-20" />
+        <Skeleton className="h-5 w-15" />
+      </div>
 
-      <Skeleton height="48px" width="100%" />
-      <Skeleton height="48px" width="80%" />
+      <Skeleton className="h-12 w-full" />
+      <Skeleton className="h-12 w-4/5" />
 
-      <HStack mt={4}>
-        <SkeletonCircle size="8" />
-        <VStack align="start" spacing={1}>
-          <Skeleton height="14px" width="150px" />
-          <Skeleton height="12px" width="100px" />
-        </VStack>
-      </HStack>
+      <div className="flex gap-4 mt-4">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <div className="flex flex-col gap-1">
+          <Skeleton className="h-3.5 w-[150px]" />
+          <Skeleton className="h-3 w-[100px]" />
+        </div>
+      </div>
 
-      <Skeleton mt={6} height="400px" borderRadius="md" />
+      <Skeleton className="h-[400px] rounded-md mt-6" />
 
-      <VStack mt={8} spacing={4}>
-        <SkeletonText noOfLines={4} spacing={3} />
-        <SkeletonText noOfLines={3} spacing={3} />
-        <SkeletonText noOfLines={5} spacing={3} />
-      </VStack>
-    </VStack>
+      <div className="flex flex-col gap-4 mt-8">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/5" />
+      </div>
+    </div>
   );
 };
 

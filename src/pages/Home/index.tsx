@@ -1,4 +1,3 @@
-import { Box, Heading, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { FiFileText } from "react-icons/fi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { EmptyState } from "../../components/EmptyState";
@@ -16,7 +15,7 @@ const Home = () => {
   const { posts, loading, currentPage, totalPages, goToPage, isLoadingPage } =
     usePaginatedDocuments("posts", null, null, 6);
 
-  const { handleSubmit, setQuery } = useSearchPost();
+  const { handleSubmit } = useSearchPost();
 
   const postsArray = (posts || []) as Array<{
     id: string;
@@ -41,32 +40,26 @@ const Home = () => {
 
   if (loading) {
     return (
-      <VStack spacing={12}>
-        <VStack spacing={4} textAlign="center">
-          <Heading size="lg" fontFamily="heading" color="text.primary">
-            Os últimos posts
-          </Heading>
-          <Text color="text.secondary" fontSize="md">
+      <div className="flex flex-col items-center gap-12">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <h1 className="text-2xl font-bold font-heading text-foreground">Os últimos posts</h1>
+          <p className="text-muted-foreground">
             Textos sobre desenvolvimento, design e tecnologia.
-          </Text>
-        </VStack>
+          </p>
+        </div>
         <PostListSkeleton />
-      </VStack>
+      </div>
     );
   }
 
   return (
-    <VStack spacing={12} align="stretch">
-      <VStack spacing={4} textAlign="center">
-        <Heading size="lg" fontFamily="heading" color="text.primary">
-          Os últimos posts
-        </Heading>
-        <Text color="text.secondary" fontSize="md">
-          Textos sobre desenvolvimento, design e tecnologia.
-        </Text>
-      </VStack>
+    <div className="flex flex-col gap-12">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <h1 className="text-2xl font-bold font-heading text-foreground">Os últimos posts</h1>
+        <p className="text-muted-foreground">Textos sobre desenvolvimento, design e tecnologia.</p>
+      </div>
 
-      <SearchForm handleSubmit={handleSubmit} setQuery={setQuery} />
+      <SearchForm handleSubmit={handleSubmit} />
 
       {postsArray.length === 0 ? (
         <EmptyState
@@ -77,22 +70,22 @@ const Home = () => {
         />
       ) : (
         <>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {postsArray.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
-          </SimpleGrid>
-          <Box pt={8}>
+          </div>
+          <div className="pt-8">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
               isLoading={isLoadingPage}
             />
-          </Box>
+          </div>
         </>
       )}
-    </VStack>
+    </div>
   );
 };
 

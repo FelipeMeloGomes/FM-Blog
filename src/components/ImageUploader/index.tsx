@@ -1,18 +1,8 @@
-import { AddIcon, ArrowUpIcon, CloseIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Icon,
-  IconButton,
-  Image,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
 import { useCallback, useId, useRef, useState } from "react";
+import { Button } from "../ui/button";
+import { AddIcon } from "./AddIcon";
+import { ArrowUpIcon } from "./ArrowUpIcon";
+import { CloseIcon } from "./CloseIcon";
 
 export interface ImageFile {
   id: string;
@@ -206,18 +196,17 @@ export function ImageUploader({
     : !hasInitialImage && currentImages.length === 0;
 
   return (
-    <FormControl isInvalid={!!error} isDisabled={disabled} className={className}>
+    <div className={className}>
       {label && (
-        <FormLabel htmlFor={inputId} fontSize="sm" fontWeight="medium" color="gray.700">
+        <label
+          htmlFor={inputId}
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
           {label}
-          {required && (
-            <Text as="span" color="red.500" ml={1}>
-              *
-            </Text>
-          )}
-        </FormLabel>
+          {required && <span className="text-destructive ml-1">*</span>}
+        </label>
       )}
-      {description && <FormHelperText color="gray.500">{description}</FormHelperText>}
+      {description && <p className="text-sm text-muted-foreground">{description}</p>}
 
       <input
         ref={inputRef}
@@ -228,88 +217,68 @@ export function ImageUploader({
         multiple={multiple}
         disabled={disabled}
         onChange={handleFileSelect}
-        style={{ display: "none" }}
+        className="hidden"
       />
 
-      <Box
-        onClick={disabled ? undefined : openFileDialog}
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={openFileDialog}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        cursor={disabled ? "not-allowed" : "pointer"}
-        border="2px dashed"
-        borderColor={isDragging ? "blue.500" : "gray.300"}
-        borderRadius="lg"
-        p={6}
-        bg={isDragging ? "blue.50" : disabled ? "gray.50" : "white"}
-        opacity={disabled ? 0.6 : 1}
-        transform={isDragging ? "scale(1.01)" : "scale(1)"}
-        transition="all 0.2s"
-        _hover={
-          !disabled
-            ? {
-                borderColor: "blue.300",
-                bg: "gray.50",
-              }
-            : undefined
-        }
+        className={`
+          cursor-pointer rounded-lg border-2 border-dashed p-6 transition-all w-full
+          ${isDragging ? "border-primary bg-primary/5 scale-[1.01]" : ""}
+          ${disabled ? "cursor-not-allowed opacity-60 bg-muted" : "hover:border-primary/50 hover:bg-muted/50"}
+          border-input
+        `}
       >
-        <Box display="flex" flexDirection="column" alignItems="center" gap={4}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            h="64px"
-            w="64px"
-            borderRadius="full"
-            bg={isDragging ? "blue.100" : "gray.100"}
-            transition="all 0.2s"
+        <div className="flex flex-col items-center gap-4">
+          <div
+            className={`
+              flex h-16 w-16 items-center justify-center rounded-full transition-all
+              ${isDragging ? "bg-primary/10" : "bg-muted"}
+            `}
           >
-            <Icon
-              as={ArrowUpIcon}
-              boxSize={8}
-              color={isDragging ? "blue.500" : "gray.500"}
-              transition="all 0.2s"
+            <ArrowUpIcon
+              className={`h-8 w-8 ${isDragging ? "text-primary" : "text-muted-foreground"}`}
             />
-          </Box>
+          </div>
 
-          <Box textAlign="center">
-            <Text fontSize="base" fontWeight="medium" color="gray.800">
+          <div className="text-center">
+            <p className="text-base font-medium">
               {isDragging ? "Solte as imagens aqui" : "Arraste e solte suas imagens"}
-            </Text>
-            <Text mt={1} fontSize="sm" color="gray.500">
-              ou clique para selecionar
-            </Text>
-            <Text mt={2} fontSize="xs" color="gray.500">
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">ou clique para selecionar</p>
+            <p className="mt-2 text-xs text-muted-foreground">
               {acceptedFormats.map((f) => f.split("/")[1]?.toUpperCase()).join(", ")} - Máx.{" "}
               {maxSizeMB}MB
               {multiple && ` - Até ${maxFiles} arquivos`}
-            </Text>
-          </Box>
-        </Box>
-      </Box>
+            </p>
+          </div>
+        </div>
+      </button>
 
-      {error && <FormErrorMessage>{error}</FormErrorMessage>}
+      {error && <p className="text-sm text-destructive mt-2">{error}</p>}
 
       {images.length > 0 && (
-        <Box mt={4}>
-          <Box display="flex" alignItems="center" justifyContent="space-between" mb={3}>
-            <Text fontSize="sm" fontWeight="medium" color="gray.700">
+        <div className="mt-4">
+          <div className="mb-3 flex items-center justify-between gap-4">
+            <p className="text-sm font-medium">
               {images.length} {images.length === 1 ? "imagem" : "imagens"} selecionada
               {images.length > 1 ? "s" : ""}
-            </Text>
-            <Button
-              variant="ghost"
-              size="sm"
+            </p>
+            <button
+              type="button"
               onClick={clearAll}
-              color="gray.500"
-              _hover={{ color: "red.500" }}
+              className="text-sm text-muted-foreground hover:text-destructive px-3 py-1 rounded transition-colors"
             >
               Remover todas
-            </Button>
-          </Box>
+            </button>
+          </div>
 
-          <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }} spacing={3}>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
             {images.map((image) => (
               <ImageCard key={image.id} image={image} onRemove={() => removeImage(image.id)} />
             ))}
@@ -317,23 +286,17 @@ export function ImageUploader({
             {canAddMore && (
               <Button
                 variant="outline"
-                borderStyle="dashed"
-                h="full"
-                minH="100px"
-                flexDirection="column"
-                gap={2}
+                className="h-full min-h-[100px] flex-col gap-2 border-dashed"
                 onClick={openFileDialog}
-                color="gray.500"
-                _hover={{ borderColor: "blue.400", bg: "gray.50" }}
               >
-                <Icon as={AddIcon} boxSize={6} />
-                <Text fontSize="xs">Adicionar</Text>
+                <AddIcon className="h-6 w-6" />
+                <span className="text-xs">Adicionar</span>
               </Button>
             )}
-          </SimpleGrid>
-        </Box>
+          </div>
+        </div>
       )}
-    </FormControl>
+    </div>
   );
 }
 
@@ -346,68 +309,38 @@ function ImageCard({ image, onRemove }: ImageCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Box
-      position="relative"
-      aspectRatio={1}
-      overflow="hidden"
-      borderRadius="lg"
-      bg="gray.100"
+    <div
+      className="relative aspect-square overflow-hidden rounded-lg bg-muted"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Image
+      <img
         src={image.preview}
         alt={image.file?.name || "Imagem"}
-        objectFit="cover"
-        w="full"
-        h="full"
-        transition="transform 0.2s"
-        transform={isHovered ? "scale(1.05)" : "scale(1)"}
+        className={`h-full w-full object-cover transition-transform ${isHovered ? "scale-105" : "scale-100"}`}
       />
 
-      <Box
-        position="absolute"
-        inset={0}
-        bg="blackAlpha.400"
-        opacity={isHovered ? 1 : 0}
-        transition="opacity 0.2s"
+      <div
+        className={`absolute inset-0 bg-black/40 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}
       />
 
-      <IconButton
+      <button
+        type="button"
         aria-label="Remover imagem"
-        icon={<CloseIcon />}
-        position="absolute"
-        right={2}
-        top={2}
-        size="sm"
-        borderRadius="full"
-        bg="blackAlpha.600"
-        color="white"
-        _hover={{ bg: "blackAlpha.800" }}
-        opacity={isHovered ? 1 : 0}
-        transition="opacity 0.2s"
+        className={`absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white transition-opacity hover:bg-black/80 ${isHovered ? "opacity-100" : "opacity-0"}`}
         onClick={(e) => {
           e.stopPropagation();
           onRemove();
         }}
-        minW="28px"
-        height="28px"
-      />
-
-      <Box
-        position="absolute"
-        bottom={0}
-        left={0}
-        right={0}
-        bgGradient="linear(to-t, blackAlpha.600, transparent)"
-        p={2}
-        opacity={isHovered ? 1 : 0}
-        transition="opacity 0.2s"
       >
-        <Text fontSize="xs" color="white" isTruncated>
-          {image.file?.name || "Imagem carregada"}
-        </Text>
-      </Box>
-    </Box>
+        <CloseIcon className="h-3 w-3" />
+      </button>
+
+      <div
+        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}
+      >
+        <p className="truncate text-xs text-white">{image.file?.name || "Imagem carregada"}</p>
+      </div>
+    </div>
   );
 }

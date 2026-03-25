@@ -1,8 +1,9 @@
-import { Box, Spinner } from "@chakra-ui/react";
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
+import { ToastContainer } from "./components/Toast";
 import { AuthProvider } from "./context/AuthContext";
+import { ColorModeProvider } from "./contexts/ColorModeContext";
 import { useAuthState } from "./hooks/useAuthState";
 import { ToastProvider } from "./providers/ToastProvider";
 
@@ -19,9 +20,9 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Profile = lazy(() => import("./pages/Profile"));
 
 const PageLoader = () => (
-  <Box display="flex" justifyContent="center" alignItems="center" minH="50vh">
-    <Spinner size="lg" color="text.secondary" />
-  </Box>
+  <div className="flex justify-center items-center min-h-[50vh]">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
+  </div>
 );
 
 const AppContent = () => {
@@ -53,9 +54,12 @@ const AppContent = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <ToastProvider>
-        <AppContent />
-      </ToastProvider>
+      <ColorModeProvider>
+        <ToastProvider>
+          <ToastContainer />
+          <AppContent />
+        </ToastProvider>
+      </ColorModeProvider>
     </BrowserRouter>
   );
 };

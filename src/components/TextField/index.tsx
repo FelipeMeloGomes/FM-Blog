@@ -1,15 +1,18 @@
-import { Box, Text } from "@chakra-ui/react";
-import type { TextFieldProps } from "./types";
+import { cn } from "../../lib/utils";
 
-const TextField = ({ title = "", paragraph = "" }: TextFieldProps) => {
-  return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" p={4}>
-      <Box as="h1" fontSize="xl">
-        {title}
-      </Box>
-      <Text color="gray.400">{paragraph}</Text>
-    </Box>
-  );
-};
+const TextField = ({
+  title,
+  paragraph,
+  className,
+}: {
+  title: string;
+  paragraph?: string;
+  className?: string;
+}) => (
+  <div className={cn("text-center space-y-2", className)}>
+    <h2 className="text-3xl font-heading font-bold text-foreground">{title}</h2>
+    {paragraph && <p className="text-muted-foreground">{paragraph}</p>}
+  </div>
+);
 
 export { TextField };

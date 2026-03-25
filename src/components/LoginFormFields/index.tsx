@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { BiUser } from "react-icons/bi";
 import { PasswordToggle } from "../../utils/PasswordToggle";
 import { Button } from "../Button";
@@ -77,15 +76,19 @@ const LoginFormFields = ({
     )}
 
     {isLogin && (
-      <Box display="flex" justifyContent="flex-end">
-        <SignUpPrompt linkText="Recuperar Senha?" linkUrl="/resetPassword" />
-      </Box>
+      <div className="flex justify-end">
+        <SignUpPrompt
+          message="Esqueceu a senha?"
+          linkText="Recuperar Senha?"
+          linkUrl="/resetPassword"
+        />
+      </div>
     )}
 
     {!isLogin && (
-      <Box display="flex" justifyContent="flex-end">
-        <SignUpPrompt linkText="Entrar" linkUrl="/login" />
-      </Box>
+      <div className="flex justify-end">
+        <SignUpPrompt message="Já tem uma conta?" linkText="Entrar" linkUrl="/login" />
+      </div>
     )}
 
     {isLogin ? (
@@ -106,7 +109,7 @@ const LoginFormFields = ({
         Cadastrar
       </Button>
     )}
-    {error && <p className="error">{error}</p>}
+    {error && <p className="text-destructive text-sm">{error}</p>}
   </>
 );
 

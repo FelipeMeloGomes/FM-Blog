@@ -1,6 +1,4 @@
-import type { HTMLChakraProps } from "@chakra-ui/react";
-
-interface AboutButtonProps extends HTMLChakraProps<"button"> {
+interface AboutButtonProps extends React.HTMLAttributes<HTMLAnchorElement> {
   alt: string;
   iconName: string;
   iconColor: string;

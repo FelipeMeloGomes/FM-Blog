@@ -1,14 +1,35 @@
-import { type UseToastOptions, useToast } from "@chakra-ui/react";
+import { useFeedback } from "../providers/ToastProvider";
 
 interface UseToastNotification {
-  showToast: (options: UseToastOptions) => void;
+  showToast: (
+    title: string,
+    description?: string,
+    status?: "success" | "error" | "info" | "warning"
+  ) => void;
 }
 
 export const useToastNotification = (): UseToastNotification => {
-  const toast = useToast();
+  const { success, error, info, warning } = useFeedback();
 
-  const showToast = (options: UseToastOptions) => {
-    toast(options);
+  const showToast = (
+    title: string,
+    description?: string,
+    status: "success" | "error" | "info" | "warning" = "info"
+  ) => {
+    switch (status) {
+      case "success":
+        success(title, description);
+        break;
+      case "error":
+        error(title, description);
+        break;
+      case "warning":
+        warning(title, description);
+        break;
+      default:
+        info(title, description);
+        break;
+    }
   };
 
   return { showToast };

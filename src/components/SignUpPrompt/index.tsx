@@ -1,16 +1,15 @@
-import { Box, Link, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import type { SignUpPromptProps } from "./types";
 
 const SignUpPrompt = ({ message, linkText, linkUrl }: SignUpPromptProps) => (
-  <Box>
-    <Text textAlign="center" color="black" fontSize="sm" my={1}>
+  <div>
+    <p className="text-center text-sm text-black my-1">
       {message}{" "}
-      <Link as={RouterLink} to={linkUrl} color="black" fontWeight="medium">
+      <RouterLink to={linkUrl} className="text-black font-medium hover:underline">
         {linkText}
-      </Link>
-    </Text>
-  </Box>
+      </RouterLink>
+    </p>
+  </div>
 );
 
 export { SignUpPrompt };

@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Text, VStack } from "@chakra-ui/react";
+import { Button } from "../ui/button";
 
 export interface EmptyStateProps {
   icon: React.ReactElement;
@@ -12,26 +12,20 @@ export interface EmptyStateProps {
 
 const EmptyState = ({ icon, title, description, action }: EmptyStateProps) => {
   return (
-    <Center minH="400px">
-      <VStack spacing={4} textAlign="center" maxW="320px">
-        <Box p={6} bg="bg.secondary" borderRadius="full">
-          <Box boxSize={10} color="text.secondary">
-            {icon}
-          </Box>
-        </Box>
-        <Heading size="md" color="text.primary">
-          {title}
-        </Heading>
-        <Text color="text.secondary" fontSize="sm">
-          {description}
-        </Text>
+    <div className="flex min-h-[400px] items-center justify-center">
+      <div className="text-center space-y-4 max-w-[320px]">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-secondary">
+          <div className="text-muted-foreground h-10 w-10">{icon}</div>
+        </div>
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+        <p className="text-sm text-muted-foreground">{description}</p>
         {action && (
-          <Button variant="solid" onClick={action.onClick}>
+          <Button variant="default" onClick={action.onClick}>
             {action.label}
           </Button>
         )}
-      </VStack>
-    </Center>
+      </div>
+    </div>
   );
 };
 

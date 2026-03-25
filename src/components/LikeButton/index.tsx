@@ -1,61 +1,35 @@
-import { Box, Button, HStack, Text, useColorMode } from "@chakra-ui/react";
 import { memo } from "react";
 import { FiHeart } from "react-icons/fi";
 import { useLikeButton } from "../../hooks/useLikeButton";
 import type { LikeButtonProps } from "./types";
 
 const LikeButtonComponent = ({ postId, userId }: LikeButtonProps) => {
-  const { colorMode } = useColorMode();
   const { likeCount, liked, loading, handleLikeClick } = useLikeButton({
     postId,
     userId,
   });
 
-  const isDark = colorMode === "dark";
-
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      height="auto"
-      px={3}
-      py={1}
-      borderRadius="md"
-      bg={liked ? "red.50" : "transparent"}
-      border="1px"
-      borderColor={liked ? "red.200" : "border.subtle"}
+    <button
+      type="button"
       onClick={handleLikeClick}
-      isDisabled={!postId || loading}
-      _hover={{
-        bg: liked ? "red.100" : isDark ? "whiteAlpha.100" : "gray.100",
-      }}
-      _active={{
-        bg: liked ? "red.200" : isDark ? "whiteAlpha.200" : "gray.200",
-      }}
-      _disabled={{
-        opacity: 0.5,
-        cursor: "not-allowed",
-      }}
-      transition="all 0.2s"
+      disabled={!postId || loading}
+      className={`flex items-center gap-2 px-3 py-1 rounded-md border transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+        liked ? "bg-red-50 border-red-200 hover:bg-red-100" : "border-border hover:bg-secondary"
+      }`}
     >
-      <HStack spacing={2}>
-        <Box
-          as={FiHeart}
-          size={16}
-          color={liked ? "red.500" : "text.secondary"}
-          fill={liked ? "currentColor" : "none"}
-          transition="all 0.2s"
-        />
-        <Text fontSize="sm" fontWeight="medium" color={liked ? "red.500" : "text.secondary"}>
-          {likeCount}
-        </Text>
-      </HStack>
-    </Button>
+      <FiHeart
+        size={16}
+        className={liked ? "text-red-500 fill-current" : "text-muted-foreground"}
+      />
+      <span className={`text-sm font-medium ${liked ? "text-red-500" : "text-muted-foreground"}`}>
+        {likeCount}
+      </span>
+    </button>
   );
 };
 
 const LikeButton = memo(LikeButtonComponent);
-
 LikeButton.displayName = "LikeButton";
 
 export { LikeButton };

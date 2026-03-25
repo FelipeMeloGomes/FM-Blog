@@ -1,32 +1,18 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  Tag,
-  TagLabel,
-  Text,
-  Textarea,
-  VStack,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { Textarea } from "../../components/ui/textarea";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { useFeedback } from "../../providers/ToastProvider";
+import { type CreatePostFormData, createPostSchema } from "../../schemas";
 import { EditorProvider } from "../../utils/EditorContext";
 
 const processTags = (input: string): string[] => {
@@ -43,18 +29,27 @@ const CreatePostContent = () => {
   const navigate = useNavigate();
   const { success, error } = useFeedback();
   const { user } = useAuthValue() || {};
-  const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
-  const [tagsInput, setTagsInput] = useState("");
-  const [body, setBody] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { insertDocument, response } = useInsertDocument("posts");
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const tagsInputRef = useRef<HTMLInputElement>(null);
+  const form = useForm<CreatePostFormData>({
+    resolver: zodResolver(createPostSchema),
+    defaultValues: {
+      title: "",
+      body: "",
+      tagsInput: "",
+    },
+  });
 
-  const hasUnsavedChanges = title.trim() || coverImage || tagsInput.trim() || body.trim();
+  const { watch } = form;
+  const titleValue = watch("title");
+  const tagsInputValue = watch("tagsInput");
+  const bodyValue = watch("body");
+
+  const hasUnsavedChanges =
+    titleValue.trim() || coverImage || tagsInputValue.trim() || bodyValue.trim();
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -68,38 +63,27 @@ const CreatePostContent = () => {
   }, [hasUnsavedChanges, isSubmitting]);
 
   const previewTags = useMemo(() => {
-    return processTags(tagsInput);
-  }, [tagsInput]);
+    return processTags(tagsInputValue);
+  }, [tagsInputValue]);
 
-  const titleLength = title.trim().length;
-  const titleError =
-    titleLength > 0 && titleLength < 10
-      ? "Título deve ter pelo menos 10 caracteres"
-      : titleLength > 200
-        ? "Título deve ter no máximo 200 caracteres"
-        : "";
+  const titleLength = titleValue.trim().length;
 
   const handleCancel = () => {
     if (hasUnsavedChanges) {
-      onOpen();
+      setIsOpen(true);
     } else {
       navigate("/");
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!title.trim() || !coverImage?.file || previewTags.length === 0 || body.length < 10) {
-      error(
-        "Erro",
-        "Preencha todos os campos obrigatórios. O conteúdo deve ter pelo menos 10 caracteres."
-      );
+  const onSubmit = async (data: CreatePostFormData) => {
+    if (!coverImage?.file) {
+      error("Erro", "Imagem de capa obrigatória.");
       return;
     }
 
-    if (titleError) {
-      error("Erro", titleError);
+    if (previewTags.length === 0) {
+      error("Erro", "Tags são obrigatórias.");
       return;
     }
 
@@ -110,12 +94,14 @@ const CreatePostContent = () => {
       const imageUrl = transformCloudinaryUrl(uploadedUrl);
 
       const formData = {
-        title,
+        title: data.title,
+        titleLower: data.title.toLowerCase(),
         image: imageUrl,
-        body,
+        body: data.body,
         tagsArray: previewTags,
         uid: user?.uid || "",
         createdBy: user?.name || user?.email || "Anonymous",
+        photoURL: user?.photoURL || "",
         likeCount: 0,
         likes: [],
       };
@@ -132,127 +118,124 @@ const CreatePostContent = () => {
   };
 
   return (
-    <VStack spacing={8} maxW="2xl" mx="auto" align="stretch">
-      <HStack justify="flex-start">
-        <Button as={RouterLink} to="/" variant="ghost" leftIcon={<ArrowBackIcon />} size="sm">
+    <div className="flex flex-col gap-8 max-w-2xl mx-auto">
+      <div className="flex justify-start">
+        <Button variant="ghost" size="sm" onClick={handleCancel}>
+          <FiArrowLeft className="mr-2 h-4 w-4" />
           Voltar
         </Button>
-      </HStack>
+      </div>
 
-      <Heading size="lg" fontFamily="heading" color="text.primary">
-        Novo post
-      </Heading>
+      <h1 className="text-2xl font-bold font-heading text-foreground">Novo post</h1>
 
-      <Box as="form" onSubmit={handleSubmit}>
-        <VStack spacing={6} align="stretch">
-          <FormControl isRequired isInvalid={!!titleError && titleLength > 0}>
-            <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
-              Título do post
-            </FormLabel>
-            <Input
-              placeholder="Digite o título do seu post"
-              size="lg"
-              fontFamily="heading"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              maxLength={220}
-            />
-            <HStack justify="space-between" mt={1}>
-              {titleError && titleLength > 0 ? (
-                <Text fontSize="xs" color="red.500">
-                  {titleError}
-                </Text>
-              ) : (
-                <Box />
-              )}
-              <Text fontSize="xs" color={titleLength > 200 ? "red.500" : "text.tertiary"}>
-                {titleLength}/200
-              </Text>
-            </HStack>
-          </FormControl>
-
-          <ImageUploader
-            label="Imagem de capa"
-            required
-            multiple={false}
-            maxFiles={1}
-            maxSizeMB={5}
-            onImagesChange={(images) => setCoverImage(images[0] ?? null)}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="title" className="text-sm">
+            Título do post *
+          </Label>
+          <Input
+            id="title"
+            placeholder="Digite o título do seu post"
+            {...form.register("title")}
+            maxLength={220}
           />
-
-          <FormControl isRequired>
-            <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
-              Conteúdo
-            </FormLabel>
-            <Textarea
-              placeholder="Escreva o conteúdo do seu post..."
-              minH="300px"
-              resize="vertical"
-              value={body}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)}
-            />
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel fontSize="sm" fontWeight="medium" color="text.primary">
-              Tags (separadas por vírgula)
-            </FormLabel>
-            <Input
-              ref={tagsInputRef}
-              placeholder="react, typescript, firebase"
-              value={tagsInput}
-              onChange={(e) => setTagsInput(e.target.value)}
-            />
-            {previewTags.length > 0 && (
-              <Box mt={4}>
-                <Text fontSize="sm" color="text.muted" mb={2}>
-                  Preview das tags:
-                </Text>
-                <HStack spacing={2} flexWrap="wrap">
-                  {previewTags.map((tag) => (
-                    <Tag key={tag} size="md" variant="subtle" colorScheme="gray">
-                      <TagLabel>{tag}</TagLabel>
-                    </Tag>
-                  ))}
-                </HStack>
-              </Box>
+          <div className="flex justify-between">
+            {form.formState.errors.title ? (
+              <p className="text-xs text-destructive">{form.formState.errors.title.message}</p>
+            ) : (
+              <div />
             )}
-          </FormControl>
-
-          <HStack justify="flex-end" pt={4}>
-            <Button variant="ghost" onClick={handleCancel}>
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              variant="solid"
-              isLoading={isSubmitting || response.loading || false}
+            <p
+              className={`text-xs ${titleLength > 200 ? "text-destructive" : "text-muted-foreground"}`}
             >
-              Publicar
-            </Button>
-          </HStack>
-        </VStack>
-      </Box>
+              {titleLength}/200
+            </p>
+          </div>
+        </div>
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader>Sair sem salvar?</AlertDialogHeader>
-            <AlertDialogBody>
+        <ImageUploader
+          label="Imagem de capa"
+          required
+          multiple={false}
+          maxFiles={1}
+          maxSizeMB={5}
+          onImagesChange={(images) => setCoverImage(images[0] ?? null)}
+        />
+
+        <div className="space-y-2">
+          <Label htmlFor="body" className="text-sm">
+            Conteúdo *
+          </Label>
+          <Textarea
+            id="body"
+            placeholder="Escreva o conteúdo do seu post..."
+            minLength={10}
+            {...form.register("body")}
+            className="min-h-[300px] resize-y"
+          />
+          {form.formState.errors.body && (
+            <p className="text-xs text-destructive">{form.formState.errors.body.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="tagsInput" className="text-sm">
+            Tags (separadas por vírgula) *
+          </Label>
+          <Input
+            id="tagsInput"
+            placeholder="react, typescript, firebase"
+            {...form.register("tagsInput")}
+          />
+          {form.formState.errors.tagsInput && (
+            <p className="text-xs text-destructive">{form.formState.errors.tagsInput.message}</p>
+          )}
+          {previewTags.length > 0 && (
+            <div className="mt-4">
+              <p className="text-sm text-muted-foreground mb-2">Preview das tags:</p>
+              <div className="flex flex-wrap gap-2">
+                {previewTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="flex justify-end gap-4 pt-4">
+          <Button type="button" variant="ghost" onClick={handleCancel}>
+            Cancelar
+          </Button>
+          <Button type="submit" disabled={isSubmitting || response.loading}>
+            {isSubmitting || response.loading ? "Publicando..." : "Publicar"}
+          </Button>
+        </div>
+      </form>
+
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-background rounded-lg p-6 max-w-md mx-4">
+            <h2 className="text-lg font-semibold mb-2">Sair sem salvar?</h2>
+            <p className="text-muted-foreground mb-4">
               Você tem alterações não salvas. Tem certeza que deseja sair?
-            </AlertDialogBody>
-            <AlertDialogFooter as={HStack} spacing={3}>
-              <Button ref={cancelRef} onClick={onClose}>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full">
                 Continuar editando
               </Button>
-              <Button colorScheme="red" onClick={() => navigate("/")}>
+              <Button onClick={() => navigate("/")} className="w-full bg-red-500 hover:bg-red-600">
                 Sair
               </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </VStack>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

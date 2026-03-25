@@ -1,4 +1,3 @@
-import { Box, Button, HStack, IconButton, Text } from "@chakra-ui/react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export interface PaginationProps {
@@ -48,70 +47,59 @@ const Pagination = ({
       pages.push("ellipsis");
     }
 
-    if (!pages.includes(totalPages)) {
+    if (totalPages > 1 && !pages.includes(totalPages)) {
       pages.push(totalPages);
     }
 
     return pages;
   };
 
-  const pageNumbers = getPageNumbers();
-  let ellipsisCount = 0;
+  const pages = getPageNumbers();
 
   return (
-    <HStack spacing={2} justify="center" wrap="wrap" mt={8} mb={8}>
-      <IconButton
-        aria-label="Página anterior"
-        icon={<FiChevronLeft size={20} />}
+    <div className="flex items-center justify-center gap-2 pt-8">
+      <button
+        type="button"
         onClick={() => onPageChange(currentPage - 1)}
-        isDisabled={currentPage === 1 || isLoading}
-        variant="outline"
-        colorScheme="gray"
-        size="md"
-      />
+        disabled={currentPage === 1 || isLoading}
+        className="p-2 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <FiChevronLeft className="h-4 w-4" />
+      </button>
 
-      <HStack spacing={1}>
-        {pageNumbers.map((page) => {
-          if (page === "ellipsis") {
-            ellipsisCount++;
-            return (
-              <Text key={`ellipsis-${ellipsisCount}-${page}`} px={2} color="gray.500">
-                ...
-              </Text>
-            );
-          }
-          return (
-            <Button
+      <div className="flex items-center gap-1">
+        {pages.map((page) =>
+          page === "ellipsis" ? (
+            <span key="ellipsis" className="px-2">
+              ...
+            </span>
+          ) : (
+            <button
+              type="button"
               key={page}
               onClick={() => onPageChange(page)}
-              variant={currentPage === page ? "solid" : "ghost"}
-              colorScheme={currentPage === page ? "blue" : "gray"}
-              size="sm"
-              minW="40px"
-              isDisabled={isLoading}
+              disabled={isLoading}
+              className={`h-9 w-9 rounded-md text-sm font-medium transition-colors ${
+                currentPage === page
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+              } disabled:opacity-50`}
             >
               {page}
-            </Button>
-          );
-        })}
-      </HStack>
+            </button>
+          )
+        )}
+      </div>
 
-      <IconButton
-        aria-label="Próxima página"
-        icon={<FiChevronRight size={20} />}
+      <button
+        type="button"
         onClick={() => onPageChange(currentPage + 1)}
-        isDisabled={currentPage === totalPages || isLoading}
-        variant="outline"
-        colorScheme="gray"
-        size="md"
-      />
-
-      <Box display={{ base: "block", md: "none" }}>
-        <Text fontSize="sm" color="gray.600">
-          {currentPage} / {totalPages}
-        </Text>
-      </Box>
-    </HStack>
+        disabled={currentPage === totalPages || isLoading}
+        className="p-2 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <FiChevronRight className="h-4 w-4" />
+      </button>
+    </div>
   );
 };
 

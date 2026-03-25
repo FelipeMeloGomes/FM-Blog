@@ -1,11 +1,10 @@
-import { Box, Image } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import logo from "../../public/logo.webp";
 
 const NavBarLogo = () => (
-  <Box as={RouterLink} to="/" _hover={{ opacity: 0.9 }} transition="opacity 0.3s">
-    <Image src={logo} alt="Logo" maxW="100px" objectFit="contain" opacity={1} />
-  </Box>
+  <RouterLink to="/" className="hover:opacity-90 transition-opacity">
+    <img src={logo} alt="Logo" className="max-w-[100px] object-contain" />
+  </RouterLink>
 );
 
 export { NavBarLogo };

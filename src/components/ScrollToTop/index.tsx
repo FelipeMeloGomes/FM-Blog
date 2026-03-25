@@ -1,7 +1,6 @@
-import { ArrowUpIcon } from "@chakra-ui/icons";
-import { IconButton, Tooltip } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { FiArrowUp } from "react-icons/fi";
 
 const MotionDiv = motion.div;
 
@@ -36,18 +35,14 @@ const ScrollToTop = () => {
           exit={{ opacity: 0, y: 10 }}
           transition={{ duration: 0.2 }}
         >
-          <Tooltip label="Voltar ao topo" hasArrow>
-            <IconButton
-              aria-label="Voltar ao topo"
-              icon={<ArrowUpIcon />}
-              borderRadius="full"
-              size="md"
-              bg="text.primary"
-              color="bg.primary"
-              _hover={{ bg: "gray.700" }}
-              onClick={scrollToTop}
-            />
-          </Tooltip>
+          <button
+            type="button"
+            onClick={scrollToTop}
+            aria-label="Voltar ao topo"
+            className="p-3 rounded-full bg-primary text-primary-foreground hover:bg-gray-700 transition-colors"
+          >
+            <FiArrowUp />
+          </button>
         </MotionDiv>
       )}
     </AnimatePresence>

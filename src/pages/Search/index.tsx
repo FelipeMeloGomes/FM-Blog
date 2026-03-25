@@ -1,8 +1,8 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Box, Button, Heading, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { FiArrowLeft } from "react-icons/fi";
 import { Link, useSearchParams } from "react-router-dom";
 import { Pagination } from "../../components/Pagination";
 import { PostCard } from "../../components/PostCard";
+import { Button } from "../../components/ui/button";
 import { usePaginatedDocuments } from "../../hooks/usePaginatedDocuments";
 import { useQuery } from "../../hooks/useQuery";
 
@@ -27,57 +27,45 @@ const Search = () => {
 
   if (loading) {
     return (
-      <VStack spacing={8}>
-        <VStack spacing={2} textAlign="center">
-          <Heading size="lg" fontFamily="heading" color="text.primary">
-            Resultados
-          </Heading>
-          <Text color="text.secondary" fontSize="md">
-            Buscando posts para: "{search}"
-          </Text>
-        </VStack>
-      </VStack>
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-2 text-center">
+          <h1 className="text-2xl font-bold font-heading text-foreground">Resultados</h1>
+          <p className="text-muted-foreground">Buscando posts para: "{search}"</p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <VStack spacing={12} align="stretch">
-      <VStack spacing={4} textAlign="center">
-        <Heading size="lg" fontFamily="heading" color="text.primary">
-          Resultados
-        </Heading>
-        <Text color="text.secondary" fontSize="md">
+    <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-4 text-center">
+        <h1 className="text-2xl font-bold font-heading text-foreground">Resultados</h1>
+        <p className="text-muted-foreground">
           {posts && posts.length > 0
             ? `${posts.length} post${posts.length > 1 ? "s" : ""} encontrado${posts.length > 1 ? "s" : ""} para: "${search}"`
             : `Buscando posts para: "${search}"`}
-        </Text>
-      </VStack>
+        </p>
+      </div>
 
       {posts && posts.length > 0 && (
-        <Button
-          as={Link}
-          to="/"
-          variant="ghost"
-          leftIcon={<ArrowBackIcon />}
-          size="sm"
-          alignSelf="flex-start"
-        >
-          Voltar
+        <Button asChild variant="ghost" size="sm" className="self-start">
+          <Link to="/">
+            <FiArrowLeft className="mr-2 h-4 w-4" />
+            Voltar
+          </Link>
         </Button>
       )}
 
       {posts?.length === 0 ? (
-        <VStack spacing={6} py={16}>
-          <Text fontSize="lg" color="text.secondary">
-            Nenhum post encontrado para "{search}"
-          </Text>
-          <Button as={Link} to="/" variant="outline" size="sm">
-            Voltar para home
+        <div className="flex flex-col gap-6 py-16 items-center">
+          <p className="text-lg text-muted-foreground">Nenhum post encontrado para "{search}"</p>
+          <Button asChild variant="outline" size="sm">
+            <Link to="/">Voltar para home</Link>
           </Button>
-        </VStack>
+        </div>
       ) : (
         <>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {(
               posts as Array<{
                 id: string;
@@ -93,21 +81,21 @@ const Search = () => {
             )?.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
-          </SimpleGrid>
+          </div>
 
           {totalPages > 1 && (
-            <Box pt={8}>
+            <div className="pt-8">
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
                 isLoading={isLoadingPage}
               />
-            </Box>
+            </div>
           )}
         </>
       )}
-    </VStack>
+    </div>
   );
 };
 

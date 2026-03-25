@@ -1,22 +1,21 @@
-import { Box, Container, Flex, Text } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import { NavBar } from "../NavBar";
 
 const Layout = () => {
   return (
-    <Flex direction="column" minH="100vh">
+    <div className="flex flex-col min-h-screen">
       <NavBar />
-      <Box as="main" flex="1">
-        <Container maxW="4xl" py={12}>
+      <main className="flex-1">
+        <div className="max-w-4xl mx-auto py-12 px-4">
           <Outlet />
-        </Container>
-      </Box>
-      <Box as="footer" py={8} borderTop="1px" borderColor="border.subtle">
-        <Text fontSize="sm" color="text.muted" textAlign="center">
+        </div>
+      </main>
+      <footer className="py-8 border-t">
+        <p className="text-sm text-muted-foreground text-center">
           © {new Date().getFullYear()} FM Blog — feito com React + Firebase
-        </Text>
-      </Box>
-    </Flex>
+        </p>
+      </footer>
+    </div>
   );
 };
 

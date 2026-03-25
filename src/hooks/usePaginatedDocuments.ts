@@ -52,17 +52,27 @@ export const usePaginatedDocuments = (
       const collectionRef = collection(db, docCollection);
       let q: Query<FirestoreDocumentData>;
 
-      if (search) {
-        const searchWithoutSpaces = search.replace(/\s+/g, "").toLowerCase();
-        q = query(collectionRef, where("tagsArray", "array-contains", searchWithoutSpaces));
-      } else if (uid) {
+      if (uid) {
         q = query(collectionRef, where("uid", "==", uid));
       } else {
         q = query(collectionRef);
       }
 
       const snapshot = await getCountFromServer(q);
-      return snapshot.data().count;
+      let total = snapshot.data().count;
+
+      if (search) {
+        const allDocs = await getDocs(q);
+        const searchLower = search.toLowerCase();
+        total = allDocs.docs.filter((doc) => {
+          const data = doc.data();
+          const title = (data.title as string)?.toLowerCase() || "";
+          const titleLower = (data.titleLower as string)?.toLowerCase() || title;
+          return titleLower.includes(searchLower);
+        }).length;
+      }
+
+      return total;
     } catch {
       return 0;
     }
@@ -73,14 +83,7 @@ export const usePaginatedDocuments = (
       const collectionRef = collection(db, docCollection);
       let baseQuery: Query<FirestoreDocumentData>;
 
-      if (search) {
-        const searchWithoutSpaces = search.replace(/\s+/g, "").toLowerCase();
-        baseQuery = query(
-          collectionRef,
-          where("tagsArray", "array-contains", searchWithoutSpaces),
-          orderBy("createdAt", "desc")
-        );
-      } else if (uid) {
+      if (uid) {
         baseQuery = query(collectionRef, where("uid", "==", uid), orderBy("createdAt", "desc"));
       } else {
         baseQuery = query(collectionRef, orderBy("createdAt", "desc"));
@@ -132,7 +135,17 @@ export const usePaginatedDocuments = (
           setCurrentPage(1);
         }
 
-        const docs = await fetchPage(1);
+        let docs = await fetchPage(1);
+
+        if (search) {
+          const searchLower = search.toLowerCase();
+          docs = docs.filter((doc: DocumentData) => {
+            const title = (doc.title as string)?.toLowerCase() || "";
+            const titleLower = (doc.titleLower as string)?.toLowerCase() || title;
+            return titleLower.includes(searchLower);
+          });
+        }
+
         setPosts(docs);
       } catch (err) {
         const errorMessage =

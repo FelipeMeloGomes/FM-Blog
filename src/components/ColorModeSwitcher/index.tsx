@@ -1,25 +1,19 @@
-import { IconButton, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { useColorMode } from "../../contexts/ColorModeContext";
 
 const ColorModeSwitcher = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const Icon = colorMode === "light" ? FaMoon : FaSun;
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const hoverBg = useColorModeValue("gray.200", "gray.600");
 
   return (
-    <IconButton
-      aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
-      icon={<Icon />}
+    <button
+      type="button"
       onClick={toggleColorMode}
-      bg={bgColor}
-      _hover={{ bg: hoverBg }}
-      size="md"
-      fontSize="lg"
-      variant="ghost"
-      color="white"
-      mr={2}
-    />
+      aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
+      className="p-2 rounded-md hover:bg-secondary text-white mr-2"
+    >
+      <Icon />
+    </button>
   );
 };
 

@@ -1,32 +1,20 @@
-import { Icon, IconButton } from "@chakra-ui/react";
 import { iconMap } from "./icon";
 import type { AboutButtonProps } from "./types";
 
 const AboutButton = ({ alt, iconName, iconColor, href, ...rest }: AboutButtonProps) => {
-  const IconComponent = iconMap[iconName] || Icon;
+  const IconComponent = iconMap[iconName];
 
   return (
-    <IconButton
-      aria-label={alt}
-      borderRadius="full"
-      bg="white"
-      boxShadow="md"
-      _hover={{
-        transform: "scale(1.5) rotate(-360deg) translateY(-1em)",
-        boxShadow: "0 0 20px rgba(29,161,242,0.5)",
-        transition: "transform 0.5s, box-shadow 0.5s",
-      }}
-      w="64px"
-      h="64px"
-      perspective="500px"
-      as="a"
+    <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={alt}
+      className="w-16 h-16 rounded-full bg-white shadow-md hover:scale-150 hover:-rotate-360 hover:translate-y-[-1em] hover:shadow-[0_0_20px_rgba(29,161,242,0.5)] transition-transform duration-500 flex items-center justify-center"
       {...rest}
     >
-      <IconComponent color={iconColor} width="64px" height="64px" />
-    </IconButton>
+      {IconComponent && <IconComponent color={iconColor} width="64px" height="64px" />}
+    </a>
   );
 };
 

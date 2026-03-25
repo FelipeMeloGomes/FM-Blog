@@ -4,11 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "esbuild",
-      "protobufjs"
-    ]
+    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "protobufjs"]
   },
   "scripts": {
     "dev": "vite --open",
@@ -20,32 +16,39 @@
     "check": "biome check --write ./src"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.1.1",
-    "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.95.0",
     "@tiptap/extension-link": "^3.20.4",
     "@tiptap/extension-placeholder": "^3.20.4",
     "@tiptap/react": "^3.20.4",
     "@tiptap/starter-kit": "^3.20.4",
+    "@types/lodash.debounce": "^4.0.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dompurify": "^3.3.3",
     "firebase": "^9.23.0",
     "framer-motion": "^11.5.4",
+    "lodash.debounce": "^4.0.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.72.0",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.14.1",
-    "tailwindcss": "^3.4.10"
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/dompurify": "^3.0.5",
+    "@types/node": "^25.5.0",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5.4.5",
     "vite": "^4.3.9",
     "vite-plugin-inspect": "^0.8.7"

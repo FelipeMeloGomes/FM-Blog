@@ -1,43 +1,91 @@
-import { AddIcon } from "@chakra-ui/icons";
-import { CloseIcon } from "@chakra-ui/icons";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  Divider,
-  HStack,
-  Heading,
-  IconButton,
-  Image,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Select,
-  Stack,
-  Text,
-  VStack,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
 import { EmptyState } from "../../components/EmptyState";
 import { Pagination } from "../../components/Pagination";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useUserPosts } from "../../lib/hooks/usePostsQuery";
+
+interface MenuDropdownProps {
+  postId: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  onDelete: () => void;
+}
+
+const MenuDropdown = ({ postId, isOpen, onToggle, onDelete }: MenuDropdownProps) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [position, setPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const button = buttonRef.current;
+      const rect = button.getBoundingClientRect();
+      setPosition({
+        top: rect.bottom + 4,
+        left: rect.right - 128,
+      });
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        onToggle();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, onToggle]);
+
+  return (
+    <div className="relative">
+      <button
+        ref={buttonRef}
+        type="button"
+        className="p-2 hover:bg-secondary rounded-md"
+        aria-label="Opções do post"
+        onClick={onToggle}
+      >
+        ⋮
+      </button>
+      {isOpen &&
+        createPortal(
+          <div
+            ref={menuRef}
+            className="fixed bg-card rounded-md border shadow-lg z-50"
+            style={{ top: position.top, left: position.left }}
+          >
+            <a
+              href={`/posts/edit/${postId}`}
+              className="block px-4 py-2 text-sm hover:bg-secondary"
+            >
+              Editar
+            </a>
+            <a href={`/posts/${postId}`} className="block px-4 py-2 text-sm hover:bg-secondary">
+              Ver post
+            </a>
+            <button
+              type="button"
+              onClick={onDelete}
+              className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-secondary"
+            >
+              Deletar
+            </button>
+          </div>,
+          document.body
+        )}
+    </div>
+  );
+};
 
 const POSTS_PER_PAGE = 5;
 
@@ -102,6 +150,10 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const [searchQuery, setSearchQuery] = useLocalStorage("dashboard-search", "");
   const [sortBy, setSortBy] = useLocalStorage<SortOption>("dashboard-sort", "recent");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+  const [postToDelete, setPostToDelete] = useState<string | null>(null);
+  const [postTitleToDelete, setPostTitleToDelete] = useState<string>("");
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   const postsArray = useMemo(() => {
     return (posts || []) as PostData[];
@@ -173,10 +225,11 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const [postToDelete, setPostToDelete] = useState<string | null>(null);
-  const [postTitleToDelete, setPostTitleToDelete] = useState<string>("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
+  const confirmDelete = (postId: string, postTitle: string) => {
+    setPostToDelete(postId);
+    setPostTitleToDelete(postTitle);
+    setIsOpen(true);
+  };
 
   const handleDelete = async () => {
     if (postToDelete) {
@@ -187,31 +240,23 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
         console.error("Erro ao deletar post:", error);
       }
     }
-    onClose();
+    setIsOpen(false);
     setPostToDelete(null);
     setPostTitleToDelete("");
   };
 
-  const confirmDelete = (postId: string, postTitle: string) => {
-    setPostToDelete(postId);
-    setPostTitleToDelete(postTitle);
-    onOpen();
-  };
-
   if (isLoading) {
     return (
-      <VStack spacing={8}>
-        <VStack spacing={2} textAlign="center" w="full">
-          <Heading size="lg" fontFamily="heading" color="text.primary">
-            Meus posts
-          </Heading>
-        </VStack>
-        <VStack spacing={4} w="full">
+      <div className="flex flex-col gap-8 w-full">
+        <div className="flex flex-col gap-2 text-center w-full">
+          <h1 className="text-2xl font-bold font-heading text-foreground">Meus posts</h1>
+        </div>
+        <div className="flex flex-col gap-4 w-full">
           {[1, 2, 3].map((i) => (
-            <Box key={i} h="80px" w="full" bg="bg.secondary" borderRadius="md" />
+            <div key={i} className="h-20 w-full bg-secondary rounded-md" />
           ))}
-        </VStack>
-      </VStack>
+        </div>
+      </div>
     );
   }
 
@@ -225,73 +270,52 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   };
 
   return (
-    <VStack spacing={8} align="stretch" w="full" overflow="hidden">
-      <Stack
-        direction={{ base: "column", sm: "row" }}
-        justify="space-between"
-        align={{ base: "start", sm: "center" }}
-        spacing={4}
-        w="full"
-      >
-        <VStack align="start" spacing={1} minW={0}>
-          <Heading size="lg" fontFamily="heading" color="text.primary">
-            Meus posts
-          </Heading>
-          <Text color="text.secondary" fontSize="sm">
-            {getCountText()}
-          </Text>
-        </VStack>
+    <div className="flex flex-col gap-8 w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
+        <div className="flex flex-col gap-1 min-w-0">
+          <h1 className="text-2xl font-bold font-heading text-foreground">Meus posts</h1>
+          <p className="text-sm text-muted-foreground">{getCountText()}</p>
+        </div>
         <Button
-          as={RouterLink}
-          to="/posts/create"
-          leftIcon={<AddIcon />}
-          variant="solid"
+          onClick={() => navigate("/posts/create")}
           size="sm"
-          flexShrink={0}
-          w={{ base: "full", sm: "auto" }}
+          className="w-full sm:w-auto flex-shrink-0"
         >
+          <FiEdit className="mr-2 h-4 w-4" />
           Novo post
         </Button>
-      </Stack>
+      </div>
 
-      <Stack direction={{ base: "column", md: "row" }} spacing={3} w="full">
-        <InputGroup size="lg" flex={1}>
+      <div className="flex flex-col md:flex-row gap-3 w-full">
+        <div className="relative flex-1">
           <Input
             placeholder="Buscar nos meus posts..."
             value={searchQuery}
             onChange={handleSearchChange}
-            bg="bg.primary"
-            borderColor="border.default"
-            _focus={{ borderColor: "text.primary", boxShadow: "none" }}
+            className="pr-10"
           />
           {searchQuery && (
-            <InputRightElement>
-              <IconButton
-                aria-label="Limpar busca"
-                icon={<CloseIcon boxSize={3} />}
-                variant="ghost"
-                size="sm"
-                onClick={clearSearch}
-              />
-            </InputRightElement>
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              ×
+            </button>
           )}
-        </InputGroup>
-        <Select
+        </div>
+        <select
           value={sortBy}
           onChange={handleSortChange}
-          w={{ base: "full", md: "200px" }}
-          size="lg"
-          bg="bg.primary"
-          borderColor="border.default"
-          _focus={{ borderColor: "text.primary", boxShadow: "none" }}
+          className="h-10 px-3 rounded-md border border-input bg-background text-sm w-full md:w-[200px]"
         >
           <option value="recent">Mais recentes</option>
           <option value="oldest">Mais antigos</option>
           <option value="mostLiked">Mais curtidos</option>
           <option value="titleAsc">Título A → Z</option>
           <option value="titleDesc">Título Z → A</option>
-        </Select>
-      </Stack>
+        </select>
+      </div>
 
       {totalPosts === 0 ? (
         <EmptyState
@@ -309,89 +333,52 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
         />
       ) : (
         <>
-          <VStack spacing={0} align="stretch" divider={<Divider />}>
+          <div className="flex flex-col w-full">
             {paginatedPosts.map((post) => {
               const readTime = calculateReadTime(post.body);
               const formattedDate = formatDate(post.createdAt);
 
               return (
-                <HStack
+                <div
                   key={post.id}
-                  py={4}
-                  px={{ base: 2, md: 3 }}
-                  spacing={{ base: 3, md: 4 }}
-                  align="center"
-                  w="full"
-                  overflow="hidden"
-                  _hover={{ bg: "bg.secondary" }}
-                  transition="background 0.2s"
-                  borderRadius="sm"
+                  className="flex items-center gap-3 md:gap-4 py-4 px-2 md:px-3 w-full overflow-hidden hover:bg-secondary rounded-sm transition-colors"
                 >
-                  <Image
+                  <img
                     src={post.image}
                     alt={post.title}
-                    boxSize={{ base: "48px", md: "60px" }}
-                    minW={{ base: "48px", md: "60px" }}
-                    flexShrink={0}
-                    borderRadius="sm"
-                    objectFit="cover"
-                    fallbackSrc="https://via.placeholder.com/60x60?text=img"
+                    className="w-12 h-12 md:w-14 md:min-w-[60px] flex-shrink-0 rounded-sm object-cover"
+                    loading="lazy"
                   />
 
-                  <VStack align="start" spacing={1} flex={1} minW={0} overflow="hidden">
-                    <Text
-                      as={RouterLink}
-                      to={`/posts/${post.id}`}
-                      fontSize="sm"
-                      fontWeight="600"
-                      color="text.primary"
-                      noOfLines={1}
-                      w="full"
-                      _hover={{ color: "text.secondary" }}
+                  <div className="flex flex-col gap-1 flex-1 min-w-0 overflow-hidden">
+                    <a
+                      href={`/posts/${post.id}`}
+                      className="text-sm font-semibold text-foreground hover:text-muted-foreground truncate block w-full"
                     >
                       {post.title}
-                    </Text>
-                    <HStack spacing={2} fontSize="xs" color="text.muted">
-                      <Text flexShrink={0}>{formattedDate}</Text>
-                      <Text flexShrink={0}>·</Text>
-                      <Text flexShrink={0}>{readTime} min</Text>
-                    </HStack>
-                  </VStack>
+                    </a>
+                    <div className="flex gap-2 text-xs text-muted-foreground">
+                      <span className="flex-shrink-0">{formattedDate}</span>
+                      <span className="flex-shrink-0">·</span>
+                      <span className="flex-shrink-0">{readTime} min</span>
+                    </div>
+                  </div>
 
-                  <HStack spacing={2} flexShrink={0}>
-                    <Text fontSize="sm" color="text.secondary" whiteSpace="nowrap">
+                  <div className="flex gap-2 flex-shrink-0 items-center">
+                    <span className="text-sm text-muted-foreground whitespace-nowrap">
                       ♥ {post.likes?.length || 0}
-                    </Text>
-                    <Menu>
-                      <MenuButton
-                        as={IconButton}
-                        icon={<Text>⋮</Text>}
-                        variant="ghost"
-                        size="sm"
-                        aria-label="Opções do post"
-                      />
-                      <MenuList>
-                        <MenuItem as={RouterLink} to={`/posts/edit/${post.id}`} fontSize="sm">
-                          Editar
-                        </MenuItem>
-                        <MenuItem as={RouterLink} to={`/posts/${post.id}`} fontSize="sm">
-                          Ver post
-                        </MenuItem>
-                        <MenuDivider />
-                        <MenuItem
-                          fontSize="sm"
-                          color="red.500"
-                          onClick={() => confirmDelete(post.id, post.title)}
-                        >
-                          Deletar
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </HStack>
-                </HStack>
+                    </span>
+                    <MenuDropdown
+                      postId={post.id}
+                      isOpen={openMenuId === post.id}
+                      onToggle={() => setOpenMenuId(openMenuId === post.id ? null : post.id)}
+                      onDelete={() => confirmDelete(post.id, post.title)}
+                    />
+                  </div>
+                </div>
               );
             })}
-          </VStack>
+          </div>
 
           {totalPages > 1 && (
             <Pagination
@@ -403,42 +390,27 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
         </>
       )}
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent mx={4} maxW={{ base: "calc(100vw - 32px)", md: "md" }}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Deletar post
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              <Text wordBreak="break-word">
-                Tem certeza que deseja deletar{" "}
-                <Text as="span" fontWeight="600">
-                  "{postTitleToDelete}"
-                </Text>
-                ? Esta ação não pode ser desfeita.
-              </Text>
-            </AlertDialogBody>
-            <AlertDialogFooter
-              as={Stack}
-              direction={{ base: "column-reverse", sm: "row" }}
-              spacing={3}
-            >
-              <Button
-                ref={cancelRef}
-                onClick={onClose}
-                variant="outline"
-                w={{ base: "full", sm: "auto" }}
-              >
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-background rounded-lg p-6 max-w-md mx-4">
+            <h2 className="text-lg font-semibold mb-2">Deletar post</h2>
+            <p className="text-muted-foreground mb-4 break-words">
+              Tem certeza que deseja deletar{" "}
+              <span className="font-semibold">"{postTitleToDelete}"</span>? Esta ação não pode ser
+              desfeita.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full">
                 Cancelar
               </Button>
-              <Button colorScheme="red" onClick={handleDelete} w={{ base: "full", sm: "auto" }}>
+              <Button onClick={handleDelete} className="w-full bg-red-500 hover:bg-red-600">
                 Deletar
               </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </VStack>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

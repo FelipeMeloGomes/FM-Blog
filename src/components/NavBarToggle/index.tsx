@@ -1,18 +1,15 @@
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
-import { IconButton } from "@chakra-ui/react";
+import { FiMenu, FiX } from "react-icons/fi";
 import type { NavBarToggleProps } from "./types";
 
 const NavBarMenuToggle = ({ isOpen, onToggle }: NavBarToggleProps) => (
-  <IconButton
-    size="md"
-    icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-    aria-label="Toggle Navigation"
-    display={{ base: "flex", md: "none" }}
+  <button
+    type="button"
     onClick={onToggle}
-    variant="ghost"
-    color="gray.600"
-    _hover={{ bg: "gray.100" }}
-  />
+    aria-label="Toggle Navigation"
+    className="md:hidden p-2 rounded-md hover:bg-gray-100 text-gray-600"
+  >
+    {isOpen ? <FiX /> : <FiMenu />}
+  </button>
 );
 
 export { NavBarMenuToggle };

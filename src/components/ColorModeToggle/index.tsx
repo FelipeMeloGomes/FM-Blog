@@ -1,24 +1,19 @@
-import { IconButton, Tooltip, useColorMode } from "@chakra-ui/react";
 import { FiMoon, FiSun } from "react-icons/fi";
+import { useColorMode } from "../../contexts/ColorModeContext";
 
 const ColorModeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
 
   return (
-    <Tooltip label="Alternar tema" hasArrow>
-      <IconButton
-        aria-label="Alternar tema"
-        icon={isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
-        variant="ghost"
-        size="sm"
-        borderRadius="full"
-        onClick={toggleColorMode}
-        _hover={{ bg: "bg.secondary" }}
-        transition="transform 0.3s"
-        transform={isDark ? "rotate(0deg)" : "rotate(180deg)"}
-      />
-    </Tooltip>
+    <button
+      type="button"
+      onClick={toggleColorMode}
+      aria-label="Alternar tema"
+      className="p-2 rounded-full hover:bg-secondary text-foreground transition-all duration-300 border border-border"
+    >
+      {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+    </button>
   );
 };
 
