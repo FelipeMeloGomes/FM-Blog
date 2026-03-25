@@ -3,18 +3,17 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { useAuthValue } from "../../context/AuthContext";
 import { uploadToCloudinary } from "../../lib/cloudinary";
-import { useFeedback } from "../../providers/ToastProvider";
 import { type ProfileFormData, profileSchema } from "../../schemas";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { success, error, info } = useFeedback();
   const { user } = useAuthValue() || {};
   const [photoPreview, setPhotoPreview] = useState<string | null>(user?.photoURL || null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -44,7 +43,7 @@ const Profile = () => {
 
   const onSubmit = async (data: ProfileFormData) => {
     if (!hasChanges) {
-      info("Info", "Nenhuma alteração foi feita.");
+      toast.info("Nenhuma alteração foi feita.");
       return;
     }
 
@@ -70,12 +69,12 @@ const Profile = () => {
         });
       }
 
-      success("Sucesso", "Perfil atualizado com sucesso!");
+      toast.success("Perfil atualizado com sucesso!");
 
       setTimeout(() => window.location.reload(), 1000);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Erro ao atualizar perfil.";
-      error("Erro", errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSaving(false);
     }

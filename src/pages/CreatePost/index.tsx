@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -11,7 +12,6 @@ import { Textarea } from "../../components/ui/textarea";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
-import { useFeedback } from "../../providers/ToastProvider";
 import { type CreatePostFormData, createPostSchema } from "../../schemas";
 import { EditorProvider } from "../../utils/EditorContext";
 
@@ -27,7 +27,6 @@ const processTags = (input: string): string[] => {
 
 const CreatePostContent = () => {
   const navigate = useNavigate();
-  const { success, error } = useFeedback();
   const { user } = useAuthValue() || {};
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,12 +77,12 @@ const CreatePostContent = () => {
 
   const onSubmit = async (data: CreatePostFormData) => {
     if (!coverImage?.file) {
-      error("Erro", "Imagem de capa obrigatória.");
+      toast.error("Imagem de capa obrigatória.");
       return;
     }
 
     if (previewTags.length === 0) {
-      error("Erro", "Tags são obrigatórias.");
+      toast.error("Tags são obrigatórias.");
       return;
     }
 
@@ -107,11 +106,11 @@ const CreatePostContent = () => {
       };
 
       await insertDocument(formData);
-      success("Sucesso", "Post criado com sucesso!");
+      toast.success("Post criado com sucesso!");
       navigate("/");
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Erro ao criar post.";
-      error("Erro", errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
