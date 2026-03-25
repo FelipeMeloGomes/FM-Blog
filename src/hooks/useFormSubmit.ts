@@ -66,9 +66,6 @@ export const useFormSubmit = ({
           title: "Success",
           description: "Documento criado com sucesso!",
           status: "success",
-          position: "top-right",
-          duration: 5000,
-          isClosable: true,
         });
       } else if (actionType === "edit" && updateDocument) {
         await updateDocument(id, formData);
@@ -76,9 +73,6 @@ export const useFormSubmit = ({
           title: "Success",
           description: "Documento atualizado com sucesso!",
           status: "success",
-          position: "top-right",
-          duration: 5000,
-          isClosable: true,
         });
       }
     } catch {
@@ -86,9 +80,6 @@ export const useFormSubmit = ({
         title: "Error",
         description: "Erro ao salvar documento.",
         status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
     }
   };

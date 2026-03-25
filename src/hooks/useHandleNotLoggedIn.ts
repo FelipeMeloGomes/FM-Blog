@@ -9,9 +9,6 @@ export const useHandleNotLoggedIn = () => {
       title: "Info",
       description: "Faça login ou registre-se para curtir este post.",
       status: "error",
-      position: "top-right",
-      duration: 5000,
-      isClosable: true,
     });
   }, [showToast]);
 

@@ -1,35 +1,25 @@
-import { useFeedback } from "../providers/ToastProvider";
+import { toast } from "sonner";
+
+interface ToastOptions {
+  title: string;
+  description?: string;
+  status?: "success" | "error" | "warning" | "info";
+  duration?: number;
+}
 
 interface UseToastNotification {
-  showToast: (
-    title: string,
-    description?: string,
-    status?: "success" | "error" | "info" | "warning"
-  ) => void;
+  showToast: (options: ToastOptions) => void;
 }
 
 export const useToastNotification = (): UseToastNotification => {
-  const { success, error, info, warning } = useFeedback();
+  const showToast = ({ title, description, status, duration }: ToastOptions) => {
+    const message = description ? `${title}: ${description}` : title;
+    const options = { duration: duration || 5000 };
 
-  const showToast = (
-    title: string,
-    description?: string,
-    status: "success" | "error" | "info" | "warning" = "info"
-  ) => {
-    switch (status) {
-      case "success":
-        success(title, description);
-        break;
-      case "error":
-        error(title, description);
-        break;
-      case "warning":
-        warning(title, description);
-        break;
-      default:
-        info(title, description);
-        break;
-    }
+    if (status === "success") toast.success(message, options);
+    else if (status === "error") toast.error(message, options);
+    else if (status === "warning") toast.warning(message, options);
+    else toast.info(message, options);
   };
 
   return { showToast };

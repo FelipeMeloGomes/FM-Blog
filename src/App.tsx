@@ -1,11 +1,9 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { ToastContainer } from "./components/Toast";
 import { AuthProvider } from "./context/AuthContext";
 import { ColorModeProvider } from "./contexts/ColorModeContext";
 import { useAuthState } from "./hooks/useAuthState";
-import { ToastProvider } from "./providers/ToastProvider";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -55,10 +53,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <ColorModeProvider>
-        <ToastProvider>
-          <ToastContainer />
-          <AppContent />
-        </ToastProvider>
+        <Toaster position="top-right" richColors />
+        <AppContent />
       </ColorModeProvider>
     </BrowserRouter>
   );

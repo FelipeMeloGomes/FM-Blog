@@ -53,9 +53,6 @@ export const useAuthentication = (): AuthenticationResult => {
         title: "Success",
         description: "Usuário registrado com sucesso.",
         status: "success",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
@@ -72,9 +69,6 @@ export const useAuthentication = (): AuthenticationResult => {
         title: "Error",
         description: errorMessage,
         status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
       throw new Error(errorMessage);
     }
@@ -95,21 +89,17 @@ export const useAuthentication = (): AuthenticationResult => {
       setState({ ...state, user, token });
       showToast({
         title: "Success",
-        position: "top-right",
+
         description: "Login efetuado com sucesso.",
         status: "success",
-        duration: 5000,
-        isClosable: true,
       });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
       showToast({
         title: "Error",
         description: errorMessage,
-        position: "top-right",
+
         status: "error",
-        duration: 5000,
-        isClosable: true,
       });
       setState((prevState) => ({
         ...prevState,
@@ -132,19 +122,14 @@ export const useAuthentication = (): AuthenticationResult => {
         title: "Success",
         description: "Login efetuado com sucesso no Google.",
         status: "success",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
       showToast({
         title: "Error",
         description: errorMessage,
-        position: "top-right",
+
         status: "error",
-        duration: 5000,
-        isClosable: true,
       });
       setState((prevState) => ({
         ...prevState,
@@ -164,9 +149,6 @@ export const useAuthentication = (): AuthenticationResult => {
         title: "Success",
         description: "E-mail de redefinição de senha enviado!",
         status: "success",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
     } catch (error) {
       const errorMessage = handleErrorMessage(error as AuthError);
@@ -174,9 +156,6 @@ export const useAuthentication = (): AuthenticationResult => {
         title: "Error",
         description: errorMessage,
         status: "error",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
       setState((prevState) => ({
         ...prevState,

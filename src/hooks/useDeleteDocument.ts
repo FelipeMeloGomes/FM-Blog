@@ -45,9 +45,6 @@ export const useDeleteDocument = (docCollection: string) => {
         title: "Success",
         description: "Documento Deletado com Sucesso.",
         status: "success",
-        position: "top-right",
-        duration: 5000,
-        isClosable: true,
       });
     } catch (err) {
       const errorMessage =
