@@ -8,19 +8,22 @@ export default defineConfig({
     minify: "esbuild",
     sourcemap: false,
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks: {
-          "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-firebase": ["firebase/app", "firebase/auth", "firebase/firestore"],
-          "vendor-tiptap": [
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
+          tiptap: [
             "@tiptap/react",
             "@tiptap/starter-kit",
             "@tiptap/extension-link",
             "@tiptap/extension-placeholder",
           ],
-          "vendor-query": ["@tanstack/react-query"],
+          query: ["@tanstack/react-query"],
+          forms: ["react-hook-form", "@hookform/resolvers", "zod"],
+          utils: ["clsx", "tailwind-merge", "class-variance-authority", "lodash.debounce"],
         },
       },
     },
