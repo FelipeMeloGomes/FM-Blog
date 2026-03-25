@@ -13,13 +13,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-chakra": [
-            "@chakra-ui/react",
-            "@chakra-ui/icons",
-            "@emotion/react",
-            "@emotion/styled",
-            "framer-motion",
-          ],
           "vendor-firebase": ["firebase/app", "firebase/auth", "firebase/firestore"],
           "vendor-tiptap": [
             "@tiptap/react",
@@ -38,7 +31,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["@chakra-ui/react", "@emotion/react", "@emotion/styled", "framer-motion"],
+    include: ["react", "react-dom", "react-router-dom"],
     esbuildOptions: {
       treeShaking: true,
     },
