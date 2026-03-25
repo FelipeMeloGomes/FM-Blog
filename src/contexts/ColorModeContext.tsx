@@ -13,7 +13,7 @@ const ColorModeContext = createContext<ColorModeContextType | undefined>(undefin
 export const ColorModeProvider = ({ children }: { children: React.ReactNode }) => {
   const [colorMode, setColorModeState] = useState<ColorMode>(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("chakra-ui-color-mode");
+      const stored = localStorage.getItem("color-mode");
       if (stored === "dark" || stored === "light") {
         return stored;
       }
@@ -26,7 +26,7 @@ export const ColorModeProvider = ({ children }: { children: React.ReactNode }) =
 
   const setColorMode = useCallback((mode: ColorMode) => {
     setColorModeState(mode);
-    localStorage.setItem("chakra-ui-color-mode", mode);
+    localStorage.setItem("color-mode", mode);
   }, []);
 
   const toggleColorMode = useCallback(() => {
@@ -40,7 +40,7 @@ export const ColorModeProvider = ({ children }: { children: React.ReactNode }) =
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("chakra-ui-color-mode", colorMode);
+    localStorage.setItem("color-mode", colorMode);
   }, [colorMode]);
 
   return (
