@@ -11,9 +11,9 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { usePost } from "../../lib/hooks/usePostsQuery";
-import { useFeedback } from "../../providers/ToastProvider";
 import { type EditPostFormData, editPostSchema } from "../../schemas";
 import { EditorProvider } from "../../utils/EditorContext";
+import { toast } from "sonner";
 
 const processTags = (input: string): string[] => {
   return input
@@ -31,7 +31,6 @@ const EditPostContent = () => {
   const { user } = useAuthValue() || {};
   const { data: post, isLoading } = usePost(id);
   const { updateDocument, response } = useUpdateDocument("posts");
-  const { success, error } = useFeedback();
 
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,7 +69,7 @@ const EditPostContent = () => {
 
   const onSubmit = async (data: EditPostFormData) => {
     if (!coverImage) {
-      error("Erro", "Imagem de capa obrigatória.");
+      toast.error("Imagem de capa obrigatória.");
       return;
     }
 
@@ -98,11 +97,11 @@ const EditPostContent = () => {
       };
 
       await updateDocument(id!, formData);
-      success("Sucesso", "Post atualizado com sucesso!");
+      toast.success("Post atualizado com sucesso!");
       navigate("/");
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Erro ao atualizar post.";
-      error("Erro", errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

@@ -4,6 +4,7 @@ import { Layout } from "./components/Layout";
 import { AuthProvider } from "./context/AuthContext";
 import { ColorModeProvider } from "./contexts/ColorModeContext";
 import { useAuthState } from "./hooks/useAuthState";
+import { Toaster } from "sonner";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
