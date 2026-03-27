@@ -1,143 +1,276 @@
-# 🚀 FM Blog
+# �️ FM-Blog - Blog de Tecnologia
 
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fm-blog.vercel.app/)
-[![Deploy on Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/FelipeMeloGomes/FM-Blog)
+> Blog moderno de tecnologia desenvolvido com React, focado em performance, qualidade de código e melhores práticas de desenvolvimento.
 
-Um blog moderno de tecnologia construído com React e Firebase.
-
----
-
-## 📸 Screenshots
-
-<div align="center">
-  <img src="https://placehold.co/1200x600/1a1a2e/FFF?text=FM+Blog+Screenshot" alt="FM Blog Preview" width="100%">
-</div>
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/FelipeMeloGomes/FM-Blog)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://fm-blog.vercel.app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18-blue)](https://react.dev/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
 
-## 📖 Descrição
+## 📋 Descrição do Projeto
 
-FM Blog é uma aplicação web moderna para publicação de artigos de tecnologia. O projeto foi desenvolvido com foco em performance, usabilidade e uma experiência de usuário fluida, utilizando as melhores práticas e tecnologias atuais do mercado.
+FM-Blog é um blog completo de tecnologia desenvolvido para demonstrar habilidades como **desenvolvedor Front-end**, com foco no ecossistema **React** e tecnologias modernas que aumentam produtividade, segurança e qualidade do código.
 
----
+### Objetivos do Projeto
 
-## ✨ Funcionalidades
+- Criar uma experiência de leitura moderna e responsiva
+- Demonstrar boas práticas de arquitetura de software
+- Implementar integração com serviços externos (Firebase, Cloudinary)
+- Garantir qualidade com testes e linting
+- Configurar deploy automatizado com Vercel
 
-- **Home** - Lista de posts com paginação infinita
-- **Posts** - Visualização individual com likes e compartilhamento
-- **Editor Rich Text** - Criar posts com TipTap editor
-- **CRUD Completo** - Criar, editar e deletar posts
-- **Dashboard** - Gerenciar seus posts publicados
-- **Perfil** - Upload de foto de perfil via Cloudinary
-- **Busca** - Pesquisar posts por título
-- **Autenticação** - Login/registro com email/senha ou Google
-- **Recuperação de Senha** - Sistema completo de reset de senha
-- **Página 404** - Personalizada para rotas inválidas
-- **Modo Escuro** - Toggle entre tema claro/escuro
-- **Responsivo** - Layout adaptável para todos dispositivos
-- **Loading States** - Skeletons durante carregamento
-- **Notificações** - Toast messages com Sonner
-- **Scroll to Top** - Botão para retornar ao topo
-- **Empty States** - Mensagens quando não há conteúdo
+### Público-Alvo
+
+- Desenvolvedores que desejam aprender React e práticas modernas
+- Profissionais que buscam referência de arquitetura Front-end
+- Projetos de estudo e portfólio
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Tecnologias Usadas
 
-| Categoria | Tecnologia |
-|-----------|------------|
-| **Frontend** | ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) |
-| **Routing** | ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat&logo=react-router&logoColor=white) |
-| **Backend** | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=white) |
-| **Styling** | ![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat&logo=tailwind-css&logoColor=white) ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white) |
-| **Editor** | ![TipTap](https://img.shields.io/badge/TipTap-2D3748?style=flat&logo=tinymce&logoColor=white) |
-| **Forms** | ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5995?style=flat&logo=react-hook-form&logoColor=white) ![Zod](https://img.shields.io/badge/Zod-3E67B8?style=flat&logo=zod&logoColor=white) |
-| **Data Fetching** | ![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=flat&logo=react-query&logoColor=white) |
-| **Imagens** | ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white) |
-| **Deploy** | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white) |
+### Framework & Linguagem
+
+| Tecnologia     | Versão | Descrição                      |
+| -------------- | ------ | ------------------------------ |
+| **React**     | 18.x   | Biblioteca de UI               |
+| **TypeScript** | 5.x    | Tipagem estática               |
+| **Vite**       | 4.x    | Build tool e dev server        |
+
+### Estilização & UI
+
+| Tecnologia          | Descrição                              |
+| ------------------- | -------------------------------------- |
+| **Tailwind CSS**    | Framework de CSS utilitário            |
+| **shadcn/ui**       | Componentes acessíveis e customizáveis |
+| **Framer Motion**   | Animações declarativas                 |
+| **React Icons**     | Ícones                                 |
+
+### Backend-as-a-Service
+
+| Serviço        | Funcionalidade                                |
+| -------------- | -------------------------------------------- |
+| **Firebase**   | Autenticação e banco de dados (Firestore)   |
+| **Cloudinary** | Upload e otimização de imagens              |
+
+### Desenvolvimento & Qualidade
+
+| Ferramenta         | Funcionalidade                 |
+| ------------------ | ------------------------------ |
+| **Biome**          | Linting e formatação de código |
+| **Vite**           | Build e desenvolvimento        |
+| **Vercel**         | Deploy e preview deployments  |
+
+### Outras Bibliotecas
+
+- **React Router**: Gerenciamento de rotas
+- **React Hook Form**: Gerenciamento de formulários
+- **Zod**: Validação de esquemas
+- **TanStack Query**: Data fetching e caching
+- **TipTap**: Editor rich text
+- **Sonner**: Notificações toast
+- **DOMPurify**: Sanitização de HTML
 
 ---
 
-## 🚀 Como Rodar Localmente
+## ✨ Funcionalidades Implementadas
 
-### 1. Clone o repositório
+### 📄 Sistema de Posts
 
-```bash
-git clone https://github.com/FelipeMeloGomes/FM-Blog.git
-cd FM-Blog
-```
+- Lista de posts com paginação
+- Visualização individual de post
+- Editor rich text (TipTap) para criação de posts
+- Sistema de tags
+- Imagem de capa com upload para Cloudinary
 
-### 2. Instale as dependências
+### 🔐 Sistema de Autenticação
 
-```bash
-pnpm install
-```
+- Login/cadastro com email e senha
+- Login com Google
+- Recuperação de senha
+- Rotas protegidas
 
-### 3. Configure as variáveis de ambiente
+### 👤 Perfil do Usuário
 
-Crie um arquivo `.env` na raiz do projeto:
+- Edição de perfil
+- Upload de foto de perfil (Cloudinary)
+- Gerenciamento de posts publicados
+
+### 📊 Dashboard
+
+- Listagem de posts do usuário
+- Busca e filtros nos posts
+- Ordenação (recentes, antigos, mais curtidos)
+- Sistema de delete com confirmação
+- Edição de posts existentes
+
+### 🔍 Sistema de Busca
+
+- Busca de posts por título
+- Resultados com paginação
+
+### 🎨 UI/UX
+
+- Modo escuro/claro com persistência
+- Layout responsivo (mobile, tablet, desktop)
+- Loading skeletons
+- Toast notifications (Sonner)
+- Scroll to top
+- Empty states
+- Animações com Framer Motion
+- Página 404 personalizada
+
+---
+
+## 🔧 Configurações de Ambiente
+
+### Variáveis Obrigatórias (.env)
 
 ```env
 # Firebase
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_API_KEY=sua_api_key
+VITE_FIREBASE_AUTH_DOMAIN=seu_projeto.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=seu_project_id
+VITE_FIREBASE_STORAGE_BUCKET=seu_projeto.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
+VITE_FIREBASE_APP_ID=seu_app_id
 
 # Cloudinary
-VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
-VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+VITE_CLOUDINARY_CLOUD_NAME=seu_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=seu_upload_preset
 ```
 
-### 4. Inicie o servidor de desenvolvimento
+---
+
+## ▶️ Como Rodar o Projeto
+
+### Pré-requisitos
+
+- Node.js 18.x ou superior
+- pnpm (ou npm/yarn)
+- Conta no Firebase
+- Conta no Cloudinary
+
+### Instalação
 
 ```bash
-pnpm dev
+# Clone o repositório
+git clone https://github.com/FelipeMeloGomes/FM-Blog.git
+cd FM-Blog
+
+# Instale as dependências
+pnpm install
+
+# Configure as variáveis de ambiente
+cp .env.example .env.local
+# Edite .env.local com suas credenciais
 ```
 
-Acesse: `http://localhost:5173`
+### Executar Desenvolvimento
+
+```bash
+# Iniciar servidor de desenvolvimento
+pnpm dev
+
+# Acesse http://localhost:5173
+```
+
+### Comandos Disponíveis
+
+| Comando          | Descrição                           |
+| ---------------- | ----------------------------------- |
+| `pnpm dev`       | Iniciar servidor de desenvolvimento |
+| `pnpm build`     | Build de produção                   |
+| `pnpm preview`   | Iniciar servidor de produção        |
+| `pnpm lint`      | Verificar lint                      |
+| `pnpm lint:fix`  | Corrigir problemas de lint          |
+| `pnpm format`    | Formatar código                     |
+| `pnpm check`     | Verificar lint, types e formato     |
 
 ---
 
-## 📝 Variáveis de Ambiente
+## 📁 Estrutura de Pastas
 
-| Variável | Descrição |
-|----------|-----------|
-| `VITE_FIREBASE_API_KEY` | Chave da API do Firebase |
-| `VITE_FIREBASE_AUTH_DOMAIN` | Domínio de autenticação |
-| `VITE_FIREBASE_PROJECT_ID` | ID do projeto Firebase |
-| `VITE_FIREBASE_STORAGE_BUCKET` | Bucket de armazenamento |
-| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Sender ID do Firebase Messaging |
-| `VITE_FIREBASE_APP_ID` | ID do app no Firebase |
-| `VITE_CLOUDINARY_CLOUD_NAME` | Nome da sua conta Cloudinary |
-| `VITE_CLOUDINARY_UPLOAD_PRESET` | Upload preset unsigned do Cloudinary |
+```
+FM-Blog/
+├── src/
+│   ├── components/           # Componentes React
+│   │   ├── ui/              # Componentes shadcn/ui
+│   │   └── ...
+│   ├── contexts/            # Contextos React
+│   ├── hooks/               # Hooks customizados
+│   ├── lib/                 # Utilitários e clientes
+│   │   └── hooks/          # Queries do TanStack Query
+│   ├── pages/               # Páginas da aplicação
+│   ├── providers/           # Providers React
+│   ├── schemas/             # Schemas de validação Zod
+│   ├── utils/               # Utilitários
+│   └── firebase/            # Configuração Firebase
+├── public/                   # Arquivos estáticos
+├── .env.example             # Exemplo de variáveis de ambiente
+├── vercel.json              # Configuração Vercel
+└── ...
+```
+
+### Descrição dos Diretórios
+
+- **`src/components/`** - Componentes React reutilizáveis
+- **`src/components/ui/`** - Componentes shadcn/ui base (Button, Input, Avatar, etc.)
+- **`src/contexts/`** - Contextos React (Auth, ColorMode)
+- **`src/hooks/`** - Hooks customizados (useAuth, useDelete, etc.)
+- **`src/lib/`** - Utilitários, clientes e configurações
+- **`src/pages/`** - Páginas da aplicação
+- **`src/schemas/`** - Schemas de validação Zod
+- **`src/utils/`** - Funções utilitárias
+- **`src/firebase/`** - Configuração e inicialização do Firebase
 
 ---
 
-## 🌐 Deploy
+## 🤝 Como Contribuir
 
-O projeto está deployed na Vercel: **https://fm-blog.vercel.app/**
+1. **Fork** o repositório
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
+3. Faça commit das alterações (`git commit -m 'feat: adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+5. Abra um **Pull Request**
 
----
+### Padrão de Commits
 
-## 🤝 Contribuição
+Este projeto segue o padrão [Conventional Commits](https://conventionalcommits.org/):
 
-1. Fork este repositório
-2. Crie sua branch: `git checkout -b feature/nova-funcionalidade`
-3. Commit suas mudanças: `git commit -m 'feat: adiciona nova funcionalidade'`
-4. Push para a branch: `git push origin feature/nova-funcionalidade`
-5. Abra um Pull Request
+```
+feat: adiciona nova funcionalidade
+fix: corrige um bug
+refactor: refatora código
+chore: atualiza configurações
+test: adiciona ou corrige testes
+docs: atualiza documentação
+```
+
+### Boas Práticas
+
+- Sempre rode `pnpm lint` antes de commit
+- Execute o build antes de abrir PR
+- Use TypeScript para novas implementações
+- Mantenha o código limpo e organizado
 
 ---
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a licença [MIT](LICENSE).
 
 ---
 
-<div align="center">
-  <p>Desenvolvido com ❤️ por <a href="https://github.com/FelipeMeloGomes">Felipe Melo</a></p>
-</div>
+## 🙏 Agradecimentos
+
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [Firebase](https://firebase.google.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Vercel](https://vercel.com/)
