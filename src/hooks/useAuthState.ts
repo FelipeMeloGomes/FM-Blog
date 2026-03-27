@@ -9,9 +9,10 @@ interface CustomUser extends Omit<FirebaseUser, "photoURL"> {
   photoURL?: string | null;
 }
 
-export const useAuthState = (): CustomUser | null => {
+export const useAuthState = (): { user: CustomUser | null; loading: boolean } => {
   const { auth } = useAuthentication();
   const [user, setUser] = useState<CustomUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!auth) return;
@@ -29,10 +30,11 @@ export const useAuthState = (): CustomUser | null => {
       } else {
         setUser(null);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, [auth]);
 
-  return user;
+  return { user, loading };
 };

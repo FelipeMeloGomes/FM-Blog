@@ -27,7 +27,7 @@ const PageLoader = () => (
 );
 
 const AppContent = () => {
-  const user = useAuthState();
+  const { user } = useAuthState();
 
   return (
     <AuthProvider value={{ user }}>
