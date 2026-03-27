@@ -1,4 +1,4 @@
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft, FiEye } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
