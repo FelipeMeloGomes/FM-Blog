@@ -19,6 +19,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Profile = lazy(() => import("./pages/Profile"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const PageLoader = () => (
   <div className="flex justify-center items-center min-h-[50vh]">
@@ -87,6 +88,7 @@ const AppContent = () => {
               }
             />
             <Route path="resetPassword" element={<ResetPassword />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Suspense>
