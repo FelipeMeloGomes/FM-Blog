@@ -75,7 +75,7 @@ const PostCard = ({ post }: PostCardProps) => {
           <div>
             <p className="text-sm font-medium text-foreground">{post.createdBy}</p>
             <p className="text-xs text-muted-foreground">
-              {formattedDate} · {readTime} min · 👁 {post.views || 0}
+              {formattedDate} · {readTime} min
             </p>
           </div>
         </div>
