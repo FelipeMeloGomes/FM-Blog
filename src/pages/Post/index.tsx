@@ -126,6 +126,10 @@ const Post = () => {
           <div className="flex gap-2">
             <LikeButton postId={post.id!} userId={user?.uid || ""} />
             <ShareButton post={post as PostType} onShare={handleShare} />
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <FiEye className="h-4 w-4" />
+              {post.views || 0}
+            </span>
           </div>
 
           <div className="flex gap-4">
