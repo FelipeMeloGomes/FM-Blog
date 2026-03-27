@@ -35,8 +35,5 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom"],
-    esbuildOptions: {
-      treeShaking: true,
-    },
   },
 });
