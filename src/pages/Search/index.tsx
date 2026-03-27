@@ -2,6 +2,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { Link, useSearchParams } from "react-router-dom";
 import { Pagination } from "../../components/Pagination";
 import { PostCard } from "../../components/PostCard";
+import { PostListSkeleton } from "../../components/PostListSkeleton";
 import { Button } from "../../components/ui/button";
 import { usePaginatedDocuments } from "../../hooks/usePaginatedDocuments";
 import { useQuery } from "../../hooks/useQuery";
@@ -32,6 +33,7 @@ const Search = () => {
           <h1 className="text-2xl font-bold font-heading text-foreground">Resultados</h1>
           <p className="text-muted-foreground">Buscando posts para: "{search}"</p>
         </div>
+        <PostListSkeleton />
       </div>
     );
   }

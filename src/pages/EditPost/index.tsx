@@ -3,17 +3,18 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
+import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { type EditPostFormData, editPostSchema } from "../../schemas";
 import { EditorProvider } from "../../utils/EditorContext";
-import { toast } from "sonner";
 
 const processTags = (input: string): string[] => {
   return input
@@ -108,7 +109,15 @@ const EditPostContent = () => {
   };
 
   if (isLoading) {
-    return <div>Carregando...</div>;
+    return (
+      <div className="flex flex-col gap-8 max-w-2xl mx-auto">
+        <Skeleton className="h-8 w-24" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-64 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-32" />
+      </div>
+    );
   }
 
   if (!post) {

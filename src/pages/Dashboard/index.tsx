@@ -6,6 +6,7 @@ import { EmptyState } from "../../components/EmptyState";
 import { Pagination } from "../../components/Pagination";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
@@ -248,12 +249,20 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   if (isLoading) {
     return (
       <div className="flex flex-col gap-8 w-full">
-        <div className="flex flex-col gap-2 text-center w-full">
-          <h1 className="text-2xl font-bold font-heading text-foreground">Meus posts</h1>
+        <div className="flex flex-col gap-2 w-full">
+          <Skeleton className="h-8 w-32" />
+          <Skeleton className="h-4 w-48" />
         </div>
         <div className="flex flex-col gap-4 w-full">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-20 w-full bg-secondary rounded-md" />
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="flex items-center gap-4 p-3 border rounded-md">
+              <Skeleton className="h-12 w-12 rounded-sm" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+              <Skeleton className="h-6 w-12" />
+            </div>
           ))}
         </div>
       </div>
