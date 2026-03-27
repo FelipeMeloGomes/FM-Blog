@@ -1,102 +1,143 @@
-<h1 align="center">FM Blog</h1>
+# 🚀 FM Blog
 
-### 💻 Descrição
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fm-blog.vercel.app/)
+[![Deploy on Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/FelipeMeloGomes/FM-Blog)
 
-Blog de Tecnologia para manter você atualizado com as últimas novidades do mundo da tecnologia.
+Um blog moderno de tecnologia construído com React e Firebase.
 
-## 📖 Visão Geral
+---
 
-Este projeto foi desenvolvido para estudar e praticar a biblioteca React.js.<br/>
+## 📸 Screenshots
 
-<p align="center">
-  <a target="_blank" href="https://fm-blog-react.netlify.app/">Veja o meu projeto aqui</a>
-</p>
+<div align="center">
+  <img src="https://placehold.co/1200x600/1a1a2e/FFF?text=FM+Blog+Screenshot" alt="FM Blog Preview" width="100%">
+</div>
 
-<br>
+---
 
-<p align="center">
-  <img src="https://github.com/FelipeMeloGomes/FM-Blog/assets/85581543/fd1c13c0-d4e7-4ce2-90f7-94c959fc4691" width="100%">
-</p>
+## 📖 Descrição
 
-## ⚙️ Instalação dos pacotes essenciais.
+FM Blog é uma aplicação web moderna para publicação de artigos de tecnologia. O projeto foi desenvolvido com foco em performance, usabilidade e uma experiência de usuário fluida, utilizando as melhores práticas e tecnologias atuais do mercado.
 
-Instalar os pacotes:
+---
 
+## ✨ Funcionalidades
+
+- **Home** - Lista de posts com paginação infinita
+- **Posts** - Visualização individual com likes e compartilhamento
+- **Editor Rich Text** - Criar posts com TipTap editor
+- **CRUD Completo** - Criar, editar e deletar posts
+- **Dashboard** - Gerenciar seus posts publicados
+- **Perfil** - Upload de foto de perfil via Cloudinary
+- **Busca** - Pesquisar posts por título
+- **Autenticação** - Login/registro com email/senha ou Google
+- **Recuperação de Senha** - Sistema completo de reset de senha
+- **Página 404** - Personalizada para rotas inválidas
+- **Modo Escuro** - Toggle entre tema claro/escuro
+- **Responsivo** - Layout adaptável para todos dispositivos
+- **Loading States** - Skeletons durante carregamento
+- **Notificações** - Toast messages com Sonner
+- **Scroll to Top** - Botão para retornar ao topo
+- **Empty States** - Mensagens quando não há conteúdo
+
+---
+
+## 🛠️ Tech Stack
+
+| Categoria | Tecnologia |
+|-----------|------------|
+| **Frontend** | ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) |
+| **Routing** | ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat&logo=react-router&logoColor=white) |
+| **Backend** | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=white) |
+| **Styling** | ![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat&logo=tailwind-css&logoColor=white) ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white) |
+| **Editor** | ![TipTap](https://img.shields.io/badge/TipTap-2D3748?style=flat&logo=tinymce&logoColor=white) |
+| **Forms** | ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5995?style=flat&logo=react-hook-form&logoColor=white) ![Zod](https://img.shields.io/badge/Zod-3E67B8?style=flat&logo=zod&logoColor=white) |
+| **Data Fetching** | ![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=flat&logo=react-query&logoColor=white) |
+| **Imagens** | ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white) |
+| **Deploy** | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white) |
+
+---
+
+## 🚀 Como Rodar Localmente
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/FelipeMeloGomes/FM-Blog.git
+cd FM-Blog
 ```
+
+### 2. Instale as dependências
+
+```bash
 pnpm install
 ```
 
-Iniciar o Projeto:
+### 3. Configure as variáveis de ambiente
 
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+# Firebase
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+
+# Cloudinary
+VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ```
-pnpm run dev
+
+### 4. Inicie o servidor de desenvolvimento
+
+```bash
+pnpm dev
 ```
 
-## 🚀 Tecnologias Utilizadas
+Acesse: `http://localhost:5173`
 
-Esse projeto foi desenvolvido com as seguintes tecnologias:
+---
 
-- HTML e CSS.
-- TailwindCSS.
-- Chakra UI.
-- JavaScript.
-- Typescript.
-- React.
-- Firebase.
-- Vite.
-- NPM.
+## 📝 Variáveis de Ambiente
 
-## 📚 Conceitos Aprendidos
+| Variável | Descrição |
+|----------|-----------|
+| `VITE_FIREBASE_API_KEY` | Chave da API do Firebase |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Domínio de autenticação |
+| `VITE_FIREBASE_PROJECT_ID` | ID do projeto Firebase |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Bucket de armazenamento |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Sender ID do Firebase Messaging |
+| `VITE_FIREBASE_APP_ID` | ID do app no Firebase |
+| `VITE_CLOUDINARY_CLOUD_NAME` | Nome da sua conta Cloudinary |
+| `VITE_CLOUDINARY_UPLOAD_PRESET` | Upload preset unsigned do Cloudinary |
 
-- Front-end.
-- Gerenciamento de pacotes com NPM.
-- CSS Modules para organização e modularização de estilos.
-- Estilização e Layout com TailwindCSS.
-- Implementação de Design Responsivo.
-- Criação e reutilização de componentes.
-- Proficiência na Biblioteca React, incluindo o uso de Hooks como useState e useEffect.
-- Integração de Bibliotecas Externas para Funcionalidades Adicionais.
-- SEO e semântica no HTML5.
-- Tratamento de Erros no Ambiente React.
-- Integração com APIs Externas.
-- Habilidade em Refatoração de Componentes.
-- Layout e usabilidade.
-- Criação de Hooks Personalizados.
-- Utilização da Biblioteca React Router para Rotas Dinâmicas e Navegação Fluida entre Telas.
+---
 
-## 🔄 Melhorias Recentes
+## 🌐 Deploy
 
-As seguintes melhorias foram implementadas no projeto:
+O projeto está deployed na Vercel: **https://fm-blog.vercel.app/**
 
-- Otimização do layout para uma melhor experiência do usuário.
-- Adição de um spinner durante o carregamento de conteúdo.
-- Novas telas de login e cadastro aprimoradas.
-- Adição de botão de alternância para visibilidade de senha.
-- Novo botão de "Like" para interações com o conteúdo.
-- Novos componentes para otimizar o desempenho.
-- Adição de hooks personalizados para melhorar a performance.
-- Implementação do react-quill para a criação de textos mais ricos.
-- Implementação do TypeScript para melhoria de tipagem e segurança do código.
-- Implementação da biblioteca Toastify para exibir notificações pop-up de forma eficiente e visualmente atraente.
-- **Refatoração da lógica de validação de senhas**:
-  - Modularização da validação de senhas, incluindo a verificação de senhas iguais e a força da senha.
-  - Adição de uma verificação para garantir que a senha atenda a critérios de força antes do registro.
-- **Centralização de Mensagens de Erro**:
-  - Mensagens de erro foram movidas para um arquivo separado (`src/errorMessages.ts`) para melhor organização e manutenção do código.
-- adição de login com google.
+---
 
 ## 🤝 Contribuição
 
-Se você deseja contribuir para este projeto, siga os passos abaixo:
+1. Fork este repositório
+2. Crie sua branch: `git checkout -b feature/nova-funcionalidade`
+3. Commit suas mudanças: `git commit -m 'feat: adiciona nova funcionalidade'`
+4. Push para a branch: `git push origin feature/nova-funcionalidade`
+5. Abra um Pull Request
 
-1. Faça um fork do repositório.
-2. Crie uma branch com suas modificações: `git checkout -b minha-mudanca`.
-3. Faça commit das suas alterações: `git commit -am 'Adiciona nova funcionalidade'`.
-4. Envie para o repositório remoto: `git push origin minha-mudanca`.
-5. Abra um Pull Request detalhando as suas alterações.
+---
 
-Se você encontrar algum problema ou tiver sugestões, sinta-se à vontade para abrir uma issue no GitHub.
+## 📄 Licença
 
-## 📜 Licença
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-Este projeto está licenciado sob a [Licença MIT](LICENSE). Veja o arquivo LICENSE para mais detalhes.
+---
+
+<div align="center">
+  <p>Desenvolvido com ❤️ por <a href="https://github.com/FelipeMeloGomes">Felipe Melo</a></p>
+</div>
