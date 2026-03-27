@@ -6,6 +6,7 @@ import { ShareButton } from "../../components/ShareButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
+import { usePostViews } from "../../hooks/usePostViews";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { handleShare } from "../../utils/ShareContent";
 import type { Post as PostType } from "../../utils/ShareContent/types";
@@ -50,6 +51,8 @@ const Post = () => {
   const { user } = useAuthValue() || {};
   const { id } = useParams<{ id: string }>();
   const { data: post, isLoading } = usePost(id);
+
+  usePostViews(id);
 
   if (isLoading) {
     return (

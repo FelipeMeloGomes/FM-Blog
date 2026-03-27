@@ -139,6 +139,7 @@ interface PostData {
   photoURL: string;
   tagsArray: string[];
   uid: string;
+  views?: number;
 }
 
 const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
@@ -374,6 +375,9 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
                   </div>
 
                   <div className="flex gap-2 flex-shrink-0 items-center">
+                    <span className="text-sm text-muted-foreground whitespace-nowrap">
+                      👁 {post.views || 0}
+                    </span>
                     <span className="text-sm text-muted-foreground whitespace-nowrap">
                       ♥ {post.likes?.length || 0}
                     </span>
