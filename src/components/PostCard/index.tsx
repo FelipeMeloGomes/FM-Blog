@@ -1,46 +1,13 @@
 import { Link as RouterLink } from "react-router-dom";
+import { CONSTANTS } from "../../utils/constants";
+import { calculateReadTime, formatDateShort } from "../../utils/date";
 import { ImageWithFallback } from "../ImageWithFallback";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import type { PostCardProps } from "./types";
 
-const calculateReadTime = (body: string | undefined): number => {
-  if (!body) return 1;
-  const wordsPerMinute = 200;
-  const cleanText = body.replace(/<[^>]*>/g, "");
-  const words = cleanText.split(/\s+/).filter((word) => word.length > 0).length;
-  return Math.max(1, Math.ceil(words / wordsPerMinute));
-};
-
-const formatDate = (date: unknown): string => {
-  if (!date) return "";
-  const timestamp = date as { seconds?: number; toDate?: () => Date };
-  if (timestamp.seconds) {
-    return new Date(timestamp.seconds * 1000).toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  }
-  if (timestamp.toDate && typeof timestamp.toDate === "function") {
-    return timestamp.toDate().toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  }
-  if (date instanceof Date) {
-    return date.toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  }
-  return "";
-};
-
 const PostCard = ({ post }: PostCardProps) => {
   const readTime = calculateReadTime(post.body);
-  const formattedDate = formatDate(post.createdAt);
+  const formattedDate = formatDateShort(post.createdAt);
 
   return (
     <RouterLink
@@ -51,7 +18,7 @@ const PostCard = ({ post }: PostCardProps) => {
         <ImageWithFallback
           src={post.image}
           alt={post.title}
-          fallbackSrc="https://via.placeholder.com/640x360?text=Sem+imagem"
+          fallbackSrc={CONSTANTS.IMAGE.FALLBACK_PLACEHOLDER}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>

@@ -8,7 +8,6 @@ import {
   recordFailedAttempt,
   sanitizeInput,
   sanitizeTag,
-  validatePasswordStrength,
 } from "../utils/security";
 
 describe("sanitizeTag", () => {
@@ -64,50 +63,6 @@ describe("isCommonPassword", () => {
   it("should be case insensitive", () => {
     expect(isCommonPassword("PASSWORD")).toBe(true);
     expect(isCommonPassword("Password")).toBe(true);
-  });
-});
-
-describe("validatePasswordStrength", () => {
-  it("should reject passwords less than 8 characters", () => {
-    const result = validatePasswordStrength("Ab1!");
-    expect(result.valid).toBe(false);
-    expect(result.message).toContain("pelo menos 8 caracteres");
-  });
-
-  it("should reject passwords without uppercase", () => {
-    const result = validatePasswordStrength("password123!");
-    expect(result.valid).toBe(false);
-    expect(result.message).toContain("maiúscula");
-  });
-
-  it("should reject passwords without lowercase", () => {
-    const result = validatePasswordStrength("PASSWORD123!");
-    expect(result.valid).toBe(false);
-    expect(result.message).toContain("minúscula");
-  });
-
-  it("should reject passwords without numbers", () => {
-    const result = validatePasswordStrength("PasswordABC!");
-    expect(result.valid).toBe(false);
-    expect(result.message).toContain("número");
-  });
-
-  it("should reject passwords without special characters", () => {
-    const result = validatePasswordStrength("StrongPass123");
-    expect(result.valid).toBe(false);
-    expect(result.message).toContain("caractere especial");
-  });
-
-  it("should reject common passwords (password1!)", () => {
-    const result = validatePasswordStrength("password1!");
-    expect(result.valid).toBe(false);
-    expect(result.message).toContain("muito comum");
-  });
-
-  it("should accept strong passwords", () => {
-    const result = validatePasswordStrength("MyStr0ng@Pass!");
-    expect(result.valid).toBe(true);
-    expect(result.message).toBe("");
   });
 });
 

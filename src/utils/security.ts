@@ -1,3 +1,5 @@
+import { CONSTANTS } from "./constants";
+
 const COMMON_PASSWORDS = [
   "password",
   "password1",
@@ -43,6 +45,9 @@ const COMMON_PASSWORDS = [
   "guest",
 ];
 
+const STORAGE_KEY = "fm_blog_viewed_posts";
+const RATE_LIMIT_KEY = "fm_blog_auth_attempts";
+
 export const sanitizeTag = (tag: string): string => {
   return tag
     .trim()
@@ -50,7 +55,7 @@ export const sanitizeTag = (tag: string): string => {
     .replace(/[<>\"'&]/g, "")
     .replace(/javascript:/gi, "")
     .replace(/on\w+=/gi, "")
-    .slice(0, 30);
+    .slice(0, CONSTANTS.VALIDATION.TAG_MAX_LENGTH);
 };
 
 export const sanitizeInput = (input: string): string => {
@@ -65,67 +70,13 @@ export const isCommonPassword = (password: string): boolean => {
   return COMMON_PASSWORDS.includes(password.toLowerCase());
 };
 
-export const validatePasswordStrength = (password: string): { valid: boolean; message: string } => {
-  if (password.length < 8) {
-    return { valid: false, message: "A senha deve ter pelo menos 8 caracteres" };
-  }
-
-  if (isCommonPassword(password)) {
-    return { valid: false, message: "Esta senha é muito comum. Escolha uma senha mais segura" };
-  }
-
-  if (!/[A-Z]/.test(password)) {
-    return { valid: false, message: "A senha deve conter pelo menos uma letra maiúscula" };
-  }
-
-  if (!/[a-z]/.test(password)) {
-    return { valid: false, message: "A senha deve conter pelo menos uma letra minúscula" };
-  }
-
-  if (!/[0-9]/.test(password)) {
-    return { valid: false, message: "A senha deve conter pelo menos um número" };
-  }
-
-  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-    return {
-      valid: false,
-      message: "A senha deve conter pelo menos um caractere especial (!@#$%^&*...)",
-    };
-  }
-
-  if (!/[a-z]/.test(password)) {
-    return { valid: false, message: "A senha deve conter pelo menos uma letra minúscula" };
-  }
-
-  if (!/[0-9]/.test(password)) {
-    return { valid: false, message: "A senha deve conter pelo menos um número" };
-  }
-
-  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-    return {
-      valid: false,
-      message: "A senha deve conter pelo menos um caractere especial (!@#$%^&*...)",
-    };
-  }
-
-  if (isCommonPassword(password)) {
-    return { valid: false, message: "Esta senha é muito comum. Escolha uma senha mais segura" };
-  }
-
-  return { valid: true, message: "" };
-};
-
-const STORAGE_KEY = "fm_blog_viewed_posts";
-const RATE_LIMIT_KEY = "fm_blog_auth_attempts";
-const VIEW_LIMIT_WINDOW = 24 * 60 * 60 * 1000;
-
 export const hasViewedPost = (postId: string): boolean => {
   try {
     const viewed = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}");
     const now = Date.now();
 
     for (const [id, timestamp] of Object.entries(viewed)) {
-      if (typeof timestamp === "number" && now - timestamp > VIEW_LIMIT_WINDOW) {
+      if (typeof timestamp === "number" && now - timestamp > CONSTANTS.AUTH.VIEW_LIMIT_WINDOW_MS) {
         delete viewed[id];
       }
     }
@@ -152,25 +103,22 @@ export interface RateLimitResult {
   waitSeconds: number;
 }
 
-const MAX_AUTH_ATTEMPTS = 5;
-const RATE_LIMIT_WINDOW = 15 * 60 * 1000;
-
 export const checkRateLimit = (email: string): RateLimitResult => {
   try {
     const attempts = JSON.parse(localStorage.getItem(`${RATE_LIMIT_KEY}_${email}`) || "{}");
     const now = Date.now();
 
     for (const [timestamp] of Object.entries(attempts)) {
-      if (now - Number.parseInt(timestamp) > RATE_LIMIT_WINDOW) {
+      if (now - Number.parseInt(timestamp) > CONSTANTS.AUTH.RATE_LIMIT_WINDOW_MS) {
         delete attempts[timestamp];
       }
     }
 
     const validAttempts = Object.keys(attempts).length;
 
-    if (validAttempts >= MAX_AUTH_ATTEMPTS) {
+    if (validAttempts >= CONSTANTS.AUTH.RATE_LIMIT_MAX_ATTEMPTS) {
       const oldestAttempt = Math.min(...Object.keys(attempts).map(Number));
-      const waitMs = RATE_LIMIT_WINDOW - (now - oldestAttempt);
+      const waitMs = CONSTANTS.AUTH.RATE_LIMIT_WINDOW_MS - (now - oldestAttempt);
       return {
         allowed: false,
         remainingAttempts: 0,
@@ -180,11 +128,15 @@ export const checkRateLimit = (email: string): RateLimitResult => {
 
     return {
       allowed: true,
-      remainingAttempts: MAX_AUTH_ATTEMPTS - validAttempts,
+      remainingAttempts: CONSTANTS.AUTH.RATE_LIMIT_MAX_ATTEMPTS - validAttempts,
       waitSeconds: 0,
     };
   } catch {
-    return { allowed: true, remainingAttempts: MAX_AUTH_ATTEMPTS, waitSeconds: 0 };
+    return {
+      allowed: true,
+      remainingAttempts: CONSTANTS.AUTH.RATE_LIMIT_MAX_ATTEMPTS,
+      waitSeconds: 0,
+    };
   }
 };
 
@@ -195,7 +147,7 @@ export const recordFailedAttempt = (email: string): void => {
 
     const now = Date.now();
     for (const [timestamp] of Object.entries(attempts)) {
-      if (now - Number.parseInt(timestamp) > RATE_LIMIT_WINDOW) {
+      if (now - Number.parseInt(timestamp) > CONSTANTS.AUTH.RATE_LIMIT_WINDOW_MS) {
         delete attempts[timestamp];
       }
     }
@@ -208,19 +160,4 @@ export const recordFailedAttempt = (email: string): void => {
 
 export const clearRateLimit = (email: string): void => {
   localStorage.removeItem(`${RATE_LIMIT_KEY}_${email}`);
-};
-
-export const generateCSRFToken = (): string => {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join("");
-};
-
-export const isValidUrl = (url: string): boolean => {
-  try {
-    const parsed = new URL(url);
-    return ["http:", "https:"].includes(parsed.protocol);
-  } catch {
-    return false;
-  }
 };

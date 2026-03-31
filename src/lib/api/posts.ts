@@ -1,8 +1,9 @@
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import type { Post } from "../../utils/ShareContent/types";
+import { CONSTANTS } from "../../utils/constants";
 
-const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE: number = CONSTANTS.PAGINATION.POSTS_PER_PAGE;
 
 type PostWithId = Post & { id: string };
 

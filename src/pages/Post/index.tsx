@@ -12,42 +12,8 @@ import { usePostViews } from "../../hooks/usePostViews";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { handleShare } from "../../utils/ShareContent";
 import type { Post as PostType } from "../../utils/ShareContent/types";
+import { calculateReadTime, formatDate } from "../../utils/date";
 import { sanitizeHtml } from "../../utils/sanitize";
-
-const formatDate = (date: unknown): string => {
-  if (!date) return "";
-  const timestamp = date as { seconds?: number; toDate?: () => Date };
-  if (timestamp.seconds) {
-    return new Date(timestamp.seconds * 1000).toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  }
-  if (timestamp.toDate && typeof timestamp.toDate === "function") {
-    return timestamp.toDate().toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  }
-  if (date instanceof Date) {
-    return date.toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  }
-  return "";
-};
-
-const calculateReadTime = (body: string | undefined): number => {
-  if (!body) return 1;
-  const wordsPerMinute = 200;
-  const cleanText = body.replace(/<[^>]*>/g, "");
-  const words = cleanText.split(/\s+/).filter((word) => word.length > 0).length;
-  return Math.max(1, Math.ceil(words / wordsPerMinute));
-};
 
 const Post = () => {
   const { user } = useAuthValue() || {};

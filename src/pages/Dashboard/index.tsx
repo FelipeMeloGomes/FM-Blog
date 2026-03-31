@@ -11,6 +11,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useUserPosts } from "../../lib/hooks/usePostsQuery";
+import { calculateReadTime, formatDateShort } from "../../utils/date";
 
 interface MenuDropdownProps {
   postId: string;
@@ -91,41 +92,6 @@ const MenuDropdown = ({ postId, isOpen, onToggle, onDelete }: MenuDropdownProps)
 const POSTS_PER_PAGE = 5;
 
 type SortOption = "recent" | "oldest" | "mostLiked" | "titleAsc" | "titleDesc";
-
-const formatDate = (date: unknown): string => {
-  if (!date) return "";
-  const timestamp = date as { seconds?: number; toDate?: () => Date };
-  if (timestamp.seconds) {
-    return new Date(timestamp.seconds * 1000).toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  }
-  if (timestamp.toDate && typeof timestamp.toDate === "function") {
-    return timestamp.toDate().toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  }
-  if (date instanceof Date) {
-    return date.toLocaleDateString("pt-BR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  }
-  return "";
-};
-
-const calculateReadTime = (body: string | undefined): number => {
-  if (!body) return 1;
-  const wordsPerMinute = 200;
-  const cleanText = body.replace(/<[^>]*>/g, "");
-  const words = cleanText.split(/\s+/).filter((word) => word.length > 0).length;
-  return Math.max(1, Math.ceil(words / wordsPerMinute));
-};
 
 interface PostData {
   id: string;
@@ -346,7 +312,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
           <div className="flex flex-col w-full">
             {paginatedPosts.map((post) => {
               const readTime = calculateReadTime(post.body);
-              const formattedDate = formatDate(post.createdAt);
+              const formattedDate = formatDateShort(post.createdAt);
 
               return (
                 <div

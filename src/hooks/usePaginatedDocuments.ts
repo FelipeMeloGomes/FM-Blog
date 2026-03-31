@@ -13,9 +13,10 @@ import {
 } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { db } from "../firebase/config";
+import { CONSTANTS } from "../utils/constants";
 import type { DocumentData } from "./types";
 
-export const POSTS_PER_PAGE = 6;
+export const POSTS_PER_PAGE = CONSTANTS.PAGINATION.POSTS_PER_PAGE;
 
 interface UsePaginatedDocumentsResult {
   posts: DocumentData[] | null;

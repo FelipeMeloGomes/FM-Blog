@@ -19,6 +19,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { db } from "../firebase/config";
+import { CONSTANTS } from "../utils/constants";
 
 export interface Comment {
   id: string;
@@ -56,7 +57,7 @@ interface UseCommentsProps {
   userAvatar?: string | null;
 }
 
-const COMMENTS_PER_PAGE = 10;
+const COMMENTS_PER_PAGE = CONSTANTS.PAGINATION.COMMENTS_PER_PAGE;
 
 /**
  * Hook para gerenciar comentários de um post com Firestore.
