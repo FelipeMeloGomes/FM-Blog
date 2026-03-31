@@ -13,7 +13,9 @@ interface CommentItemProps {
   onReply: (parentId: string) => void;
 }
 
-const formatDate = (timestamp: { seconds: number; nanoseconds: number }): string => {
+const formatDate = (timestamp: { seconds: number; nanoseconds: number } | null): string => {
+  if (!timestamp || !timestamp.seconds) return "Agora mesmo";
+
   const date = new Date(timestamp.seconds * 1000);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -48,12 +50,14 @@ const CommentItemComponent = ({
     <div className="flex gap-3">
       <Avatar size="sm" className="flex-shrink-0">
         <AvatarImage src={comment.userAvatar || undefined} />
-        <AvatarFallback>{comment.userName?.charAt(0) || "?"}</AvatarFallback>
+        <AvatarFallback>{comment.userName?.charAt(0) ?? "?"}</AvatarFallback>
       </Avatar>
 
       <div className="flex-1 space-y-1">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-sm text-foreground">{comment.userName}</span>
+          <span className="font-medium text-sm text-foreground">
+            {comment.userName || "Usuário"}
+          </span>
           <span className="text-xs text-muted-foreground">{formatDate(comment.createdAt)}</span>
         </div>
 

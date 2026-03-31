@@ -26,7 +26,7 @@ export interface Comment {
   createdAt: {
     seconds: number;
     nanoseconds: number;
-  };
+  } | null;
   parentId: string | null;
   likes: string[];
   likeCount: number;
