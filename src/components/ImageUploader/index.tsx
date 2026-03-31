@@ -1,3 +1,4 @@
+import imageCompression from "browser-image-compression";
 import { useCallback, useId, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { AddIcon } from "./AddIcon";
@@ -9,6 +10,7 @@ export interface ImageFile {
   file: File | null;
   preview: string;
   isLoading?: boolean;
+  isCompressing?: boolean;
 }
 
 interface ImageUploaderProps {
@@ -25,6 +27,13 @@ interface ImageUploaderProps {
   initialImageUrl?: string;
   className?: string;
 }
+
+const DEFAULT_COMPRESSION_OPTIONS = {
+  maxSizeMB: 1,
+  maxWidthOrHeight: 1920,
+  useWebWorker: true,
+  fileType: "image/webp" as const,
+};
 
 export function ImageUploader({
   name,
@@ -73,7 +82,7 @@ export function ImageUploader({
   );
 
   const processFiles = useCallback(
-    (files: FileList | File[]) => {
+    async (files: FileList | File[]) => {
       setError(null);
       const fileArray = Array.from(files);
 
@@ -102,14 +111,43 @@ export function ImageUploader({
           id: generateId(),
           file,
           preview: URL.createObjectURL(file),
+          isCompressing: true,
         });
       }
 
       const updatedImages = multiple ? [...images, ...newImages] : newImages;
       setImages(updatedImages);
       onImagesChange?.(updatedImages);
+
+      for (const newImage of newImages) {
+        try {
+          const compressedFile = await imageCompression(newImage.file!, {
+            ...DEFAULT_COMPRESSION_OPTIONS,
+            maxSizeMB: maxSizeMB,
+          });
+
+          URL.revokeObjectURL(newImage.preview);
+
+          setImages((prev) =>
+            prev.map((img) =>
+              img.id === newImage.id
+                ? {
+                    ...img,
+                    file: compressedFile,
+                    preview: URL.createObjectURL(compressedFile),
+                    isCompressing: false,
+                  }
+                : img
+            )
+          );
+        } catch {
+          setImages((prev) =>
+            prev.map((img) => (img.id === newImage.id ? { ...img, isCompressing: false } : img))
+          );
+        }
+      }
     },
-    [images, multiple, maxFiles, validateFile, onImagesChange]
+    [images, multiple, maxFiles, validateFile, onImagesChange, maxSizeMB]
   );
 
   const handleDragOver = useCallback(
