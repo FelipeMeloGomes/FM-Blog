@@ -1,4 +1,4 @@
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft, FiSearch } from "react-icons/fi";
 import { Link, useSearchParams } from "react-router-dom";
 import { Pagination } from "../../components/Pagination";
 import { PostCard } from "../../components/PostCard";
@@ -59,12 +59,32 @@ const Search = () => {
       )}
 
       {posts?.length === 0 ? (
-        <div className="flex flex-col gap-6 py-16 items-center">
-          <p className="text-lg text-muted-foreground">Nenhum post encontrado para "{search}"</p>
+        <output
+          className="flex flex-col gap-6 py-16 items-center text-center"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <div className="rounded-full bg-muted p-4">
+            <FiSearch className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <div className="space-y-2">
+            <p className="text-lg font-medium">Nenhum resultado encontrado</p>
+            <p className="text-sm text-muted-foreground">
+              Não encontramos nenhum post para "{search}"
+            </p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">Sugestões:</p>
+            <ul className="text-sm text-muted-foreground list-disc list-inside">
+              <li>Verifique a ortografia das palavras</li>
+              <li>Tente usar termos mais genéricos</li>
+              <li>Use apenas o título do post</li>
+            </ul>
+          </div>
           <Button asChild variant="outline" size="sm">
             <Link to="/">Voltar para home</Link>
           </Button>
-        </div>
+        </output>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

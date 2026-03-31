@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Dialog } from "../../components/Dialog";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -128,7 +129,11 @@ const CreatePostContent = () => {
 
       <h1 className="text-2xl font-bold font-heading text-foreground">Novo post</h1>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6"
+        aria-label="Formulário de criação de post"
+      >
         <div className="space-y-2">
           <Label htmlFor="title" className="text-sm">
             Título do post *
@@ -138,10 +143,19 @@ const CreatePostContent = () => {
             placeholder="Digite o título do seu post"
             {...form.register("title")}
             maxLength={220}
+            aria-describedby={form.formState.errors.title ? "title-error" : undefined}
+            aria-invalid={!!form.formState.errors.title}
           />
           <div className="flex justify-between">
             {form.formState.errors.title ? (
-              <p className="text-xs text-destructive">{form.formState.errors.title.message}</p>
+              <p
+                id="title-error"
+                className="text-xs text-destructive"
+                role="alert"
+                aria-live="polite"
+              >
+                {form.formState.errors.title.message}
+              </p>
             ) : (
               <div />
             )}
@@ -172,9 +186,13 @@ const CreatePostContent = () => {
             minLength={10}
             {...form.register("body")}
             className="min-h-[300px] resize-y"
+            aria-describedby={form.formState.errors.body ? "body-error" : undefined}
+            aria-invalid={!!form.formState.errors.body}
           />
           {form.formState.errors.body && (
-            <p className="text-xs text-destructive">{form.formState.errors.body.message}</p>
+            <p id="body-error" className="text-xs text-destructive" role="alert" aria-live="polite">
+              {form.formState.errors.body.message}
+            </p>
           )}
         </div>
 
@@ -186,9 +204,13 @@ const CreatePostContent = () => {
             id="tagsInput"
             placeholder="react, typescript, firebase"
             {...form.register("tagsInput")}
+            aria-describedby={form.formState.errors.tagsInput ? "tags-error" : undefined}
+            aria-invalid={!!form.formState.errors.tagsInput}
           />
           {form.formState.errors.tagsInput && (
-            <p className="text-xs text-destructive">{form.formState.errors.tagsInput.message}</p>
+            <p id="tags-error" className="text-xs text-destructive" role="alert" aria-live="polite">
+              {form.formState.errors.tagsInput.message}
+            </p>
           )}
           {previewTags.length > 0 && (
             <div className="mt-4">
@@ -217,24 +239,21 @@ const CreatePostContent = () => {
         </div>
       </form>
 
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-background rounded-lg p-6 max-w-md mx-4">
-            <h2 className="text-lg font-semibold mb-2">Sair sem salvar?</h2>
-            <p className="text-muted-foreground mb-4">
-              Você tem alterações não salvas. Tem certeza que deseja sair?
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full">
-                Continuar editando
-              </Button>
-              <Button onClick={() => navigate("/")} className="w-full bg-red-500 hover:bg-red-600">
-                Sair
-              </Button>
-            </div>
-          </div>
+      <Dialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Sair sem salvar?"
+        description="Você tem alterações não salvas. Tem certeza que deseja sair?"
+      >
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full">
+            Continuar editando
+          </Button>
+          <Button onClick={() => navigate("/")} className="w-full bg-red-500 hover:bg-red-600">
+            Sair
+          </Button>
         </div>
-      )}
+      </Dialog>
     </div>
   );
 };

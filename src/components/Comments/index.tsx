@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useComments } from "../../hooks/useComments";
 import { type CommentFormData, commentSchema } from "../../schemas";
 import { CommentItem } from "../CommentItem";
+import { CommentsSkeleton } from "../CommentsSkeleton";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
@@ -88,16 +89,12 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
-      </div>
-    );
+    return <CommentsSkeleton />;
   }
 
   if (error) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
+      <div className="text-center py-8 text-muted-foreground" role="alert" aria-live="polite">
         <p>{error}</p>
       </div>
     );

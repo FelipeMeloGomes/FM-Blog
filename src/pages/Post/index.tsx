@@ -1,6 +1,7 @@
 import { FiArrowLeft, FiEye } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { Comments } from "../../components/Comments";
+import { ImageWithFallback } from "../../components/ImageWithFallback";
 import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
 import { ShareButton } from "../../components/ShareButton";
@@ -94,7 +95,7 @@ const Post = () => {
         </div>
 
         <div className="aspect-video relative">
-          <img
+          <ImageWithFallback
             src={post.image}
             alt={post.title}
             className="w-full h-full object-cover rounded-md"

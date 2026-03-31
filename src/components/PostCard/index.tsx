@@ -1,4 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
+import { ImageWithFallback } from "../ImageWithFallback";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import type { PostCardProps } from "./types";
 
@@ -47,14 +48,11 @@ const PostCard = ({ post }: PostCardProps) => {
       className="block bg-card rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
     >
       <div className="relative h-[200px] overflow-hidden">
-        <img
+        <ImageWithFallback
           src={post.image}
           alt={post.title}
+          fallbackSrc="https://via.placeholder.com/640x360?text=Sem+imagem"
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              "https://via.placeholder.com/640x360?text=Sem+imagem";
-          }}
         />
       </div>
 
