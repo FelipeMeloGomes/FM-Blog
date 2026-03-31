@@ -58,6 +58,25 @@ interface UseCommentsProps {
 
 const COMMENTS_PER_PAGE = 10;
 
+/**
+ * Hook para gerenciar comentários de um post com Firestore.
+ * Fornece funcionalidades de CRUD, likes, replies e paginação em tempo real.
+ *
+ * @param postId - ID do post
+ * @param userId - ID do usuário atual (opcional)
+ * @param userName - Nome do usuário atual (opcional)
+ * @param userAvatar - Avatar do usuário atual (opcional)
+ * @returns Estado e funções para gerenciar comentários
+ *
+ * @example
+ * ```tsx
+ * const { comments, loading, addComment, deleteComment, toggleLike } = useComments({
+ *   postId: "post123",
+ *   userId: user?.uid,
+ *   userName: user?.name
+ * });
+ * ```
+ */
 export const useComments = ({
   postId,
   userId,

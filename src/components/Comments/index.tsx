@@ -5,6 +5,7 @@ import { FiMessageCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useComments } from "../../hooks/useComments";
 import { type CommentFormData, commentSchema } from "../../schemas";
+import { CONSTANTS } from "../../utils/constants";
 import { CommentItem } from "../CommentItem";
 import { CommentsSkeleton } from "../CommentsSkeleton";
 import { Button } from "../ui/button";
@@ -16,8 +17,6 @@ interface CommentsProps {
   userName?: string;
   userAvatar?: string | null;
 }
-
-const MAX_CHARS = 500;
 
 const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
   const [replyTo, setReplyTo] = useState<string | null>(null);
@@ -120,11 +119,14 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
           )}
           <div className="flex justify-between items-center">
             <span className="text-xs text-muted-foreground">
-              {commentContent?.length || 0}/{MAX_CHARS}
+              {commentContent?.length || 0}/{CONSTANTS.VALIDATION.COMMENT_MAX_CHARS}
             </span>
             <Button
               type="submit"
-              disabled={isSubmitting || (commentContent?.length || 0) > MAX_CHARS}
+              disabled={
+                isSubmitting ||
+                (commentContent?.length || 0) > CONSTANTS.VALIDATION.COMMENT_MAX_CHARS
+              }
             >
               {isSubmitting ? "Enviando..." : "Comentar"}
             </Button>
@@ -168,7 +170,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                   )}
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-muted-foreground">
-                      {replyContent?.length || 0}/{MAX_CHARS}
+                      {replyContent?.length || 0}/{CONSTANTS.VALIDATION.COMMENT_MAX_CHARS}
                     </span>
                     <div className="flex gap-2">
                       <Button type="button" variant="ghost" size="sm" onClick={handleCancelReply}>
@@ -177,7 +179,9 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                       <Button
                         type="submit"
                         size="sm"
-                        disabled={(replyContent?.length || 0) > MAX_CHARS}
+                        disabled={
+                          (replyContent?.length || 0) > CONSTANTS.VALIDATION.COMMENT_MAX_CHARS
+                        }
                       >
                         Responder
                       </Button>

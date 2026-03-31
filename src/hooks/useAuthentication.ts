@@ -17,6 +17,20 @@ import { checkRateLimit, clearRateLimit, recordFailedAttempt } from "../utils/se
 import type { AuthenticationResult, AuthenticationState, UserData } from "./types";
 import { useToastNotification } from "./useToastNotification";
 
+/**
+ * Hook para gerenciar autenticação com Firebase.
+ * Fornece funções para login, registro, logout, login com Google e reset de senha.
+ * Inclui rate limiting para prevenir ataques de força bruta.
+ *
+ * @returns Objeto com funções de autenticação e estado atual
+ *
+ * @example
+ * ```tsx
+ * const { login, createUser, logout, user, loading } = useAuthentication();
+ *
+ * await login({ email: "user@example.com", password: "password123" });
+ * ```
+ */
 export const useAuthentication = (): AuthenticationResult => {
   const [state, setState] = useState<AuthenticationState>({
     error: null,

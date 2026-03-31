@@ -3,6 +3,22 @@ import type { UseLikeButtonProps, UseLikeButtonResult } from "./types";
 import { useHandleNotLoggedIn } from "./useHandleNotLoggedIn";
 import { useLike } from "./useLikeResult";
 
+/**
+ * Hook para gerenciar estado de likes de um post.
+ * Gerencia contagem de likes, estado de like do usuário atual e loading state.
+ *
+ * @param postId - ID do post
+ * @param userId - ID do usuário atual (opcional)
+ * @returns Estado e handlers para o botão de like
+ *
+ * @example
+ * ```tsx
+ * const { likeCount, liked, loading, handleLikeClick } = useLikeButton({
+ *   postId: "post123",
+ *   userId: user?.uid
+ * });
+ * ```
+ */
 export const useLikeButton = ({ postId, userId }: UseLikeButtonProps): UseLikeButtonResult => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
