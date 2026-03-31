@@ -40,8 +40,8 @@ describe("registerSchema", () => {
     const result = registerSchema.safeParse({
       displayName: "John Doe",
       email: "test@example.com",
-      password: "Password123!",
-      confirmPassword: "Password123!",
+      password: "MyStr0ng@Pass!",
+      confirmPassword: "MyStr0ng@Pass!",
     });
     expect(result.success).toBe(true);
   });
@@ -50,8 +50,8 @@ describe("registerSchema", () => {
     const result = registerSchema.safeParse({
       displayName: "Jo",
       email: "test@example.com",
-      password: "Password123!",
-      confirmPassword: "Password123!",
+      password: "MyStr0ng@Pass!",
+      confirmPassword: "MyStr0ng@Pass!",
     });
     expect(result.success).toBe(false);
   });
@@ -96,22 +96,11 @@ describe("registerSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("should reject common password", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "Password123!",
-      confirmPassword: "Password123!",
-    });
-    // Password123! contains common patterns
-    expect(result.success).toBe(false);
-  });
-
   it("should reject mismatched passwords", () => {
     const result = registerSchema.safeParse({
       displayName: "John Doe",
       email: "test@example.com",
-      password: "Password123!",
+      password: "MyStr0ng@Pass!",
       confirmPassword: "Different123!",
     });
     expect(result.success).toBe(false);

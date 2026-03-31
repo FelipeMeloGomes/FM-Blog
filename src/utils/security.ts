@@ -1,11 +1,16 @@
 const COMMON_PASSWORDS = [
   "password",
+  "password1",
+  "password1!",
   "123456",
   "12345678",
+  "1234567",
+  "123456789",
+  "1234567890",
   "qwerty",
+  "qwerty123",
   "abc123",
   "monkey",
-  "1234567",
   "letmein",
   "trustno1",
   "dragon",
@@ -22,8 +27,8 @@ const COMMON_PASSWORDS = [
   "qazwsx",
   "michael",
   "football",
-  "password1",
   "password123",
+  "password12",
   "welcome",
   "welcome1",
   "admin",
@@ -32,10 +37,6 @@ const COMMON_PASSWORDS = [
   "hello",
   "charlie",
   "donald",
-  "qwerty123",
-  "123456789",
-  "1234567890",
-  "password12",
   "1234",
   "pass",
   "test",
@@ -69,8 +70,27 @@ export const validatePasswordStrength = (password: string): { valid: boolean; me
     return { valid: false, message: "A senha deve ter pelo menos 8 caracteres" };
   }
 
+  if (isCommonPassword(password)) {
+    return { valid: false, message: "Esta senha é muito comum. Escolha uma senha mais segura" };
+  }
+
   if (!/[A-Z]/.test(password)) {
     return { valid: false, message: "A senha deve conter pelo menos uma letra maiúscula" };
+  }
+
+  if (!/[a-z]/.test(password)) {
+    return { valid: false, message: "A senha deve conter pelo menos uma letra minúscula" };
+  }
+
+  if (!/[0-9]/.test(password)) {
+    return { valid: false, message: "A senha deve conter pelo menos um número" };
+  }
+
+  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+    return {
+      valid: false,
+      message: "A senha deve conter pelo menos um caractere especial (!@#$%^&*...)",
+    };
   }
 
   if (!/[a-z]/.test(password)) {
