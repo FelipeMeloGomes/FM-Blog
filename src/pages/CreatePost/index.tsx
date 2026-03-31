@@ -14,11 +14,12 @@ import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { type CreatePostFormData, createPostSchema } from "../../schemas";
 import { EditorProvider } from "../../utils/EditorContext";
+import { sanitizeTag } from "../../utils/security";
 
 const processTags = (input: string): string[] => {
   return input
     .split(",")
-    .map((tag) => tag.trim().toLowerCase())
+    .map((tag) => sanitizeTag(tag))
     .filter((tag) => tag.length > 0)
     .filter((tag, index, self) => self.indexOf(tag) === index)
     .slice(0, 10)

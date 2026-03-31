@@ -1,9 +1,30 @@
 import { z } from "zod";
+import { isCommonPassword } from "../utils/security";
 
 export const loginSchema = z.object({
   email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
   password: z.string().min(1, "Senha é obrigatória"),
 });
+
+const strongPassword = z
+  .string()
+  .min(1, "Senha é obrigatória")
+  .min(8, "A senha deve ter pelo menos 8 caracteres")
+  .refine((password) => /[A-Z]/.test(password), {
+    message: "A senha deve conter pelo menos uma letra maiúscula",
+  })
+  .refine((password) => /[a-z]/.test(password), {
+    message: "A senha deve conter pelo menos uma letra minúscula",
+  })
+  .refine((password) => /[0-9]/.test(password), {
+    message: "A senha deve conter pelo menos um número",
+  })
+  .refine((password) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password), {
+    message: "A senha deve conter pelo menos um caractere especial (!@#$%^&*...)",
+  })
+  .refine((password) => !isCommonPassword(password), {
+    message: "Esta senha é muito comum. Escolha uma senha mais segura",
+  });
 
 export const registerSchema = z
   .object({
@@ -13,13 +34,7 @@ export const registerSchema = z
       .min(3, "Nome deve ter pelo menos 3 caracteres")
       .max(50, "Nome deve ter no máximo 50 caracteres"),
     email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
-    password: z
-      .string()
-      .min(1, "Senha é obrigatória")
-      .min(
-        8,
-        "A senha é muito fraca. Ela deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula e um número."
-      ),
+    password: strongPassword,
     confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
   })
   .refine((data) => data.password === data.confirmPassword, {

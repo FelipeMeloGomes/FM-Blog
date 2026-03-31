@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { Layout } from "./components/Layout";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { PublicRoute } from "./components/PublicRoute";
@@ -98,12 +99,14 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <ColorModeProvider>
-        <Toaster position="top-right" richColors />
-        <AppContent />
-      </ColorModeProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <ColorModeProvider>
+          <Toaster position="top-right" richColors />
+          <AppContent />
+        </ColorModeProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 };
 

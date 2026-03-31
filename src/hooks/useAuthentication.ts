@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { auth } from "../firebase/config";
 import { errorMessages } from "../utils/ErrorMessage";
+import { checkRateLimit, clearRateLimit, recordFailedAttempt } from "../utils/security";
 import type { AuthenticationResult, AuthenticationState, UserData } from "./types";
 import { useToastNotification } from "./useToastNotification";
 
@@ -43,11 +44,30 @@ export const useAuthentication = (): AuthenticationResult => {
 
   const createUser = async (data: UserData): Promise<void> => {
     checkIfIsCancelled();
+
+    const rateLimit = checkRateLimit(data.email);
+    if (!rateLimit.allowed) {
+      const minutes = Math.ceil(rateLimit.waitSeconds / 60);
+      const errorMessage = `Muitas tentativas de registro. Tente novamente em ${minutes} minuto(s).`;
+      showToast({
+        title: "Erro",
+        description: errorMessage,
+        status: "error",
+      });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+      }));
+      throw new Error(errorMessage);
+    }
+
     setState({ ...state, loading: true });
     try {
       const { user } = await createUserWithEmailAndPassword(auth, data.email, data.password);
       await updateProfile(user, { displayName: data.displayName });
       const token = await getIdToken(user);
+      clearRateLimit(data.email);
       setState({ ...state, user, token });
       showToast({
         title: "Success",
@@ -55,6 +75,7 @@ export const useAuthentication = (): AuthenticationResult => {
         status: "success",
       });
     } catch (error) {
+      recordFailedAttempt(data.email);
       const errorMessage = handleErrorMessage(error as AuthError);
       setState((prevState) => ({
         ...prevState,
@@ -82,10 +103,29 @@ export const useAuthentication = (): AuthenticationResult => {
 
   const login = async (data: Omit<UserData, "displayName">): Promise<void> => {
     checkIfIsCancelled();
+
+    const rateLimit = checkRateLimit(data.email);
+    if (!rateLimit.allowed) {
+      const minutes = Math.ceil(rateLimit.waitSeconds / 60);
+      const errorMessage = `Muitas tentativas de login. Tente novamente em ${minutes} minuto(s).`;
+      showToast({
+        title: "Erro",
+        description: errorMessage,
+        status: "error",
+      });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+      }));
+      throw new Error(errorMessage);
+    }
+
     setState({ ...state, loading: true, error: null });
     try {
       const { user } = await signInWithEmailAndPassword(auth, data.email, data.password);
       const token = await getIdToken(user);
+      clearRateLimit(data.email);
       setState({ ...state, user, token });
       showToast({
         title: "Success",
@@ -94,6 +134,7 @@ export const useAuthentication = (): AuthenticationResult => {
         status: "success",
       });
     } catch (error) {
+      recordFailedAttempt(data.email);
       const errorMessage = handleErrorMessage(error as AuthError);
       showToast({
         title: "Error",
