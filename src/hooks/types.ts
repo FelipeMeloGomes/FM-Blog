@@ -63,40 +63,6 @@ export interface AuthenticationResult {
   token: string | null;
 }
 
-export interface AuthFormValues {
-  displayName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export interface AuthFormHook {
-  formData: AuthFormValues;
-  setFormData: Dispatch<SetStateAction<AuthFormValues>>;
-  passwordVisible: boolean;
-  setPasswordVisible: Dispatch<SetStateAction<boolean>>;
-  passwordVisibleTwo: boolean;
-  setPasswordVisibleTwo: Dispatch<SetStateAction<boolean>>;
-  error: string;
-  setError: Dispatch<SetStateAction<string>>;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>, data?: AuthFormValues) => Promise<void>;
-  handlePasswordReset: (email: string) => Promise<void>;
-  handleGoogleLogin: () => Promise<void>;
-  handleResetPasswordSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-  loading: boolean;
-}
-
-export interface CitySearchHook {
-  city: string;
-  setCity: Dispatch<SetStateAction<string>>;
-  showDetails: boolean;
-  setShowDetails: Dispatch<SetStateAction<boolean>>;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  search: () => Promise<void>;
-}
-
-export type FetchDataFunction = (city: string) => Promise<void>;
-
 export interface DocumentData {
   id?: string;
   title?: string;

@@ -1,7 +1,7 @@
 import { FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { Button } from "../Button";
 import { TextInputWithIcon } from "../TextInputWithIcon";
+import { Button } from "../ui/button";
 import type { PasswordResetFormProps } from "./types";
 
 const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormProps) => (
@@ -17,9 +17,7 @@ const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormPr
       placeholder="Insira seu email"
       alt="Insira seu email"
     />
-    <Button alt="Enviar e-mail de redefinição" disabled={formData.email === ""}>
-      Enviar e-mail de redefinição
-    </Button>
+    <Button disabled={formData.email === ""}>Enviar e-mail de redefinição</Button>
     <div className="mt-4">
       <Link to="/login">
         <Button>Voltar ao login</Button>

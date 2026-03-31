@@ -1,9 +1,9 @@
 import { BiUser } from "react-icons/bi";
 import { PasswordToggle } from "../../utils/PasswordToggle";
-import { Button } from "../Button";
 import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
 import { SignUpPrompt } from "../SignUpPrompt";
 import { TextInputWithIcon } from "../TextInputWithIcon";
+import { Button } from "../ui/button";
 import type { LoginFormFieldsProps } from "./types";
 
 const LoginFormFields = ({
@@ -94,18 +94,12 @@ const LoginFormFields = ({
     {isLogin ? (
       <>
         {!loading && (
-          <Button alt="Entrar" disabled={formData.email === "" || formData.password.length < 6}>
-            Entrar
-          </Button>
+          <Button disabled={formData.email === "" || formData.password.length < 6}>Entrar</Button>
         )}
         {loading && <Button disabled>Aguarde...</Button>}
       </>
     ) : (
-      <Button
-        alt="Cadastrar"
-        disabled={formData.email === "" || formData.password.length < 6}
-        type="submit"
-      >
+      <Button disabled={formData.email === "" || formData.password.length < 6} type="submit">
         Cadastrar
       </Button>
     )}
