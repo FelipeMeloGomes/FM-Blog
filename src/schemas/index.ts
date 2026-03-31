@@ -58,9 +58,17 @@ export const editPostSchema = z.object({
   tagsInput: z.string().min(1, "Tags são obrigatórias"),
 });
 
+export const commentSchema = z.object({
+  content: z
+    .string()
+    .min(1, "Comentário não pode estar vazio")
+    .max(500, "Comentário deve ter no máximo 500 caracteres"),
+});
+
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 export type ProfileFormData = z.infer<typeof profileSchema>;
 export type CreatePostFormData = z.infer<typeof createPostSchema>;
 export type EditPostFormData = z.infer<typeof editPostSchema>;
+export type CommentFormData = z.infer<typeof commentSchema>;

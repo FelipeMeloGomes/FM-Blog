@@ -1,15 +1,19 @@
 import {
+  type DocumentSnapshot,
   addDoc,
   arrayRemove,
   arrayUnion,
   collection,
   deleteDoc,
   doc,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
   runTransaction,
   serverTimestamp,
+  startAfter,
   where,
 } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
@@ -35,11 +39,14 @@ export interface Comment {
 export interface UseCommentsResult {
   comments: Comment[];
   loading: boolean;
+  loadingMore: boolean;
   error: string | null;
+  hasMore: boolean;
   addComment: (content: string, parentId?: string | null) => Promise<void>;
   deleteComment: (commentId: string, userId: string) => Promise<void>;
   toggleLike: (commentId: string, userId: string) => Promise<void>;
   getCommentCount: () => number;
+  loadMore: () => Promise<void>;
 }
 
 interface UseCommentsProps {
@@ -49,6 +56,8 @@ interface UseCommentsProps {
   userAvatar?: string | null;
 }
 
+const COMMENTS_PER_PAGE = 10;
+
 export const useComments = ({
   postId,
   userId,
@@ -57,22 +66,33 @@ export const useComments = ({
 }: UseCommentsProps): UseCommentsResult => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
 
   useEffect(() => {
     if (!postId) return;
 
     const commentsRef = collection(db, "comments");
-    const q = query(commentsRef, where("postId", "==", postId), orderBy("createdAt", "asc"));
+    const q = query(
+      commentsRef,
+      where("postId", "==", postId),
+      orderBy("createdAt", "desc"),
+      limit(COMMENTS_PER_PAGE)
+    );
 
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const commentsData: Comment[] = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+        const commentsData: Comment[] = snapshot.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
         })) as Comment[];
+
         setComments(commentsData);
+        setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
+        setHasMore(snapshot.docs.length === COMMENTS_PER_PAGE);
         setLoading(false);
       },
       (err) => {
@@ -84,6 +104,42 @@ export const useComments = ({
 
     return () => unsubscribe();
   }, [postId]);
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore || !lastDoc) return;
+
+    setLoadingMore(true);
+    try {
+      const commentsRef = collection(db, "comments");
+      const q = query(
+        commentsRef,
+        where("postId", "==", postId),
+        orderBy("createdAt", "desc"),
+        startAfter(lastDoc),
+        limit(COMMENTS_PER_PAGE)
+      );
+
+      const snapshot = await getDocs(q);
+      const newComments: Comment[] = snapshot.docs.map((d) => ({
+        id: d.id,
+        ...d.data(),
+      })) as Comment[];
+
+      setComments((prev) => {
+        const existingIds = new Set(prev.map((c) => c.id));
+        const uniqueNew = newComments.filter((c) => !existingIds.has(c.id));
+        return [...prev, ...uniqueNew];
+      });
+
+      setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
+      setHasMore(snapshot.docs.length === COMMENTS_PER_PAGE);
+    } catch (err) {
+      console.error("Error loading more comments:", err);
+      toast.error("Erro ao carregar mais comentários");
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, hasMore, lastDoc, postId]);
 
   const addComment = useCallback(
     async (content: string, parentId: string | null = null) => {
@@ -180,10 +236,13 @@ export const useComments = ({
   return {
     comments,
     loading,
+    loadingMore,
     error,
+    hasMore,
     addComment,
     deleteComment,
     toggleLike,
     getCommentCount,
+    loadMore,
   };
 };

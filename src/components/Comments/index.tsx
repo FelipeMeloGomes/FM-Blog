@@ -1,8 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FiMessageCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useComments } from "../../hooks/useComments";
-import { CommentItem, ReplyForm } from "../CommentItem";
+import { type CommentFormData, commentSchema } from "../../schemas";
+import { CommentItem } from "../CommentItem";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
@@ -13,49 +16,71 @@ interface CommentsProps {
   userAvatar?: string | null;
 }
 
+const MAX_CHARS = 500;
+
 const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
   const [replyTo, setReplyTo] = useState<string | null>(null);
-  const [replyLoading, setReplyLoading] = useState(false);
-  const [newCommentLoading, setNewCommentLoading] = useState(false);
 
-  const { comments, loading, error, addComment, deleteComment, toggleLike, getCommentCount } =
-    useComments({
-      postId,
-      userId,
-      userName,
-      userAvatar,
-    });
+  const {
+    register: registerReply,
+    handleSubmit: handleSubmitReply,
+    reset: resetReplyForm,
+    watch: watchReply,
+    formState: { errors: replyErrors },
+  } = useForm<CommentFormData>({
+    resolver: zodResolver(commentSchema),
+  });
+
+  const {
+    register: registerComment,
+    handleSubmit: handleSubmitComment,
+    reset: resetCommentForm,
+    watch: watchComment,
+    formState: { errors: commentErrors, isSubmitting },
+  } = useForm<CommentFormData>({
+    resolver: zodResolver(commentSchema),
+  });
+
+  const replyContent = watchReply("content");
+  const commentContent = watchComment("content");
+
+  const {
+    comments,
+    loading,
+    loadingMore,
+    error,
+    hasMore,
+    addComment,
+    deleteComment,
+    toggleLike,
+    getCommentCount,
+    loadMore,
+  } = useComments({
+    postId,
+    userId,
+    userName,
+    userAvatar,
+  });
 
   const mainComments = comments.filter((c) => !c.parentId);
   const replies = comments.filter((c) => c.parentId);
 
-  const handleNewComment = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const content = formData.get("comment-content") as string;
-    if (content.trim()) {
-      setNewCommentLoading(true);
-      await addComment(content);
-      setNewCommentLoading(false);
-      e.currentTarget.reset();
-    }
+  const onSubmitComment = async (data: CommentFormData) => {
+    await addComment(data.content);
+    resetCommentForm();
   };
 
-  const handleReply = (parentId: string) => {
-    setReplyTo(parentId);
-  };
-
-  const handleSubmitReply = async (content: string) => {
+  const onSubmitReply = async (data: CommentFormData) => {
     if (replyTo) {
-      setReplyLoading(true);
-      await addComment(content, replyTo);
-      setReplyLoading(false);
+      await addComment(data.content, replyTo);
+      resetReplyForm();
       setReplyTo(null);
     }
   };
 
   const handleCancelReply = () => {
     setReplyTo(null);
+    resetReplyForm();
   };
 
   const getRepliesForComment = (commentId: string) => {
@@ -86,16 +111,25 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
       </div>
 
       {userId ? (
-        <form onSubmit={handleNewComment} className="space-y-3">
+        <form onSubmit={handleSubmitComment(onSubmitComment)} className="space-y-3">
           <Textarea
-            name="comment-content"
+            {...registerComment("content")}
             placeholder="Escreva um comentário..."
             className="min-h-[100px] resize-none"
-            required
+            autoFocus
           />
-          <div className="flex justify-end">
-            <Button type="submit" disabled={newCommentLoading}>
-              {newCommentLoading ? "Enviando..." : "Comentar"}
+          {commentErrors.content && (
+            <p className="text-sm text-red-500">{commentErrors.content.message}</p>
+          )}
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-muted-foreground">
+              {commentContent?.length || 0}/{MAX_CHARS}
+            </span>
+            <Button
+              type="submit"
+              disabled={isSubmitting || (commentContent?.length || 0) > MAX_CHARS}
+            >
+              {isSubmitting ? "Enviando..." : "Comentar"}
             </Button>
           </div>
         </form>
@@ -122,14 +156,37 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                 currentUserId={userId}
                 onDelete={deleteComment}
                 onLike={toggleLike}
-                onReply={handleReply}
+                onReply={setReplyTo}
               />
               {replyTo === comment.id && (
-                <ReplyForm
-                  onSubmit={handleSubmitReply}
-                  onCancel={handleCancelReply}
-                  loading={replyLoading}
-                />
+                <form onSubmit={handleSubmitReply(onSubmitReply)} className="ml-10 space-y-2">
+                  <Textarea
+                    {...registerReply("content")}
+                    placeholder="Escreva uma resposta..."
+                    className="min-h-[80px] resize-none"
+                    autoFocus
+                  />
+                  {replyErrors.content && (
+                    <p className="text-sm text-red-500">{replyErrors.content.message}</p>
+                  )}
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-muted-foreground">
+                      {replyContent?.length || 0}/{MAX_CHARS}
+                    </span>
+                    <div className="flex gap-2">
+                      <Button type="button" variant="ghost" size="sm" onClick={handleCancelReply}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="submit"
+                        size="sm"
+                        disabled={(replyContent?.length || 0) > MAX_CHARS}
+                      >
+                        Responder
+                      </Button>
+                    </div>
+                  </div>
+                </form>
               )}
               {getRepliesForComment(comment.id).length > 0 && (
                 <div className="ml-10 space-y-3">
@@ -140,13 +197,20 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                       currentUserId={userId}
                       onDelete={deleteComment}
                       onLike={toggleLike}
-                      onReply={handleReply}
+                      onReply={setReplyTo}
                     />
                   ))}
                 </div>
               )}
             </div>
           ))}
+          {hasMore && (
+            <div className="flex justify-center pt-4">
+              <Button variant="outline" onClick={loadMore} disabled={loadingMore}>
+                {loadingMore ? "Carregando..." : "Carregar mais comentários"}
+              </Button>
+            </div>
+          )}
         </div>
       ) : (
         <p className="text-center text-muted-foreground py-4">
