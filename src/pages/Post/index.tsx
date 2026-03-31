@@ -1,5 +1,6 @@
 import { FiArrowLeft, FiEye } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
+import { Comments } from "../../components/Comments";
 import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
 import { ShareButton } from "../../components/ShareButton";
@@ -140,6 +141,13 @@ const Post = () => {
             )}
           </div>
         </div>
+
+        <Comments
+          postId={post.id!}
+          userId={user?.uid}
+          userName={user?.name}
+          userAvatar={user?.photoURL}
+        />
 
         <div className="pt-4">
           <Button asChild variant="ghost" size="sm">
