@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { FiHeart, FiMessageCircle, FiTrash2 } from "react-icons/fi";
-import { toast } from "sonner";
 import type { Comment } from "../../hooks/useComments";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -42,16 +41,9 @@ const CommentItemComponent = ({
   const isLiked = currentUserId && comment.likes?.includes(currentUserId);
 
   const handleDelete = () => {
-    toast("Deletar comentário?", {
-      action: {
-        label: "Deletar",
-        onClick: () => onDelete(comment.id, comment.userId),
-      },
-      cancel: {
-        label: "Cancelar",
-        onClick: () => {},
-      },
-    });
+    if (confirm("Deseja deletar este comentário?")) {
+      onDelete(comment.id, comment.userId);
+    }
   };
 
   return (
