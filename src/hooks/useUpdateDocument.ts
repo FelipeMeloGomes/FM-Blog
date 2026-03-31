@@ -21,6 +21,20 @@ const updateReducer = (state: OperationState, action: UpdateAction): OperationSt
   }
 };
 
+/**
+ * Hook para atualizar um documento existente no Firestore.
+ * Gerencia estados de loading/error com reducer pattern.
+ *
+ * @param docCollection - Nome da coleção
+ * @returns Função updateDocument e estado da operação
+ *
+ * @example
+ * ```tsx
+ * const { updateDocument, response } = useUpdateDocument("posts");
+ *
+ * await updateDocument(postId, { title: "Título Atualizado" });
+ * ```
+ */
 export const useUpdateDocument = (docCollection: string) => {
   const [response, dispatch] = useReducer(updateReducer, initialState);
 

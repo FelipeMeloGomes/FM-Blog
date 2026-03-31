@@ -9,6 +9,21 @@ interface CustomUser extends Omit<FirebaseUser, "photoURL"> {
   photoURL?: string | null;
 }
 
+/**
+ * Hook para obter o estado de autenticação do usuário atual.
+ * Fornece o usuário logado com loading state para evitar flash de conteúdo.
+ *
+ * @returns Objeto com usuário e estado de loading
+ *
+ * @example
+ * ```tsx
+ * const { user, loading } = useAuthState();
+ *
+ * if (loading) return <Skeleton />;
+ * if (!user) return <LoginForm />;
+ * return <Dashboard user={user} />;
+ * ```
+ */
 export const useAuthState = (): { user: CustomUser | null; loading: boolean } => {
   const { auth } = useAuthentication();
   const [user, setUser] = useState<CustomUser | null>(null);

@@ -16,6 +16,26 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
 import type { DocumentData, FetchDocumentsResult } from "./types";
 
+/**
+ * Hook para buscar documentos do Firestore em tempo real (onSnapshot).
+ * Suporta busca por tags, filtro por usuário e paginação.
+ *
+ * @param docCollection - Nome da coleção
+ * @param search - Termo de busca por tags (opcional)
+ * @param uid - Filtrar por ID do usuário (opcional)
+ * @param limitCount - Limite de documentos (default: 5)
+ * @returns Lista de documentos, loading, error e função loadMore
+ *
+ * @example
+ * ```tsx
+ * const { documents, loading, loadMoreDocuments } = useFetchDocuments(
+ *   "posts",
+ *   search,
+ *   userId,
+ *   10
+ * );
+ * ```
+ */
 export const useFetchDocuments = (
   docCollection: string,
   search: string | null = null,

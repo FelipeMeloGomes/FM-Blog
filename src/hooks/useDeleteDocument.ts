@@ -22,6 +22,20 @@ const deleteReducer = (state: OperationState, action: DeleteAction): OperationSt
   }
 };
 
+/**
+ * Hook para deletar um documento do Firestore.
+ * Mostra toast de sucesso/erro automaticamente.
+ *
+ * @param docCollection - Nome da coleção
+ * @returns Função deleteDocument, loading e error state
+ *
+ * @example
+ * ```tsx
+ * const { deleteDocument, loading } = useDeleteDocument("posts");
+ *
+ * await deleteDocument(postId);
+ * ```
+ */
 export const useDeleteDocument = (docCollection: string) => {
   const [{ loading, error }, dispatch] = useReducer(deleteReducer, initialState);
 

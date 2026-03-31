@@ -21,6 +21,29 @@ const insertReducer = (state: OperationState, action: InsertAction): OperationSt
   }
 };
 
+/**
+ * Hook para inserir um novo documento na coleção do Firestore.
+ * Gerencia estados de loading/error com reducer pattern.
+ *
+ * @param docCollection - Nome da coleção
+ * @returns Função insertDocument e estado da operação
+ *
+ * @example
+ * ```tsx
+ * const { insertDocument, response } = useInsertDocument("posts");
+ *
+ * await insertDocument({
+ *   title: "Novo Post",
+ *   image: "url",
+ *   body: "conteúdo",
+ *   tagsArray: ["react"],
+ *   uid: user.uid,
+ *   createdBy: user.name,
+ *   likeCount: 0,
+ *   likes: [],
+ * });
+ * ```
+ */
 export const useInsertDocument = (docCollection: string) => {
   const [response, dispatch] = useReducer(insertReducer, initialState);
 

@@ -4,6 +4,17 @@ import { useEffect } from "react";
 import { db } from "../firebase/config";
 import { hasViewedPost, markPostAsViewed } from "../utils/security";
 
+/**
+ * Hook para incrementar visualizações de posts.
+ * tracking baseado em sessão para evitar contagens duplicadas.
+ *
+ * @param postId - ID do post a ser rastreado
+ *
+ * @example
+ * ```tsx
+ * usePostViews(post.id);
+ * ```
+ */
 export const usePostViews = (postId: string | undefined) => {
   const queryClient = useQueryClient();
 

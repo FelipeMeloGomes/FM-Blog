@@ -1,5 +1,21 @@
 import { useCallback, useState } from "react";
 
+/**
+ * Hook para persistir dados no localStorage com tipagem TypeScript.
+ * Safe para SSR e lida com erros de parse/set.
+ *
+ * @param key - Chave do localStorage
+ * @param initialValue - Valor inicial padrão
+ * @returns [valor, setValor, removeValor]
+ *
+ * @example
+ * ```tsx
+ * const [theme, setTheme, clearTheme] = useLocalStorage<"light" | "dark">("theme", "light");
+ *
+ * setTheme("dark");
+ * clearTheme(); // Reseta para "light"
+ * ```
+ */
 export function useLocalStorage<T>(
   key: string,
   initialValue: T

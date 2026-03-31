@@ -10,6 +10,20 @@ import { useCallback, useState } from "react";
 import { db } from "../firebase/config";
 import type { UseLikeResult } from "./types";
 
+/**
+ * Hook para gerenciar likes de posts no Firestore.
+ * Usa transactions para evitar race conditions.
+ *
+ * @returns Funções likePost e getLikeInfo
+ *
+ * @example
+ * ```tsx
+ * const { likePost, getLikeInfo, error } = useLike();
+ *
+ * await likePost(postId, userId);
+ * const { isLiked, likeCount } = await getLikeInfo(postId, userId);
+ * ```
+ */
 export const useLike = (): UseLikeResult => {
   const [error, setError] = useState<string | null>(null);
 
