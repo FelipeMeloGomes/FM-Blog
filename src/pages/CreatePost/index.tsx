@@ -210,8 +210,8 @@ const CreatePostContent = () => {
           <Button type="button" variant="ghost" onClick={handleCancel}>
             Cancelar
           </Button>
-          <Button type="submit" disabled={isSubmitting || response.loading}>
-            {isSubmitting || response.loading ? "Publicando..." : "Publicar"}
+          <Button type="submit" disabled={isSubmitting || !!response.loading}>
+            {isSubmitting || !!response.loading ? "Publicando..." : "Publicar"}
           </Button>
         </div>
       </form>

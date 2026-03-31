@@ -100,6 +100,7 @@ export type FetchDataFunction = (city: string) => Promise<void>;
 export interface DocumentData {
   id?: string;
   title?: string;
+  titleLower?: string;
   content?: string;
   body?: string | TrustedHTML;
   description?: string;
@@ -110,6 +111,8 @@ export interface DocumentData {
   createdAt?: unknown;
   likes?: string[];
   likeCount?: number;
+  views?: number;
+  photoURL?: string;
 }
 
 export interface User {

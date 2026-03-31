@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
 import { FaEye as EyeIcon, FaEyeSlash as SlashIcon } from "react-icons/fa";
 import { FiLock } from "react-icons/fi";
-import { Button } from "../Button";
-import { Input } from "../Input";
-import { Label } from "../Label";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import type { PasswordInputProps } from "./types";
 
 const PasswordInputWithToggle = forwardRef<HTMLInputElement, PasswordInputProps>(

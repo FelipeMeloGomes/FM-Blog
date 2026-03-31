@@ -1,5 +1,5 @@
 import { FaGoogle } from "react-icons/fa";
-import { Button } from "../Button";
+import { Button } from "../ui/button";
 import type { AuthButtonsProps } from "./types";
 
 const AuthButtons = ({ handleGoogleLogin, loading }: AuthButtonsProps) => {

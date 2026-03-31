@@ -1,4 +1,4 @@
-import type { Post } from "../../components/PostDetail/types";
+import type { Post } from "../../utils/ShareContent/types";
 
 export interface Props {
   posts?: Post[];

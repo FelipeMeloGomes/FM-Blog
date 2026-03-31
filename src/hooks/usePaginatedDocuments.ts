@@ -141,7 +141,7 @@ export const usePaginatedDocuments = (
           const searchLower = search.toLowerCase();
           docs = docs.filter((doc: DocumentData) => {
             const title = (doc.title as string)?.toLowerCase() || "";
-            const titleLower = (doc.titleLower as string)?.toLowerCase() || title;
+            const titleLower = ((doc.titleLower || doc.title) as string)?.toLowerCase() || title;
             return titleLower.includes(searchLower);
           });
         }

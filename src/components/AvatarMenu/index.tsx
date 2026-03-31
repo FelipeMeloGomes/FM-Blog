@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface AvatarMenuProps {
-  user: { displayName?: string | null; email?: string | null; photoURL?: string | null };
+  user?: { displayName?: string | null; email?: string | null; photoURL?: string | null } | null;
   logout: () => void;
 }
 

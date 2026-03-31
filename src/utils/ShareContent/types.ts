@@ -12,6 +12,8 @@ export interface Post {
   description?: string;
   createdAt?: Timestamp | null | undefined;
   tagsArray: string[];
+  photoURL?: string;
+  views?: number;
 }
 
 export interface ShareData {

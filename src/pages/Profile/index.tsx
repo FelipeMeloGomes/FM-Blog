@@ -122,7 +122,7 @@ const Profile = () => {
           {photoPreview && (
             <Button
               variant="ghost"
-              size="xs"
+              size="sm"
               className="ml-2 text-red-500"
               onClick={handleRemovePhoto}
             >

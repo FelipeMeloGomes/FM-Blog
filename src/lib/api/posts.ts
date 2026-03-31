@@ -1,25 +1,31 @@
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import type { Post } from "../../utils/ShareContent/types";
 
 const POSTS_PER_PAGE = 6;
 
-export const fetchPosts = async (limitCount = POSTS_PER_PAGE) => {
+type PostWithId = Post & { id: string };
+
+export const fetchPosts = async (limitCount = POSTS_PER_PAGE): Promise<PostWithId[]> => {
   const postsRef = collection(db, "posts");
   const q = query(postsRef, orderBy("createdAt", "desc"), limit(limitCount));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as PostWithId);
 };
 
-export const fetchPost = async (id: string) => {
+export const fetchPost = async (id: string): Promise<PostWithId> => {
   const docRef = doc(db, "posts", id);
   const snapshot = await getDoc(docRef);
   if (!snapshot.exists()) {
     throw new Error("Post not found");
   }
-  return { id: snapshot.id, ...snapshot.data() };
+  return { id: snapshot.id, ...snapshot.data() } as PostWithId;
 };
 
-export const fetchPostsByTag = async (tag: string, limitCount = POSTS_PER_PAGE) => {
+export const fetchPostsByTag = async (
+  tag: string,
+  limitCount = POSTS_PER_PAGE
+): Promise<PostWithId[]> => {
   const postsRef = collection(db, "posts");
   const q = query(
     postsRef,
@@ -27,10 +33,13 @@ export const fetchPostsByTag = async (tag: string, limitCount = POSTS_PER_PAGE) 
     limit(limitCount)
   );
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as PostWithId);
 };
 
-export const fetchUserPosts = async (uid: string, limitCount = POSTS_PER_PAGE) => {
+export const fetchUserPosts = async (
+  uid: string,
+  limitCount = POSTS_PER_PAGE
+): Promise<PostWithId[]> => {
   const postsRef = collection(db, "posts");
   const q = query(
     postsRef,
@@ -39,5 +48,5 @@ export const fetchUserPosts = async (uid: string, limitCount = POSTS_PER_PAGE) =
     limit(limitCount)
   );
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as PostWithId);
 };

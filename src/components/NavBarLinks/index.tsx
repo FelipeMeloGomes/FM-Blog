@@ -9,7 +9,7 @@ const NavBarLinks = ({ user, logout }: NavBarProps) => {
       <NavButton text="Home" to="/" />
       {user === null && guestButtons.map((button) => <NavButton key={button.text} {...button} />)}
       {user !== null && userButtons.map((button) => <NavButton key={button.text} {...button} />)}
-      {user !== null && <AvatarMenu user={user || null} logout={logout} />}
+      {user !== null && <AvatarMenu user={user} logout={logout} />}
     </div>
   );
 };

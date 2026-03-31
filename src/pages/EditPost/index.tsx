@@ -224,8 +224,8 @@ const EditPostContent = () => {
           <Button type="button" variant="ghost" onClick={() => navigate("/")}>
             Cancelar
           </Button>
-          <Button type="submit" disabled={isSubmitting || response.loading}>
-            {isSubmitting || response.loading ? "Salvando..." : "Salvar"}
+          <Button type="submit" disabled={isSubmitting || !!response.loading}>
+            {isSubmitting || !!response.loading ? "Salvando..." : "Salvar"}
           </Button>
         </div>
       </form>

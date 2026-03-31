@@ -1,4 +1,4 @@
-# �️ FM-Blog - Blog de Tecnologia
+# 🚀 FM-Blog - Blog de Tecnologia
 
 > Blog moderno de tecnologia desenvolvido com React, focado em performance, qualidade de código e melhores práticas de desenvolvimento.
 
@@ -38,7 +38,7 @@ FM-Blog é um blog completo de tecnologia desenvolvido para demonstrar habilidad
 | -------------- | ------ | ------------------------------ |
 | **React**     | 18.x   | Biblioteca de UI               |
 | **TypeScript** | 5.x    | Tipagem estática               |
-| **Vite**       | 4.x    | Build tool e dev server        |
+| **Vite**      | 5.x    | Build tool e dev server        |
 
 ### Estilização & UI
 
@@ -62,7 +62,7 @@ FM-Blog é um blog completo de tecnologia desenvolvido para demonstrar habilidad
 | ------------------ | ------------------------------ |
 | **Biome**          | Linting e formatação de código |
 | **Vite**           | Build e desenvolvimento        |
-| **Vercel**         | Deploy e preview deployments  |
+| **Vercel**         | Deploy e preview deployments   |
 
 ### Outras Bibliotecas
 
@@ -85,13 +85,29 @@ FM-Blog é um blog completo de tecnologia desenvolvido para demonstrar habilidad
 - Editor rich text (TipTap) para criação de posts
 - Sistema de tags
 - Imagem de capa com upload para Cloudinary
+- Contador de visualizações (views)
+- Tempo de leitura estimado
+
+### 💬 Sistema de Comentários
+
+- Criar comentários em posts
+- Respostas em threads
+- Likes em comentários
+- Tempo real (onSnapshot do Firebase)
+- Paginação com "Carregar mais"
+- Validação com React Hook Form + Zod
+- Contador de caracteres (máx. 500)
+- Auto focus no textarea
+- Toast de confirmação para delete
+- Empty states e loading skeletons
 
 ### 🔐 Sistema de Autenticação
 
 - Login/cadastro com email e senha
 - Login com Google
 - Recuperação de senha
-- Rotas protegidas
+- Rotas protegidas (PrivateRoute)
+- Redirecionamento para logados (PublicRoute)
 
 ### 👤 Perfil do Usuário
 
@@ -106,6 +122,7 @@ FM-Blog é um blog completo de tecnologia desenvolvido para demonstrar habilidad
 - Ordenação (recentes, antigos, mais curtidos)
 - Sistema de delete com confirmação
 - Edição de posts existentes
+- Visualização de views e likes por post
 
 ### 🔍 Sistema de Busca
 
@@ -122,6 +139,13 @@ FM-Blog é um blog completo de tecnologia desenvolvido para demonstrar habilidad
 - Empty states
 - Animações com Framer Motion
 - Página 404 personalizada
+
+### 🔒 Segurança
+
+- Regras de Firestore para proteção de dados
+- Validação server-side
+- Upload unsigned (sem permissões extras)
+- Headers COOP para popup do Google
 
 ---
 
@@ -180,15 +204,12 @@ pnpm dev
 
 ### Comandos Disponíveis
 
-| Comando          | Descrição                           |
-| ---------------- | ----------------------------------- |
-| `pnpm dev`       | Iniciar servidor de desenvolvimento |
-| `pnpm build`     | Build de produção                   |
-| `pnpm preview`   | Iniciar servidor de produção        |
-| `pnpm lint`      | Verificar lint                      |
-| `pnpm lint:fix`  | Corrigir problemas de lint          |
-| `pnpm format`    | Formatar código                     |
-| `pnpm check`     | Verificar lint, types e formato     |
+| Comando         | Descrição                            |
+| -------------- | ------------------------------------ |
+| `pnpm dev`     | Iniciar servidor de desenvolvimento  |
+| `pnpm build`   | Build de produção                    |
+| `pnpm preview` | Iniciar servidor de produção         |
+| `pnpm lint`    | Verificar lint                       |
 
 ---
 
@@ -199,18 +220,21 @@ FM-Blog/
 ├── src/
 │   ├── components/           # Componentes React
 │   │   ├── ui/              # Componentes shadcn/ui
+│   │   ├── Comments/         # Sistema de comentários
+│   │   ├── CommentItem/     # Item de comentário
 │   │   └── ...
 │   ├── contexts/            # Contextos React
 │   ├── hooks/               # Hooks customizados
+│   │   ├── useComments.ts  # Hook de comentários
+│   │   └── ...
 │   ├── lib/                 # Utilitários e clientes
 │   │   └── hooks/          # Queries do TanStack Query
 │   ├── pages/               # Páginas da aplicação
-│   ├── providers/           # Providers React
 │   ├── schemas/             # Schemas de validação Zod
 │   ├── utils/               # Utilitários
 │   └── firebase/            # Configuração Firebase
 ├── public/                   # Arquivos estáticos
-├── .env.example             # Exemplo de variáveis de ambiente
+├── firestore.rules          # Regras de segurança do Firestore
 ├── vercel.json              # Configuração Vercel
 └── ...
 ```
@@ -219,8 +243,10 @@ FM-Blog/
 
 - **`src/components/`** - Componentes React reutilizáveis
 - **`src/components/ui/`** - Componentes shadcn/ui base (Button, Input, Avatar, etc.)
+- **`src/components/Comments/`** - Container de comentários com paginação
+- **`src/components/CommentItem/`** - Item individual de comentário
 - **`src/contexts/`** - Contextos React (Auth, ColorMode)
-- **`src/hooks/`** - Hooks customizados (useAuth, useDelete, etc.)
+- **`src/hooks/`** - Hooks customizados (useAuth, useDelete, useComments, etc.)
 - **`src/lib/`** - Utilitários, clientes e configurações
 - **`src/pages/`** - Páginas da aplicação
 - **`src/schemas/`** - Schemas de validação Zod
