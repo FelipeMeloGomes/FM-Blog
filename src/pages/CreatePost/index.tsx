@@ -90,6 +90,12 @@ const CreatePostContent = () => {
       return;
     }
 
+    const hasHeading = /<h[1-3][^>]*>/i.test(content);
+    if (!hasHeading) {
+      toast.error("O conteúdo deve ter pelo menos um título (H1, H2 ou H3).");
+      return;
+    }
+
     if (previewTags.length === 0) {
       toast.error("Tags são obrigatórias.");
       return;
