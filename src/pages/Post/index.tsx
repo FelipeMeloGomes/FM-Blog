@@ -23,6 +23,7 @@ const Post = () => {
 
   usePostViews(id, user?.uid);
   const viewCount = useViewCount(id);
+  const { isSaved, toggleSave } = useSavedPosts();
 
   if (isLoading) {
     return (
@@ -96,6 +97,14 @@ const Post = () => {
           <div className="flex gap-2">
             <LikeButton postId={post.id!} userId={user?.uid || ""} />
             <ShareButton post={post as PostType} onShare={handleShare} />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => toggleSave(post.id!)}
+              className={isSaved(post.id!) ? "text-primary" : ""}
+            >
+              <FiBookmark className={`h-4 w-4 ${isSaved(post.id!) ? "fill-current" : ""}`} />
+            </Button>
             <span className="flex items-center gap-1 text-sm text-muted-foreground">
               <FiEye className="h-4 w-4" />
               {viewCount}
