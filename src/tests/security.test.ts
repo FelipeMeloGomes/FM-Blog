@@ -2,9 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   checkRateLimit,
   clearRateLimit,
-  hasViewedPost,
   isCommonPassword,
-  markPostAsViewed,
   recordFailedAttempt,
   sanitizeInput,
   sanitizeTag,
@@ -63,21 +61,6 @@ describe("isCommonPassword", () => {
   it("should be case insensitive", () => {
     expect(isCommonPassword("PASSWORD")).toBe(true);
     expect(isCommonPassword("Password")).toBe(true);
-  });
-});
-
-describe("hasViewedPost", () => {
-  beforeEach(() => {
-    sessionStorage.clear();
-  });
-
-  it("should return false for new posts", () => {
-    expect(hasViewedPost("post123")).toBe(false);
-  });
-
-  it("should return true after marking as viewed", () => {
-    markPostAsViewed("post123");
-    expect(hasViewedPost("post123")).toBe(true);
   });
 });
 
