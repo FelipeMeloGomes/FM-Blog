@@ -1,4 +1,4 @@
-import { FiArrowLeft, FiEye } from "react-icons/fi";
+import { FiArrowLeft, FiBookmark, FiEye } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { Comments } from "../../components/Comments";
 import { ImageWithFallback } from "../../components/ImageWithFallback";
@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
 import { usePostViews } from "../../hooks/usePostViews";
+import { useSavedPosts } from "../../hooks/useSavedPosts";
 import { useViewCount } from "../../hooks/useViewCount";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { handleShare } from "../../utils/ShareContent";
