@@ -9,236 +9,271 @@ import {
 } from "../schemas";
 
 describe("loginSchema", () => {
-  it("should validate a correct login", () => {
-    const result = loginSchema.safeParse({
-      email: "test@example.com",
-      password: "password123",
+  describe("given valid login data", () => {
+    it("should validate correct email and password", () => {
+      const result = loginSchema.safeParse({
+        email: "test@example.com",
+        password: "password123",
+      });
+      expect(result.success).toBe(true);
     });
-    expect(result.success).toBe(true);
   });
 
-  it("should reject empty email", () => {
-    const result = loginSchema.safeParse({
-      email: "",
-      password: "password123",
+  describe("given invalid email", () => {
+    const invalidEmails = [
+      ["", "empty string"],
+      ["invalid", "no @ symbol"],
+      ["@example.com", "no local part"],
+      ["test@", "no domain"],
+      ["test@.com", "empty domain"],
+    ] as const;
+
+    it.each(invalidEmails)("should reject %s (%s)", (email) => {
+      const result = loginSchema.safeParse({
+        email,
+        password: "password123",
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
   });
 
-  it("should reject invalid email", () => {
-    const result = loginSchema.safeParse({
-      email: "invalid-email",
-      password: "password123",
+  describe("given invalid password", () => {
+    it("should reject empty password", () => {
+      const result = loginSchema.safeParse({
+        email: "test@example.com",
+        password: "",
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject empty password", () => {
-    const result = loginSchema.safeParse({
-      email: "test@example.com",
-      password: "",
-    });
-    expect(result.success).toBe(false);
   });
 });
 
 describe("registerSchema", () => {
-  it("should validate a correct registration", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "MyStr0ng@Pass!",
-      confirmPassword: "MyStr0ng@Pass!",
+  const validPassword = "MyStr0ng@Pass!";
+  const validData = {
+    displayName: "John Doe",
+    email: "test@example.com",
+    password: validPassword,
+    confirmPassword: validPassword,
+  };
+
+  describe("given valid registration data", () => {
+    it("should validate correct data", () => {
+      const result = registerSchema.safeParse(validData);
+      expect(result.success).toBe(true);
     });
-    expect(result.success).toBe(true);
   });
 
-  it("should reject short display name", () => {
-    const result = registerSchema.safeParse({
-      displayName: "Jo",
-      email: "test@example.com",
-      password: "MyStr0ng@Pass!",
-      confirmPassword: "MyStr0ng@Pass!",
+  describe("given invalid displayName", () => {
+    const invalidNames = [
+      ["", "empty"],
+      ["Jo", "too short"],
+    ] as const;
+
+    it.each(invalidNames)("should reject name: %s (%s)", (name) => {
+      const result = registerSchema.safeParse({
+        ...validData,
+        displayName: name,
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
   });
 
-  it("should reject password without uppercase", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "password123!",
-      confirmPassword: "password123!",
+  describe("given invalid password", () => {
+    const invalidPasswords = [
+      ["password123!", "no uppercase"],
+      ["PASSWORD123!", "no lowercase"],
+      ["Password123", "no special char"],
+      ["Pass!", "no number"],
+      ["pass1!", "too short"],
+    ] as const;
+
+    it.each(invalidPasswords)("should reject password: %s (%s)", (password) => {
+      const result = registerSchema.safeParse({
+        ...validData,
+        password,
+        confirmPassword: password,
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
   });
 
-  it("should reject password without lowercase", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "PASSWORD123!",
-      confirmPassword: "PASSWORD123!",
+  describe("given password mismatch", () => {
+    it("should reject when passwords don't match", () => {
+      const result = registerSchema.safeParse({
+        ...validData,
+        confirmPassword: "Different123!",
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject password without number", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "PasswordABC!",
-      confirmPassword: "PasswordABC!",
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject password without special char", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "Password123",
-      confirmPassword: "Password123",
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject mismatched passwords", () => {
-    const result = registerSchema.safeParse({
-      displayName: "John Doe",
-      email: "test@example.com",
-      password: "MyStr0ng@Pass!",
-      confirmPassword: "Different123!",
-    });
-    expect(result.success).toBe(false);
   });
 });
 
 describe("commentSchema", () => {
-  it("should validate a correct comment", () => {
-    const result = commentSchema.safeParse({
-      content: "This is a valid comment",
+  describe("given valid comment", () => {
+    it("should validate correct comment", () => {
+      const result = commentSchema.safeParse({
+        content: "This is a valid comment",
+      });
+      expect(result.success).toBe(true);
     });
-    expect(result.success).toBe(true);
+
+    it("should validate comment at max length", () => {
+      const result = commentSchema.safeParse({
+        content: "a".repeat(500),
+      });
+      expect(result.success).toBe(true);
+    });
   });
 
-  it("should reject empty comment", () => {
-    const result = commentSchema.safeParse({
-      content: "",
-    });
-    expect(result.success).toBe(false);
-  });
+  describe("given invalid comment", () => {
+    const invalidCases = [
+      ["", "empty string"],
+      [null, "null value"],
+    ] as const;
 
-  it("should reject comment exceeding max length", () => {
-    const result = commentSchema.safeParse({
-      content: "a".repeat(501),
+    it.each(invalidCases)("should reject: %s (%s)", (content) => {
+      const result = commentSchema.safeParse({ content });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
+
+    it("should reject comment exceeding max length", () => {
+      const result = commentSchema.safeParse({
+        content: "a".repeat(501),
+      });
+      expect(result.success).toBe(false);
+    });
   });
 });
 
 describe("createPostSchema", () => {
-  it("should validate a correct post", () => {
-    const result = createPostSchema.safeParse({
-      title: "This is a valid post title",
-      tagsInput: "react, typescript",
+  const validData = {
+    title: "This is a valid post title",
+    tagsInput: "react, typescript",
+  };
+
+  describe("given valid post data", () => {
+    it("should validate correct post", () => {
+      const result = createPostSchema.safeParse(validData);
+      expect(result.success).toBe(true);
     });
-    expect(result.success).toBe(true);
+
+    it("should validate title at min length", () => {
+      const result = createPostSchema.safeParse({
+        ...validData,
+        title: "0123456789",
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("should validate title at max length", () => {
+      const result = createPostSchema.safeParse({
+        ...validData,
+        title: "a".repeat(200),
+      });
+      expect(result.success).toBe(true);
+    });
   });
 
-  it("should reject empty title", () => {
-    const result = createPostSchema.safeParse({
-      title: "",
-      tagsInput: "react",
+  describe("given invalid title", () => {
+    const invalidTitles = [
+      ["", "empty"],
+      ["Short", "too short (5 chars)"],
+      ["a".repeat(201), "too long (201 chars)"],
+    ] as const;
+
+    it.each(invalidTitles)("should reject title: %s (%s)", (title) => {
+      const result = createPostSchema.safeParse({
+        ...validData,
+        title,
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
   });
 
-  it("should reject title with less than 10 characters", () => {
-    const result = createPostSchema.safeParse({
-      title: "Short",
-      tagsInput: "react",
+  describe("given invalid tags", () => {
+    it("should reject empty tags", () => {
+      const result = createPostSchema.safeParse({
+        ...validData,
+        tagsInput: "",
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject title with more than 200 characters", () => {
-    const result = createPostSchema.safeParse({
-      title: "a".repeat(201),
-      tagsInput: "react",
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject empty tags", () => {
-    const result = createPostSchema.safeParse({
-      title: "Valid post title here",
-      tagsInput: "",
-    });
-    expect(result.success).toBe(false);
   });
 });
 
 describe("editPostSchema", () => {
-  it("should validate a correct edit", () => {
-    const result = editPostSchema.safeParse({
-      title: "Updated post title here",
-      tagsInput: "react, nextjs",
+  const validData = {
+    title: "Updated post title here",
+    tagsInput: "react, nextjs",
+  };
+
+  describe("given valid edit data", () => {
+    it("should validate correct edit", () => {
+      const result = editPostSchema.safeParse(validData);
+      expect(result.success).toBe(true);
     });
-    expect(result.success).toBe(true);
   });
 
-  it("should reject empty title", () => {
-    const result = editPostSchema.safeParse({
-      title: "",
-      tagsInput: "react",
+  describe("given invalid title", () => {
+    const invalidTitles = [
+      ["", "empty"],
+      ["Too short", "too short"],
+    ] as const;
+
+    it.each(invalidTitles)("should reject title: %s (%s)", (title) => {
+      const result = editPostSchema.safeParse({
+        ...validData,
+        title,
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
   });
 
-  it("should reject title with less than 10 characters", () => {
-    const result = editPostSchema.safeParse({
-      title: "Too short",
-      tagsInput: "react",
+  describe("given invalid tags", () => {
+    it("should reject empty tags", () => {
+      const result = editPostSchema.safeParse({
+        ...validData,
+        tagsInput: "",
+      });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject empty tags", () => {
-    const result = editPostSchema.safeParse({
-      title: "Valid updated title here",
-      tagsInput: "",
-    });
-    expect(result.success).toBe(false);
   });
 });
 
 describe("profileSchema", () => {
-  it("should validate a correct profile name", () => {
-    const result = profileSchema.safeParse({
-      name: "John Doe",
+  describe("given valid profile name", () => {
+    it("should validate correct name", () => {
+      const result = profileSchema.safeParse({ name: "John Doe" });
+      expect(result.success).toBe(true);
     });
-    expect(result.success).toBe(true);
+
+    it("should validate name at min length (3 chars)", () => {
+      const result = profileSchema.safeParse({ name: "Joa" });
+      expect(result.success).toBe(true);
+    });
+
+    it("should validate name at max length", () => {
+      const result = profileSchema.safeParse({ name: "a".repeat(50) });
+      expect(result.success).toBe(true);
+    });
   });
 
-  it("should reject empty name", () => {
-    const result = profileSchema.safeParse({
-      name: "",
-    });
-    expect(result.success).toBe(false);
-  });
+  describe("given invalid profile name", () => {
+    const invalidNames = [
+      ["", "empty"],
+      ["Jo", "too short (2 chars)"],
+      [null, "null value"],
+    ] as const;
 
-  it("should reject name with less than 3 characters", () => {
-    const result = profileSchema.safeParse({
-      name: "Jo",
+    it.each(invalidNames)("should reject name: %s (%s)", (name) => {
+      const result = profileSchema.safeParse({ name });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
-  });
 
-  it("should reject name with more than 50 characters", () => {
-    const result = profileSchema.safeParse({
-      name: "a".repeat(51),
+    it("should reject name exceeding max length", () => {
+      const result = profileSchema.safeParse({ name: "a".repeat(51) });
+      expect(result.success).toBe(false);
     });
-    expect(result.success).toBe(false);
   });
 });

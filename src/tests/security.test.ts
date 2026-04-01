@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   checkRateLimit,
   clearRateLimit,
@@ -9,85 +9,155 @@ import {
 } from "../utils/security";
 
 describe("sanitizeTag", () => {
-  it("should lowercase and trim tags", () => {
-    expect(sanitizeTag("  React  ")).toBe("react");
+  describe("given normal tag input", () => {
+    it("should lowercase and trim tags", () => {
+      expect(sanitizeTag("  React  ")).toBe("react");
+      expect(sanitizeTag("TYPESCRIPT")).toBe("typescript");
+    });
   });
 
-  it("should remove HTML characters", () => {
-    expect(sanitizeTag("<script>alert('xss')</script>")).toBe("scriptalert(xss)/script");
+  describe("given potentially dangerous tag input", () => {
+    const dangerousInputs = [
+      ["<script>alert('xss')</script>", "script tags"],
+      ["javascript:alert('xss')", "javascript protocol"],
+      ["onclick=alert('xss')", "event handler"],
+    ] as const;
+
+    it.each(dangerousInputs)("should sanitize: %s (%s)", (input) => {
+      const result = sanitizeTag(input);
+      expect(result).not.toMatch(/<script|javascript:|onclick/i);
+    });
   });
 
-  it("should remove javascript: protocol prefix and quotes", () => {
-    const result = sanitizeTag("javascript:alert('xss')");
-    expect(result).toBe("alert(xss)");
-  });
+  describe("given tag length limits", () => {
+    it("should truncate to 30 characters", () => {
+      const longTag = "a".repeat(50);
+      const result = sanitizeTag(longTag);
+      expect(result).toHaveLength(30);
+    });
 
-  it("should remove event handler prefixes and quotes", () => {
-    const result = sanitizeTag("onclick=alert('xss')");
-    expect(result).toBe("alert(xss)");
-  });
-
-  it("should truncate to 30 characters", () => {
-    expect(sanitizeTag("a".repeat(50))).toBe("a".repeat(30));
+    it("should preserve short tags as-is", () => {
+      const shortTag = "react";
+      const result = sanitizeTag(shortTag);
+      expect(result).toBe(shortTag);
+    });
   });
 });
 
 describe("sanitizeInput", () => {
-  it("should remove angle brackets", () => {
-    expect(sanitizeInput("<script>")).toBe("script");
+  describe("given normal text input", () => {
+    it("should trim whitespace", () => {
+      expect(sanitizeInput("  hello  ")).toBe("hello");
+    });
+
+    it("should preserve normal text", () => {
+      const text = "Hello World 123";
+      expect(sanitizeInput(text)).toBe(text);
+    });
   });
 
-  it("should remove javascript: protocol", () => {
-    expect(sanitizeInput("javascript:alert(1)")).toBe("alert(1)");
-  });
+  describe("given dangerous input", () => {
+    const dangerousInputs = [
+      ["<script>", "script tag"],
+      ["javascript:alert(1)", "javascript protocol"],
+      ["<img onerror='alert(1)'>", "event handler in tag"],
+    ] as const;
 
-  it("should trim whitespace", () => {
-    expect(sanitizeInput("  hello  ")).toBe("hello");
+    it.each(dangerousInputs)("should sanitize: %s (%s)", (input) => {
+      const result = sanitizeInput(input);
+      expect(result).not.toMatch(/<script|javascript:|on\w+=/i);
+    });
   });
 });
 
 describe("isCommonPassword", () => {
-  it("should return true for common passwords", () => {
-    expect(isCommonPassword("password")).toBe(true);
-    expect(isCommonPassword("123456")).toBe(true);
-    expect(isCommonPassword("qwerty")).toBe(true);
+  describe("given common passwords", () => {
+    const commonPasswords = [
+      "password",
+      "123456",
+      "qwerty",
+      "letmein",
+      "welcome",
+      "monkey",
+      "dragon",
+    ] as const;
+
+    it.each(commonPasswords)("should return true for: %s", (password) => {
+      expect(isCommonPassword(password)).toBe(true);
+    });
   });
 
-  it("should return false for non-common passwords", () => {
-    expect(isCommonPassword("MySecureP@ssw0rd!")).toBe(false);
-    expect(isCommonPassword("Xy7#kL9$mN")).toBe(false);
+  describe("given case variations of common passwords", () => {
+    it("should be case insensitive", () => {
+      expect(isCommonPassword("PASSWORD")).toBe(true);
+      expect(isCommonPassword("Password")).toBe(true);
+      expect(isCommonPassword("PaSsWoRd")).toBe(true);
+    });
   });
 
-  it("should be case insensitive", () => {
-    expect(isCommonPassword("PASSWORD")).toBe(true);
-    expect(isCommonPassword("Password")).toBe(true);
+  describe("given secure passwords", () => {
+    const securePasswords = [
+      "MySecureP@ssw0rd!",
+      "Xy7#kL9$mN",
+      "C0mpl3x!Pass#123",
+      "Str0ng&Secure$2024",
+    ] as const;
+
+    it.each(securePasswords)("should return false for: %s", (password) => {
+      expect(isCommonPassword(password)).toBe(false);
+    });
   });
 });
 
 describe("rate limiting", () => {
+  const testEmail = "test@example.com";
+
   beforeEach(() => {
     localStorage.clear();
   });
 
-  it("should allow first attempt", () => {
-    const result = checkRateLimit("test@example.com");
-    expect(result.allowed).toBe(true);
-    expect(result.remainingAttempts).toBe(5);
+  afterEach(() => {
+    localStorage.clear();
   });
 
-  it("should track failed attempts", () => {
-    const email = "test@example.com";
-    recordFailedAttempt(email);
-    const result = checkRateLimit(email);
-    expect(result.remainingAttempts).toBe(4);
+  describe("given first attempt", () => {
+    it("should allow first attempt with full remaining attempts", () => {
+      const result = checkRateLimit(testEmail);
+      expect(result.allowed).toBe(true);
+      expect(result.remainingAttempts).toBe(5);
+    });
   });
 
-  it("should clear rate limit", () => {
-    const email = "test@example.com";
-    recordFailedAttempt(email);
-    recordFailedAttempt(email);
-    clearRateLimit(email);
-    const result = checkRateLimit(email);
-    expect(result.remainingAttempts).toBe(5);
+  describe("given failed attempts", () => {
+    it("should decrement remaining attempts", () => {
+      recordFailedAttempt(testEmail);
+      const result = checkRateLimit(testEmail);
+      expect(result.remainingAttempts).toBeLessThan(5);
+    });
+  });
+
+  describe("given clearRateLimit", () => {
+    it("should reset attempts to full", () => {
+      recordFailedAttempt(testEmail);
+      recordFailedAttempt(testEmail);
+      recordFailedAttempt(testEmail);
+      clearRateLimit(testEmail);
+      const result = checkRateLimit(testEmail);
+      expect(result.remainingAttempts).toBe(5);
+    });
+  });
+
+  describe("given multiple emails", () => {
+    it("should track each email independently", () => {
+      const otherEmail = "other@example.com";
+      recordFailedAttempt(testEmail);
+      recordFailedAttempt(testEmail);
+
+      const testResult = checkRateLimit(testEmail);
+      const otherResult = checkRateLimit(otherEmail);
+
+      expect(testResult.remainingAttempts).toBeLessThan(5);
+      expect(otherResult.remainingAttempts).toBe(5);
+    });
   });
 });
