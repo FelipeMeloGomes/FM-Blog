@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiUser } from "react-icons/fi";
+import { FiBookmark, FiFileText, FiInfo, FiLogOut, FiUser } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -45,22 +45,25 @@ const AvatarMenu = ({ logout, user }: AvatarMenuProps) => {
               <RouterLink
                 to="/dashboard"
                 onClick={() => setIsOpen(false)}
-                className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary transition-colors"
               >
+                <FiFileText size={16} />
                 Meus Posts
               </RouterLink>
               <RouterLink
                 to="/saved"
                 onClick={() => setIsOpen(false)}
-                className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary transition-colors"
               >
+                <FiBookmark size={16} />
                 Posts Salvos
               </RouterLink>
               <RouterLink
                 to="/about"
                 onClick={() => setIsOpen(false)}
-                className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary transition-colors"
               >
+                <FiInfo size={16} />
                 Sobre
               </RouterLink>
               <hr className="my-1" />
@@ -70,8 +73,9 @@ const AvatarMenu = ({ logout, user }: AvatarMenuProps) => {
                   logout();
                   setIsOpen(false);
                 }}
-                className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
               >
+                <FiLogOut size={16} />
                 Sair
               </button>
             </div>
