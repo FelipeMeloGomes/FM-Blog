@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import tocbot from "tocbot";
 import "tocbot/dist/tocbot.css";
 
@@ -7,69 +7,58 @@ interface TableOfContentsProps {
 }
 
 const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsProps) => {
-  const [items, setItems] = useState<Array<{ id: string; text: string; level: number }>>([]);
-  const [mounted, setMounted] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const initialized = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
+    setIsReady(true);
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!isReady || initialized.current) return;
 
-    const timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {
+    const initTocbot = () => {
+      const content = document.querySelector(targetSelector);
+      if (!content) {
+        setTimeout(initTocbot, 100);
+        return;
+      }
+
+      const headings = content.querySelectorAll("h2, h3");
+      if (headings.length === 0) {
+        return;
+      }
+
       tocbot.destroy();
-
       tocbot.init({
         tocSelector: "#toc-list",
         contentSelector: targetSelector,
         headingSelector: "h2, h3",
-        hasInnerContainers: true,
+        hasInnerContainers: false,
         orderedList: false,
         scrollSmooth: true,
         scrollSmoothDuration: 300,
         scrollSmoothOffset: -100,
         headingsOffset: 100,
-        onClick: (e) => {
-          e.preventDefault();
-          const href = (e.target as HTMLElement).getAttribute("href");
-          if (href) {
-            const id = href.replace("#", "");
-            const element = document.getElementById(id);
-            if (element) {
-              const top = element.getBoundingClientRect().top + window.pageYOffset - 100;
-              window.scrollTo({ top, behavior: "smooth" });
-            }
-          }
-        },
       });
 
-      const tocElement = document.querySelector("#toc-list");
-      if (tocElement) {
-        const links = tocElement.querySelectorAll("a");
-        const newItems: Array<{ id: string; text: string; level: number }> = [];
+      initialized.current = true;
+    };
 
-        for (const link of links) {
-          const href = link.getAttribute("href") || "";
-          const id = href.replace("#", "");
-          const text = link.textContent || "";
-          const level = link.closest("ol")?.closest("li")?.closest("ol") ? 3 : 2;
-          newItems.push({ id, text, level });
-        }
-
-        setItems(newItems);
-      }
-    }, 200);
+    const timeoutId = setTimeout(initTocbot, 500);
 
     return () => {
       clearTimeout(timeoutId);
       tocbot.destroy();
     };
-  }, [targetSelector, mounted]);
+  }, [isReady, targetSelector]);
 
-  if (!mounted || items.length === 0) {
-    return null;
-  }
+  useEffect(() => {
+    return () => {
+      tocbot.destroy();
+      initialized.current = false;
+    };
+  }, []);
 
   return (
     <div className="hidden xl:block">
