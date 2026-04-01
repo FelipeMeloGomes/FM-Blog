@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getCountFromServer, getDocs, query, where } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { db } from "../firebase/config";
 
@@ -38,15 +38,25 @@ export const useMetrics = (userId?: string | null): UseMetricsResult => {
 
       const totalPosts = postsSnapshot.size;
 
-      let totalViews = 0;
       let totalLikes = 0;
       const postIds: string[] = [];
 
       for (const doc of postsSnapshot.docs) {
         const data = doc.data();
-        totalViews += data.views || 0;
-        totalLikes += data.likes?.length || 0;
+        totalLikes += data.likeCount || 0;
         postIds.push(doc.id);
+      }
+
+      let totalViews = 0;
+      if (postIds.length > 0) {
+        const viewsRef = collection(db, "postViews");
+        const viewsPromises = postIds.slice(0, 10).map(async (postId) => {
+          const viewsQuery = query(viewsRef, where("postId", "==", postId));
+          const snapshot = await getCountFromServer(viewsQuery);
+          return snapshot.data().count;
+        });
+        const viewsCounts = await Promise.all(viewsPromises);
+        totalViews = viewsCounts.reduce((sum, count) => sum + count, 0);
       }
 
       let totalComments = 0;
