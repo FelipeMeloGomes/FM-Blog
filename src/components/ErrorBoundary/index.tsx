@@ -1,10 +1,11 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
 interface State {
@@ -24,6 +25,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("ErrorBoundary caught an error:", error, errorInfo);
+    this.props.onError?.(error, errorInfo);
   }
 
   private handleReset = () => {
@@ -37,7 +39,7 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-background px-4">
+        <div className="min-h-[50vh] flex items-center justify-center bg-background px-4">
           <div className="max-w-md w-full text-center space-y-6">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold text-foreground">Oops!</h1>
@@ -72,3 +74,50 @@ class ErrorBoundary extends Component<Props, State> {
 }
 
 export default ErrorBoundary;
+
+export const withErrorBoundary = <P extends object>(
+  Component: React.ComponentType<P>,
+  fallback?: ReactNode
+) => {
+  return function WrappedComponent(props: P) {
+    return (
+      <ErrorBoundary fallback={fallback}>
+        <Component {...props} />
+      </ErrorBoundary>
+    );
+  };
+};
+
+export const RouteErrorFallback = () => (
+  <div className="min-h-[50vh] flex items-center justify-center bg-background px-4">
+    <div className="max-w-md w-full text-center space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-foreground">Página indisponível</h2>
+        <p className="text-muted-foreground">
+          Esta página encontrou um erro e não pode ser exibida.
+        </p>
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <Button asChild variant="outline">
+          <Link to="/">Voltar ao início</Link>
+        </Button>
+      </div>
+    </div>
+  </div>
+);
+
+export const ComponentErrorFallback = ({
+  onRetry,
+}: {
+  onRetry?: () => void;
+}) => (
+  <div className="p-4 border border-destructive/20 rounded-lg bg-destructive/5 text-center">
+    <p className="text-sm text-muted-foreground mb-3">Este componente não pôde ser carregado.</p>
+    {onRetry && (
+      <Button size="sm" variant="outline" onClick={onRetry}>
+        Tentar novamente
+      </Button>
+    )}
+  </div>
+);
