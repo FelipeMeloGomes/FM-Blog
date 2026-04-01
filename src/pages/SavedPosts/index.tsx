@@ -130,24 +130,20 @@ const SavedPosts = () => {
       </div>
 
       {savedPosts.length > 0 && (
-        <div className="relative max-w-md">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Buscar nos posts salvos..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className="w-full h-10 pl-10 pr-10 rounded-md border border-input bg-background text-sm"
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={clearSearch}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              ×
-            </button>
-          )}
+        <div className="max-w-[600px] mx-auto w-full">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FiSearch className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar por título ou tag..."
+              aria-label="Buscar posts salvos"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="flex h-12 w-full rounded-md border border-input bg-background px-3 pl-12 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </div>
         </div>
       )}
 
