@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import tocbot from "tocbot";
-import "tocbot/dist/tocbot.css";
 
 interface TableOfContentsProps {
   targetSelector?: string;
@@ -16,43 +14,37 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      tocbot.destroy();
+    const extractHeadings = () => {
+      const content = document.querySelector(targetSelector);
+      if (!content) return;
 
-      tocbot.init({
-        tocSelector: "#toc-target",
-        contentSelector: targetSelector,
-        headingSelector: "h1, h2, h3",
-        hasInnerContainers: true,
-        orderedList: false,
-        scrollSmooth: true,
-        scrollSmoothDuration: 300,
-        scrollSmoothOffset: -80,
-        headingsOffset: 80,
-      });
+      const headings = content.querySelectorAll("h1, h2, h3");
+      const items: TocItem[] = [];
 
-      const tocElement = document.querySelector("#toc-target");
-      if (tocElement) {
-        const links = tocElement.querySelectorAll("a");
-        const items: TocItem[] = [];
+      for (const heading of headings) {
+        const level = Number.parseInt(heading.tagName.charAt(1), 10);
+        const text = heading.textContent || "";
 
-        for (const link of links) {
-          const href = link.getAttribute("href") || "";
-          const id = href.replace("#", "");
-          const text = link.textContent || "";
-          const isH1 = link.closest("ol")?.closest("ol")?.previousElementSibling?.tagName === "H1";
-          const level = isH1 ? 1 : 2;
-          items.push({ id, text, level });
+        if (!heading.id) {
+          const id =
+            text
+              .toLowerCase()
+              .trim()
+              .replace(/\s+/g, "-")
+              .replace(/[^\w-]+/g, "")
+              .replace(/--+/g, "-")
+              .replace(/^-+/, "")
+              .replace(/-+$/, "") || `heading-${items.length}`;
+          heading.id = id;
         }
 
-        setTocItems(items);
+        items.push({ id: heading.id, text, level });
       }
-    }, 300);
 
-    return () => {
-      clearTimeout(timeoutId);
-      tocbot.destroy();
+      setTocItems(items);
     };
+
+    extractHeadings();
   }, [targetSelector]);
 
   const scrollToHeading = (id: string) => {
@@ -72,12 +64,11 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
     <div className="hidden xl:block">
       <div className="sticky top-24 p-4 bg-secondary/50 rounded-lg">
         <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Índice</h3>
-        <div id="toc-target" className="hidden" />
         <ul className="space-y-1">
-          {tocItems.map((item, index) => (
+          {tocItems.map((item) => (
             <li
-              key={`${item.id}-${index}`}
-              style={{ paddingLeft: item.level === 1 ? "0" : "12px" }}
+              key={item.id}
+              style={{ paddingLeft: item.level === 1 ? "0" : item.level === 2 ? "12px" : "24px" }}
             >
               <button
                 type="button"
