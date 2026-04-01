@@ -21,6 +21,7 @@ const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
     { text: "Novo Post", to: "/posts/create", show: !!user },
     { text: "Meu Perfil", to: "/profile", show: !!user },
     { text: "Meus Posts", to: "/dashboard", show: !!user },
+    { text: "Posts Salvos", to: "/saved", show: !!user },
     { text: "Sobre", to: "/about", show: true },
   ];
 
@@ -46,11 +47,10 @@ const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
                     key={item.text}
                     to={item.to}
                     onClick={() => setIsOpen(false)}
-                    className={`py-2 px-4 rounded-md font-medium transition-colors ${
-                      isActive
+                    className={`py-2 px-4 rounded-md font-medium transition-colors ${isActive
                         ? "text-foreground"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     {item.text}
                   </RouterLink>
