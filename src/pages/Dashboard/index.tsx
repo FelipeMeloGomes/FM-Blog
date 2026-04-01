@@ -115,7 +115,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const navigate = useNavigate();
   const { user } = useAuthValue() || {};
   const uid = user?.uid;
-  const { data: posts, isLoading } = useUserPosts(uid);
+  const { data: posts, isLoading } = useUserPosts(uid, 100);
   const { metrics, loading: metricsLoading } = useMetrics(uid);
   const { deleteDocument } = useDeleteDocument("posts");
 
