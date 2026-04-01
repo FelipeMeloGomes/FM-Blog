@@ -1,71 +1,73 @@
 import { useEffect, useState } from "react";
+import tocbot from "tocbot";
+import "tocbot/dist/tocbot.css";
 
 interface TableOfContentsProps {
   targetSelector?: string;
 }
 
-interface TocItem {
-  id: string;
-  text: string;
-  level: number;
-}
-
 const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsProps) => {
-  const [tocItems, setTocItems] = useState<TocItem[]>([]);
+  const [items, setItems] = useState<Array<{ id: string; text: string; level: number }>>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const extractHeadings = () => {
-      const content = document.querySelector(targetSelector);
-      if (!content) return;
+    setMounted(true);
+  }, []);
 
-      const headings = content.querySelectorAll("h1, h2, h3");
-      const items: TocItem[] = [];
-      const usedIds = new Set<string>();
+  useEffect(() => {
+    if (!mounted) return;
 
-      for (let i = 0; i < headings.length; i++) {
-        const heading = headings[i];
-        const level = Number.parseInt(heading.tagName.charAt(1), 10);
-        const text = heading.textContent || "";
+    const timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {
+      tocbot.destroy();
 
-        let id = heading.id;
-        if (!id) {
-          id =
-            text
-              .toLowerCase()
-              .trim()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]+/g, "")
-              .replace(/--+/g, "-")
-              .replace(/^-+/, "")
-              .replace(/-+$/, "") || `heading-${i}`;
-          heading.id = id;
+      tocbot.init({
+        tocSelector: "#toc-list",
+        contentSelector: targetSelector,
+        headingSelector: "h2, h3",
+        hasInnerContainers: true,
+        orderedList: false,
+        scrollSmooth: true,
+        scrollSmoothDuration: 300,
+        scrollSmoothOffset: -100,
+        headingsOffset: 100,
+        onClick: (e) => {
+          e.preventDefault();
+          const href = (e.target as HTMLElement).getAttribute("href");
+          if (href) {
+            const id = href.replace("#", "");
+            const element = document.getElementById(id);
+            if (element) {
+              const top = element.getBoundingClientRect().top + window.pageYOffset - 100;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          }
+        },
+      });
+
+      const tocElement = document.querySelector("#toc-list");
+      if (tocElement) {
+        const links = tocElement.querySelectorAll("a");
+        const newItems: Array<{ id: string; text: string; level: number }> = [];
+
+        for (const link of links) {
+          const href = link.getAttribute("href") || "";
+          const id = href.replace("#", "");
+          const text = link.textContent || "";
+          const level = link.closest("ol")?.closest("li")?.closest("ol") ? 3 : 2;
+          newItems.push({ id, text, level });
         }
 
-        if (usedIds.has(id)) {
-          id = `${id}-${i}`;
-          heading.id = id;
-        }
-        usedIds.add(id);
-
-        items.push({ id, text, level });
+        setItems(newItems);
       }
+    }, 200);
 
-      setTocItems(items);
+    return () => {
+      clearTimeout(timeoutId);
+      tocbot.destroy();
     };
+  }, [targetSelector, mounted]);
 
-    extractHeadings();
-  }, [targetSelector]);
-
-  const scrollToHeading = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const yOffset = -100;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
-  if (tocItems.length === 0) {
+  if (!mounted || items.length === 0) {
     return null;
   }
 
@@ -73,22 +75,7 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
     <div className="hidden xl:block">
       <div className="sticky top-24 p-4 bg-secondary/50 rounded-lg">
         <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Índice</h3>
-        <ul className="space-y-1">
-          {tocItems.map((item, index) => (
-            <li
-              key={`${item.id}-${index}`}
-              style={{ paddingLeft: item.level === 1 ? "0" : item.level === 2 ? "12px" : "24px" }}
-            >
-              <button
-                type="button"
-                onClick={() => scrollToHeading(item.id)}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left"
-              >
-                {item.text}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div id="toc-list" />
       </div>
     </div>
   );
