@@ -173,6 +173,10 @@ const CreatePostContent = () => {
           multiple={false}
           maxFiles={1}
           maxSizeMB={5}
+          minWidth={640}
+          minHeight={360}
+          maxWidth={3840}
+          maxHeight={2160}
           onImagesChange={(images) => setCoverImage(images[0] ?? null)}
         />
 

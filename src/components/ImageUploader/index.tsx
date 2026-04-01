@@ -23,6 +23,10 @@ interface ImageUploaderProps {
   maxFiles?: number;
   maxSizeMB?: number;
   acceptedFormats?: string[];
+  minWidth?: number;
+  minHeight?: number;
+  maxWidth?: number;
+  maxHeight?: number;
   onImagesChange?: (images: ImageFile[]) => void;
   initialImageUrl?: string;
   className?: string;
@@ -45,6 +49,10 @@ export function ImageUploader({
   maxFiles = 10,
   maxSizeMB = 5,
   acceptedFormats = ["image/jpeg", "image/png", "image/gif", "image/webp"],
+  minWidth,
+  minHeight,
+  maxWidth = 4000,
+  maxHeight = 4000,
   onImagesChange,
   initialImageUrl,
   className,
@@ -68,17 +76,56 @@ export function ImageUploader({
 
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
+  const getImageDimensions = (file: File): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve({ width: img.naturalWidth, height: img.naturalHeight });
+        URL.revokeObjectURL(img.src);
+      };
+      img.onerror = () => {
+        reject(new Error("Falha ao carregar imagem"));
+        URL.revokeObjectURL(img.src);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   const validateFile = useCallback(
-    (file: File): string | null => {
+    async (file: File): Promise<string | null> => {
       if (!acceptedFormats.includes(file.type)) {
         return `Formato não suportado. Use: ${acceptedFormats.map((f) => f.split("/")[1]?.toUpperCase()).join(", ")}`;
       }
+
       if (file.size > maxSizeMB * 1024 * 1024) {
         return `Arquivo muito grande. Máximo: ${maxSizeMB}MB`;
       }
+
+      try {
+        const { width, height } = await getImageDimensions(file);
+
+        if (minWidth && width < minWidth) {
+          return `Largura mínima: ${minWidth}px (imagem atual: ${width}px)`;
+        }
+
+        if (minHeight && height < minHeight) {
+          return `Altura mínima: ${minHeight}px (imagem atual: ${height}px)`;
+        }
+
+        if (width > maxWidth) {
+          return `Largura máxima: ${maxWidth}px (imagem atual: ${width}px)`;
+        }
+
+        if (height > maxHeight) {
+          return `Altura máxima: ${maxHeight}px (imagem atual: ${height}px)`;
+        }
+      } catch {
+        return "Não foi possível validar as dimensões da imagem";
+      }
+
       return null;
     },
-    [acceptedFormats, maxSizeMB]
+    [acceptedFormats, maxSizeMB, minWidth, minHeight, maxWidth, maxHeight]
   );
 
   const processFiles = useCallback(
@@ -101,7 +148,7 @@ export function ImageUploader({
       const newImages: ImageFile[] = [];
 
       for (const file of fileArray) {
-        const validationError = validateFile(file);
+        const validationError = await validateFile(file);
         if (validationError) {
           setError(validationError);
           return;

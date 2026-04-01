@@ -1,5 +1,6 @@
-import { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Toaster } from "sonner";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Layout } from "./components/Layout";
@@ -8,6 +9,7 @@ import { PublicRoute } from "./components/PublicRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { ColorModeProvider } from "./contexts/ColorModeContext";
 import { useAuthState } from "./hooks/useAuthState";
+import { initSessionActivity } from "./utils/session";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -28,72 +30,92 @@ const PageLoader = () => (
   </div>
 );
 
+const SessionTimeoutHandler = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
+  const { user } = useAuthState();
+
+  useEffect(() => {
+    if (!user) return;
+
+    const cleanup = initSessionActivity(() => {
+      toast.error("Sessão expirada. Faça login novamente.");
+      navigate("/login");
+    });
+
+    return cleanup;
+  }, [user, navigate]);
+
+  return <>{children}</>;
+};
+
 const AppContent = () => {
   const { user } = useAuthState();
 
   return (
-    <AuthProvider value={{ user }}>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="about" element={<About />} />
-            <Route
-              path="posts/create"
-              element={
-                <PrivateRoute>
-                  <CreatePost />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="posts/edit/:id"
-              element={
-                <PrivateRoute>
-                  <EditPost />
-                </PrivateRoute>
-              }
-            />
-            <Route path="posts/:id" element={<Post />} />
-            <Route
-              path="dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard createdBy={user?.email || ""} />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="profile"
-              element={
-                <PrivateRoute>
-                  <Profile />
-                </PrivateRoute>
-              }
-            />
-            <Route path="search" element={<Search />} />
-            <Route
-              path="login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="register"
-              element={
-                <PublicRoute>
-                  <Register />
-                </PublicRoute>
-              }
-            />
-            <Route path="resetPassword" element={<ResetPassword />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </AuthProvider>
+    <SessionTimeoutHandler>
+      <AuthProvider value={{ user }}>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route
+                path="posts/create"
+                element={
+                  <PrivateRoute>
+                    <CreatePost />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="posts/edit/:id"
+                element={
+                  <PrivateRoute>
+                    <EditPost />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="posts/:id" element={<Post />} />
+              <Route
+                path="dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard createdBy={user?.email || ""} />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="search" element={<Search />} />
+              <Route
+                path="login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
+              <Route path="resetPassword" element={<ResetPassword />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </AuthProvider>
+    </SessionTimeoutHandler>
   );
 };
 
