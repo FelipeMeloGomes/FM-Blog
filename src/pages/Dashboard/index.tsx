@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { FiEdit } from "react-icons/fi";
+import { FiBarChart, FiEdit, FiEye, FiHeart, FiMessageCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { EmptyState } from "../../components/EmptyState";
+import { MetricCard } from "../../components/MetricCard";
 import { Pagination } from "../../components/Pagination";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -10,6 +11,7 @@ import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useMetrics } from "../../hooks/useMetrics";
 import { useUserPosts } from "../../lib/hooks/usePostsQuery";
 import { calculateReadTime, formatDateShort } from "../../utils/date";
 
@@ -113,6 +115,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const { user } = useAuthValue() || {};
   const uid = user?.uid;
   const { data: posts, isLoading } = useUserPosts(uid);
+  const { metrics, loading: metricsLoading } = useMetrics(uid);
   const { deleteDocument } = useDeleteDocument("posts");
 
   const [searchQuery, setSearchQuery] = useLocalStorage("dashboard-search", "");
@@ -247,6 +250,24 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
 
   return (
     <div className="flex flex-col gap-8 w-full">
+      {metrics && !metricsLoading && (
+        <div className="flex flex-col sm:flex-row gap-4">
+          <MetricCard title="Posts" value={metrics.totalPosts} icon={FiBarChart} />
+          <MetricCard title="Visualizações" value={metrics.totalViews} icon={FiEye} />
+          <MetricCard title="Curtidas" value={metrics.totalLikes} icon={FiHeart} />
+          <MetricCard title="Comentários" value={metrics.totalComments} icon={FiMessageCircle} />
+        </div>
+      )}
+
+      {metricsLoading && (
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Skeleton className="h-[100px] flex-1" />
+          <Skeleton className="h-[100px] flex-1" />
+          <Skeleton className="h-[100px] flex-1" />
+          <Skeleton className="h-[100px] flex-1" />
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
         <div className="flex flex-col gap-1 min-w-0">
           <h1 className="text-2xl font-bold font-heading text-foreground">Meus posts</h1>
