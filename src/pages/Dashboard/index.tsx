@@ -102,8 +102,8 @@ interface PostData {
   createdAt?: unknown;
   createdBy: string;
   image: string;
-  likes: string[];
-  likeCount: number;
+  likes?: string[];
+  likeCount?: number;
   photoURL: string;
   tagsArray: string[];
   uid: string;
@@ -155,7 +155,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
           return dateAOld - dateBOld;
         }
         case "mostLiked":
-          return (b.likes?.length || 0) - (a.likes?.length || 0);
+          return (b.likeCount || 0) - (a.likeCount || 0);
         case "titleAsc":
           return a.title.localeCompare(b.title);
         case "titleDesc":
@@ -366,7 +366,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
                       👁 {post.views || 0}
                     </span>
                     <span className="text-sm text-muted-foreground whitespace-nowrap">
-                      ♥ {post.likes?.length || 0}
+                      ♥ {post.likeCount || 0}
                     </span>
                     <MenuDropdown
                       postId={post.id}
