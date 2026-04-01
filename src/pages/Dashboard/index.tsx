@@ -12,6 +12,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useMetrics } from "../../hooks/useMetrics";
+import { usePostsViews } from "../../hooks/usePostsViews";
 import { useUserPosts } from "../../lib/hooks/usePostsQuery";
 import { calculateReadTime, formatDateShort } from "../../utils/date";
 
@@ -129,6 +130,9 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const postsArray = useMemo(() => {
     return (posts || []) as PostData[];
   }, [posts]);
+
+  const postIds = useMemo(() => postsArray.map((p) => p.id), [postsArray]);
+  const { viewsMap } = usePostsViews(postIds);
 
   const filteredPosts = useMemo(() => {
     let result = [...postsArray];
@@ -363,7 +367,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
 
                   <div className="flex gap-2 flex-shrink-0 items-center">
                     <span className="text-sm text-muted-foreground whitespace-nowrap">
-                      👁 {post.views || 0}
+                      👁 {viewsMap[post.id] || 0}
                     </span>
                     <span className="text-sm text-muted-foreground whitespace-nowrap">
                       ♥ {post.likeCount || 0}
