@@ -22,6 +22,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Profile = lazy(() => import("./pages/Profile"));
+const SavedPosts = lazy(() => import("./pages/SavedPosts"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const PageLoader = () => (
@@ -89,6 +90,14 @@ const AppContent = () => {
                 element={
                   <PrivateRoute>
                     <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="saved"
+                element={
+                  <PrivateRoute>
+                    <SavedPosts />
                   </PrivateRoute>
                 }
               />
