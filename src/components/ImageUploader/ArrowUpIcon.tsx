@@ -1,22 +1,21 @@
 export function ArrowUpIcon({ className }: { className?: string }) {
   return (
-    <svg
+     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
       role="img"
-      aria-label="Arrow up icon"
+      aria-label="Enviar imagem"
     >
       <title>Enviar imagem</title>
-      <path d="M12 17v-8" />
-      <path d="M9 10.59V6h6v4.59" />
-      <path d="M15 10.59 19 6.5V14" />
-      <path d="m19 8.5-4 4" />
+      <rect x="2" y="2" width="20" height="20" rx="4" strokeWidth="1.2" strokeDasharray="2.5 2" />
+      <line x1="12" y1="15" x2="12" y2="7" />
+      <polyline points="8,11 12,7 16,11" />
     </svg>
   );
 }
