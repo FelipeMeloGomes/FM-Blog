@@ -20,13 +20,16 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
 
       const headings = content.querySelectorAll("h1, h2, h3");
       const items: TocItem[] = [];
+      const usedIds = new Set<string>();
 
-      for (const heading of headings) {
+      for (let i = 0; i < headings.length; i++) {
+        const heading = headings[i];
         const level = Number.parseInt(heading.tagName.charAt(1), 10);
         const text = heading.textContent || "";
 
-        if (!heading.id) {
-          const id =
+        let id = heading.id;
+        if (!id) {
+          id =
             text
               .toLowerCase()
               .trim()
@@ -34,11 +37,17 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
               .replace(/[^\w-]+/g, "")
               .replace(/--+/g, "-")
               .replace(/^-+/, "")
-              .replace(/-+$/, "") || `heading-${items.length}`;
+              .replace(/-+$/, "") || `heading-${i}`;
           heading.id = id;
         }
 
-        items.push({ id: heading.id, text, level });
+        if (usedIds.has(id)) {
+          id = `${id}-${i}`;
+          heading.id = id;
+        }
+        usedIds.add(id);
+
+        items.push({ id, text, level });
       }
 
       setTocItems(items);
@@ -65,9 +74,9 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
       <div className="sticky top-24 p-4 bg-secondary/50 rounded-lg">
         <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Índice</h3>
         <ul className="space-y-1">
-          {tocItems.map((item) => (
+          {tocItems.map((item, index) => (
             <li
-              key={item.id}
+              key={`${item.id}-${index}`}
               style={{ paddingLeft: item.level === 1 ? "0" : item.level === 2 ? "12px" : "24px" }}
             >
               <button
