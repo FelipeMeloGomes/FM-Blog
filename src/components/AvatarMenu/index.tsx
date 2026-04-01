@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiBookmark, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -52,9 +52,8 @@ const AvatarMenu = ({ logout, user }: AvatarMenuProps) => {
               <RouterLink
                 to="/saved"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary transition-colors"
+                className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
               >
-                <FiBookmark size={16} />
                 Posts Salvos
               </RouterLink>
               <RouterLink
