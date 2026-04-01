@@ -10,24 +10,30 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
   const initialized = useRef(false);
 
   useEffect(() => {
-    if (initialized.current) return;
+    const initTocbot = () => {
+      tocbot.destroy();
+      tocbot.init({
+        tocSelector: ".toc",
+        contentSelector: targetSelector,
+        headingSelector: "h2, h3",
+        hasInnerContainers: true,
+        orderedList: false,
+        scrollSmooth: true,
+        scrollSmoothDuration: 300,
+        scrollSmoothOffset: -80,
+        headingsOffset: 80,
+      });
+      initialized.current = true;
+    };
 
-    tocbot.init({
-      tocSelector: ".toc",
-      contentSelector: targetSelector,
-      headingSelector: "h2, h3",
-      hasInnerContainers: true,
-      orderedList: false,
-      scrollSmooth: true,
-      scrollSmoothDuration: 300,
-      scrollSmoothOffset: -80,
-      headingsOffset: 80,
-    });
-
-    initialized.current = true;
+    const timeoutId = setTimeout(() => {
+      initTocbot();
+    }, 100);
 
     return () => {
+      clearTimeout(timeoutId);
       tocbot.destroy();
+      initialized.current = false;
     };
   }, [targetSelector]);
 
