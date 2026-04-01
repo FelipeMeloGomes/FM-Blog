@@ -197,6 +197,24 @@ export const useAuthentication = (): AuthenticationResult => {
 
   const resetPassword = async (email: string): Promise<void> => {
     checkIfIsCancelled();
+
+    const rateLimit = checkRateLimit(`reset:${email}`);
+    if (!rateLimit.allowed) {
+      const minutes = Math.ceil(rateLimit.waitSeconds / 60);
+      const errorMessage = `Muitas tentativas de recuperação de senha. Tente novamente em ${minutes} minuto(s).`;
+      showToast({
+        title: "Erro",
+        description: errorMessage,
+        status: "error",
+      });
+      setState((prevState) => ({
+        ...prevState,
+        error: errorMessage,
+        loading: false,
+      }));
+      throw new Error(errorMessage);
+    }
+
     setState({ ...state, loading: true });
     try {
       await sendPasswordResetEmail(auth, email);
@@ -206,6 +224,7 @@ export const useAuthentication = (): AuthenticationResult => {
         status: "success",
       });
     } catch (error) {
+      recordFailedAttempt(`reset:${email}`);
       const errorMessage = handleErrorMessage(error as AuthError);
       showToast({
         title: "Error",

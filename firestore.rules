@@ -7,10 +7,24 @@ service cloud.firestore {
                     && request.resource.data.uid == request.auth.uid
                     && request.resource.data.title is string
                     && request.resource.data.title.size() >= 6
+                    && request.resource.data.title.size() <= 200
                     && request.resource.data.body is string
-                    && request.resource.data.body.size() >= 10;
+                    && request.resource.data.body.size() >= 10
+                    && request.resource.data.image is string
+                    && request.resource.data.image.size() > 0
+                    && request.resource.data.createdBy is string
+                    && request.resource.data.createdBy.size() > 0
+                    && request.resource.data.createdBy.size() <= 50
+                    && request.resource.data.tagsArray is list
+                    && request.resource.data.tagsArray.size() <= 10
+                    && request.resource.data.likeCount == 0
+                    && request.resource.data.likes == []
+                    && request.resource.data.views == 0;
       allow update: if request.auth != null
-                    && resource.data.uid == request.auth.uid;
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                      'title', 'body', 'image', 'tagsArray', 'updatedAt'
+                    ]);
       allow update: if request.auth == null 
                     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']);
       allow delete: if request.auth != null
