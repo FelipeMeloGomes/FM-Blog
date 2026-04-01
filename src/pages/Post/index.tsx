@@ -4,11 +4,13 @@ import { Comments } from "../../components/Comments";
 import { ImageWithFallback } from "../../components/ImageWithFallback";
 import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
+import { RelatedPosts } from "../../components/RelatedPosts";
 import { ShareButton } from "../../components/ShareButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
 import { usePostViews } from "../../hooks/usePostViews";
+import { useRelatedPosts } from "../../hooks/useRelatedPosts";
 import { useSavedPosts } from "../../hooks/useSavedPosts";
 import { useViewCount } from "../../hooks/useViewCount";
 import { usePost } from "../../lib/hooks/usePostsQuery";
@@ -25,6 +27,10 @@ const Post = () => {
   usePostViews(id, user?.uid);
   const viewCount = useViewCount(id);
   const { isSaved, toggleSave } = useSavedPosts();
+  const { relatedPosts, loading: relatedLoading } = useRelatedPosts(
+    post?.id,
+    post?.tagsArray || []
+  );
 
   if (isLoading) {
     return (
@@ -127,6 +133,8 @@ const Post = () => {
           userName={user?.name}
           userAvatar={user?.photoURL}
         />
+
+        <RelatedPosts posts={relatedPosts} loading={relatedLoading} />
 
         <div className="pt-4">
           <Button asChild variant="ghost" size="sm">
