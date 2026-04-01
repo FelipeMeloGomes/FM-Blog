@@ -4,10 +4,9 @@ import { useForm } from "react-hook-form";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { FormField } from "../../components/FormField";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 import { useAuthValue } from "../../context/AuthContext";
 import { uploadToCloudinary } from "../../lib/cloudinary";
 import { type ProfileFormData, profileSchema } from "../../schemas";
@@ -133,26 +132,25 @@ const Profile = () => {
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-sm">
-            Nome completo
-          </Label>
-          <Input id="name" placeholder="Seu nome" {...form.register("name")} maxLength={55} />
-          <div className="flex justify-between">
-            {form.formState.errors.name ? (
-              <p className="text-xs text-destructive">{form.formState.errors.name.message}</p>
-            ) : (
-              <div />
-            )}
-            <p className="text-xs text-muted-foreground">{form.watch("name").length}/50</p>
-          </div>
-        </div>
+        <FormField
+          label="Nome completo"
+          placeholder="Seu nome"
+          error={form.formState.errors.name?.message}
+          maxLength={55}
+          {...form.register("name")}
+        />
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-sm">
+          <label htmlFor="email-display" className="text-sm font-medium">
             E-mail
-          </Label>
-          <Input id="email" value={user?.email || ""} disabled className="bg-muted" />
+          </label>
+          <input
+            id="email-display"
+            type="text"
+            value={user?.email || ""}
+            disabled
+            className="flex h-10 w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground cursor-not-allowed"
+          />
           <p className="text-xs text-muted-foreground">O e-mail não pode ser alterado.</p>
         </div>
 

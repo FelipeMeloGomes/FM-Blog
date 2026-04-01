@@ -14,6 +14,7 @@ import {
   runTransaction,
   serverTimestamp,
   startAfter,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
@@ -44,6 +45,7 @@ export interface UseCommentsResult {
   error: string | null;
   hasMore: boolean;
   addComment: (content: string, parentId?: string | null) => Promise<void>;
+  updateComment: (commentId: string, content: string, userId: string) => Promise<void>;
   deleteComment: (commentId: string, userId: string) => Promise<void>;
   toggleLike: (commentId: string, userId: string) => Promise<void>;
   getCommentCount: () => number;
@@ -214,6 +216,36 @@ export const useComments = ({
     [userId]
   );
 
+  const updateComment = useCallback(
+    async (commentId: string, content: string, commentUserId: string) => {
+      if (userId !== commentUserId) {
+        toast.error("Você só pode editar seus próprios comentários");
+        return;
+      }
+
+      if (!content.trim()) {
+        toast.error("Comentário não pode estar vazio");
+        return;
+      }
+
+      try {
+        const commentRef = doc(db, "comments", commentId);
+        await updateDoc(commentRef, {
+          content: content.trim(),
+          updatedAt: serverTimestamp(),
+        });
+        setComments((prev) =>
+          prev.map((c) => (c.id === commentId ? { ...c, content: content.trim() } : c))
+        );
+        toast.success("Comentário atualizado!");
+      } catch (err) {
+        console.error("Error updating comment:", err);
+        toast.error("Erro ao editar comentário");
+      }
+    },
+    [userId]
+  );
+
   const toggleLike = useCallback(
     async (commentId: string, commentUserId: string) => {
       if (!userId) {
@@ -260,6 +292,7 @@ export const useComments = ({
     error,
     hasMore,
     addComment,
+    updateComment,
     deleteComment,
     toggleLike,
     getCommentCount,

@@ -51,6 +51,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
     error,
     hasMore,
     addComment,
+    updateComment,
     deleteComment,
     toggleLike,
     getCommentCount,
@@ -156,6 +157,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                 onDelete={deleteComment}
                 onLike={toggleLike}
                 onReply={setReplyTo}
+                onEdit={updateComment}
               />
               {replyTo === comment.id && (
                 <form onSubmit={handleSubmitReply(onSubmitReply)} className="ml-10 space-y-2">
@@ -199,6 +201,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                       onDelete={deleteComment}
                       onLike={toggleLike}
                       onReply={setReplyTo}
+                      onEdit={updateComment}
                     />
                   ))}
                 </div>

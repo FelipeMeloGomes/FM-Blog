@@ -1,25 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { FiLock, FiMail } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { loginSchema, registerSchema, resetPasswordSchema } from "../../schemas";
+import { FormField } from "../FormField";
+import { PasswordInput } from "../PasswordInput";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import type { loginFormProps } from "./types";
-
-const Link = ({
-  to,
-  children,
-  className,
-}: { to: string; children: React.ReactNode; className?: string }) => (
-  <RouterLink to={to} className={className}>
-    {children}
-  </RouterLink>
-);
 
 const GoogleIcon = () => (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -58,13 +47,19 @@ interface ResetPasswordData {
   email: string;
 }
 
+type FormErrors = {
+  displayName?: { message?: string };
+  email?: { message?: string };
+  password?: { message?: string };
+  confirmPassword?: { message?: string };
+  root?: { message?: string };
+};
+
 const LoginForm = ({
   isLogin,
   onSubmit,
   resetPassword,
 }: loginFormProps & { resetPassword?: boolean }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [authError, setAuthError] = useState<string>("");
   const {
     login,
@@ -90,17 +85,16 @@ const LoginForm = ({
   });
 
   const getCurrentForm = () => {
-    if (resetPassword) return { form: resetForm, schema: resetPasswordSchema };
-    if (isLogin) return { form: loginForm, schema: loginSchema };
-    return { form: registerForm, schema: registerSchema };
+    if (resetPassword) return { form: resetForm, errors: resetForm.formState.errors };
+    if (isLogin) return { form: loginForm, errors: loginForm.formState.errors };
+    return { form: registerForm, errors: registerForm.formState.errors };
   };
 
-  const currentForm = getCurrentForm();
-  // biome-ignore lint/suspicious/noExplicitAny: Form type is dynamic based on resetPassword/isLogin
-  const form = currentForm.form as any;
-  // biome-ignore lint/suspicious/noExplicitAny: FormState type is dynamic
-  const formState = form.formState as any;
-  const errors = formState.errors;
+  const errors = getCurrentForm().errors as FormErrors;
+  // biome-ignore lint/suspicious/noExplicitAny: Register function signatures differ between forms
+  const emailRegister = (isLogin ? loginForm : registerForm).register as any;
+  // biome-ignore lint/suspicious/noExplicitAny: Register function signatures differ between forms
+  const passwordRegister = (isLogin ? loginForm : registerForm).register as any;
 
   const onLoginSubmit = async (data: LoginData) => {
     setAuthError("");
@@ -216,117 +210,55 @@ const LoginForm = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && !resetPassword && (
-            <div className="space-y-2">
-              <Label htmlFor="displayName" className="text-sm">
-                Nome de usuário
-              </Label>
-              <Input
-                id="displayName"
-                placeholder="Seu nome de usuário"
-                {...registerForm.register("displayName")}
-                className="h-11"
-              />
-              {errors.displayName && (
-                <p className="text-xs text-destructive mt-1">{errors.displayName.message}</p>
-              )}
-            </div>
+            <FormField
+              label="Nome de usuário"
+              placeholder="Seu nome de usuário"
+              autoComplete="username"
+              error={errors.displayName?.message}
+              {...registerForm.register("displayName")}
+            />
           )}
 
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm">
-              E-mail
-            </Label>
-            <div className="relative">
-              <Input
-                id="email"
-                type="email"
-                placeholder="seu@email.com"
-                {...form.register("email")}
-                className="h-11 pl-10"
-              />
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
-                <FiMail />
-              </div>
-            </div>
-            {errors.email && (
-              <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
-            )}
-          </div>
+          <FormField
+            label="E-mail"
+            type="email"
+            placeholder="seu@email.com"
+            icon={<FiMail />}
+            autoComplete="email"
+            error={errors.email?.message}
+            {...emailRegister("email")}
+          />
 
           {!resetPassword && (
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm">
-                  Senha
-                </Label>
+              <div className="flex items-center justify-end">
                 {isLogin && (
-                  <Link
+                  <RouterLink
                     to="/resetPassword"
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
                     Esqueceu a senha?
-                  </Link>
+                  </RouterLink>
                 )}
               </div>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  {...form.register("password")}
-                  className="h-11 pl-10 pr-10"
-                />
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
-                  <FiLock />
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-11 px-3 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </Button>
-              </div>
-              {errors.password && (
-                <p className="text-xs text-destructive mt-1">{errors.password.message}</p>
-              )}
+              <PasswordInput
+                label="Senha"
+                placeholder="••••••••"
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                error={errors.password?.message}
+                {...passwordRegister("password")}
+              />
             </div>
           )}
 
           {!isLogin && !resetPassword && (
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm">
-                Confirmar Senha
-              </Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  {...registerForm.register("confirmPassword")}
-                  className="h-11 pl-10 pr-10"
-                />
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
-                  <FiLock />
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-11 px-3 hover:bg-transparent"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
-                >
-                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                </Button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-xs text-destructive mt-1">{errors.confirmPassword.message}</p>
-              )}
-            </div>
+            <PasswordInput
+              label="Confirmar Senha"
+              placeholder="••••••••"
+              autoComplete="new-password"
+              error={errors.confirmPassword?.message}
+              {...registerForm.register("confirmPassword")}
+            />
           )}
 
           {(authError || errors.root) && (
@@ -347,12 +279,12 @@ const LoginForm = ({
         {!resetPassword && (
           <p className="text-center text-sm text-muted-foreground">
             {isLogin ? "Não tem uma conta? " : "Já tem uma conta? "}
-            <Link
+            <RouterLink
               to={isLogin ? "/register" : "/login"}
               className="font-medium text-foreground hover:underline"
             >
               {isLogin ? "Cadastre-se" : "Entrar"}
-            </Link>
+            </RouterLink>
           </p>
         )}
       </div>

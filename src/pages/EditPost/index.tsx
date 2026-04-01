@@ -5,10 +5,9 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Editor } from "../../components/Editor";
+import { FormField } from "../../components/FormField";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useUpdateDocument } from "../../hooks/useUpdateDocument";
@@ -26,6 +25,18 @@ const processTags = (input: string): string[] => {
     .filter((tag, index, self) => self.indexOf(tag) === index)
     .slice(0, 10)
     .map((tag) => tag.slice(0, 30));
+};
+
+const EditorWithValue = ({ value }: { value: string }) => {
+  const { setContent } = useEditorContext();
+
+  useEffect(() => {
+    if (value) {
+      setContent(value);
+    }
+  }, [value, setContent]);
+
+  return <Editor value={value} />;
 };
 
 const EditPostContent = () => {
@@ -159,28 +170,21 @@ const EditPostContent = () => {
       <h1 className="text-2xl font-bold font-heading text-foreground">Editar post</h1>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="title" className="text-sm">
-            Título do post *
-          </Label>
-          <Input
-            id="title"
-            placeholder="Digite o título do seu post"
-            {...form.register("title")}
-            maxLength={220}
-          />
-          <div className="flex justify-between">
-            {form.formState.errors.title ? (
-              <p className="text-xs text-destructive">{form.formState.errors.title.message}</p>
-            ) : (
-              <div />
-            )}
-            <p
-              className={`text-xs ${titleLength > 200 ? "text-destructive" : "text-muted-foreground"}`}
-            >
-              {titleLength}/200
-            </p>
-          </div>
+        <FormField
+          label="Título do post"
+          placeholder="Digite o título do seu post"
+          error={form.formState.errors.title?.message}
+          required
+          maxLength={220}
+          {...form.register("title")}
+        />
+
+        <div className="flex justify-end">
+          <p
+            className={`text-xs ${titleLength > 200 ? "text-destructive" : "text-muted-foreground"}`}
+          >
+            {titleLength}/200
+          </p>
         </div>
 
         <ImageUploader
@@ -200,47 +204,40 @@ const EditPostContent = () => {
         />
 
         <div className="space-y-2">
-          <Label htmlFor="body" className="text-sm">
-            Conteúdo *
-          </Label>
-          <Editor />
+          <p className="text-sm font-medium">Conteúdo *</p>
+          <EditorWithValue value={post.body || ""} />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="tagsInput" className="text-sm">
-            Tags (separadas por vírgula) *
-          </Label>
-          <Input
-            id="tagsInput"
-            placeholder="react, typescript, firebase"
-            {...form.register("tagsInput")}
-          />
-          {form.formState.errors.tagsInput && (
-            <p className="text-xs text-destructive">{form.formState.errors.tagsInput.message}</p>
-          )}
-          {previewTags.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm text-muted-foreground mb-2">Preview das tags:</p>
-              <div className="flex flex-wrap gap-2">
-                {previewTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+        <FormField
+          label="Tags (separadas por vírgula)"
+          placeholder="react, typescript, firebase"
+          error={form.formState.errors.tagsInput?.message}
+          required
+          {...form.register("tagsInput")}
+        />
+
+        {previewTags.length > 0 && (
+          <div className="mt-4">
+            <p className="text-sm text-muted-foreground mb-2">Preview das tags:</p>
+            <div className="flex flex-wrap gap-2">
+              {previewTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveTag(tag)}
+                    className="ml-1 hover:text-destructive"
                   >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(tag)}
-                      className="ml-1 hover:text-destructive"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
+                    ×
+                  </button>
+                </span>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="flex justify-end gap-4 pt-4">
           <Button type="button" variant="ghost" onClick={() => navigate("/")}>

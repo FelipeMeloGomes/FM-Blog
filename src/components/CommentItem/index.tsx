@@ -1,5 +1,5 @@
-import { memo } from "react";
-import { FiHeart, FiMessageCircle, FiTrash2 } from "react-icons/fi";
+import { memo, useState } from "react";
+import { FiEdit2, FiHeart, FiMessageCircle, FiTrash2, FiX } from "react-icons/fi";
 import { toast } from "sonner";
 import type { Comment } from "../../hooks/useComments";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -12,6 +12,7 @@ interface CommentItemProps {
   onDelete: (commentId: string, userId: string) => void;
   onLike: (commentId: string, commentUserId: string) => void;
   onReply: (parentId: string) => void;
+  onEdit: (commentId: string, content: string, userId: string) => Promise<void>;
 }
 
 const formatDate = (timestamp: { seconds: number; nanoseconds: number } | null): string => {
@@ -37,7 +38,12 @@ const CommentItemComponent = ({
   onDelete,
   onLike,
   onReply,
+  onEdit,
 }: CommentItemProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(comment.content);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const isOwner = currentUserId === comment.userId;
   const isLiked = currentUserId && comment.likes?.includes(currentUserId);
 
@@ -54,6 +60,79 @@ const CommentItemComponent = ({
       },
     });
   };
+
+  const handleEdit = async () => {
+    if (!editContent.trim()) {
+      toast.error("Comentário não pode estar vazio");
+      return;
+    }
+
+    if (editContent === comment.content) {
+      setIsEditing(false);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await onEdit(comment.id, editContent, comment.userId);
+      setIsEditing(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditContent(comment.content);
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return (
+      <div className="flex gap-3">
+        <Avatar size="sm" className="flex-shrink-0">
+          <AvatarImage src={comment.userAvatar || undefined} />
+          <AvatarFallback>{comment.userName?.charAt(0) ?? "?"}</AvatarFallback>
+        </Avatar>
+
+        <div className="flex-1 space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-sm text-foreground">
+              {comment.userName || "Usuário"}
+            </span>
+            <span className="text-xs text-muted-foreground">Editando...</span>
+          </div>
+
+          <Textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="min-h-[80px] resize-none text-sm"
+            autoFocus
+          />
+
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={handleCancelEdit}
+              disabled={isSubmitting}
+            >
+              <FiX className="h-4 w-4 mr-1" />
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              onClick={handleEdit}
+              disabled={isSubmitting || !editContent.trim()}
+            >
+              {isSubmitting ? "Salvando..." : "Salvar"}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex gap-3">
@@ -101,13 +180,23 @@ const CommentItemComponent = ({
           )}
 
           {isOwner && (
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
-            >
-              <FiTrash2 size={14} />
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <FiEdit2 size={14} />
+                <span>Editar</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
+              >
+                <FiTrash2 size={14} />
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -119,39 +208,3 @@ const CommentItem = memo(CommentItemComponent);
 CommentItem.displayName = "CommentItem";
 
 export { CommentItem };
-
-interface ReplyFormProps {
-  onSubmit: (content: string) => void;
-  onCancel: () => void;
-  loading?: boolean;
-}
-
-export const ReplyForm = ({ onSubmit, onCancel, loading }: ReplyFormProps) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const content = formData.get("reply-content") as string;
-    if (content.trim()) {
-      onSubmit(content);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-2 ml-10">
-      <Textarea
-        name="reply-content"
-        placeholder="Escreva uma resposta..."
-        className="min-h-[80px] resize-none"
-        required
-      />
-      <div className="flex gap-2 justify-end">
-        <Button type="button" variant="ghost" size="sm" onClick={onCancel}>
-          Cancelar
-        </Button>
-        <Button type="submit" size="sm" disabled={loading}>
-          {loading ? "Enviando..." : "Responder"}
-        </Button>
-      </div>
-    </form>
-  );
-};

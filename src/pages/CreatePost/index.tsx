@@ -6,10 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Dialog } from "../../components/Dialog";
 import { Editor } from "../../components/Editor";
+import { FormField } from "../../components/FormField";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
@@ -147,37 +146,21 @@ const CreatePostContent = () => {
         className="flex flex-col gap-6"
         aria-label="Formulário de criação de post"
       >
-        <div className="space-y-2">
-          <Label htmlFor="title" className="text-sm">
-            Título do post *
-          </Label>
-          <Input
-            id="title"
-            placeholder="Digite o título do seu post"
-            {...form.register("title")}
-            maxLength={220}
-            aria-describedby={form.formState.errors.title ? "title-error" : undefined}
-            aria-invalid={!!form.formState.errors.title}
-          />
-          <div className="flex justify-between">
-            {form.formState.errors.title ? (
-              <p
-                id="title-error"
-                className="text-xs text-destructive"
-                role="alert"
-                aria-live="polite"
-              >
-                {form.formState.errors.title.message}
-              </p>
-            ) : (
-              <div />
-            )}
-            <p
-              className={`text-xs ${titleLength > 200 ? "text-destructive" : "text-muted-foreground"}`}
-            >
-              {titleLength}/200
-            </p>
-          </div>
+        <FormField
+          label="Título do post"
+          placeholder="Digite o título do seu post"
+          error={form.formState.errors.title?.message}
+          required
+          maxLength={220}
+          {...form.register("title")}
+        />
+
+        <div className="flex justify-end">
+          <p
+            className={`text-xs ${titleLength > 200 ? "text-destructive" : "text-muted-foreground"}`}
+          >
+            {titleLength}/200
+          </p>
         </div>
 
         <ImageUploader
@@ -194,42 +177,33 @@ const CreatePostContent = () => {
         />
 
         <div className="space-y-2">
-          <Label className="text-sm">Conteúdo *</Label>
+          <p className="text-sm font-medium">Conteúdo *</p>
           <Editor />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="tagsInput" className="text-sm">
-            Tags (separadas por vírgula) *
-          </Label>
-          <Input
-            id="tagsInput"
-            placeholder="react, typescript, firebase"
-            {...form.register("tagsInput")}
-            aria-describedby={form.formState.errors.tagsInput ? "tags-error" : undefined}
-            aria-invalid={!!form.formState.errors.tagsInput}
-          />
-          {form.formState.errors.tagsInput && (
-            <p id="tags-error" className="text-xs text-destructive" role="alert" aria-live="polite">
-              {form.formState.errors.tagsInput.message}
-            </p>
-          )}
-          {previewTags.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm text-muted-foreground mb-2">Preview das tags:</p>
-              <div className="flex flex-wrap gap-2">
-                {previewTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+        <FormField
+          label="Tags (separadas por vírgula)"
+          placeholder="react, typescript, firebase"
+          error={form.formState.errors.tagsInput?.message}
+          required
+          {...form.register("tagsInput")}
+        />
+
+        {previewTags.length > 0 && (
+          <div className="mt-4">
+            <p className="text-sm text-muted-foreground mb-2">Preview das tags:</p>
+            <div className="flex flex-wrap gap-2">
+              {previewTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="flex justify-end gap-4 pt-4">
           <Button type="button" variant="ghost" onClick={handleCancel}>

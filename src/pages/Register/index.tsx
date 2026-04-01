@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { LayoutPage } from "../../components/LayoutPage";
 import { LoginForm } from "../../components/LoginForm";
-import { TextField } from "../../components/TextField";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,10 +11,10 @@ const Register = () => {
 
   return (
     <LayoutPage>
-      <TextField
-        title="Cadastre-se para postar"
-        paragraph="Crie o seu usuário e compartilhe suas histórias"
-      />
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-heading font-bold text-foreground">Cadastre-se para postar</h1>
+        <p className="text-muted-foreground">Crie o seu usuário e compartilhe suas histórias</p>
+      </div>
       <LoginForm isLogin={false} resetPassword={false} onSubmit={handleRegisterSuccess} />
     </LayoutPage>
   );

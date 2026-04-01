@@ -1,8 +1,8 @@
 import { BiUser } from "react-icons/bi";
-import { PasswordToggle } from "../../utils/PasswordToggle";
-import { PasswordInputWithToggle } from "../PasswordInputWithToggle";
+import { FiMail } from "react-icons/fi";
+import { FormField } from "../FormField";
+import { PasswordInput } from "../PasswordInput";
 import { SignUpPrompt } from "../SignUpPrompt";
-import { TextInputWithIcon } from "../TextInputWithIcon";
 import { Button } from "../ui/button";
 import type { LoginFormFieldsProps } from "./types";
 
@@ -10,42 +10,39 @@ const LoginFormFields = ({
   isLogin,
   formData,
   setFormData,
-  passwordVisible,
-  setPasswordVisible,
-  passwordVisibleTwo,
-  setPasswordVisibleTwo,
   loading,
   error,
 }: LoginFormFieldsProps) => (
   <>
     {!isLogin && (
-      <TextInputWithIcon
+      <FormField
         label="Nome de usuário"
-        iconName={<BiUser />}
         name="displayName"
+        icon={<BiUser />}
         value={formData.displayName}
         minLength={6}
         maxLength={16}
         required
         onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
         placeholder="Nome do usuário"
-        alt="Insira seu nome"
+        autoComplete="username"
       />
     )}
 
-    <TextInputWithIcon
+    <FormField
       label="Email"
       name="email"
+      type="email"
+      icon={<FiMail />}
       value={formData.email}
-      iconName={<BiUser />}
       minLength={6}
       required
       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
       placeholder="Insira seu email"
-      alt="Insira seu email"
+      autoComplete="email"
     />
 
-    <PasswordInputWithToggle
+    <PasswordInput
       label="Senha"
       name="password"
       value={formData.password}
@@ -54,24 +51,20 @@ const LoginFormFields = ({
       required
       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
       placeholder="Insira sua senha"
-      alt="Insira sua senha"
-      passwordVisible={passwordVisibleTwo}
-      togglePasswordVisibility={() => PasswordToggle(setPasswordVisibleTwo)}
+      autoComplete="current-password"
     />
 
     {!isLogin && (
-      <PasswordInputWithToggle
+      <PasswordInput
         label="Confirmar Senha"
-        placeholder="Confirme a sua senha"
-        alt="Confirme a sua senha"
+        name="confirmPassword"
+        value={formData.confirmPassword}
         minLength={6}
         maxLength={64}
         required
-        value={formData.confirmPassword}
-        passwordVisible={passwordVisible}
         onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-        togglePasswordVisibility={() => PasswordToggle(setPasswordVisible)}
-        name=""
+        placeholder="Confirme a sua senha"
+        autoComplete="new-password"
       />
     )}
 
