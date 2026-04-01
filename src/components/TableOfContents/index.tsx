@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import tocbot from "tocbot";
 import "tocbot/dist/tocbot.css";
 
@@ -8,6 +8,8 @@ interface TableOfContentsProps {
 
 const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsProps) => {
   const initialized = useRef(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasHeadings, setHasHeadings] = useState(false);
 
   const addIdsToHeadings = useCallback((container: Element) => {
     const headings = container.querySelectorAll("h1, h2, h3");
@@ -48,6 +50,8 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
       addIdsToHeadings(content);
 
       const headings = content.querySelectorAll("h1, h2, h3");
+      setHasHeadings(headings.length > 0);
+
       if (headings.length === 0) {
         return;
       }
@@ -64,7 +68,6 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
         scrollSmoothDuration: 300,
         scrollSmoothOffset: -80,
         headingsOffset: 80,
-        ignoreSelector: ".toc-ignore",
       });
 
       initialized.current = true;
@@ -80,6 +83,10 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
       }
     };
   }, [targetSelector, addIdsToHeadings]);
+
+  if (!hasHeadings) {
+    return null;
+  }
 
   return (
     <>
@@ -104,7 +111,41 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
         #toc-list .toc-list-item .toc-list {
           padding-left: 1rem;
         }
+        .toc-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem 1rem;
+          background: hsl(var(--secondary));
+          border-radius: 0.5rem;
+          cursor: pointer;
+          width: 100%;
+          border: none;
+          text-align: left;
+        }
+        .toc-toggle:hover {
+          background: hsl(var(--secondary) / 0.8);
+        }
+        .toc-content {
+          padding: 1rem;
+          background: hsl(var(--secondary) / 0.3);
+          border-radius: 0 0 0.5rem 0.5rem;
+          margin-top: -0.25rem;
+        }
       `}</style>
+
+      <div className="mb-6 xl:hidden">
+        <button type="button" className="toc-toggle" onClick={() => setIsOpen(!isOpen)}>
+          <span className="text-sm font-medium">Índice</span>
+          <span className="text-muted-foreground">{isOpen ? "▲" : "▼"}</span>
+        </button>
+        {isOpen && (
+          <div className="toc-content">
+            <div id="toc-list" />
+          </div>
+        )}
+      </div>
+
       <div className="hidden xl:block">
         <div className="sticky top-24 p-4 bg-secondary/50 rounded-lg max-h-[calc(100vh-8rem)] overflow-y-auto">
           <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Índice</h3>
