@@ -72,8 +72,16 @@ const EditPostContent = () => {
   const titleLength = titleValue.trim().length;
 
   const onSubmit = async (data: EditPostFormData) => {
+    const content = getContent();
+    const textContent = content.replace(/<[^>]*>/g, "").trim();
+
     if (!coverImage) {
       toast.error("Imagem de capa obrigatória.");
+      return;
+    }
+
+    if (textContent.length < 10) {
+      toast.error("O conteúdo deve ter pelo menos 10 caracteres.");
       return;
     }
 

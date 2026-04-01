@@ -60,7 +60,6 @@ export const createPostSchema = z.object({
     .min(1, "Título é obrigatório")
     .min(10, "Título deve ter pelo menos 10 caracteres")
     .max(200, "Título deve ter no máximo 200 caracteres"),
-  body: z.string().min(10, "O conteúdo deve ter pelo menos 10 caracteres"),
   tagsInput: z.string().min(1, "Tags são obrigatórias"),
 });
 

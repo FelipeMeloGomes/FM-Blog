@@ -40,7 +40,6 @@ const CreatePostContent = () => {
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       title: "",
-      body: "",
       tagsInput: "",
     },
   });
@@ -48,10 +47,9 @@ const CreatePostContent = () => {
   const { watch } = form;
   const titleValue = watch("title");
   const tagsInputValue = watch("tagsInput");
-  const bodyValue = watch("body");
 
   const hasUnsavedChanges =
-    titleValue.trim() || coverImage || tagsInputValue.trim() || bodyValue.trim();
+    titleValue.trim() || coverImage || tagsInputValue.trim() || getContent().length > 0;
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -79,8 +77,16 @@ const CreatePostContent = () => {
   };
 
   const onSubmit = async (data: CreatePostFormData) => {
+    const content = getContent();
+    const textContent = content.replace(/<[^>]*>/g, "").trim();
+
     if (!coverImage?.file) {
       toast.error("Imagem de capa obrigatória.");
+      return;
+    }
+
+    if (textContent.length < 10) {
+      toast.error("O conteúdo deve ter pelo menos 10 caracteres.");
       return;
     }
 
@@ -99,7 +105,7 @@ const CreatePostContent = () => {
         title: data.title,
         titleLower: data.title.toLowerCase(),
         image: imageUrl,
-        body: getContent(),
+        body: content,
         tagsArray: previewTags,
         uid: user?.uid || "",
         createdBy: user?.name || user?.email || "Anonymous",
@@ -182,15 +188,8 @@ const CreatePostContent = () => {
         />
 
         <div className="space-y-2">
-          <Label htmlFor="body" className="text-sm">
-            Conteúdo *
-          </Label>
+          <Label className="text-sm">Conteúdo *</Label>
           <Editor />
-          {form.formState.errors.body && (
-            <p id="body-error" className="text-xs text-destructive" role="alert" aria-live="polite">
-              {form.formState.errors.body.message}
-            </p>
-          )}
         </div>
 
         <div className="space-y-2">
