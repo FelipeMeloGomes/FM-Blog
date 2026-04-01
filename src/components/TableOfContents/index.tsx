@@ -6,16 +6,21 @@ interface TableOfContentsProps {
   targetSelector?: string;
 }
 
+interface TocItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
 const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsProps) => {
-  const [tocItems, setTocItems] = useState<Array<{ id: string; text: string; level: number }>>([]);
-  const [isVisible, setIsVisible] = useState(false);
+  const [tocItems, setTocItems] = useState<TocItem[]>([]);
 
   useEffect(() => {
-    const initTocbot = () => {
+    const timeoutId = setTimeout(() => {
       tocbot.destroy();
 
       tocbot.init({
-        tocSelector: "#toc-list",
+        tocSelector: "#toc-target",
         contentSelector: targetSelector,
         headingSelector: "h1, h2, h3",
         hasInnerContainers: true,
@@ -24,30 +29,25 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
         scrollSmoothDuration: 300,
         scrollSmoothOffset: -80,
         headingsOffset: 80,
-        onClick: () => {
-          return false;
-        },
       });
 
-      const tocElement = document.querySelector("#toc-list");
+      const tocElement = document.querySelector("#toc-target");
       if (tocElement) {
-        const items = Array.from(tocElement.querySelectorAll("a")).map((link) => {
+        const links = tocElement.querySelectorAll("a");
+        const items: TocItem[] = [];
+
+        for (const link of links) {
           const href = link.getAttribute("href") || "";
           const id = href.replace("#", "");
           const text = link.textContent || "";
-          const level = link.closest("ol")?.closest("li")?.closest("ol")
-            ? 3
-            : link.closest("ol")
-              ? 2
-              : 1;
-          return { id, text, level };
-        });
-        setTocItems(items);
-        setIsVisible(items.length > 0);
-      }
-    };
+          const isH1 = link.closest("ol")?.closest("ol")?.previousElementSibling?.tagName === "H1";
+          const level = isH1 ? 1 : 2;
+          items.push({ id, text, level });
+        }
 
-    const timeoutId = setTimeout(initTocbot, 200);
+        setTocItems(items);
+      }
+    }, 300);
 
     return () => {
       clearTimeout(timeoutId);
@@ -58,13 +58,13 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const yOffset = -80;
+      const yOffset = -100;
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
-  if (!isVisible || tocItems.length === 0) {
+  if (tocItems.length === 0) {
     return null;
   }
 
@@ -72,12 +72,12 @@ const TableOfContents = ({ targetSelector = ".post-content" }: TableOfContentsPr
     <div className="hidden xl:block">
       <div className="sticky top-24 p-4 bg-secondary/50 rounded-lg">
         <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Índice</h3>
-        <nav id="toc-list" className="hidden" />
+        <div id="toc-target" className="hidden" />
         <ul className="space-y-1">
           {tocItems.map((item, index) => (
             <li
               key={`${item.id}-${index}`}
-              style={{ paddingLeft: item.level === 1 ? "0" : item.level === 2 ? "12px" : "24px" }}
+              style={{ paddingLeft: item.level === 1 ? "0" : "12px" }}
             >
               <button
                 type="button"
