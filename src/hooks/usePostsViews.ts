@@ -21,15 +21,23 @@ export const usePostsViews = (postIds: string[]): UsePostsViewsResult => {
 
       try {
         const viewsRef = collection(db, "postViews");
-        const viewsPromises = postIds.slice(0, 10).map(async (postId) => {
-          const q = query(viewsRef, where("postId", "==", postId));
-          const snapshot = await getCountFromServer(q);
-          return { postId, count: snapshot.data().count };
-        });
+        const batchSize = 10;
+        const allResults: Array<{ postId: string; count: number }> = [];
 
-        const results = await Promise.all(viewsPromises);
+        for (let i = 0; i < postIds.length; i += batchSize) {
+          const batch = postIds.slice(i, i + batchSize);
+          const viewsPromises = batch.map(async (postId) => {
+            const q = query(viewsRef, where("postId", "==", postId));
+            const snapshot = await getCountFromServer(q);
+            return { postId, count: snapshot.data().count };
+          });
+
+          const results = await Promise.all(viewsPromises);
+          allResults.push(...results);
+        }
+
         const map: Record<string, number> = {};
-        for (const { postId, count } of results) {
+        for (const { postId, count } of allResults) {
           map[postId] = count;
         }
 

@@ -48,23 +48,26 @@ export const useMetrics = (userId?: string | null): UseMetricsResult => {
       }
 
       let totalViews = 0;
-      if (postIds.length > 0) {
+      const batchSize = 10;
+      for (let i = 0; i < postIds.length; i += batchSize) {
+        const batch = postIds.slice(i, i + batchSize);
         const viewsRef = collection(db, "postViews");
-        const viewsPromises = postIds.slice(0, 10).map(async (postId) => {
+        const viewsPromises = batch.map(async (postId) => {
           const viewsQuery = query(viewsRef, where("postId", "==", postId));
           const snapshot = await getCountFromServer(viewsQuery);
           return snapshot.data().count;
         });
         const viewsCounts = await Promise.all(viewsPromises);
-        totalViews = viewsCounts.reduce((sum, count) => sum + count, 0);
+        totalViews += viewsCounts.reduce((sum, count) => sum + count, 0);
       }
 
       let totalComments = 0;
-      if (postIds.length > 0) {
+      for (let i = 0; i < postIds.length; i += batchSize) {
+        const batch = postIds.slice(i, i + batchSize);
         const commentsRef = collection(db, "comments");
-        const commentsQuery = query(commentsRef, where("postId", "in", postIds.slice(0, 10)));
+        const commentsQuery = query(commentsRef, where("postId", "in", batch));
         const commentsSnapshot = await getDocs(commentsQuery);
-        totalComments = commentsSnapshot.size;
+        totalComments += commentsSnapshot.size;
       }
 
       setMetrics({
