@@ -6,7 +6,7 @@ import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
 import { RelatedPosts } from "../../components/RelatedPosts";
 import { ShareButton } from "../../components/ShareButton";
-import { TableOfContents, TableOfContentsSidebar } from "../../components/TableOfContents";
+import { TableOfContents } from "../../components/TableOfContents";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
@@ -149,7 +149,7 @@ const Post = () => {
           </div>
         </div>
 
-        <TableOfContentsSidebar />
+        <TableOfContents />
       </div>
     </div>
   );
