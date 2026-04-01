@@ -45,7 +45,6 @@ const COMMON_PASSWORDS = [
   "guest",
 ];
 
-const STORAGE_KEY = "fm_blog_viewed_posts";
 const RATE_LIMIT_KEY = "fm_blog_auth_attempts";
 
 export const sanitizeTag = (tag: string): string => {
@@ -68,33 +67,6 @@ export const sanitizeInput = (input: string): string => {
 
 export const isCommonPassword = (password: string): boolean => {
   return COMMON_PASSWORDS.includes(password.toLowerCase());
-};
-
-export const hasViewedPost = (postId: string): boolean => {
-  try {
-    const viewed = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}");
-    const now = Date.now();
-
-    for (const [id, timestamp] of Object.entries(viewed)) {
-      if (typeof timestamp === "number" && now - timestamp > CONSTANTS.AUTH.VIEW_LIMIT_WINDOW_MS) {
-        delete viewed[id];
-      }
-    }
-
-    return !!viewed[postId];
-  } catch {
-    return false;
-  }
-};
-
-export const markPostAsViewed = (postId: string): void => {
-  try {
-    const viewed = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}");
-    viewed[postId] = Date.now();
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(viewed));
-  } catch {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ [postId]: Date.now() }));
-  }
 };
 
 export interface RateLimitResult {

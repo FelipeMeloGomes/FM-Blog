@@ -1,39 +1,84 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { doc, increment, updateDoc } from "firebase/firestore";
-import { useEffect } from "react";
+import {
+  collection,
+  doc,
+  getDocs,
+  increment,
+  limit,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { useCallback, useEffect } from "react";
 import { db } from "../firebase/config";
-import { hasViewedPost, markPostAsViewed } from "../utils/security";
 
 /**
- * Hook para incrementar visualizações de posts.
- * tracking baseado em sessão para evitar contagens duplicadas.
+ * Hook para rastrear visualizações de posts no Firestore.
+ * Cada usuário só pode visualizar um post uma vez.
  *
- * @param postId - ID do post a ser rastreado
+ * @param postId - ID do post
+ * @param userId - ID do usuário (opcional)
  *
  * @example
  * ```tsx
- * usePostViews(post.id);
+ * usePostViews(post.id, user.uid);
  * ```
  */
-export const usePostViews = (postId: string | undefined) => {
-  const queryClient = useQueryClient();
+export const usePostViews = (postId: string | undefined, userId?: string) => {
+  const checkIfViewed = useCallback(async (): Promise<boolean> => {
+    if (!postId || !userId) return false;
+
+    try {
+      const viewsRef = collection(db, "postViews");
+      const q = query(
+        viewsRef,
+        where("postId", "==", postId),
+        where("userId", "==", userId),
+        limit(1)
+      );
+      const snapshot = await getDocs(q);
+      return !snapshot.empty;
+    } catch {
+      return false;
+    }
+  }, [postId, userId]);
+
+  const markAsViewed = useCallback(async () => {
+    if (!postId || !userId) return;
+
+    try {
+      const viewId = `${postId}_${userId}`;
+      const viewRef = doc(db, "postViews", viewId);
+
+      await setDoc(viewRef, {
+        postId,
+        userId,
+        createdAt: new Date(),
+      });
+
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, {
+        views: increment(1),
+      });
+    } catch {
+      // Silently fail
+    }
+  }, [postId, userId]);
 
   useEffect(() => {
-    if (!postId) return;
+    if (!postId || !userId) return;
 
-    if (hasViewedPost(postId)) return;
+    const trackView = async () => {
+      try {
+        const alreadyViewed = await checkIfViewed();
+        if (alreadyViewed) return;
 
-    markPostAsViewed(postId);
+        await markAsViewed();
+      } catch {
+        // Silently fail
+      }
+    };
 
-    const postRef = doc(db, "posts", postId);
-    updateDoc(postRef, {
-      views: increment(1),
-    })
-      .then(() => {
-        queryClient.invalidateQueries({ queryKey: ["post", postId] });
-      })
-      .catch(() => {
-        // Silently fail if update fails
-      });
-  }, [postId, queryClient]);
+    trackView();
+  }, [postId, userId, checkIfViewed, markAsViewed]);
 };

@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { CONSTANTS } from "../../utils/constants";
 import { calculateReadTime, formatDateShort } from "../../utils/date";
 import { ImageWithFallback } from "../ImageWithFallback";
@@ -8,6 +8,13 @@ import type { PostCardProps } from "./types";
 const PostCard = ({ post }: PostCardProps) => {
   const readTime = calculateReadTime(post.body);
   const formattedDate = formatDateShort(post.createdAt);
+  const navigate = useNavigate();
+
+  const handleTagClick = (e: React.MouseEvent, tag: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/search?q=${encodeURIComponent(tag)}`);
+  };
 
   return (
     <RouterLink
@@ -30,6 +37,26 @@ const PostCard = ({ post }: PostCardProps) => {
 
         {post.description && (
           <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{post.description}</p>
+        )}
+
+        {post.tagsArray && post.tagsArray.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {post.tagsArray.slice(0, 3).map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={(e) => handleTagClick(e, tag)}
+                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+              >
+                {tag}
+              </button>
+            ))}
+            {post.tagsArray.length > 3 && (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+                +{post.tagsArray.length - 3}
+              </span>
+            )}
+          </div>
         )}
 
         <div className="flex items-center gap-3">

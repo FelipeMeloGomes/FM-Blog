@@ -15,7 +15,7 @@ const EmptyState = ({ icon, title, description, action }: EmptyStateProps) => {
     <div className="flex min-h-[400px] items-center justify-center">
       <div className="text-center space-y-4 max-w-[320px]">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-secondary">
-          <div className="text-muted-foreground h-10 w-10">{icon}</div>
+          <div className="text-muted-foreground">{icon}</div>
         </div>
         <h3 className="text-lg font-semibold text-foreground">{title}</h3>
         <p className="text-sm text-muted-foreground">{description}</p>

@@ -69,7 +69,9 @@ export const usePaginatedDocuments = (
           const data = doc.data();
           const title = (data.title as string)?.toLowerCase() || "";
           const titleLower = (data.titleLower as string)?.toLowerCase() || title;
-          return titleLower.includes(searchLower);
+          const tags = Array.isArray(data.tagsArray) ? data.tagsArray : [];
+          const tagsString = tags.join(" ").toLowerCase();
+          return titleLower.includes(searchLower) || tagsString.includes(searchLower);
         }).length;
       }
 
@@ -143,7 +145,9 @@ export const usePaginatedDocuments = (
           docs = docs.filter((doc: DocumentData) => {
             const title = (doc.title as string)?.toLowerCase() || "";
             const titleLower = ((doc.titleLower || doc.title) as string)?.toLowerCase() || title;
-            return titleLower.includes(searchLower);
+            const tags = Array.isArray(doc.tagsArray) ? doc.tagsArray : [];
+            const tagsString = tags.join(" ").toLowerCase();
+            return titleLower.includes(searchLower) || tagsString.includes(searchLower);
           });
         }
 
@@ -174,7 +178,19 @@ export const usePaginatedDocuments = (
       setError(null);
 
       try {
-        const docs = await fetchPage(page);
+        let docs = await fetchPage(page);
+
+        if (search) {
+          const searchLower = search.toLowerCase();
+          docs = docs.filter((doc: DocumentData) => {
+            const title = (doc.title as string)?.toLowerCase() || "";
+            const titleLower = ((doc.titleLower || doc.title) as string)?.toLowerCase() || title;
+            const tags = Array.isArray(doc.tagsArray) ? doc.tagsArray : [];
+            const tagsString = tags.join(" ").toLowerCase();
+            return titleLower.includes(searchLower) || tagsString.includes(searchLower);
+          });
+        }
+
         setPosts(docs);
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: "smooth" });

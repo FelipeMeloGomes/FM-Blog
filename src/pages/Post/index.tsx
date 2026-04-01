@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
 import { usePostViews } from "../../hooks/usePostViews";
+import { useViewCount } from "../../hooks/useViewCount";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { handleShare } from "../../utils/ShareContent";
 import type { Post as PostType } from "../../utils/ShareContent/types";
@@ -20,7 +21,8 @@ const Post = () => {
   const { id } = useParams<{ id: string }>();
   const { data: post, isLoading } = usePost(id);
 
-  usePostViews(id);
+  usePostViews(id, user?.uid);
+  const viewCount = useViewCount(id);
 
   if (isLoading) {
     return (
@@ -96,7 +98,7 @@ const Post = () => {
             <ShareButton post={post as PostType} onShare={handleShare} />
             <span className="flex items-center gap-1 text-sm text-muted-foreground">
               <FiEye className="h-4 w-4" />
-              {post.views || 0}
+              {viewCount}
             </span>
           </div>
 
