@@ -57,6 +57,7 @@ const Post = () => {
     <div className="max-w-6xl mx-auto py-8">
       <div className="xl:grid xl:grid-cols-[1fr_250px] xl:gap-8">
         <div className="flex flex-col gap-8">
+          <TableOfContents />
           <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground leading-relaxed">
             {post.title}
           </h1>
@@ -148,7 +149,9 @@ const Post = () => {
           </div>
         </div>
 
-        <TableOfContents />
+        <div className="hidden xl:block">
+          <TableOfContents />
+        </div>
       </div>
     </div>
   );
