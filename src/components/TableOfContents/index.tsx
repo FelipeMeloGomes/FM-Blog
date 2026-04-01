@@ -6,48 +6,18 @@ export const TableOfContents = () => {
   const initialized = useRef(false);
 
   useEffect(() => {
-    const init = () => {
-      if (initialized.current) return;
+    if (initialized.current) return;
 
-      const content = document.querySelector(".post-content");
-      if (!content) return;
+    tocbot.init({
+      tocSelector: "#toc",
+      contentSelector: ".post-content",
+      headingSelector: "h1, h2, h3",
+      orderedList: false,
+      scrollSmooth: true,
+      scrollSmoothDuration: 300,
+    });
 
-      const headings = content.querySelectorAll("h2, h3");
-      if (headings.length === 0) return;
-
-      const usedIds = new Set<string>();
-      headings.forEach((heading, index) => {
-        if (heading.id) return;
-        let id =
-          (heading.textContent || "")
-            .toLowerCase()
-            .trim()
-            .replace(/\s+/g, "-")
-            .replace(/[^\w-]+/g, "")
-            .replace(/--+/g, "-")
-            .replace(/^-+/, "")
-            .replace(/-+$/, "") || `heading-${index}`;
-        if (usedIds.has(id)) id = `${id}-${index}`;
-        heading.id = id;
-        usedIds.add(id);
-      });
-
-      tocbot.init({
-        tocSelector: "#toc",
-        contentSelector: ".post-content",
-        headingSelector: "h2, h3",
-        orderedList: false,
-        scrollSmooth: true,
-        scrollSmoothDuration: 300,
-        scrollSmoothOffset: -80,
-        headingsOffset: 80,
-      });
-
-      initialized.current = true;
-    };
-
-    const timeoutId = setTimeout(init, 100);
-    return () => clearTimeout(timeoutId);
+    initialized.current = true;
   }, []);
 
   return (
@@ -59,5 +29,3 @@ export const TableOfContents = () => {
     </div>
   );
 };
-
-export const TableOfContentsSidebar = () => null;
