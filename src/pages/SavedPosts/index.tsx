@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FiBookmark } from "react-icons/fi";
+import { useMemo, useState } from "react";
+import { FiBookmark, FiSearch } from "react-icons/fi";
 import { EmptyState } from "../../components/EmptyState";
 import { Pagination } from "../../components/Pagination";
 import { PostCard } from "../../components/PostCard";
@@ -27,6 +27,7 @@ const SavedPosts = () => {
   const { user } = useAuthValue() || {};
   const { savedPostIds, loading: savedLoading } = useSavedPosts();
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { documents: allPosts, loading: postsLoading } = useFetchDocuments(
     "posts",
@@ -50,10 +51,31 @@ const SavedPosts = () => {
       likes: post.likes,
     }));
 
-  const totalPosts = savedPosts.length;
+  const filteredPosts = useMemo(() => {
+    if (!searchQuery.trim()) return savedPosts;
+
+    const query = searchQuery.toLowerCase().trim();
+    return savedPosts.filter((post) => {
+      const titleMatch = post.title.toLowerCase().includes(query);
+      const tagsMatch = post.tagsArray?.some((tag) => tag.toLowerCase().includes(query));
+      return titleMatch || tagsMatch;
+    });
+  }, [savedPosts, searchQuery]);
+
+  const totalPosts = filteredPosts.length;
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-  const paginatedPosts = savedPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+  const paginatedPosts = filteredPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setCurrentPage(1);
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -101,9 +123,33 @@ const SavedPosts = () => {
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold font-heading text-foreground">Posts Salvos</h1>
         <p className="text-sm text-muted-foreground">
-          {totalPosts} {totalPosts === 1 ? "post salvo" : "posts salvos"}
+          {searchQuery.trim()
+            ? `${totalPosts} de ${savedPosts.length} posts`
+            : `${totalPosts} ${totalPosts === 1 ? "post salvo" : "posts salvos"}`}
         </p>
       </div>
+
+      {savedPosts.length > 0 && (
+        <div className="relative max-w-md">
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Buscar nos posts salvos..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="w-full h-10 pl-10 pr-10 rounded-md border border-input bg-background text-sm"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      )}
 
       {savedPosts.length === 0 ? (
         <EmptyState
@@ -116,6 +162,13 @@ const SavedPosts = () => {
               window.location.href = "/";
             },
           }}
+        />
+      ) : filteredPosts.length === 0 ? (
+        <EmptyState
+          icon={<FiSearch />}
+          title="Nenhum resultado encontrado"
+          description={`Não encontramos posts para "${searchQuery}"`}
+          action={searchQuery ? { label: "Limpar busca", onClick: clearSearch } : undefined}
         />
       ) : (
         <>
