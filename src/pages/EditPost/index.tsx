@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { Editor } from "../../components/Editor";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -14,7 +15,7 @@ import { useUpdateDocument } from "../../hooks/useUpdateDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { usePost } from "../../lib/hooks/usePostsQuery";
 import { type EditPostFormData, editPostSchema } from "../../schemas";
-import { EditorProvider } from "../../utils/EditorContext";
+import { EditorProvider, useEditorContext } from "../../utils/EditorContext";
 import { sanitizeTag } from "../../utils/security";
 
 const processTags = (input: string): string[] => {
@@ -33,6 +34,7 @@ const EditPostContent = () => {
   const { user } = useAuthValue() || {};
   const { data: post, isLoading } = usePost(id);
   const { updateDocument, response } = useUpdateDocument("posts");
+  const { getContent } = useEditorContext();
 
   const [coverImage, setCoverImage] = useState<ImageFile | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,7 +91,7 @@ const EditPostContent = () => {
         title: data.title,
         titleLower: data.title.toLowerCase(),
         image: imageUrl,
-        body: String(post?.body || ""),
+        body: getContent(),
         tagsArray: previewTags,
         uid: user?.uid || post?.uid || "",
         createdBy: post?.createdBy || user?.name || user?.email || "Anonymous",
@@ -188,6 +190,13 @@ const EditPostContent = () => {
             setCoverImage(images[0] ?? null);
           }}
         />
+
+        <div className="space-y-2">
+          <Label htmlFor="body" className="text-sm">
+            Conteúdo *
+          </Label>
+          <Editor />
+        </div>
 
         <div className="space-y-2">
           <Label htmlFor="tagsInput" className="text-sm">

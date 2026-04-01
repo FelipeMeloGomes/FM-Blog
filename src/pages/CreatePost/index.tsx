@@ -5,16 +5,16 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Dialog } from "../../components/Dialog";
+import { Editor } from "../../components/Editor";
 import { type ImageFile, ImageUploader } from "../../components/ImageUploader";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
-import { Textarea } from "../../components/ui/textarea";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { transformCloudinaryUrl, uploadToCloudinary } from "../../lib/cloudinary";
 import { type CreatePostFormData, createPostSchema } from "../../schemas";
-import { EditorProvider } from "../../utils/EditorContext";
+import { EditorProvider, useEditorContext } from "../../utils/EditorContext";
 import { sanitizeTag } from "../../utils/security";
 
 const processTags = (input: string): string[] => {
@@ -34,6 +34,7 @@ const CreatePostContent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { insertDocument, response } = useInsertDocument("posts");
+  const { getContent } = useEditorContext();
 
   const form = useForm<CreatePostFormData>({
     resolver: zodResolver(createPostSchema),
@@ -98,7 +99,7 @@ const CreatePostContent = () => {
         title: data.title,
         titleLower: data.title.toLowerCase(),
         image: imageUrl,
-        body: data.body,
+        body: getContent(),
         tagsArray: previewTags,
         uid: user?.uid || "",
         createdBy: user?.name || user?.email || "Anonymous",
@@ -184,15 +185,7 @@ const CreatePostContent = () => {
           <Label htmlFor="body" className="text-sm">
             Conteúdo *
           </Label>
-          <Textarea
-            id="body"
-            placeholder="Escreva o conteúdo do seu post..."
-            minLength={10}
-            {...form.register("body")}
-            className="min-h-[300px] resize-y"
-            aria-describedby={form.formState.errors.body ? "body-error" : undefined}
-            aria-invalid={!!form.formState.errors.body}
-          />
+          <Editor />
           {form.formState.errors.body && (
             <p id="body-error" className="text-xs text-destructive" role="alert" aria-live="polite">
               {form.formState.errors.body.message}
