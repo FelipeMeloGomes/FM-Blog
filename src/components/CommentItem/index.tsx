@@ -10,7 +10,7 @@ interface CommentItemProps {
   comment: Comment;
   currentUserId?: string;
   onDelete: (commentId: string, userId: string) => void;
-  onLike: (commentId: string, userId: string) => void;
+  onLike: (commentId: string, commentUserId: string) => void;
   onReply: (parentId: string) => void;
 }
 
@@ -75,7 +75,7 @@ const CommentItemComponent = ({
         <div className="flex items-center gap-4">
           <button
             type="button"
-            onClick={() => currentUserId && onLike(comment.id, currentUserId)}
+            onClick={() => currentUserId && onLike(comment.id, comment.userId)}
             disabled={!currentUserId}
             className={`flex items-center gap-1 text-xs transition-colors ${
               isLiked
