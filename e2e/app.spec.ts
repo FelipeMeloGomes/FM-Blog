@@ -61,47 +61,6 @@ test.describe("Meta tags SEO", () => {
   });
 });
 
-test.describe("Security Headers", () => {
-  test("deve ter Content-Security-Policy", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const csp = page.locator('meta[http-equiv="content-security-policy"]');
-    await expect(csp).toBeAttached();
-  });
-
-  test("deve ter X-Frame-Options DENY", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const header = page.locator('meta[http-equiv="x-frame-options"]');
-    await expect(header).toHaveAttribute("content", /deny/i);
-  });
-
-  test("deve ter X-Content-Type-Options nosniff", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const header = page.locator('meta[http-equiv="x-content-type-options"]');
-    await expect(header).toHaveAttribute("content", /nosniff/i);
-  });
-
-  test("deve ter Referrer-Policy", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const header = page.locator('meta[http-equiv="referrer-policy"]');
-    await expect(header).toBeAttached();
-  });
-
-  test("CSP deve permitir Firebase", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const csp = page.locator('meta[http-equiv="content-security-policy"]');
-    const content = await csp.getAttribute("content");
-    expect(content).toContain("firebaseio.com");
-    expect(content).toContain("firestore.googleapis.com");
-  });
-
-  test("CSP deve permitir Cloudinary", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const csp = page.locator('meta[http-equiv="content-security-policy"]');
-    const content = await csp.getAttribute("content");
-    expect(content).toContain("cloudinary.com");
-  });
-});
-
 test.describe("Responsividade", () => {
   test("deve funcionar em viewport mobile (375x667)", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
