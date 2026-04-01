@@ -7,7 +7,12 @@ vi.mock("dompurify", () => ({
         .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
         .replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, "")
         .replace(/javascript:/gi, "")
-        .replace(/data:/gi, "");
+        .replace(/data:/gi, "")
+        .replace(/<a\b[^>]*>/gi, "")
+        .replace(/<\/a>/gi, "")
+        .replace(/<img\b[^>]*\/?>/gi, "")
+        .replace(/\s*style\s*=\s*["'][^"']*["']/gi, "")
+        .replace(/\s*target\s*=\s*["'][^"']*["']/gi, "");
     }),
   },
 }));
@@ -59,13 +64,13 @@ describe("sanitizeHtml", () => {
     });
 
     it("should handle javascript: protocol", () => {
-      const html = "<a href='javascript:alert(1)'>Link</a>";
+      const html = "<p onclick='javascript:alert(1)'>Test</p>";
       const result = sanitizeHtml(html);
       expect(result).not.toContain("javascript:");
     });
 
     it("should handle data: protocol", () => {
-      const html = "<img src='data:text/html,<script>alert(1)</script>' />";
+      const html = "<p src='data:text/html,<script>alert(1)</script>'>Test</p>";
       const result = sanitizeHtml(html);
       expect(result).not.toContain("data:");
     });
@@ -78,13 +83,41 @@ describe("sanitizeHtml", () => {
       ["<blockquote>Quote</blockquote>", "should preserve blockquote"],
       ["<code>console.log()</code>", "should preserve code"],
       ["<pre>Code block</pre>", "should preserve pre"],
-      ["<a href='https://example.com'>Link</a>", "should preserve links with href"],
-      ["<img src='image.jpg' alt='test' />", "should preserve img with src"],
+      ["<span class='highlight'>Highlighted</span>", "should preserve span with class"],
+      ["<p id='paragraph'>Text</p>", "should preserve id attribute"],
     ] as const;
 
     it.each(allowedTags)("%s - %s", (html) => {
       const result = sanitizeHtml(html);
       expect(result).toBeTruthy();
+    });
+  });
+
+  describe("given forbidden tags and attributes", () => {
+    it("should remove a tags (links)", () => {
+      const html = "<p><a href='https://example.com'>Link</a></p>";
+      const result = sanitizeHtml(html);
+      expect(result).not.toContain("<a");
+      expect(result).not.toContain("href=");
+    });
+
+    it("should remove img tags", () => {
+      const html = "<p><img src='image.jpg' alt='test' /></p>";
+      const result = sanitizeHtml(html);
+      expect(result).not.toContain("<img");
+      expect(result).not.toContain("src=");
+    });
+
+    it("should remove style attribute", () => {
+      const html = "<p style='color:red'>Styled</p>";
+      const result = sanitizeHtml(html);
+      expect(result).not.toContain("style=");
+    });
+
+    it("should remove target attribute", () => {
+      const html = "<p target='_blank'>Target</p>";
+      const result = sanitizeHtml(html);
+      expect(result).not.toContain("target=");
     });
   });
 

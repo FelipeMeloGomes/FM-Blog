@@ -27,13 +27,12 @@ export const sanitizeHtml = (html: string | TrustedHTML): string => {
       "blockquote",
       "pre",
       "code",
-      "a",
-      "img",
       "span",
-      "div",
     ],
-    ALLOWED_ATTR: ["href", "src", "alt", "class", "style", "target", "rel", "id"],
+    ALLOWED_ATTR: ["href", "alt", "class", "id"],
     ALLOW_DATA_ATTR: false,
     ADD_ATTR: ["id"],
+    FORBID_ATTR: ["style", "target"],
+    ALLOW_UNKNOWN_PROTOCOLS: false,
   });
 };
