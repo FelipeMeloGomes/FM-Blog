@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { FiBookmark } from "react-icons/fi";
 import { EmptyState } from "../../components/EmptyState";
+import { Pagination } from "../../components/Pagination";
 import { PostCard } from "../../components/PostCard";
 import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
@@ -19,9 +21,12 @@ interface Post {
   likes?: string[];
 }
 
+const POSTS_PER_PAGE = 6;
+
 const SavedPosts = () => {
   const { user } = useAuthValue() || {};
   const { savedPostIds, loading: savedLoading } = useSavedPosts();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { documents: allPosts, loading: postsLoading } = useFetchDocuments(
     "posts",
@@ -45,6 +50,16 @@ const SavedPosts = () => {
       likes: post.likes,
     }));
 
+  const totalPosts = savedPosts.length;
+  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const paginatedPosts = savedPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   if (savedLoading || postsLoading) {
     return (
       <div className="flex flex-col gap-8 w-full">
@@ -53,7 +68,7 @@ const SavedPosts = () => {
           <Skeleton className="h-4 w-48" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
+          {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="bg-card rounded-lg overflow-hidden border">
               <Skeleton className="h-[200px] w-full" />
               <div className="p-6 space-y-3">
@@ -86,7 +101,7 @@ const SavedPosts = () => {
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold font-heading text-foreground">Posts Salvos</h1>
         <p className="text-sm text-muted-foreground">
-          {savedPosts.length} {savedPosts.length === 1 ? "post salvo" : "posts salvos"}
+          {totalPosts} {totalPosts === 1 ? "post salvo" : "posts salvos"}
         </p>
       </div>
 
@@ -103,11 +118,20 @@ const SavedPosts = () => {
           }}
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {savedPosts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {paginatedPosts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </div>
   );
