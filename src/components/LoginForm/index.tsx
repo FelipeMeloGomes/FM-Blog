@@ -146,6 +146,17 @@ const LoginForm = ({
       // biome-ignore lint/suspicious/noExplicitAny: Google login doesn't have form data
       if (onSubmit) onSubmit({} as any);
     } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro desconhecido";
+
+      if (
+        errorMessage.includes("popup-closed-by-user") ||
+        errorMessage.includes("cancelled") ||
+        errorMessage.includes("closed")
+      ) {
+        return;
+      }
+
+      setAuthError(errorMessage);
       console.error(err);
     }
   };
