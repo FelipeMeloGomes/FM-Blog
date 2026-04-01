@@ -6,7 +6,7 @@ import { LikeButton } from "../../components/LikeButton";
 import { PostDetailSkeleton } from "../../components/PostDetailSkeleton";
 import { RelatedPosts } from "../../components/RelatedPosts";
 import { ShareButton } from "../../components/ShareButton";
-import { TableOfContents } from "../../components/TableOfContents";
+import { TableOfContents, TableOfContentsSidebar } from "../../components/TableOfContents";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { useAuthValue } from "../../context/AuthContext";
@@ -149,11 +149,7 @@ const Post = () => {
           </div>
         </div>
 
-        <div className="hidden xl:block">
-          <div className="sticky top-24">
-            <TableOfContents />
-          </div>
-        </div>
+        <TableOfContentsSidebar />
       </div>
     </div>
   );
