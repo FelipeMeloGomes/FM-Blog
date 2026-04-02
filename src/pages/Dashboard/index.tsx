@@ -22,7 +22,6 @@ import { Input } from "../../components/ui/input";
 import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
 import { useDeleteDocument } from "../../hooks/useDeleteDocument";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useMetrics } from "../../hooks/useMetrics";
 import { usePostsViews } from "../../hooks/usePostsViews";
 import { useUserPosts } from "../../lib/hooks/usePostsQuery";
@@ -145,8 +144,8 @@ const Dashboard = () => {
   const { metrics, loading: metricsLoading } = useMetrics(uid);
   const { deleteDocument } = useDeleteDocument("posts");
 
-  const [searchQuery, setSearchQuery] = useLocalStorage("dashboard-search", "");
-  const [sortBy, setSortBy] = useLocalStorage<SortOption>("dashboard-sort", "recent");
+  const [searchQuery, setSearchQuery] = useSessionStorage("dashboard-search", "");
+  const [sortBy, setSortBy] = useSessionStorage<SortOption>("dashboard-sort", "recent");
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
