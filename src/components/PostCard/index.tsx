@@ -19,53 +19,54 @@ const PostCard = ({ post }: PostCardProps) => {
   return (
     <RouterLink
       to={`/posts/${post.id}`}
-      className="block bg-card rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
+      className="group block bg-card rounded-2xl overflow-hidden cursor-pointer border border-transparent shadow-sm hover:shadow-xl hover:border-border/50 transition-all duration-300"
     >
       <div className="relative h-[200px] overflow-hidden">
         <ImageWithFallback
           src={post.image}
           alt={post.title}
           fallbackSrc={CONSTANTS.IMAGE.FALLBACK_PLACEHOLDER}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      <div className="p-6">
-        <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-3 hover:text-muted-foreground transition-colors">
+      <div className="p-5">
+        <h3 className="text-base font-semibold text-foreground line-clamp-2 mb-2.5 group-hover:text-primary transition-colors duration-200">
           {post.title}
         </h3>
 
         {post.description && (
-          <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{post.description}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{post.description}</p>
         )}
 
         {post.tagsArray && post.tagsArray.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-1.5 mb-4">
             {post.tagsArray.slice(0, 3).map((tag) => (
               <button
                 key={tag}
                 type="button"
                 onClick={(e) => handleTagClick(e, tag)}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-secondary/80 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-200 cursor-pointer"
               >
                 {tag}
               </button>
             ))}
             {post.tagsArray.length > 3 && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
                 +{post.tagsArray.length - 3}
               </span>
             )}
           </div>
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 pt-3 border-t border-border/50">
           <Avatar size="sm">
             <AvatarImage src={post.photoURL} />
-            <AvatarFallback>{post.createdBy?.charAt(0)}</AvatarFallback>
+            <AvatarFallback className="text-xs">{post.createdBy?.charAt(0)}</AvatarFallback>
           </Avatar>
-          <div>
-            <p className="text-sm font-medium text-foreground">{post.createdBy}</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-foreground truncate">{post.createdBy}</p>
             <p className="text-xs text-muted-foreground">
               {formattedDate} · {readTime} min
             </p>

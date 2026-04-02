@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useColorMode } from "../../contexts/ColorModeContext";
@@ -13,6 +13,24 @@ const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
   const location = useLocation();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   const menuItems = [
     { text: "Início", to: "/", show: true },
@@ -26,18 +44,18 @@ const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
   ];
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden" ref={menuRef}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-md hover:bg-secondary"
+        className="p-2 rounded-lg hover:bg-secondary/50 transition-colors"
       >
-        {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+        {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 bg-background border-b py-4 px-4">
-          <div className="flex flex-col gap-4">
+        <div className="absolute top-full right-0 mt-2 w-64 bg-card rounded-xl border shadow-lg py-2 animate-in fade-in duration-200">
+          <div className="flex flex-col">
             {menuItems
               .filter((item) => item.show)
               .map((item) => {
@@ -47,10 +65,11 @@ const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
                     key={item.text}
                     to={item.to}
                     onClick={() => setIsOpen(false)}
-                    className={`py-2 px-4 rounded-md font-medium transition-colors ${isActive
-                        ? "text-foreground"
+                    className={`px-4 py-3 text-sm font-medium transition-colors ${
+                      isActive
+                        ? "text-primary bg-primary/10"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                      }`}
+                    }`}
                   >
                     {item.text}
                   </RouterLink>
@@ -63,22 +82,21 @@ const NavBarMobile = ({ user, logout }: NavBarMobileProps) => {
                   logout();
                   setIsOpen(false);
                 }}
-                className="py-2 px-4 text-left font-medium text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                className="px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors text-left"
               >
                 Sair
               </button>
             )}
 
-            <div className="border-t pt-4">
-              <button
-                type="button"
-                onClick={toggleColorMode}
-                className="flex items-center gap-3 py-2 px-4 w-full text-left font-medium text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md transition-colors"
-              >
-                {isDark ? <FiSun size={20} /> : <FiMoon size={20} />}
-                <span>{isDark ? "Modo claro" : "Modo escuro"}</span>
-              </button>
-            </div>
+            <div className="border-t my-2" />
+            <button
+              type="button"
+              onClick={toggleColorMode}
+              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+            >
+              {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+              <span>{isDark ? "Modo claro" : "Modo escuro"}</span>
+            </button>
           </div>
         </div>
       )}

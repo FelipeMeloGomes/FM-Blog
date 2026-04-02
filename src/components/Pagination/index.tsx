@@ -57,12 +57,12 @@ const Pagination = ({
   const pages = getPageNumbers();
 
   return (
-    <div className="flex items-center justify-center gap-2 pt-8">
+    <div className="flex items-center justify-center gap-1.5 pt-6">
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1 || isLoading}
-        className="p-2 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+        className="p-2.5 rounded-lg border border-input bg-background hover:bg-secondary/50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 hover:border-primary/30"
       >
         <FiChevronLeft className="h-4 w-4" />
       </button>
@@ -70,7 +70,7 @@ const Pagination = ({
       <div className="flex items-center gap-1">
         {pages.map((page) =>
           page === "ellipsis" ? (
-            <span key="ellipsis" className="px-2">
+            <span key="ellipsis" className="px-2 text-muted-foreground">
               ...
             </span>
           ) : (
@@ -79,11 +79,11 @@ const Pagination = ({
               key={page}
               onClick={() => onPageChange(page)}
               disabled={isLoading}
-              className={`h-9 w-9 rounded-md text-sm font-medium transition-colors ${
+              className={`h-9 min-w-[36px] px-3 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${
                 currentPage === page
-                  ? "bg-primary text-primary-foreground"
-                  : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-              } disabled:opacity-50`}
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "border border-input bg-background hover:bg-secondary/50 hover:border-primary/30"
+              }`}
             >
               {page}
             </button>
@@ -95,7 +95,7 @@ const Pagination = ({
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages || isLoading}
-        className="p-2 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+        className="p-2.5 rounded-lg border border-input bg-background hover:bg-secondary/50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 hover:border-primary/30"
       >
         <FiChevronRight className="h-4 w-4" />
       </button>

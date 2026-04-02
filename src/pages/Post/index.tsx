@@ -42,7 +42,7 @@ const Post = () => {
 
   if (!post) {
     return (
-      <div className="text-center py-20">
+      <div className="text-center py-20 animate-in fade-in duration-300">
         <p className="text-muted-foreground">Post não encontrado</p>
       </div>
     );
@@ -53,25 +53,27 @@ const Post = () => {
   const isOwner = user?.uid === post.uid;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 md:py-8 space-y-6 md:space-y-8">
-      <h1 className="font-heading text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-relaxed">
-        {post.title}
-      </h1>
+    <article className="max-w-4xl mx-auto px-4 py-6 md:py-8 space-y-8">
+      <header className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight tracking-tight">
+          {post.title}
+        </h1>
 
-      <div className="flex items-center gap-3 md:gap-4">
-        <Avatar className="h-10 w-10 md:h-12 md:w-12">
-          <AvatarImage src={post.photoURL} />
-          <AvatarFallback className="text-sm md:text-base">
-            {post.createdBy?.charAt(0) || "?"}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col gap-0">
-          <p className="text-sm md:text-base text-muted-foreground font-medium">{post.createdBy}</p>
-          <p className="text-xs md:text-sm text-muted-foreground">{formattedDate}</p>
+        <div className="flex items-center gap-4">
+          <Avatar className="h-12 w-12 ring-2 ring-border/50">
+            <AvatarImage src={post.photoURL} />
+            <AvatarFallback className="text-base">
+              {post.createdBy?.charAt(0) || "?"}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <p className="text-base font-medium">{post.createdBy}</p>
+            <p className="text-sm text-muted-foreground">{formattedDate}</p>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div className="aspect-video w-full rounded-lg overflow-hidden bg-muted">
+      <div className="aspect-video w-full rounded-2xl overflow-hidden bg-muted shadow-lg animate-in fade-in duration-500 delay-100">
         <ImageWithFallback
           src={post.image}
           alt={post.title}
@@ -81,29 +83,25 @@ const Post = () => {
       </div>
 
       <div
-        className="post-content prose prose-lg dark:prose-invert max-w-none"
+        className="post-content prose prose-lg dark:prose-invert max-w-none animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200"
         dangerouslySetInnerHTML={{ __html: sanitizeHtml(String(post.body || "")) }}
       />
 
       {post.tagsArray && post.tagsArray.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center py-2">
+        <div className="flex flex-wrap gap-2 items-center py-4 border-t border-b animate-in fade-in duration-300 delay-300">
           {post.tagsArray.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium bg-secondary text-secondary-foreground"
+              className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-secondary/80 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-200 cursor-pointer"
             >
               {tag}
             </span>
           ))}
-          <span className="text-xs md:text-sm text-muted-foreground">
-            · {readTime} min de leitura
-          </span>
+          <span className="text-sm text-muted-foreground ml-2">· {readTime} min de leitura</span>
         </div>
       )}
 
-      <div className="border-t pt-4 md:pt-6" />
-
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 py-4 animate-in fade-in duration-300 delay-300">
         <div className="flex flex-wrap gap-2 md:gap-3">
           <LikeButton postId={post.id!} userId={user?.uid || ""} />
           <ShareButton post={post as PostType} onShare={handleShare} />
@@ -111,48 +109,48 @@ const Post = () => {
             variant="ghost"
             size="sm"
             onClick={() => toggleSave(post.id!)}
-            className={isSaved(post.id!) ? "text-primary" : ""}
+            className={`gap-2 transition-colors ${isSaved(post.id!) ? "text-primary" : ""}`}
           >
             <FiBookmark className={`h-4 w-4 ${isSaved(post.id!) ? "fill-current" : ""}`} />
-            <span className="ml-2 hidden sm:inline">Salvar</span>
+            <span className="hidden sm:inline">Salvar</span>
           </Button>
-          <span className="flex items-center gap-1 text-sm text-muted-foreground px-2">
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground px-3 py-2 rounded-lg bg-secondary/50">
             <FiEye className="h-4 w-4" />
-            {viewCount}
-          </span>
+            <span className="tabular-nums">{viewCount}</span>
+          </div>
         </div>
 
-        <div className="flex gap-4">
-          {isOwner && (
-            <Button asChild variant="ghost" size="sm">
-              <Link to={`/posts/edit/${post.id}`}>Editar post</Link>
-            </Button>
-          )}
-        </div>
+        {isOwner && (
+          <Button asChild variant="outline" size="sm">
+            <Link to={`/posts/edit/${post.id}`}>Editar post</Link>
+          </Button>
+        )}
       </div>
 
-      <div className="pt-2">
+      <section className="pt-6 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-400">
         <Comments
           postId={post.id!}
           userId={user?.uid}
           userName={user?.name}
           userAvatar={user?.photoURL}
         />
-      </div>
+      </section>
 
-      <div className="pt-4 md:pt-6">
-        <RelatedPosts posts={relatedPosts} loading={relatedLoading} />
-      </div>
+      {relatedPosts.length > 0 && (
+        <section className="pt-6 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-500">
+          <RelatedPosts posts={relatedPosts} loading={relatedLoading} />
+        </section>
+      )}
 
-      <div className="pt-4 border-t">
-        <Button asChild variant="ghost" size="sm">
+      <div className="pt-6 border-t">
+        <Button asChild variant="ghost" size="sm" className="gap-2">
           <Link to="/">
-            <FiArrowLeft className="mr-2 h-4 w-4" />
+            <FiArrowLeft className="h-4 w-4" />
             Voltar para home
           </Link>
         </Button>
       </div>
-    </div>
+    </article>
   );
 };
 

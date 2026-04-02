@@ -186,7 +186,7 @@ const LoginForm = ({
       : registerForm.handleSubmit(onRegisterSubmit);
 
   return (
-    <div className="w-full max-w-md mx-auto rounded-lg shadow-lg overflow-hidden">
+    <div className="w-full max-w-md mx-auto rounded-2xl border bg-card shadow-xl overflow-hidden">
       <div className="p-8 space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground">{getTitle()}</h1>
@@ -195,20 +195,27 @@ const LoginForm = ({
 
         {!resetPassword && (
           <>
-            <Button variant="outline" size="lg" onClick={handleGoogleLogin} className="w-full h-11">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleGoogleLogin}
+              className="w-full h-12 gap-2"
+            >
               <GoogleIcon />
-              <span className="ml-2">Continuar com Google</span>
+              <span>Continuar com Google</span>
             </Button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-border" />
-              <span className="text-sm text-muted-foreground whitespace-nowrap px-2">ou</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                ou continue com email
+              </span>
               <div className="flex-1 h-px bg-border" />
             </div>
           </>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {!isLogin && !resetPassword && (
             <FormField
               label="Nome de usuário"
@@ -230,12 +237,12 @@ const LoginForm = ({
           />
 
           {!resetPassword && (
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center justify-end">
                 {isLogin && (
                   <RouterLink
                     to="/resetPassword"
-                    className="text-sm text-muted-foreground hover:text-foreground"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     Esqueceu a senha?
                   </RouterLink>
@@ -262,16 +269,12 @@ const LoginForm = ({
           )}
 
           {(authError || errors.root) && (
-            <p className="text-sm text-destructive">{authError || errors.root?.message}</p>
+            <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+              <p className="text-sm text-destructive">{authError || errors.root?.message}</p>
+            </div>
           )}
 
-          <Button
-            type="submit"
-            variant="default"
-            size="lg"
-            className="w-full h-11"
-            disabled={loading}
-          >
+          <Button type="submit" size="lg" className="w-full h-12" disabled={loading}>
             {loading ? getLoadingText() : getButtonText()}
           </Button>
         </form>
@@ -281,7 +284,7 @@ const LoginForm = ({
             {isLogin ? "Não tem uma conta? " : "Já tem uma conta? "}
             <RouterLink
               to={isLogin ? "/register" : "/login"}
-              className="font-medium text-foreground hover:underline"
+              className="font-medium text-foreground hover:text-primary transition-colors"
             >
               {isLogin ? "Cadastre-se" : "Entrar"}
             </RouterLink>

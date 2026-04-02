@@ -84,14 +84,14 @@ const SavedPosts = () => {
 
   if (savedLoading || postsLoading) {
     return (
-      <div className="flex flex-col gap-8 w-full">
-        <div className="flex flex-col gap-2">
-          <Skeleton className="h-8 w-32" />
-          <Skeleton className="h-4 w-48" />
+      <div className="flex flex-col gap-10 w-full">
+        <div className="flex flex-col gap-2 animate-fade-in">
+          <Skeleton className="h-9 w-40" />
+          <Skeleton className="h-4 w-32" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bg-card rounded-lg overflow-hidden border">
+            <div key={i} className="bg-card rounded-xl overflow-hidden border">
               <Skeleton className="h-[200px] w-full" />
               <div className="p-6 space-y-3">
                 <Skeleton className="h-5 w-3/4" />
@@ -107,8 +107,10 @@ const SavedPosts = () => {
 
   if (!user) {
     return (
-      <div className="flex flex-col gap-4 w-full">
-        <h1 className="text-2xl font-bold font-heading text-foreground">Posts Salvos</h1>
+      <div className="flex flex-col gap-6 w-full">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading tracking-tight">
+          Posts <span className="text-primary">Salvos</span>
+        </h1>
         <EmptyState
           icon={<FiBookmark />}
           title="Faça login para ver seus posts salvos"
@@ -119,20 +121,22 @@ const SavedPosts = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8 w-full">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold font-heading text-foreground">Posts Salvos</h1>
-        <p className="text-sm text-muted-foreground">
+    <div className="flex flex-col gap-10 w-full">
+      <header className="flex flex-col gap-1 animate-slide-in-from-bottom-4 opacity-0 [animation-delay:100ms] [animation-fill-mode:forwards]">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading tracking-tight">
+          Posts <span className="text-primary">Salvos</span>
+        </h1>
+        <p className="text-muted-foreground">
           {searchQuery.trim()
             ? `${totalPosts} de ${savedPosts.length} posts`
             : `${totalPosts} ${totalPosts === 1 ? "post salvo" : "posts salvos"}`}
         </p>
-      </div>
+      </header>
 
       {savedPosts.length > 0 && (
-        <div className="max-w-[600px] mx-auto w-full">
+        <div className="max-w-[600px] mx-auto w-full animate-slide-in-from-bottom-4 opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <FiSearch className="h-5 w-5 text-muted-foreground" />
             </div>
             <input
@@ -141,7 +145,7 @@ const SavedPosts = () => {
               aria-label="Buscar posts salvos"
               value={searchQuery}
               onChange={handleSearchChange}
-              className="flex h-12 w-full rounded-md border border-input bg-background px-3 pl-12 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-12 w-full rounded-xl border border-input bg-background px-4 pl-12 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 transition-all"
             />
           </div>
         </div>
@@ -169,8 +173,14 @@ const SavedPosts = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {paginatedPosts.map((post) => (
-              <PostCard key={post.id} post={post} />
+            {paginatedPosts.map((post, index) => (
+              <div
+                key={post.id}
+                className="animate-slide-in-from-bottom-4 opacity-0"
+                style={{ animationDelay: `${(index + 3) * 100}ms`, animationFillMode: "forwards" }}
+              >
+                <PostCard post={post} />
+              </div>
             ))}
           </div>
           {totalPages > 1 && (

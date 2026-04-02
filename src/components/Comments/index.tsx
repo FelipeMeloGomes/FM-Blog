@@ -94,7 +94,11 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
 
   if (error) {
     return (
-      <div className="text-center py-8 text-muted-foreground" role="alert" aria-live="polite">
+      <div
+        className="text-center py-8 text-muted-foreground animate-in fade-in"
+        role="alert"
+        aria-live="polite"
+      >
         <p>{error}</p>
       </div>
     );
@@ -103,7 +107,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
   return (
     <div className="space-y-6 border-t pt-6">
       <div className="flex items-center gap-2">
-        <FiMessageCircle className="h-5 w-5" />
+        <FiMessageCircle className="h-5 w-5 text-primary" />
         <h2 className="text-lg font-semibold">Comentários ({getCommentCount()})</h2>
       </div>
 
@@ -112,18 +116,22 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
           <Textarea
             {...registerComment("content")}
             placeholder="Escreva um comentário..."
-            className="min-h-[100px] resize-none"
+            className="min-h-[100px] resize-none rounded-xl"
             autoFocus
           />
           {commentErrors.content && (
-            <p className="text-sm text-red-500">{commentErrors.content.message}</p>
+            <p className="text-sm text-destructive flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-destructive" />
+              {commentErrors.content.message}
+            </p>
           )}
           <div className="flex justify-between items-center">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground tabular-nums">
               {commentContent?.length || 0}/{CONSTANTS.VALIDATION.COMMENT_MAX_CHARS}
             </span>
             <Button
               type="submit"
+              size="sm"
               disabled={
                 isSubmitting ||
                 (commentContent?.length || 0) > CONSTANTS.VALIDATION.COMMENT_MAX_CHARS
@@ -134,7 +142,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
           </div>
         </form>
       ) : (
-        <div className="bg-secondary/50 rounded-lg p-4 text-center space-y-2">
+        <div className="bg-secondary/30 rounded-xl p-5 text-center space-y-3 border border-border/50">
           <p className="text-sm text-muted-foreground">Faça login para comentar</p>
           <div className="flex gap-2 justify-center">
             <Button asChild size="sm">
@@ -148,7 +156,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
       )}
 
       {mainComments.length > 0 ? (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {mainComments.map((comment) => (
             <div key={comment.id} className="space-y-3">
               <CommentItem
@@ -160,18 +168,21 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                 onEdit={updateComment}
               />
               {replyTo === comment.id && (
-                <form onSubmit={handleSubmitReply(onSubmitReply)} className="ml-10 space-y-2">
+                <form
+                  onSubmit={handleSubmitReply(onSubmitReply)}
+                  className="ml-10 space-y-2 animate-in fade-in slide-in-from-top-2 duration-200"
+                >
                   <Textarea
                     {...registerReply("content")}
                     placeholder="Escreva uma resposta..."
-                    className="min-h-[80px] resize-none"
+                    className="min-h-[80px] resize-none rounded-xl text-sm"
                     autoFocus
                   />
                   {replyErrors.content && (
-                    <p className="text-sm text-red-500">{replyErrors.content.message}</p>
+                    <p className="text-sm text-destructive">{replyErrors.content.message}</p>
                   )}
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground tabular-nums">
                       {replyContent?.length || 0}/{CONSTANTS.VALIDATION.COMMENT_MAX_CHARS}
                     </span>
                     <div className="flex gap-2">
@@ -192,7 +203,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
                 </form>
               )}
               {getRepliesForComment(comment.id).length > 0 && (
-                <div className="ml-10 space-y-3">
+                <div className="ml-10 space-y-2 border-l-2 border-border/30 pl-4">
                   {getRepliesForComment(comment.id).map((reply) => (
                     <CommentItem
                       key={reply.id}
@@ -217,7 +228,7 @@ const Comments = ({ postId, userId, userName, userAvatar }: CommentsProps) => {
           )}
         </div>
       ) : (
-        <p className="text-center text-muted-foreground py-4">
+        <p className="text-center text-muted-foreground py-8">
           Nenhum comentário ainda. Seja o primeiro!
         </p>
       )}

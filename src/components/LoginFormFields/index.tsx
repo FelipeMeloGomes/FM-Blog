@@ -87,12 +87,28 @@ const LoginFormFields = ({
     {isLogin ? (
       <>
         {!loading && (
-          <Button disabled={formData.email === "" || formData.password.length < 6}>Entrar</Button>
+          <Button
+            className="rounded-xl w-full"
+            disabled={formData.email === "" || formData.password.length < 6}
+          >
+            Entrar
+          </Button>
         )}
-        {loading && <Button disabled>Aguarde...</Button>}
+        {loading && (
+          <Button className="rounded-xl w-full" disabled>
+            <span className="flex items-center gap-2">
+              <span className="h-4 w-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+              Aguarde...
+            </span>
+          </Button>
+        )}
       </>
     ) : (
-      <Button disabled={formData.email === "" || formData.password.length < 6} type="submit">
+      <Button
+        className="rounded-xl w-full"
+        disabled={formData.email === "" || formData.password.length < 6}
+        type="submit"
+      >
         Cadastrar
       </Button>
     )}

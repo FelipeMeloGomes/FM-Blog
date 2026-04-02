@@ -14,15 +14,25 @@ const LikeButtonComponent = ({ postId, userId }: LikeButtonProps) => {
       type="button"
       onClick={handleLikeClick}
       disabled={!postId || loading}
-      className={`flex items-center gap-2 px-3 py-1 rounded-md border transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
-        liked ? "bg-red-50 border-red-200 hover:bg-red-100" : "border-border hover:bg-secondary"
+      className={`group flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 ${
+        liked
+          ? "bg-red-500/10 border-red-500/30 hover:bg-red-500/20"
+          : "border-input bg-background hover:bg-secondary/50 hover:border-primary/30"
       }`}
     >
       <FiHeart
-        size={16}
-        className={liked ? "text-red-500 fill-current" : "text-muted-foreground"}
+        size={18}
+        className={`transition-all duration-300 ${
+          liked
+            ? "text-red-500 fill-red-500 scale-110"
+            : "text-muted-foreground group-hover:text-red-400"
+        }`}
       />
-      <span className={`text-sm font-medium ${liked ? "text-red-500" : "text-muted-foreground"}`}>
+      <span
+        className={`text-sm font-semibold tabular-nums transition-colors ${
+          liked ? "text-red-500" : "text-muted-foreground group-hover:text-foreground"
+        }`}
+      >
         {likeCount}
       </span>
     </button>

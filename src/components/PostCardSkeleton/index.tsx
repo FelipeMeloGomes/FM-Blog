@@ -2,34 +2,32 @@ import { Skeleton } from "../ui/skeleton";
 
 const PostCardSkeleton = () => {
   return (
-    <div className="border rounded-md overflow-hidden">
-      <div className="aspect-video">
-        <Skeleton className="h-full w-full" />
-      </div>
+    <div className="rounded-2xl border bg-card overflow-hidden animate-in fade-in duration-300">
+      <Skeleton className="h-[200px] w-full rounded-none" />
 
-      <div className="p-5 space-y-3">
+      <div className="p-5 space-y-4">
         <div className="flex gap-2">
-          <Skeleton className="h-4 w-[60px]" />
-          <Skeleton className="h-4 w-[40px]" />
+          <Skeleton className="h-6 w-16 rounded-full" />
+          <Skeleton className="h-6 w-12 rounded-full" />
         </div>
 
-        <Skeleton className="h-6 w-[90%]" />
-        <Skeleton className="h-6 w-[70%]" />
-
         <div className="space-y-2">
+          <Skeleton className="h-5 w-[90%]" />
+          <Skeleton className="h-5 w-[70%]" />
+        </div>
+
+        <div className="space-y-1.5">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-[60%]" />
         </div>
 
-        <hr className="my-2" />
-
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-6 w-6 rounded-full" />
-            <Skeleton className="h-3 w-[80px]" />
+        <div className="flex items-center gap-3 pt-3 border-t border-border/50">
+          <Skeleton className="h-8 w-8 rounded-full" />
+          <div className="space-y-1.5">
+            <Skeleton className="h-3 w-20" />
+            <Skeleton className="h-2.5 w-28" />
           </div>
-          <Skeleton className="h-3 w-[60px]" />
         </div>
       </div>
     </div>

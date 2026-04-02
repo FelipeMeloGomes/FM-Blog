@@ -66,34 +66,30 @@ const SearchForm = ({ handleSubmit }: SearchFormProps) => {
   };
 
   return (
-    <div className="max-w-[600px] mx-auto w-full space-y-4">
-      <form ref={formRef} onSubmit={onSubmit}>
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FiSearch className="h-5 w-5 text-muted-foreground" />
-          </div>
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Buscar por título ou tag..."
-            aria-label="Buscar posts"
-            className="flex h-12 w-full rounded-md border border-input bg-background px-3 pl-12 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-            onChange={onChange}
-            value={inputValue}
-          />
-        </div>
+    <div className="max-w-xl mx-auto w-full space-y-5">
+      <form ref={formRef} onSubmit={onSubmit} className="relative">
+        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Buscar por título ou tag..."
+          aria-label="Buscar posts"
+          className="flex h-12 w-full rounded-xl border border-input bg-background pl-12 pr-4 py-2 text-sm transition-all duration-200 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          onChange={onChange}
+          value={inputValue}
+        />
       </form>
 
       {popularTags.length > 0 && (
-        <div className="space-y-2">
-          <p className="text-xs text-muted-foreground text-center">Tags populares:</p>
+        <div className="space-y-3">
+          <p className="text-xs text-muted-foreground text-center font-medium">Tags populares</p>
           <div className="flex flex-wrap justify-center gap-2">
             {popularTags.map((tag) => (
               <button
                 key={tag}
                 type="button"
                 onClick={() => handleTagClick(tag)}
-                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-secondary/80 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-200 cursor-pointer"
               >
                 {tag}
               </button>

@@ -1,4 +1,4 @@
-import { FiFilter } from "react-icons/fi";
+import { FiFilter, FiX } from "react-icons/fi";
 import type { AdvancedFiltersProps, AdvancedFiltersState } from "./types";
 
 const AdvancedFilters = ({ filters, onChange }: AdvancedFiltersProps) => {
@@ -17,7 +17,7 @@ const AdvancedFilters = ({ filters, onChange }: AdvancedFiltersProps) => {
   const hasActiveFilters = filters.sortBy !== "newest" || filters.author !== "";
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-secondary/50 rounded-lg p-4">
+    <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-secondary/30 rounded-xl p-4 border border-border/50">
       <div className="flex items-center gap-2 text-muted-foreground">
         <FiFilter size={18} />
         <span className="text-sm font-medium">Filtros:</span>
@@ -27,7 +27,7 @@ const AdvancedFilters = ({ filters, onChange }: AdvancedFiltersProps) => {
         <select
           value={filters.sortBy}
           onChange={handleSortChange}
-          className="h-9 px-3 rounded-md border border-input bg-background text-sm w-full sm:w-auto"
+          className="h-10 px-4 rounded-lg border border-input bg-background text-sm w-full sm:w-auto"
         >
           <option value="newest">Mais recentes</option>
           <option value="oldest">Mais antigos</option>
@@ -39,7 +39,7 @@ const AdvancedFilters = ({ filters, onChange }: AdvancedFiltersProps) => {
           placeholder="Filtrar por autor..."
           value={filters.author}
           onChange={handleAuthorChange}
-          className="h-9 px-3 rounded-md border border-input bg-background text-sm w-full sm:w-48"
+          className="h-10 px-4 rounded-lg border border-input bg-background text-sm w-full sm:w-48"
         />
       </div>
 
@@ -47,8 +47,9 @@ const AdvancedFilters = ({ filters, onChange }: AdvancedFiltersProps) => {
         <button
           type="button"
           onClick={clearFilters}
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
         >
+          <FiX size={14} />
           Limpar filtros
         </button>
       )}

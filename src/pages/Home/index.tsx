@@ -41,9 +41,9 @@ const Home = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center gap-12">
-        <div className="flex flex-col items-center gap-4 text-center">
-          <h1 className="text-2xl font-bold font-heading text-foreground">Os últimos posts</h1>
-          <p className="text-muted-foreground">
+        <div className="flex flex-col items-center gap-4 text-center max-w-xl">
+          <h1 className="text-4xl font-bold font-heading tracking-tight">Os últimos posts</h1>
+          <p className="text-muted-foreground text-lg">
             Textos sobre desenvolvimento, design e tecnologia.
           </p>
         </div>
@@ -54,9 +54,13 @@ const Home = () => {
 
   return (
     <div className="flex flex-col gap-12">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <h1 className="text-2xl font-bold font-heading text-foreground">Os últimos posts</h1>
-        <p className="text-muted-foreground">Textos sobre desenvolvimento, design e tecnologia.</p>
+      <div className="flex flex-col items-center gap-4 text-center max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold font-heading tracking-tight">
+          Os últimos <span className="text-primary">posts</span>
+        </h1>
+        <p className="text-muted-foreground text-lg max-w-lg">
+          Textos sobre desenvolvimento, design e tecnologia.
+        </p>
       </div>
 
       <SearchForm handleSubmit={handleSubmit} />
@@ -70,12 +74,12 @@ const Home = () => {
         />
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {postsArray.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
           </div>
-          <div className="pt-8">
+          <div className="pt-4">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

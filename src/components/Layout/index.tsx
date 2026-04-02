@@ -16,10 +16,14 @@ const Layout = () => {
           <Outlet />
         </div>
       </main>
-      <footer className="py-8 border-t">
-        <p className="text-sm text-muted-foreground text-center">
-          © {new Date().getFullYear()} FM Blog — feito com React + Firebase
-        </p>
+      <footer className="py-8 border-t bg-muted/30">
+        <div className="max-w-4xl mx-auto px-4">
+          <p className="text-sm text-muted-foreground text-center">
+            © {new Date().getFullYear()}{" "}
+            <span className="font-heading font-medium text-foreground">FM Blog</span> — feito com
+            React + Firebase
+          </p>
+        </div>
       </footer>
     </div>
   );

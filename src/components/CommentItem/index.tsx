@@ -88,24 +88,24 @@ const CommentItemComponent = ({
 
   if (isEditing) {
     return (
-      <div className="flex gap-3">
-        <Avatar size="sm" className="flex-shrink-0">
+      <div className="flex gap-3 p-4 rounded-xl bg-secondary/30 border border-border/50 animate-in fade-in duration-200">
+        <Avatar size="sm" className="flex-shrink-0 mt-1">
           <AvatarImage src={comment.userAvatar || undefined} />
-          <AvatarFallback>{comment.userName?.charAt(0) ?? "?"}</AvatarFallback>
+          <AvatarFallback className="text-xs">{comment.userName?.charAt(0) ?? "?"}</AvatarFallback>
         </Avatar>
 
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 space-y-3">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-sm text-foreground">
-              {comment.userName || "Usuário"}
+            <span className="font-medium text-sm">{comment.userName || "Usuário"}</span>
+            <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
+              Editando...
             </span>
-            <span className="text-xs text-muted-foreground">Editando...</span>
           </div>
 
           <Textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            className="min-h-[80px] resize-none text-sm"
+            className="min-h-[80px] resize-none text-sm rounded-lg"
             autoFocus
           />
 
@@ -135,33 +135,33 @@ const CommentItemComponent = ({
   }
 
   return (
-    <div className="flex gap-3">
-      <Avatar size="sm" className="flex-shrink-0">
+    <div className="flex gap-3 p-4 rounded-xl hover:bg-secondary/30 transition-colors duration-200 group">
+      <Avatar size="sm" className="flex-shrink-0 mt-0.5">
         <AvatarImage src={comment.userAvatar || undefined} />
-        <AvatarFallback>{comment.userName?.charAt(0) ?? "?"}</AvatarFallback>
+        <AvatarFallback className="text-xs">{comment.userName?.charAt(0) ?? "?"}</AvatarFallback>
       </Avatar>
 
-      <div className="flex-1 space-y-1">
+      <div className="flex-1 space-y-2">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-sm text-foreground">
-            {comment.userName || "Usuário"}
-          </span>
+          <span className="font-medium text-sm">{comment.userName || "Usuário"}</span>
           <span className="text-xs text-muted-foreground">{formatDate(comment.createdAt)}</span>
         </div>
 
-        <p className="text-sm text-foreground/90 whitespace-pre-wrap">{comment.content}</p>
+        <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
+          {comment.content}
+        </p>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={() => currentUserId && onLike(comment.id, comment.userId)}
             disabled={!currentUserId}
-            className={`flex items-center gap-1 text-xs transition-colors ${
+            className={`group/like flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs transition-all duration-200 ${
               isLiked
-                ? "text-red-500"
+                ? "text-red-500 bg-red-500/10"
                 : currentUserId
-                  ? "text-muted-foreground hover:text-red-500"
-                  : "text-muted-foreground cursor-not-allowed"
+                  ? "text-muted-foreground hover:text-red-500 hover:bg-red-500/5"
+                  : "text-muted-foreground/50 cursor-not-allowed"
             }`}
           >
             <FiHeart size={14} className={isLiked ? "fill-current" : ""} />
@@ -172,7 +172,7 @@ const CommentItemComponent = ({
             <button
               type="button"
               onClick={() => onReply(comment.id)}
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
             >
               <FiMessageCircle size={14} />
               <span>Responder</span>
@@ -184,7 +184,7 @@ const CommentItemComponent = ({
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
               >
                 <FiEdit2 size={14} />
                 <span>Editar</span>
@@ -192,7 +192,7 @@ const CommentItemComponent = ({
               <button
                 type="button"
                 onClick={handleDelete}
-                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs text-muted-foreground hover:text-red-500 hover:bg-red-500/5 transition-all duration-200"
               >
                 <FiTrash2 size={14} />
               </button>

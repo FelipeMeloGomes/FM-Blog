@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import type { PasswordResetFormProps } from "./types";
 
 const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormProps) => (
-  <>
+  <div className="space-y-5">
     <FormField
       label="Email para redefinição de senha"
       name="email"
@@ -18,14 +18,18 @@ const PasswordResetForm = ({ formData, setFormData, error }: PasswordResetFormPr
       placeholder="Insira seu email"
       autoComplete="email"
     />
-    <Button disabled={formData.email === ""}>Enviar e-mail de redefinição</Button>
-    <div className="mt-4">
-      <Link to="/login">
-        <Button>Voltar ao login</Button>
+    <Button className="rounded-xl w-full" disabled={formData.email === ""}>
+      Enviar e-mail de redefinição
+    </Button>
+    <div className="pt-2">
+      <Link to="/login" className="inline-block w-full">
+        <Button variant="outline" className="rounded-xl w-full">
+          Voltar ao login
+        </Button>
       </Link>
     </div>
-    {error && <p className="text-destructive text-sm">{error}</p>}
-  </>
+    {error && <p className="text-destructive text-sm animate-fade-in">{error}</p>}
+  </div>
 );
 
 export { PasswordResetForm };

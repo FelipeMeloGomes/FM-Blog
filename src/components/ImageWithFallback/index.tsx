@@ -24,7 +24,11 @@ export const ImageWithFallback = ({
     <img
       src={imageSrc}
       alt={alt}
-      className={cn(hasError && fallbackSrc && "opacity-50", className)}
+      className={cn(
+        hasError && fallbackSrc && "opacity-50 grayscale",
+        "transition-all duration-300",
+        className
+      )}
       onError={handleError}
       aria-hidden={!alt}
       {...props}

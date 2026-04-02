@@ -131,86 +131,113 @@ const CreatePostContent = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-2xl mx-auto">
-      <div className="flex justify-start">
-        <Button variant="ghost" size="sm" onClick={handleCancel}>
+    <div className="flex flex-col gap-10 max-w-2xl mx-auto">
+      <div className="flex items-center gap-4 animate-fade-in">
+        <Button variant="ghost" size="sm" onClick={handleCancel} className="hover:bg-muted/50">
           <FiArrowLeft className="mr-2 h-4 w-4" />
           Voltar
         </Button>
       </div>
 
-      <h1 className="text-2xl font-bold font-heading text-foreground">Novo post</h1>
+      <header className="space-y-2 animate-slide-in-from-bottom-4 opacity-0 [animation-delay:100ms] [animation-fill-mode:forwards]">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading tracking-tight text-foreground">
+          Criar <span className="text-primary">post</span>
+        </h1>
+        <p className="text-muted-foreground">Compartilhe suas ideias com o mundo</p>
+      </header>
 
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-8 animate-slide-in-from-bottom-4 opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]"
         aria-label="Formulário de criação de post"
       >
-        <FormField
-          label="Título do post"
-          placeholder="Digite o título do seu post"
-          error={form.formState.errors.title?.message}
-          required
-          maxLength={220}
-          {...form.register("title")}
-        />
+        <div className="bg-card rounded-2xl border p-6 space-y-6 shadow-sm">
+          <div className="space-y-2">
+            <FormField
+              label="Título do post"
+              placeholder="Digite o título do seu post"
+              error={form.formState.errors.title?.message}
+              required
+              maxLength={220}
+              {...form.register("title")}
+            />
+            <div className="flex justify-end">
+              <p
+                className={`text-xs tabular-nums ${titleLength > 200 ? "text-destructive font-medium" : "text-muted-foreground"}`}
+              >
+                {titleLength}/200
+              </p>
+            </div>
+          </div>
 
-        <div className="flex justify-end">
-          <p
-            className={`text-xs ${titleLength > 200 ? "text-destructive" : "text-muted-foreground"}`}
-          >
-            {titleLength}/200
-          </p>
+          <ImageUploader
+            label="Imagem de capa"
+            required
+            multiple={false}
+            maxFiles={1}
+            maxSizeMB={5}
+            minWidth={640}
+            minHeight={360}
+            maxWidth={3840}
+            maxHeight={2160}
+            onImagesChange={(images) => setCoverImage(images[0] ?? null)}
+          />
         </div>
 
-        <ImageUploader
-          label="Imagem de capa"
-          required
-          multiple={false}
-          maxFiles={1}
-          maxSizeMB={5}
-          minWidth={640}
-          minHeight={360}
-          maxWidth={3840}
-          maxHeight={2160}
-          onImagesChange={(images) => setCoverImage(images[0] ?? null)}
-        />
-
-        <div className="space-y-2">
-          <p className="text-sm font-medium">Conteúdo *</p>
+        <div className="bg-card rounded-2xl border p-6 space-y-4 shadow-sm">
+          <p className="text-sm font-medium flex items-center gap-2">
+            Conteúdo
+            <span className="text-destructive">*</span>
+          </p>
           <Editor />
         </div>
 
-        <FormField
-          label="Tags (separadas por vírgula)"
-          placeholder="react, typescript, firebase"
-          error={form.formState.errors.tagsInput?.message}
-          required
-          {...form.register("tagsInput")}
-        />
+        <div className="bg-card rounded-2xl border p-6 space-y-4 shadow-sm">
+          <FormField
+            label="Tags (separadas por vírgula)"
+            placeholder="react, typescript, firebase"
+            error={form.formState.errors.tagsInput?.message}
+            required
+            {...form.register("tagsInput")}
+          />
 
-        {previewTags.length > 0 && (
-          <div className="mt-4">
-            <p className="text-sm text-muted-foreground mb-2">Preview das tags:</p>
-            <div className="flex flex-wrap gap-2">
-              {previewTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
+          {previewTags.length > 0 && (
+            <div className="pt-2 animate-fade-in">
+              <p className="text-xs text-muted-foreground mb-3 font-medium uppercase tracking-wider">
+                Preview
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {previewTags.map((tag, index) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        <div className="flex justify-end gap-4 pt-4">
-          <Button type="button" variant="ghost" onClick={handleCancel}>
+        <div className="flex justify-end gap-3 pt-2 animate-slide-in-from-bottom-4 opacity-0 [animation-delay:300ms] [animation-fill-mode:forwards]">
+          <Button type="button" variant="outline" onClick={handleCancel} className="rounded-xl">
             Cancelar
           </Button>
-          <Button type="submit" disabled={isSubmitting || !!response.loading}>
-            {isSubmitting || !!response.loading ? "Publicando..." : "Publicar"}
+          <Button
+            type="submit"
+            disabled={isSubmitting || !!response.loading}
+            className="rounded-xl"
+          >
+            {isSubmitting || !!response.loading ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+                Publicando...
+              </span>
+            ) : (
+              "Publicar"
+            )}
           </Button>
         </div>
       </form>
@@ -222,10 +249,13 @@ const CreatePostContent = () => {
         description="Você tem alterações não salvas. Tem certeza que deseja sair?"
       >
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full">
+          <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full rounded-xl">
             Continuar editando
           </Button>
-          <Button onClick={() => navigate("/")} className="w-full bg-red-500 hover:bg-red-600">
+          <Button
+            onClick={() => navigate("/")}
+            className="w-full bg-destructive hover:bg-destructive/90 rounded-xl"
+          >
             Sair
           </Button>
         </div>

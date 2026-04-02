@@ -62,15 +62,15 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
   }
 
   return (
-    <div className="editor-wrapper w-full border border-input rounded-md overflow-hidden bg-background [&_.ProseMirror]:text-foreground [&_.ProseMirror]:bg-background">
-      <div className="editor-toolbar bg-muted border-b border-input p-2 flex flex-wrap gap-1">
+    <div className="editor-wrapper w-full border border-input rounded-xl overflow-hidden bg-background [&_.ProseMirror]:text-foreground [&_.ProseMirror]:bg-background shadow-sm">
+      <div className="editor-toolbar bg-secondary/30 border-b border-border p-2 flex flex-wrap gap-1.5">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`px-3 py-1 rounded text-sm font-bold transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-200 ${
             editor.isActive("bold")
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           B
@@ -78,10 +78,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`px-3 py-1 rounded text-sm italic transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm italic transition-all duration-200 ${
             editor.isActive("italic")
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           I
@@ -89,10 +89,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`px-3 py-1 rounded text-sm line-through transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm line-through transition-all duration-200 ${
             editor.isActive("strike")
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           S
@@ -101,10 +101,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={`px-3 py-1 rounded text-sm font-bold transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-200 ${
             editor.isActive("heading", { level: 1 })
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           H1
@@ -112,10 +112,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={`px-3 py-1 rounded text-sm font-bold transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-200 ${
             editor.isActive("heading", { level: 2 })
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           H2
@@ -123,10 +123,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={`px-3 py-1 rounded text-sm font-bold transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all duration-200 ${
             editor.isActive("heading", { level: 3 })
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           H3
@@ -135,10 +135,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`px-3 py-1 rounded text-sm transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm transition-all duration-200 ${
             editor.isActive("bulletList")
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           Lista
@@ -146,10 +146,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={`px-3 py-1 rounded text-sm transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm transition-all duration-200 ${
             editor.isActive("blockquote")
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           Citação
@@ -157,10 +157,10 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={`px-3 py-1 rounded text-sm transition-colors ${
+          className={`px-3 py-1.5 rounded-lg text-sm transition-all duration-200 ${
             editor.isActive("codeBlock")
-              ? "bg-primary text-primary-foreground"
-              : "text-foreground hover:bg-accent"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground hover:bg-secondary"
           }`}
         >
           Código
@@ -178,13 +178,13 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
           color: hsl(var(--foreground));
           background-color: hsl(var(--muted));
           padding: 0.75rem 1rem;
-          border-radius: 0 0.375rem 0.375rem 0;
+          border-radius: 0 0.5rem 0.5rem 0;
         }
         .ProseMirror pre {
           background-color: hsl(var(--muted));
           color: hsl(var(--foreground));
           padding: 1rem;
-          border-radius: 0.375rem;
+          border-radius: 0.5rem;
           overflow-x: auto;
           font-family: ui-monospace, monospace;
         }
@@ -196,13 +196,13 @@ export const Editor = forwardRef<EditorRef, EditorProps>(({ value }, _ref) => {
         .ProseMirror code {
           background-color: hsl(var(--muted));
           color: hsl(var(--foreground));
-          padding: 0.125rem 0.25rem;
+          padding: 0.125rem 0.375rem;
           border-radius: 0.25rem;
           font-size: 0.875em;
         }
         .dark .ProseMirror blockquote {
           border-left-color: hsl(var(--primary));
-          background-color: hsl(var(--muted) / 0.5);
+          background-color: hsl(var(--muted) / 0.3);
         }
         .dark .ProseMirror pre {
           background-color: hsl(0 0% 15%);

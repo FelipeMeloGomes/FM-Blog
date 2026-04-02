@@ -11,7 +11,7 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
+        <div className="h-8 w-8 rounded-full border-2 border-muted border-t-primary animate-spin" />
       </div>
     );
   }

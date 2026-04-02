@@ -21,7 +21,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -50,129 +50,301 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-/* Quill Editor Styles */
-.quill > * {
-  border-color: inherit !important;
-  color: inherit !important;
-}
-.quill > .ql-toolbar {
-  border-radius: 10px 10px 0 0;
-}
-.quill > .ql-container {
-  font-size: inherit;
-  border-radius: 0 0 10px 10px;
-}
-.ql-toolbar.ql-snow .ql-picker-label {
-  color: inherit !important;
-  opacity: 0.76;
-}
-.ql-snow .ql-picker {
-  color: inherit !important;
-}
-.quill > .ql-container > .ql-editor.ql-blank::before {
-  color: inherit;
-}
-.ql-snow.ql-toolbar button svg {
-  opacity: 0.76;
-  color: currentColor;
-}
-.ql-snow .ql-stroke {
-  stroke: currentColor !important;
-}
-.ql-snow .ql-fill {
-  fill: currentColor !important;
-}
-.ql-picker-item {
-  color: #444 !important;
+@layer utilities {
+  .animate-in {
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-in-from-top {
+    animation-name: slideInFromTop;
+  }
+
+  .slide-in-from-bottom {
+    animation-name: slideInFromBottom;
+  }
+
+  .slide-in-from-left {
+    animation-name: slideInFromLeft;
+  }
+
+  .slide-in-from-right {
+    animation-name: slideInFromRight;
+  }
+
+  .zoom-in-95 {
+    animation-name: zoomIn95;
+  }
+
+  .duration-150 {
+    animation-duration: 150ms;
+  }
+
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+
+  .duration-300 {
+    animation-duration: 300ms;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInFromBottom {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInFromRight {
+    from {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes zoomIn95 {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 }
 
-/* Tiptap Editor Styles */
-.ProseMirror {
-  outline: none;
-  min-height: 200px;
-  padding: 1rem;
+@layer utilities {
+  .stagger-1 {
+    animation-delay: 50ms;
+  }
+  .stagger-2 {
+    animation-delay: 100ms;
+  }
+  .stagger-3 {
+    animation-delay: 150ms;
+  }
+  .stagger-4 {
+    animation-delay: 200ms;
+  }
+  .stagger-5 {
+    animation-delay: 250ms;
+  }
+  .stagger-6 {
+    animation-delay: 300ms;
+  }
+  .stagger-7 {
+    animation-delay: 350ms;
+  }
+  .stagger-8 {
+    animation-delay: 400ms;
+  }
 }
 
-.ProseMirror p.is-editor-empty:first-child::before {
-  color: #adb5bd;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
+@layer base {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--muted);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
 }
 
-.ProseMirror h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 1rem 0;
+@layer components {
+  .glass {
+    @apply bg-background/80 backdrop-blur-lg;
+  }
+
+  .gradient-border {
+    @apply relative;
+  }
+
+  .gradient-border::before {
+    content: "";
+    @apply absolute inset-0 rounded-[inherit] p-[1px];
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
 }
 
-.ProseMirror h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0.75rem 0;
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-.ProseMirror h3 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
-.ProseMirror blockquote {
-  border-left: 3px solid #ccc;
-  padding-left: 1rem;
-  margin: 1rem 0;
-  font-style: italic;
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(var(--primary), 0.2);
+  }
 }
 
-.ProseMirror code {
-  background-color: #f4f4f4;
-  border-radius: 3px;
-  font-family: monospace;
-  padding: 0.2rem 0.4rem;
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
-.ProseMirror pre {
-  background-color: #f4f4f4;
-  border-radius: 5px;
-  padding: 1rem;
-  font-family: monospace;
-  overflow-x: auto;
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
-.ProseMirror pre code {
-  background: none;
-  padding: 0;
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
 }
 
-.ProseMirror ul,
-.ProseMirror ol {
-  padding-left: 1.5rem;
-  margin: 0.5rem 0;
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
 }
 
-.ProseMirror a {
-  color: #3182ce;
-  text-decoration: underline;
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0px,
+    hsl(var(--muted-foreground) / 0.1) 40px,
+    hsl(var(--muted)) 80px
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.2s ease-in-out infinite;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+  -webkit-text-fill-color: var(--foreground);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+:focus-visible {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+@layer base {
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+.dark .ProseMirror blockquote {
+  border-left-color: hsl(var(--muted));
+}
+
+.dark .ProseMirror code {
+  background-color: hsl(var(--muted));
+}
+
+.dark .ProseMirror pre {
+  background-color: hsl(var(--muted));
 }
 
 .editor-wrapper {
-  border: 1px solid #e2e8f0;
-  border-radius: 0.375rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
 .editor-wrapper:focus-within {
-  border-color: #3182ce;
-  box-shadow: 0 0 0 1px #3182ce;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.2);
 }
 
-/* Toast Animation */
 @keyframes slide-in {
   from {
     transform: translateX(100%);

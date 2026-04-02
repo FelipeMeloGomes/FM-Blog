@@ -49,9 +49,11 @@ const Search = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2 text-center">
-          <h1 className="text-2xl font-bold font-heading text-foreground">Resultados</h1>
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-3 text-center animate-fade-in">
+          <h1 className="text-3xl md:text-4xl font-bold font-heading tracking-tight">
+            <span className="text-primary">Resultados</span>
+          </h1>
           <p className="text-muted-foreground">Buscando posts para: "{search}"</p>
         </div>
         <PostListSkeleton />
@@ -60,19 +62,21 @@ const Search = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4 text-center">
-        <h1 className="text-2xl font-bold font-heading text-foreground">Resultados</h1>
-        <p className="text-muted-foreground">
+    <div className="flex flex-col gap-10">
+      <header className="flex flex-col gap-3 text-center animate-slide-in-from-bottom-4 opacity-0 [animation-delay:100ms] [animation-fill-mode:forwards]">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading tracking-tight">
+          <span className="text-primary">Resultados</span>
+        </h1>
+        <p className="text-muted-foreground text-lg">
           {search
             ? `${totalPosts} post${totalPosts > 1 ? "s" : ""} encontrado${totalPosts > 1 ? "s" : ""} para: "${search}"`
             : `${totalPosts} post${totalPosts > 1 ? "s" : ""} encontrado${totalPosts > 1 ? "s" : ""}`}
         </p>
-      </div>
+      </header>
 
       {posts && posts.length > 0 && (
-        <>
-          <Button asChild variant="ghost" size="sm" className="self-start">
+        <div className="animate-slide-in-from-bottom-4 opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
+          <Button asChild variant="ghost" size="sm" className="hover:bg-muted/50 mb-4">
             <Link to="/">
               <FiArrowLeft className="mr-2 h-4 w-4" />
               Voltar
@@ -80,48 +84,63 @@ const Search = () => {
           </Button>
 
           <AdvancedFilters filters={filters} onChange={handleFilterChange} />
-        </>
+        </div>
       )}
 
       {paginatedPosts.length === 0 ? (
         <output
-          className="flex flex-col gap-6 py-16 items-center text-center"
+          className="flex flex-col gap-6 py-16 items-center text-center animate-fade-in"
           aria-live="polite"
           aria-atomic="true"
         >
-          <div className="rounded-full bg-muted p-4">
-            <FiSearch className="h-8 w-8 text-muted-foreground" />
+          <div className="rounded-2xl bg-primary/10 p-6">
+            <FiSearch className="h-10 w-10 text-primary" />
           </div>
-          <div className="space-y-2">
-            <p className="text-lg font-medium">Nenhum resultado encontrado</p>
-            <p className="text-sm text-muted-foreground">
+          <div className="space-y-2 max-w-sm">
+            <p className="text-xl font-medium">Nenhum resultado encontrado</p>
+            <p className="text-muted-foreground">
               Não encontramos nenhum post
               {search ? ` para "${search}"` : ""}
               {filters.author ? ` por "${filters.author}"` : ""}.
             </p>
           </div>
-          <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Sugestões:</p>
-            <ul className="text-sm text-muted-foreground list-disc list-inside">
-              <li>Verifique a ortografia das palavras</li>
-              <li>Tente usar termos mais genéricos</li>
-              <li>Use apenas o título do post</li>
+          <div className="bg-card rounded-xl border p-4 space-y-2 text-left max-w-sm">
+            <p className="text-sm font-medium text-foreground">Sugestões:</p>
+            <ul className="text-sm text-muted-foreground space-y-1">
+              <li className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Verifique a ortografia das palavras
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Tente usar termos mais genéricos
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Use apenas o título do post
+              </li>
             </ul>
           </div>
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" className="rounded-xl mt-2">
             <Link to="/">Voltar para home</Link>
           </Button>
         </output>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedPosts.map((post) => (
-              <PostCard key={post.id} post={post as never} />
+            {paginatedPosts.map((post, index) => (
+              <div
+                key={post.id}
+                className="animate-slide-in-from-bottom-4 opacity-0"
+                style={{ animationDelay: `${(index + 3) * 100}ms`, animationFillMode: "forwards" }}
+              >
+                <PostCard post={post as never} />
+              </div>
             ))}
           </div>
 
           {totalPages > 1 && (
-            <div className="pt-4">
+            <div className="pt-4 animate-fade-in" style={{ animationDelay: "600ms" }}>
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

@@ -40,16 +40,16 @@ class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="min-h-[50vh] flex items-center justify-center bg-background px-4">
-          <div className="max-w-md w-full text-center space-y-6">
-            <div className="space-y-2">
-              <h1 className="text-4xl font-bold text-foreground">Oops!</h1>
+          <div className="max-w-md w-full text-center space-y-8 animate-fade-in">
+            <div className="space-y-3">
+              <h1 className="text-5xl font-bold font-heading text-destructive">Oops!</h1>
               <p className="text-lg text-muted-foreground">
                 Algo deu errado. Por favor, tente novamente.
               </p>
             </div>
 
             {process.env.NODE_ENV === "development" && this.state.error && (
-              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 text-left">
+              <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 text-left">
                 <p className="text-sm font-mono text-destructive break-all">
                   {this.state.error.message}
                 </p>
@@ -57,10 +57,10 @@ class ErrorBoundary extends Component<Props, State> {
             )}
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button onClick={this.handleReset} variant="outline">
+              <Button onClick={this.handleReset} variant="outline" className="rounded-xl">
                 Tentar novamente
               </Button>
-              <Button asChild>
+              <Button asChild className="rounded-xl">
                 <Link to="/">Voltar ao início</Link>
               </Button>
             </div>
@@ -90,16 +90,16 @@ export const withErrorBoundary = <P extends object>(
 
 export const RouteErrorFallback = () => (
   <div className="min-h-[50vh] flex items-center justify-center bg-background px-4">
-    <div className="max-w-md w-full text-center space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">Página indisponível</h2>
+    <div className="max-w-md w-full text-center space-y-8 animate-fade-in">
+      <div className="space-y-3">
+        <h2 className="text-3xl font-bold font-heading text-foreground">Página indisponível</h2>
         <p className="text-muted-foreground">
           Esta página encontrou um erro e não pode ser exibida.
         </p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <Button asChild variant="outline">
+        <Button asChild variant="outline" className="rounded-xl">
           <Link to="/">Voltar ao início</Link>
         </Button>
       </div>
@@ -112,10 +112,10 @@ export const ComponentErrorFallback = ({
 }: {
   onRetry?: () => void;
 }) => (
-  <div className="p-4 border border-destructive/20 rounded-lg bg-destructive/5 text-center">
+  <div className="p-5 border border-destructive/20 rounded-xl bg-destructive/5 text-center animate-fade-in">
     <p className="text-sm text-muted-foreground mb-3">Este componente não pôde ser carregado.</p>
     {onRetry && (
-      <Button size="sm" variant="outline" onClick={onRetry}>
+      <Button size="sm" variant="outline" onClick={onRetry} className="rounded-lg">
         Tentar novamente
       </Button>
     )}
