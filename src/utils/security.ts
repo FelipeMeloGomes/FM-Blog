@@ -45,8 +45,6 @@ const COMMON_PASSWORDS = [
   "guest",
 ];
 
-const RATE_LIMIT_KEY = "fm_blog_auth_attempts";
-
 export const sanitizeTag = (tag: string): string => {
   return tag
     .trim()
@@ -67,69 +65,4 @@ export const sanitizeInput = (input: string): string => {
 
 export const isCommonPassword = (password: string): boolean => {
   return COMMON_PASSWORDS.includes(password.toLowerCase());
-};
-
-export interface RateLimitResult {
-  allowed: boolean;
-  remainingAttempts: number;
-  waitSeconds: number;
-}
-
-export const checkRateLimit = (email: string): RateLimitResult => {
-  try {
-    const attempts = JSON.parse(localStorage.getItem(`${RATE_LIMIT_KEY}_${email}`) || "{}");
-    const now = Date.now();
-
-    for (const [timestamp] of Object.entries(attempts)) {
-      if (now - Number.parseInt(timestamp) > CONSTANTS.AUTH.RATE_LIMIT_WINDOW_MS) {
-        delete attempts[timestamp];
-      }
-    }
-
-    const validAttempts = Object.keys(attempts).length;
-
-    if (validAttempts >= CONSTANTS.AUTH.RATE_LIMIT_MAX_ATTEMPTS) {
-      const oldestAttempt = Math.min(...Object.keys(attempts).map(Number));
-      const waitMs = CONSTANTS.AUTH.RATE_LIMIT_WINDOW_MS - (now - oldestAttempt);
-      return {
-        allowed: false,
-        remainingAttempts: 0,
-        waitSeconds: Math.ceil(waitMs / 1000),
-      };
-    }
-
-    return {
-      allowed: true,
-      remainingAttempts: CONSTANTS.AUTH.RATE_LIMIT_MAX_ATTEMPTS - validAttempts,
-      waitSeconds: 0,
-    };
-  } catch {
-    return {
-      allowed: true,
-      remainingAttempts: CONSTANTS.AUTH.RATE_LIMIT_MAX_ATTEMPTS,
-      waitSeconds: 0,
-    };
-  }
-};
-
-export const recordFailedAttempt = (email: string): void => {
-  try {
-    const attempts = JSON.parse(localStorage.getItem(`${RATE_LIMIT_KEY}_${email}`) || "{}");
-    attempts[Date.now()] = true;
-
-    const now = Date.now();
-    for (const [timestamp] of Object.entries(attempts)) {
-      if (now - Number.parseInt(timestamp) > CONSTANTS.AUTH.RATE_LIMIT_WINDOW_MS) {
-        delete attempts[timestamp];
-      }
-    }
-
-    localStorage.setItem(`${RATE_LIMIT_KEY}_${email}`, JSON.stringify(attempts));
-  } catch {
-    localStorage.setItem(`${RATE_LIMIT_KEY}_${email}`, JSON.stringify({ [Date.now()]: true }));
-  }
-};
-
-export const clearRateLimit = (email: string): void => {
-  localStorage.removeItem(`${RATE_LIMIT_KEY}_${email}`);
 };

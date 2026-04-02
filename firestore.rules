@@ -1,6 +1,16 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /userPreferences/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId
+                   && request.resource.data.colorMode is string
+                   && request.resource.data.colorMode in ['light', 'dark'];
+      allow update: if request.auth != null && request.auth.uid == userId
+                   && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['colorMode']);
+      allow delete: if false;
+    }
+
     match /rateLimits/{emailHash} {
       allow read: if request.auth != null
                   && request.auth.token.email == resource.data.email;

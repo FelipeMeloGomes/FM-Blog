@@ -1,37 +1,58 @@
+import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-
-type ColorMode = "light" | "dark";
+import { auth } from "../firebase/config";
+import { type ColorMode, getUserPreferences, setUserColorMode } from "../hooks/useUserPreferences";
 
 interface ColorModeContextType {
   colorMode: ColorMode;
   toggleColorMode: () => void;
   setColorMode: (mode: ColorMode) => void;
+  loading: boolean;
 }
 
 const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined);
 
 export const ColorModeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [colorMode, setColorModeState] = useState<ColorMode>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("color-mode");
-      if (stored === "dark" || stored === "light") {
-        return stored;
-      }
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return "dark";
-      }
-    }
-    return "light";
-  });
+  const [colorMode, setColorModeState] = useState<ColorMode>("light");
+  const [loading, setLoading] = useState(true);
 
-  const setColorMode = useCallback((mode: ColorMode) => {
-    setColorModeState(mode);
-    localStorage.setItem("color-mode", mode);
+  useEffect(() => {
+    const initColorMode = async () => {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      let mode: ColorMode = prefersDark ? "dark" : "light";
+
+      try {
+        const preferences = await getUserPreferences();
+        if (preferences?.colorMode) {
+          mode = preferences.colorMode;
+        }
+      } catch {
+        // Use system preference as fallback
+      }
+
+      setColorModeState(mode);
+      setLoading(false);
+    };
+
+    initColorMode();
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const preferences = await getUserPreferences();
+          if (preferences?.colorMode) {
+            setColorModeState(preferences.colorMode);
+          }
+        } catch {
+          // Keep current mode
+        }
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
-
-  const toggleColorMode = useCallback(() => {
-    setColorMode(colorMode === "light" ? "dark" : "light");
-  }, [colorMode, setColorMode]);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -40,11 +61,20 @@ export const ColorModeProvider = ({ children }: { children: React.ReactNode }) =
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("color-mode", colorMode);
   }, [colorMode]);
 
+  const setColorMode = useCallback(async (mode: ColorMode) => {
+    setColorModeState(mode);
+    await setUserColorMode(mode);
+  }, []);
+
+  const toggleColorMode = useCallback(() => {
+    const newMode = colorMode === "light" ? "dark" : "light";
+    setColorMode(newMode);
+  }, [colorMode, setColorMode]);
+
   return (
-    <ColorModeContext.Provider value={{ colorMode, toggleColorMode, setColorMode }}>
+    <ColorModeContext.Provider value={{ colorMode, toggleColorMode, setColorMode, loading }}>
       {children}
     </ColorModeContext.Provider>
   );
