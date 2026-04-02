@@ -1,11 +1,13 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { FiBarChart, FiEdit, FiEye, FiHeart, FiMessageCircle } from "react-icons/fi";
+import { FiBarChart, FiEdit, FiEye, FiHeart, FiMessageCircle, FiTrash } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { EmptyState } from "../../components/EmptyState";
 import { MetricCard } from "../../components/MetricCard";
 import { Pagination } from "../../components/Pagination";
 import { Button } from "../../components/ui/button";
+import { Checkbox } from "../../components/ui/checkbox";
 import { Input } from "../../components/ui/input";
 import { Skeleton } from "../../components/ui/skeleton";
 import { useAuthValue } from "../../context/AuthContext";
@@ -113,6 +115,7 @@ interface PostData {
 
 const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { user } = useAuthValue() || {};
   const uid = user?.uid;
   const { data: posts, isLoading } = useUserPosts(uid, 100);
@@ -126,6 +129,8 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
   const [postTitleToDelete, setPostTitleToDelete] = useState<string>("");
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isSelectMode, setIsSelectMode] = useState(false);
 
   const postsArray = useMemo(() => {
     return (posts || []) as PostData[];
@@ -183,20 +188,24 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
+    setSelectedIds(new Set());
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value as SortOption);
     setCurrentPage(1);
+    setSelectedIds(new Set());
   };
 
   const clearSearch = () => {
     setSearchQuery("");
     setCurrentPage(1);
+    setSelectedIds(new Set());
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    setSelectedIds(new Set());
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -207,17 +216,44 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
   };
 
   const handleDelete = async () => {
-    if (postToDelete) {
-      try {
+    try {
+      if (selectedIds.size > 0) {
+        await Promise.all([...selectedIds].map((id) => deleteDocument(id)));
+      } else if (postToDelete) {
         await deleteDocument(postToDelete);
-        window.location.reload();
-      } catch (error) {
-        console.error("Erro ao deletar post:", error);
       }
+
+      queryClient.invalidateQueries({ queryKey: ["posts", "user", uid] });
+    } catch (error) {
+      console.error("Erro ao deletar post(s):", error);
     }
+
     setIsOpen(false);
     setPostToDelete(null);
     setPostTitleToDelete("");
+    setSelectedIds(new Set());
+    setIsSelectMode(false);
+  };
+
+  const toggleSelectMode = () => {
+    setIsSelectMode(!isSelectMode);
+    setSelectedIds(new Set());
+  };
+
+  const toggleSelect = (postId: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(postId) ? next.delete(postId) : next.add(postId);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === paginatedPosts.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(paginatedPosts.map((p) => p.id)));
+    }
   };
 
   if (isLoading) {
@@ -277,14 +313,36 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
           <h1 className="text-2xl font-bold font-heading text-foreground">Meus posts</h1>
           <p className="text-sm text-muted-foreground">{getCountText()}</p>
         </div>
-        <Button
-          onClick={() => navigate("/posts/create")}
-          size="sm"
-          className="w-full sm:w-auto flex-shrink-0"
-        >
-          <FiEdit className="mr-2 h-4 w-4" />
-          Novo post
-        </Button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          {isSelectMode && (
+            <Button
+              onClick={toggleSelectMode}
+              variant="outline"
+              size="sm"
+              className="flex-1 sm:flex-initial"
+            >
+              Cancelar
+            </Button>
+          )}
+          {!isSelectMode && (
+            <Button
+              onClick={toggleSelectMode}
+              variant="outline"
+              size="sm"
+              className="w-full sm:w-auto"
+            >
+              Selecionar
+            </Button>
+          )}
+          <Button
+            onClick={() => navigate("/posts/create")}
+            size="sm"
+            className="flex-1 sm:flex-initial"
+          >
+            <FiEdit className="mr-2 h-4 w-4" />
+            Novo post
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-3 w-full">
@@ -334,16 +392,56 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
         />
       ) : (
         <>
+          {isSelectMode && (
+            <div className="flex items-center gap-4 py-3 px-2 md:px-3 bg-secondary/50 rounded-md">
+              <Checkbox
+                checked={selectedIds.size === paginatedPosts.length && paginatedPosts.length > 0}
+                onCheckedChange={toggleSelectAll}
+              />
+              <span className="text-sm text-muted-foreground">
+                {selectedIds.size} post{selectedIds.size !== 1 ? "s" : ""} selecionado
+                {selectedIds.size !== 1 ? "s" : ""}
+              </span>
+              <Button
+                onClick={() => setIsOpen(true)}
+                size="sm"
+                variant="destructive"
+                disabled={selectedIds.size === 0}
+                className="ml-auto"
+              >
+                <FiTrash className="mr-2 h-4 w-4" />
+                Deletar selecionados
+              </Button>
+            </div>
+          )}
+
           <div className="flex flex-col w-full">
             {paginatedPosts.map((post) => {
               const readTime = calculateReadTime(post.body);
               const formattedDate = formatDateShort(post.createdAt);
+              const isSelected = selectedIds.has(post.id);
 
               return (
                 <div
                   key={post.id}
-                  className="flex items-center gap-3 md:gap-4 py-4 px-2 md:px-3 w-full overflow-hidden hover:bg-secondary rounded-sm transition-colors"
+                  onClick={() => isSelectMode && toggleSelect(post.id)}
+                  onKeyDown={(e) =>
+                    isSelectMode && (e.key === "Enter" || e.key === " ") && toggleSelect(post.id)
+                  }
+                  aria-selected={isSelectMode ? isSelected : undefined}
+                  tabIndex={isSelectMode ? 0 : -1}
+                  className={`flex items-center gap-3 md:gap-4 py-4 px-2 md:px-3 w-full overflow-hidden hover:bg-secondary rounded-sm transition-colors ${
+                    isSelected ? "bg-blue-50 dark:bg-blue-950/30" : ""
+                  } ${isSelectMode ? "cursor-pointer" : ""}`}
                 >
+                  {isSelectMode && (
+                    <Checkbox
+                      checked={isSelected}
+                      onCheckedChange={() => toggleSelect(post.id)}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  )}
+
                   <img
                     src={post.image}
                     alt={post.title}
@@ -355,6 +453,7 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
                     <a
                       href={`/posts/${post.id}`}
                       className="text-sm font-semibold text-foreground hover:text-muted-foreground truncate block w-full"
+                      onClick={(e) => isSelectMode && e.preventDefault()}
                     >
                       {post.title}
                     </a>
@@ -365,20 +464,22 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
                     </div>
                   </div>
 
-                  <div className="flex gap-2 flex-shrink-0 items-center">
-                    <span className="text-sm text-muted-foreground whitespace-nowrap">
-                      👁 {viewsMap[post.id] || 0}
-                    </span>
-                    <span className="text-sm text-muted-foreground whitespace-nowrap">
-                      ♥ {post.likeCount || 0}
-                    </span>
-                    <MenuDropdown
-                      postId={post.id}
-                      isOpen={openMenuId === post.id}
-                      onToggle={() => setOpenMenuId(openMenuId === post.id ? null : post.id)}
-                      onDelete={() => confirmDelete(post.id, post.title)}
-                    />
-                  </div>
+                  {!isSelectMode && (
+                    <div className="flex gap-2 flex-shrink-0 items-center">
+                      <span className="text-sm text-muted-foreground whitespace-nowrap">
+                        👁 {viewsMap[post.id] || 0}
+                      </span>
+                      <span className="text-sm text-muted-foreground whitespace-nowrap">
+                        ♥ {post.likeCount || 0}
+                      </span>
+                      <MenuDropdown
+                        postId={post.id}
+                        isOpen={openMenuId === post.id}
+                        onToggle={() => setOpenMenuId(openMenuId === post.id ? null : post.id)}
+                        onDelete={() => confirmDelete(post.id, post.title)}
+                      />
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -397,11 +498,23 @@ const Dashboard = ({ createdBy: _createdBy }: { createdBy: string }) => {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-background rounded-lg p-6 max-w-md mx-4">
-            <h2 className="text-lg font-semibold mb-2">Deletar post</h2>
+            <h2 className="text-lg font-semibold mb-2">
+              {selectedIds.size > 0 ? "Deletar posts" : "Deletar post"}
+            </h2>
             <p className="text-muted-foreground mb-4 break-words">
-              Tem certeza que deseja deletar{" "}
-              <span className="font-semibold">"{postTitleToDelete}"</span>? Esta ação não pode ser
-              desfeita.
+              {selectedIds.size > 0 ? (
+                <>
+                  Tem certeza que deseja deletar{" "}
+                  <span className="font-semibold">{selectedIds.size} posts</span>? Esta ação não
+                  pode ser desfeita.
+                </>
+              ) : (
+                <>
+                  Tem certeza que deseja deletar{" "}
+                  <span className="font-semibold">"{postTitleToDelete}"</span>? Esta ação não pode
+                  ser desfeita.
+                </>
+              )}
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button variant="outline" onClick={() => setIsOpen(false)} className="w-full">
